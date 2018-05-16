@@ -1,0 +1,148 @@
+var player_headicon_cfg =
+[
+	{
+		id : 1,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 2,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 3,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 4,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 5,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 6,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 7,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 8,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 9,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 10,
+		icon : 1,
+		condition : 0,
+		value : 0,
+	},
+	{
+		id : 11,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 12,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 13,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 14,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 15,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 16,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 17,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 18,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 19,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 20,
+		icon : 1,
+		condition : 1,
+		value : 0,
+	},
+	{
+		id : 21,
+		icon : 1,
+		condition : 2,
+		value : 0,
+	},
+	{
+		id : 22,
+		icon : 1,
+		condition : 2,
+		value : 0,
+	},
+	{
+		id : 23,
+		icon : 1,
+		condition : 2,
+		value : 0,
+	},
+	{
+		id : 24,
+		icon : 1,
+		condition : 2,
+		value : 0,
+	},
+];
+module.exports = player_headicon_cfg;
