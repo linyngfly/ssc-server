@@ -1,0 +1,25 @@
+{
+  "connector": [
+    {
+      "id": "connector-server-4",
+      "host": "112.74.63.123",
+      "port": 3153,
+      "clientPort": 3013,
+      "frontend": true
+    },
+    {
+      "id": "connector-server-5",
+      "host": "112.74.63.123",
+      "port": 3154,
+      "clientPort": 3014,
+      "frontend": true
+    }
+  ],
+  "lottery": [
+    {
+      "id": "lottery-server-2",
+      "host": "127.0.0.1",
+      "port": 3651
+    }
+  ]
+}

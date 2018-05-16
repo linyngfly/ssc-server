@@ -1,0 +1,139 @@
+{
+  "web": [
+    {
+      "login": {
+        "method": "post",
+        "url": "/users/login",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    {
+      "registe": {
+        "method": "post",
+        "url": "/users/register",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "inviter": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": false
+          }
+        }
+      }
+    },
+    {
+      "checkPhone": {
+        "method": "post",
+        "url": "/users/checkPhone",
+        "body": {
+          "phone": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    {
+      "checkUser": {
+        "method": "post",
+        "url": "/users/checkUser",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  ],
+  "game": [
+    {
+      "login":{
+        "router":"connector.entryHandler.login",
+        "msg":{
+          "token":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    },
+    {
+      "queryEntry":{
+        "router":"gate.gateHandler.queryEntry",
+        "msg":{
+          "uid":{
+            "type":"number",
+            "required":true
+          }
+        }
+      }
+    },
+    {
+      "enterRoom": {
+        "router":"chat.chatHandler.enterRoom",
+        "msg":{
+          "roomId":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    },{
+      "getRooms": {
+        "router":"chat.chatHandler.getRooms",
+        "msg":null
+      }
+    },
+    {
+      "sendChatMsg": {
+        "router":"chat.chatHandler.sendChatMsg",
+        "msg":{
+          "from":{
+            "type":"string",
+            "required":true
+          },
+          "target":{
+            "type":"string",
+            "required":true
+          },
+          "msgType":{
+            "type":"number",
+            "required":true
+          },
+          "content":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    }
+  ]
+}

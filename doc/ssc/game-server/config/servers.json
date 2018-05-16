@@ -1,0 +1,198 @@
+{
+  "development": {
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "127.0.0.1",
+        "clientPort": 3014,
+        "frontend": true,
+        "args": "--inspect=10010"
+      }
+    ],
+    "connector": [
+      {
+        "id": "connector-server-1",
+	"host":"112.74.63.123",
+        "port": 3150,
+        "clientPort": 3010,
+        "frontend": true,
+        "max-connections":1000,
+        "args": "--inspect=10011"
+      },
+      {
+        "id": "connector-server-2",        
+	"host":"112.74.63.123",
+        "port": 3151,
+        "clientPort": 3011,
+        "frontend": true
+      },
+      {
+        "id": "connector-server-3",
+	"host":"112.74.63.123",
+        "port": 3152,
+        "clientPort": 3012,
+        "frontend": true
+      }
+    ],
+    "game": [
+      {
+        "id": "game-server-1",
+        "host": "127.0.0.1",
+        "port": 3250,
+        "gameId": 1,
+        "args": "--inspect=10012"
+      },
+      {
+        "id": "game-server-2",
+        "host": "127.0.0.1",
+        "port": 3251,
+        "gameId": 2
+      }
+    ],
+    "auth": [
+      {
+        "id": "auth-server-1",
+        "host": "127.0.0.1",
+        "port": 3350,
+        "args": "--inspect=10013"
+      }
+    ],
+    "chat": [
+      {
+        "id": "chat-server-1",
+        "host": "127.0.0.1",
+        "port": 3450,
+        "args":"--inspect=10014"
+      },
+      {
+        "id": "chat-server-2",
+        "host": "127.0.0.1",
+        "port": 3451
+      },
+      {
+        "id": "chat-server-3",
+        "host": "127.0.0.1",
+        "port": 3452
+      }
+    ],
+    "rank": [
+      {
+        "id": "rank-server-1",
+        "host": "127.0.0.1",
+        "port": 3550,
+        "args":"--inspect=10015"
+      }
+    ],
+    "lottery": [
+      {
+        "id": "lottery-server-1",
+        "host": "127.0.0.1",
+        "port": 3650,
+        "args":"--inspect=10016"
+      }
+    ],
+    "restore": [
+      {
+        "id": "restore-server-1",
+        "host": "127.0.0.1",
+        "port": 3750,
+        "args":"--inspect=10017"
+      }
+    ]
+  },
+  "production": {
+    "gate": [
+      {
+        "id": "gate-server-1",
+        "host": "127.0.0.1",
+        "clientPort": 3014,
+        "frontend": true
+      }
+    ],
+    "connector": [
+      {
+        "id": "connector-server-1",
+	"host":"112.74.63.123",
+        "port": 3150,
+        "clientPort": 3010,
+        "frontend": true,
+        "max-connections":1000
+      },
+      {
+        "id": "connector-server-2",
+        "host": "112.74.63.123",
+        "port": 3151,
+        "clientPort": 3011,
+        "frontend": true
+      },
+      {
+        "id": "connector-server-3",
+        "host": "112.74.63.123",        
+        "port": 3152,
+        "clientPort": 3012,
+        "frontend": true
+      }
+    ],
+    "game": [
+      {
+        "id": "game-server-1",
+        "host": "127.0.0.1",
+        "port": 3250,
+        "gameId": 1,
+        "args": "--inspect=10012"
+      },
+      {
+        "id": "game-server-2",
+        "host": "127.0.0.1",
+        "port": 3251,
+        "gameId": 2
+      }
+    ],
+    "auth": [
+      {
+        "id": "auth-server-1",
+        "host": "127.0.0.1",
+        "port": 3350
+      }
+    ],
+    "chat": [
+      {
+        "id": "chat-server-1",
+        "host": "127.0.0.1",
+        "port": 3450,
+        "args":"--inspect=10014"
+      },
+      {
+        "id": "chat-server-2",
+        "host": "127.0.0.1",
+        "port": 3451
+      },
+      {
+        "id": "chat-server-3",
+        "host": "127.0.0.1",
+        "port": 3452
+      }
+    ],
+    "rank": [
+      {
+        "id": "rank-server-1",
+        "host": "127.0.0.1",
+        "port": 3550
+      }
+    ],
+    "lottery": [
+      {
+        "id": "lottery-server-1",
+        "host": "127.0.0.1",
+        "port": 3650
+      }
+    ],
+    "restore": [
+      {
+        "id": "restore-server-1",
+        "host": "127.0.0.1",
+        "port": 3750
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "lottery",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "bearcat": "^0.4.29",
+    "cheerio": "^1.0.0-rc.1",
+    "chinese-random-name": "^0.1.2",
+    "crc": "^3.4.4",
+    "heapdump": "^0.3.9",
+    "install": "^0.10.1",
+    "mysql": "^2.13.0",
+    "node-schedule": "^1.2.3",
+    "npm": "^4.5.0",
+    "pomelo": "^2.2.5",
+    "pomelo-collection": "^0.1.0",
+    "pomelo-globalchannel-plugin": "0.0.7",
+    "pomelo-logger": "^0.1.7",
+    "pomelo-scale-plugin": "0.0.1",
+    "pomelo-status-plugin": "0.0.6",
+    "pomelo-sync-plugin": "0.0.2",
+    "urlencode": "^1.1.0"
+  }
+}

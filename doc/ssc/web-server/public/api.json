@@ -1,0 +1,288 @@
+{
+  "web": [
+    {
+      "login": {
+        "method": "post",
+        "url": "/users/login",
+        "body": {
+          "username": {
+            "type": "https://github.com/linyngfly/lottery.git",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    {
+      "registe": {
+        "method": "post",
+        "url": "/users/register",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "inviter": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": false
+          }
+        }
+      }
+    },
+    {
+      "reset": {
+        "method": "post",
+        "url": "/users/reset",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "identify": {
+            "type": "string",
+            "required": true
+          },
+          "type": {
+            "type": "1重置登录 2重置取款",
+            "required": true
+          },
+          "newPassword": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    {
+      "checkPhone": {
+        "method": "post",
+        "url": "/users/checkPhone",
+        "body": {
+          "phone": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    },
+    {
+      "checkUser": {
+        "method": "post",
+        "url": "/users/checkUser",
+        "body": {
+          "username": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  ],
+
+  "game": [
+    {
+      "connect":{
+        "router":"gate.gateHandler.connect",
+        "msg":{
+          "uid":{
+            "type":"number",
+            "required":true
+          }
+        }
+      }
+    },
+    {
+
+      "login":{
+        "router":"connector.entryHandler.login",
+        "msg":{
+          "token":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    },{
+      "logout":{
+        "router":"connector.entryHandler.logout",
+        "msg":{
+          "token":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    },
+    {
+      "sendChatMsg": {
+        "router":"game.chatHandler.sendChatMsg",
+        "msg":{
+          "from":{
+            "type":"string",
+            "required":true
+          },
+          "target":{
+            "type":"string",
+            "required":true
+          },
+          "msgType":{
+            "type":"number",
+            "required":true
+          },
+          "content":{
+            "type":"string",
+            "required":true
+          }
+        }
+      }
+    },
+    {
+      "getPlayerBaseInfo": {
+        "router":"game.chatHandler.getPlayerBaseInfo",
+        "msg":{
+          "uid":1
+        }
+      }
+    },{
+      "bet": {
+        "router":"game.playerHandler.bet",
+        "msg":{
+          "betData":"1/223/100"
+        }
+      }
+    },{
+      "unBet": {
+        "router":"game.playerHandler.unBet",
+        "msg":{
+          "entityId":100
+        }
+      }
+    }, {
+      "myBets": {
+        "router":"game.playerHandler.myBets",
+        "msg":{
+          "skip":10,
+          "limit":10
+        }
+      }
+    },{
+      "myIncome": {
+        "router":"game.playerHandler.myIncome",
+        "msg":{
+          "skip":10,
+          "limit":10
+        }
+      }
+    },{
+      "friendIncome": {
+        "router":"game.playerHandler.friendIncome",
+        "msg":{
+          "skip":10,
+          "limit":10
+        }
+      }
+    },{
+      "setRoleName": {
+        "router":"game.playerHandler.setRoleName",
+        "msg":{
+          "roleName":"linyn"
+        }
+      }
+    },{
+      "setImageId": {
+        "router":"game.playerHandler.setImageId",
+        "msg":{
+          "imageId":1
+        }
+      }
+    },{
+      "setPinCode": {
+        "router":"game.playerHandler.setPinCode",
+        "msg":{
+          "pinCode":11323
+        }
+      }
+    },{
+      "setEmail": {
+        "router":"game.playerHandler.setEmail",
+        "msg":{
+          "email":"linyn@126.com"
+        }
+      }
+    },{
+      "setPhone": {
+        "router":"game.playerHandler.setPhone",
+        "msg":{
+          "phone":"13355343423"
+        }
+      }
+    },{
+      "getGMWeiXin": {
+        "router":"game.playerHandler.getGMWeiXin",
+        "msg":null
+      }
+    },{
+      "getRecords": {
+        "router":"game.playerHandler.getRecords",
+        "msg":{
+          "skip":0,
+          "limit":20
+        }
+      }
+    },{
+      "cashRequest": {
+        "router":"game.playerHandler.cashRequest",
+        "msg":{
+          "pinCode":"1231231",
+          "money":2000
+        }
+      }
+    },{
+      "bindBankCard": {
+        "router":"game.playerHandler.bindBankCard",
+        "msg":{
+          "address":"中国农业银行成都分行高新区营业部",
+          "username":"张有钱",rer
+          "cardNO":"622233432432000505035353",
+          "alipay":"linyngfly@126.com",
+          "wechat":"weixinhao",
+          "pinCode":"afdfdafafjkf423432"
+        }
+      }
+    },{
+      "winRateRankList": {
+        "router":"rank.rankHandler.winRateRankList",
+        "msg":null
+      }
+    },{
+      "todayRichRankList": {
+        "router":"rank.rankHandler.todayRichRankList",
+        "msg":null
+        }
+      },{
+      "getChatHistory": {
+        "router":"game.playerHandler.getChatHistory",
+        "msg":null
+        }
+      }
+  ]
+}
