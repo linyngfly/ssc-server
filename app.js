@@ -34,7 +34,7 @@ let app = omelo.createApp({
     version_key: VER
 });
 
-app.set('name', 'fishjoy');
+app.set('name', 'ssc-server');
 app.set('errorHandler', function (err, msg, resp, session, next) {
     logger.error('-------errorHandler happend ---->', err);
     next(err, resp);
@@ -156,7 +156,7 @@ app.configure('production|development', function () {
 // });
 
 // 服务基础配置
-app.configure('production|development', 'loadManager|eventSync|matching|rankMatch|r2mSync|ranking|admin|resource|game|gate|hall|chat|logManager|pay', function () {
+app.configure('production|development', 'loadManager|eventSync|r2mSync|ranking|resource|game|gate|hall|chat|logManager|pay', function () {
     global.logger = require('omelo-logger').getLogger(app.getServerId());
 
     const VER = versions.VER_KEY[versions.PUB];
@@ -173,7 +173,7 @@ app.configure('production|development', 'loadManager|eventSync|matching|rankMatc
 });
 
 //服务http配置
-app.configure('production|development', 'admin|resource|gate|hall|chat|pay|loadManager', function () {
+app.configure('production|development', 'resource|gate|hall|chat|pay|loadManager', function () {
     app.use(omeloHttpPlugin, {
         http: app.get('http')
     });
@@ -184,7 +184,7 @@ app.configure('production|development', 'resource|gate|hall|chat|pay', function 
     omeloHttpPlugin.filter(httpSwitchFilter);
 });
 
-app.configure('production|development', 'admin|resource|gate|hall|chat|pay|loadManager', function () {
+app.configure('production|development', 'resource|gate|hall|chat|pay|loadManager', function () {
     omeloHttpPlugin.filter(httpAesFilter);
 });
 
@@ -199,25 +199,6 @@ app.configure('production|development', 'hall|chat|pay', function () {
 app.configure('production|development', 'pay', function () {
     httpLockFilter.addRoute("/pay/clientApi", httpLockFilter.matchMode.PART);
     omeloHttpPlugin.filter(httpLockFilter);
-});
-
-// 服务器admin配置
-app.configure('production|development', 'admin', function () {
-
-    let http304Filter = new Http304Filter();
-    http304Filter.addPath('/js');
-    http304Filter.addPath('/css');
-    http304Filter.addPath('/fonts');
-    omeloHttpPlugin.filter(http304Filter);
-
-    const adminFilter = require('./app/servers/common/adminFilter');
-    adminFilter.addIgnoreRoute('/admin/login');
-    adminFilter.addIgnoreRoute('/login.html');
-    adminFilter.addIgnoreRoute('/error.html');
-    adminFilter.addIgnoreRoute('/css');
-    adminFilter.addIgnoreRoute('/js');
-    adminFilter.addIgnoreRoute('/fonts');
-    omeloHttpPlugin.filter(adminFilter);
 });
 
 // 服务器hall配置
