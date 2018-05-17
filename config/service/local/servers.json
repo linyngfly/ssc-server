@@ -7,13 +7,6 @@
       "frontend": true,
       "args": " --inspect=192.168.35.234:13001"
     }],
-    "arena": [{
-      "id": "arena-1-1",
-      "host": "192.168.35.234",
-      "port": 4401,
-      "publicHost": "192.168.35.234",
-      "args": " --inspect=192.168.35.234:14401"
-    }],
     "loadManager": [{
       "id": "loadManager",
       "host": "192.168.35.234",
@@ -26,12 +19,6 @@
       "host": "192.168.35.234",
       "port": 3301,
       "args": " --inspect=192.168.35.234:13301"
-    }],
-    "matching": [{
-      "id": "matching",
-      "host": "192.168.35.234",
-      "port": 3401,
-      "args": " --inspect=192.168.35.234:13401"
     }],
     "resource": [{
       "id": "resource",
@@ -54,13 +41,6 @@
       "port": 3701,
       "publicHost": "192.168.35.234",
       "args": " --inspect=192.168.35.234:13701"
-    }],
-    "admin": [{
-      "id": "admin",
-      "host": "192.168.35.234",
-      "port": 3801,
-      "publicHost": "192.168.35.234",
-      "args": " --inspect=192.168.35.234:13801"
     }],
     "r2mSync": [{
       "id": "r2mSync",
@@ -86,12 +66,6 @@
       "host": "192.168.35.234",
       "port": 4301,
       "args": " --inspect=192.168.35.234:14301"
-    }],
-    "rankMatch": [{
-      "id": "rankMatch-1-1",
-      "host": "192.168.35.234",
-      "port": 5001,
-      "args": " --inspect=192.168.35.234:15001"
     }],
     "game": [{
       "id": "game-1-1",

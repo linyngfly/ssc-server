@@ -1,10 +1,10 @@
 {
     "enable": true,
     "server": {
-        "host": "172.16.2.14",
+        "host": "192.168.35.234",
         "port": 6379,
-        "auth": true,
-        "password": "Bolin123456",
+        "auth": false,
+        "password": "",
         "db": 0,
         "prefix": ""
     },
