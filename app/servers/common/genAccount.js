@@ -23,7 +23,7 @@ class GenAccount {
         if (apiCfg && apiCfg.requireParams && apiCfg.requireParams.length > 0) {
             let requireParams = apiCfg.requireParams;
             for (let i = 0; i < requireParams.length; i++) {
-                if (reqData[requireParams[i]] == undefined || reqData[requireParams[i]] == null) {
+                if (reqData[requireParams[i]] == null) {
                     return false;
                 }
             }

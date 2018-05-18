@@ -15,14 +15,7 @@ module.exports = {
 
     //用户授权渠道ID定义
     AUTH_CHANNEL_ID: {
-        TEST: 1000,
-        EGRET: 1001,
-        WANBA: 1002,
-        FACEBOOK: 1003,
-        GOOGLE: 1004,
-        INNER: 1005,
-        COCO: 1006,
-        WECHAT:1007,
+        INNER: 1001,
     },
 
     //支付渠道ID定义

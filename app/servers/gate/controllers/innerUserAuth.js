@@ -5,25 +5,14 @@ const logger = require('omelo-logger').getLogger('gate', __filename);
 const logicResponse = require('../../common/logicResponse');
 
 class InnerUserAuth {
-    /**
-     * {
-     *  username:'zhansan',
-     *  password:'213321',
-     *  device:0
-     * }
-     */
     async register(data) {
-        if (!data.username || !data.password) {
-            throw ERROR_OBJ.PARAM_MISSING;
-        }
-
         let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data.username);
+            let uid = await sdkApi.isRegiste(data);
             if (uid != null) {
                 throw ERROR_OBJ.USERNAME_EXIST;
             } else {
@@ -41,17 +30,13 @@ class InnerUserAuth {
     }
 
     async login(data) {
-        if (!data.username || !data.password) {
-            throw ERROR_OBJ.PARAM_MISSING;
-        }
-
         let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data.username);
+            let uid = await sdkApi.isRegiste(data);
             if(uid == null){
                 throw ERROR_OBJ.USER_NOT_EXIST;
             }

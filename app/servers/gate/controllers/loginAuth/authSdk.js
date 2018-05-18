@@ -4,12 +4,7 @@ const constDef = require('../../../../consts/constDef');
 class AuthSdk {
     constructor() {
         this._sdkMap = new Map();
-        this.install(constDef.AUTH_CHANNEL_ID.FACEBOOK);
-        this.install(constDef.AUTH_CHANNEL_ID.GOOGLE);
         this.install(constDef.AUTH_CHANNEL_ID.INNER);
-        this.install(constDef.AUTH_CHANNEL_ID.WANBA);
-        this.install(constDef.AUTH_CHANNEL_ID.COCO);
-        this.install(constDef.AUTH_CHANNEL_ID.WECHAT);
     }
 
     sdk(type) {

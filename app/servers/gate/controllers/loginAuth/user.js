@@ -48,7 +48,8 @@ class User {
         }
     }
 
-    async isRegiste(openId) {
+    async isRegiste(data) {
+        let openId = data.phone;
         let uid = await redisConnector.hget(REDISKEY.OPENID_UID, openId);
         if(uid != null){
             return uid;
@@ -64,16 +65,16 @@ class User {
         }
     }
 
-    async registe(userInfo) {
+    async registe(data) {
         let uid = await redisAccountSync.Util.genUid();
-        await this._genAccount(uid, userInfo);
+        await this._genAccount(uid, data);
         let log_date = tools.DateUtil.format(new Date(), tools.DateUtil.FMT.D);
         await tools.RedisUtil.setbit(`${REDISKEY.BIT_DAILY_NEW_USERS}${log_date}`, uid, 1);
         // yxl_20180408_01
-        if (userInfo.deviceId) {
+        if (data.deviceId) {
             // 新账号添加到新增设备中
-            await tools.RedisUtil.sadd(REDISKEY.NEW_DEVICE_1_DAY, userInfo.device);
-            await tools.RedisUtil.sadd(REDISKEY.NEW_DEVICE_1_HOUR, userInfo.device);
+            await tools.RedisUtil.sadd(REDISKEY.NEW_DEVICE_1_DAY, data.device);
+            await tools.RedisUtil.sadd(REDISKEY.NEW_DEVICE_1_HOUR, data.device);
         }
         return uid;
     }

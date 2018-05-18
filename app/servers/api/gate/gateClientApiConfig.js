@@ -1,4 +1,3 @@
-const thirdPartyAuth = require('../../gate/controllers/thirdPartyAuth');
 const innerUserAuth = require('../../gate/controllers/innerUserAuth');
 const queryServices = require('../../gate/controllers/queryServices');
 const tools = require('../../../utils/tools');
@@ -21,19 +20,10 @@ const api_list = {
         params: [],
         accountFields: null
     },
-    auth: {
-        route: '/auth', //渠道登录授权.
-        handler: thirdPartyAuth.login,
-        params: [],
-        accountFields: null,
-        ext: {
-            getIP: tools.BuzzUtil.getIP
-        }
-    },
     register: {
         route: '/register', //内置账号注册
         handler: innerUserAuth.register,
-        params: [],
+        params: [phone,code,nickname,password],
         accountFields: null,
         ext: {
             getIP: tools.BuzzUtil.getIP
@@ -42,7 +32,7 @@ const api_list = {
     login: {
         route: '/login', //内置账号登录
         handler: innerUserAuth.login,
-        params: [],
+        params: [phone,password],
         accountFields: null,
         ext: {
             getIP: tools.BuzzUtil.getIP
