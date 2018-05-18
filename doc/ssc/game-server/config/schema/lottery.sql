@@ -6,7 +6,7 @@ ALTER SCHEMA `lottery`  DEFAULT COLLATE utf8_unicode_ci;
 # Dump of table User(用户表)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `User` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录名',
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录密码',
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `User` (
 # Dump of table Bank(用户银行信息)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Bank`(
+CREATE TABLE IF NOT EXISTS `bank`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `address` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '开户行地址',
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `Bank`(
 # Dump of table BettingInformation(用户投注信息)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Bets`(
+CREATE TABLE IF NOT EXISTS `bets`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `period` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `Bets`(
 # Dump of table Lottery(开奖历史)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Lottery`(
+CREATE TABLE IF NOT EXISTS `lottery_log`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `period` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
   `identify` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `Lottery`(
 # Dump of table PlayerIncome(玩家投注盈亏表)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `PlayerIncome`(
+CREATE TABLE IF NOT EXISTS `player_income`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `betMoney` bigint(20) unsigned NOT NULL COMMENT '投注金额',
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `PlayerIncome`(
 # ------------------------------------------------------------
 # Dump of table AgentIncome(代理投注盈亏表)
 # ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `AgentIncome`(
+CREATE TABLE IF NOT EXISTS `agent_income`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `betMoney` bigint(20) unsigned NOT NULL COMMENT '投注金额',
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `config`(
 # ------------------------------------------------------------
 # Dump of table Record(充值记录)
 # ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Record`(
+CREATE TABLE IF NOT EXISTS `recharge_log`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `num` bigint(20) NOT NULL COMMENT '金额',
