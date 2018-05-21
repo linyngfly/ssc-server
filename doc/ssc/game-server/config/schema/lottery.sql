@@ -76,6 +76,8 @@ CREATE TABLE IF NOT EXISTS `bets`(
   FOREIGN KEY(`uid`) REFERENCES User(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+
 # ------------------------------------------------------------
 # Dump of table Lottery(开奖历史)
 # ------------------------------------------------------------

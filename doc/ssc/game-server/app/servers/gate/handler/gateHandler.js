@@ -24,7 +24,7 @@ GateHandler.prototype.connect = function(msg, session, next) {
 	}
 
 	var res = this.dispatcher.dispatch(uid, connectors);
-	next(null, new Answer.DataResponse(Code.OK,{host: res.host, port: res.clientPort}));
+	next(null, new Answer.DataResponse(Code.OK,{host: res.clientHost, port: res.clientPort}));
 };
 
 module.exports = function(app) {
