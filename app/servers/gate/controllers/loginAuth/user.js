@@ -27,29 +27,7 @@ class User {
         return await redisAccountSync.getAccountAsync(uid);
     }
 
-    async _loadMissionProcess(account){
-        let res = await mysqlConnector.query(`SELECT mission_task_once FROM  tbl_mission WHERE id = ${account.id}`);
-        res = res && res[0];
-        if(res != null){
-            let mission_task_once = JSON.parse(res.mission_task_once);
-            let mission_only_once = account.mission_only_once;
-            let cmds = [];
-            for(let tid in mission_only_once){
-                let item = designCfgUtils.getCfgMapValue('daily_quest_cfg', 'id', Number(tid));
-                let processValue = Number(mission_task_once[tid]);
-                if(item && !Number.isNaN(processValue)){
-                    let taskKey = RewardModel.EXPORT_TOOLS.getTaskKey(RewardModel.EXPORT_TOOLS.TASK_PREFIX.MISSION_TASK_ONCE, item.type,
-                        item.condition, item.value1);
-                    cmds.push(['HSET', taskKey, account.id, processValue]);
-                }
-            }
-            await redisConnector.multi(cmds);
-            logger.error('loadMissionProcess cmds =', cmds);
-        }
-    }
-
-    async isRegiste(data) {
-        let openId = data.phone;
+    async isRegiste(openId) {
         let uid = await redisConnector.hget(REDISKEY.OPENID_UID, openId);
         if(uid != null){
             return uid;
@@ -58,9 +36,8 @@ class User {
         let rows = await mysqlConnector.query(QUERY_USER_UID_OPENID, [openId]);
         let row = rows && rows[0];
         if (row) {
-            let account = await this._queryAccontFromMysql(row.id);
+            await this._queryAccontFromMysql(row.id);
             await redisConnector.hset(REDISKEY.OPENID_UID, openId, row.id);
-            await this._loadMissionProcess(account);
             return row.id;
         }
     }

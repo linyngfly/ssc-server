@@ -25,19 +25,7 @@ module.exports.AccountDef = {
         "def": 0,
         "type": "number"
     },
-    "jointype": {
-        "def": 0,
-        "type": "number"
-    },
-    "who_invite_me": {
-        "def": 0,
-        "type": "number"
-    },
-    "who_share_me": {
-        "def": 0,
-        "type": "number"
-    },
-    "nickname": {
+    "username": {
         "def": '',
         "type": "string"
     },
@@ -45,6 +33,16 @@ module.exports.AccountDef = {
         "def": '',
         "type": "string"
     },
+    "phone": {
+        "def": '',
+        "type": "string"
+    },
+    "email": {
+        "def": '',
+        "type": "string"
+    },
+
+
     "pwd_history": {
         "def": '',
         "type": "string"

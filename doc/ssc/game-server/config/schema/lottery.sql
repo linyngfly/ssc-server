@@ -7,7 +7,7 @@ ALTER SCHEMA `lottery`  DEFAULT COLLATE utf8_unicode_ci;
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录名',
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录密码',
   `phone` varchar(11) COLLATE utf8_unicode_ci NOT NULL COMMENT '电话',
@@ -27,10 +27,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `level` smallint(6) unsigned DEFAULT 1 COMMENT '等级(1~10)',
   `experience` smallint(11) unsigned DEFAULT 0 COMMENT '经验值',
   `loginCount` smallint(6) unsigned DEFAULT 0 COMMENT '登录次数',
-  `lastLoinTime` bigint(20) unsigned DEFAULT NULL COMMENT '最后登录时间',
+  `lastOnlineTime` bigint(20) unsigned DEFAULT NULL COMMENT '最后在线时间',
   `ext` json DEFAULT NULL COMMENT '扩展数据',
   `state` tinyint(3) unsigned DEFAULT '0' COMMENT '在线状态',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`uid`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `phone_UNIQUE` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `bank`(
 # Dump of table BettingInformation(用户投注信息)
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `bets`(
+CREATE TABLE IF NOT EXISTS `bets_log`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `period` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',

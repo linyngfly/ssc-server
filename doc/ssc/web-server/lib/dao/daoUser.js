@@ -17,7 +17,7 @@ const default_ext = {
     alipay:0,
     wechat:0,
     card:0
-}
+};
 
 /**
  * Create a new user
@@ -27,7 +27,7 @@ const default_ext = {
  * @param {function} cb Call back function.
  */
 daoUser.createUser = function (username, password, phone, inviter, from, rank, accountAmount, active, cb){
-    var sql = 'insert into User (username,password,phone,`from`, regTime, inviter,role,roleName,rank, accountAmount,friends,ext, active) values(?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    var sql = 'insert into User (username,password, phone,`from`, regTime, inviter, role, roleName,rank, accountAmount,friends,ext, active) values(?,?,?,?,?,?,?,?,?,?,?,?,?)';
     var regTime = Date.now();
     var args = [username, password, phone, from, regTime,inviter, default_role, username, rank, accountAmount, "[]", JSON.stringify(default_ext), active];
 

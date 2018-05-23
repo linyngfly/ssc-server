@@ -41,6 +41,7 @@ class Connector {
                     logger.error('MySQL数据库连接失败', err);
                     resolve(false);
                 } else {
+                    connection.release();
                     logger.error('MySQL数据库连接成功');
                     global.mysqlConnector = this;
                     utils.invokeCallback(cb, null, this);

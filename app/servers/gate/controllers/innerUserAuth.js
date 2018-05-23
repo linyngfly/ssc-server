@@ -12,7 +12,7 @@ class InnerUserAuth {
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data);
+            let uid = await sdkApi.isRegiste(data.phone);
             if (uid != null) {
                 throw ERROR_OBJ.USERNAME_EXIST;
             } else {
