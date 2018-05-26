@@ -1,16 +1,6 @@
 const crypto = require('crypto');
-const async = require('async');
 const User = require('./user');
 const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
-const common = require('../../../hall/src/dao/account/common');
-const redisAccountSync = require('../../../../utils/redisAccountSync');
-const logBuilder = require('../../../../utils/logSync/logBuilder');
-const constDef = require('../../../../consts/constDef');
-const {
-    REDISKEY,
-    KEYTYPEDEF
-} = require('../../../../database').dbConsts;
-const logger = require('omelo-logger').getLogger('gate', __filename);
 
 function createSalt(pwd) {
     const hash = crypto.createHash('sha1');

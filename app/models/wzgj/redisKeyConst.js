@@ -4,5 +4,5 @@
  */
 
 module.exports = {
-
+    OPENID_UID: "pair:openid:uid",
 };
