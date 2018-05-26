@@ -1,4 +1,4 @@
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const DaoAccountCommon = require('./account/common');
 const CacheAccount = require('../buzz/cache/CacheAccount');
 const async = require('async');

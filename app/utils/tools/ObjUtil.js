@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const PAGE_CFGs = require('../../servers/admin/configs/page');
 
 exports.isUndefined = isUndefined;

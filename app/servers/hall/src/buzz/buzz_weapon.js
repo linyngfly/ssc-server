@@ -1,5 +1,5 @@
 const async = require('async');
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const ERROR_OBJ = CstError.ERROR_OBJ;
 const redisKesy = require('../../../../database').dbConsts.REDISKEY;
 const ObjUtil = require('./ObjUtil');

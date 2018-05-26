@@ -8,7 +8,7 @@
 ////////////////////////////////////////
 var ObjUtil = require('./ObjUtil');
 
-var ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+var ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 var ERROR = 1;
 
 exports.isParamExist = isParamExist;

@@ -6,7 +6,7 @@ const accountParser = require('./account/accountParser');
 accountConf.addDataDef(keyTypeDef.AccountDef);
 accountConf.addDataDef(keyTypeDef.OtherDef);
 const REDISKEY = require('../database/consts/').REDISKEY;
-const ERROR_OBJ = require('../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../consts/error_code').ERROR_OBJ;
 const EventHandler = require('./account/eventHandler');
 
 class Util {

@@ -1,6 +1,6 @@
 const constDef = require('../../../consts/constDef');
 const authSdk = require('./loginAuth/authSdk');
-const ERROR_OBJ = require('../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const logger = require('omelo-logger').getLogger('gate', __filename);
 const logicResponse = require('../../common/logicResponse');
 

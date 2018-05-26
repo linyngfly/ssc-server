@@ -17,7 +17,7 @@ const rpcSender = require('../../../net/rpcSender');
 const loadManagerCmd = require('../../../cmd/loadManagerCmd');
 const modules = require('../../../modules');
 const configReader = require('../../../utils/configReader');
-const ERROR_OBJ = require('../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 
 class RankMatching {
     constructor() {

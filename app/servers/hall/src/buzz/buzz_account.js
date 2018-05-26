@@ -1,6 +1,6 @@
 const BuzzUtil = require('../utils/BuzzUtil');
 const RedisUtil = require('../utils/RedisUtil');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const CacheAccount = require('./cache/CacheAccount');
 const CacheAccountServer = require('./cache/CacheAccountServer');
 const DaoCommon = require('../dao/dao_common');

@@ -1,5 +1,5 @@
 
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const CacheUserException = require('../buzz/cache/CacheUserException');
 const common_log_const_cfg = require('../../../../utils/imports').DESIGN_CFG.common_log_const_cfg;
 const ERROR_OBJ = CstError.ERROR_OBJ;

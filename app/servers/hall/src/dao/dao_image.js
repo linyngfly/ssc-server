@@ -8,7 +8,7 @@
 var CommonUtil = require('../buzz/CommonUtil');
 var ObjUtil = require('../buzz/ObjUtil');
 
-var ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+var ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 var CacheAccount = require('../buzz/cache/CacheAccount');
 

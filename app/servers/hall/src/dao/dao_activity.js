@@ -1,4 +1,4 @@
-const ErrCst = require('../../../../consts/fish_error');
+const ErrCst = require('../../../../consts/error_code');
 const DateUtil = require('../utils/DateUtil');
 const ObjUtil = require('../buzz/ObjUtil');
 const buzz_draw = require('../buzz/buzz_draw');

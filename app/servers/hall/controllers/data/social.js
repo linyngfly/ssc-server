@@ -1,7 +1,7 @@
 const buzz_social = require('../../src/buzz/buzz_social');
 const logicResponse = require('../../../common/logicResponse');
 const REDISKEY = require('../../../../database').dbConsts.REDISKEY;
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const versionsUtil = require('../../../../utils/imports').versionsUtil;
 
 exports.getInviteProgress = getInviteProgress;

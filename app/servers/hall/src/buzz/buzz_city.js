@@ -2,7 +2,7 @@
  * 设置城市
  * Created by zhenghang on 2017/9/21.
  */
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const ERROR_OBJ = CstError.ERROR_OBJ;
 
 exports.setCity = _setCity;

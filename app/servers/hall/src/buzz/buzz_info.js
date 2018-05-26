@@ -3,7 +3,7 @@ const RedisUtil = require('../utils/RedisUtil');
 const redisKeys = require('../../../../database').dbConsts.REDISKEY;
 const ItemTypeC = require('./pojo/Item').ItemTypeC;
 const buzz_limit_items = require('../buzz/buzz_limit_items');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 exports.getHuafeiquan = getHuafeiquan;
 

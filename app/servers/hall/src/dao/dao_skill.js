@@ -1,6 +1,6 @@
 const StringUtil = require('../utils/StringUtil');
 const ObjUtil = require('../buzz/ObjUtil');
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const AccountCommon = require('./account/common');
 const ITEM_CFG = require('../../../../utils/imports').DESIGN_CFG.item_item_cfg;
 const CacheSkill = require('../buzz/cache/CacheSkill');

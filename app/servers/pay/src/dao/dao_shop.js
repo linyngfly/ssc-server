@@ -10,7 +10,7 @@ const change_change_cfg = gameConfig.change_change_cfg;
 const vip_vip_cfg = gameConfig.vip_vip_cfg;
 const CHANNEL_ID = require('../../../../consts/constDef').CHANNEL_ID;
 const dao_reward = require('./dao_reward');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const moment = require('moment');
 const tools = require('../../../../utils/tools');
 

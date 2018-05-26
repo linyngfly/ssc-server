@@ -1,4 +1,4 @@
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const dao_shop = require('../../src/dao/dao_shop');
 const tools = require('../../../../utils/tools');
 const BuzzUtil = require('../../src/utils/BuzzUtil');

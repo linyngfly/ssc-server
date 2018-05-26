@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const async = require('async');
 const User = require('./user');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const common = require('../../../hall/src/dao/account/common');
 const redisAccountSync = require('../../../../utils/redisAccountSync');
 const logBuilder = require('../../../../utils/logSync/logBuilder');
@@ -31,7 +31,7 @@ class InnerUser extends User {
 
     async registe(data) {
         let regData = data;
-        regData.openid = data.username;
+        regData.openid = data.phone;
         regData.figure_url = data.figure_url || KEYTYPEDEF.OtherDef.figure_url.def;
         regData.city = data.city || KEYTYPEDEF.AccountDef.city.def;
         regData.saltPassword = createSalt(data.username + data.password);

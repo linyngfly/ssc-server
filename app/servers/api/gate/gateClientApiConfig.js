@@ -37,19 +37,14 @@ const api_list = {
         ext: {
             getIP: tools.BuzzUtil.getIP
         }
-    }, modifyPassword: {
-        route: '/modifyPassword', //内置账号修改密码
-        handler: innerUserAuth.modifyPassword,
-        params: [],
-        accountFields: null
-    }, logout_account: {
-        route: '/logout_account', //注销
+    }, logout: {
+        route: '/logout', //注销
         handler: innerUserAuth.logout,
         params: [],
         accountFields: null
-    }, call_sdk_api: {
-        route: '/call_sdk_api', //渠道SDK信息获取
-        handler: thirdPartyAuth.callSdkApi,
+    }, modifyPassword: {
+        route: '/modifyPassword', //内置账号修改密码
+        handler: innerUserAuth.modifyPassword,
         params: [],
         accountFields: null
     }

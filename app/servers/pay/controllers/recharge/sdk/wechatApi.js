@@ -1,4 +1,4 @@
-const ERROR_OBJ = require('../../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../../consts/error_code').ERROR_OBJ;
 const PLATFORM_TYPE = require('../../../../../consts/constDef').PLATFORM_TYPE;
 const crypto = require("crypto");
 const _ = require('underscore');

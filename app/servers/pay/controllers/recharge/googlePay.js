@@ -1,6 +1,6 @@
 const Pay = require('./pay');
 const api = require('./sdk/googleApi');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const dao_shop = require('../../src/dao/dao_shop');
 
 class GooglePay extends Pay {

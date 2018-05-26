@@ -1,6 +1,6 @@
 const redis = require('redis');
 const utils = require('../../../utils/utils');
-const ERROR_OBJ = require('../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 
 class Connector {
     constructor() {

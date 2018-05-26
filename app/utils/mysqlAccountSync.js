@@ -7,7 +7,7 @@ const keyTypeDef = require('../database/consts/keyTypeDef'),
     AccountDefault = keyTypeDef.AccountDef,
     AccountOtherDef = keyTypeDef.OtherDef;
 const DateUtil = require('./DateUtil');
-const ERROR_OBJ = require('../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../consts/error_code').ERROR_OBJ;
 const utils = require('./utils');
 const moment = require('moment');
 

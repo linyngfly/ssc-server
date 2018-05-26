@@ -7,7 +7,7 @@
 var buzz_cst_game = require('../../src/buzz/cst/buzz_cst_game');
 //TODO LINYNG
 // var buzz_cst_error = require('../../../../consts/fish_error');
-var buzz_cst_error = require('../../../../consts/fish_error');
+var buzz_cst_error = require('../../../../consts/error_code');
 var data_util = require('./data_util');
 
 // 水族馆逻辑

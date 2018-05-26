@@ -1,5 +1,5 @@
 const answer = require('../../utils/answer');
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const logicResponse = require('./logicResponse');
 const genAccount = require('./genAccount');
 const logger = require('omelo-logger').getLogger('http', __filename);

@@ -2,7 +2,7 @@ const Pay = require('./pay');
 const dao_shop = require('../../src/dao/dao_shop');
 const gameConfig = require('../../../../utils/imports').DESIGN_CFG;
 const shop_businesstype_cfg = gameConfig.shop_businesstype_cfg;
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const VietnamApi = require('./sdk/vietnam/vietnamApi');
 const BuzzUtil = require('../../src/utils/BuzzUtil');
 

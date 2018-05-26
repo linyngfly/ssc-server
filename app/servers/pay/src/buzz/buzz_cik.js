@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var CstError = require('../../../../consts/fish_error');
+var CstError = require('../../../../consts/error_code');
 var BuzzUtil = require('../utils/BuzzUtil');
 
 var ERROR_OBJ = CstError.ERROR_OBJ;

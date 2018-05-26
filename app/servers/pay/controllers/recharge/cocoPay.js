@@ -1,7 +1,7 @@
 const Pay = require('./pay');
 const api = require('./sdk/cocoApi');
 const dao_shop = require('../../src/dao/dao_shop');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const redisAccountSync = require('../../../../utils/redisAccountSync');
 
 class CocoPay extends Pay {

@@ -1,7 +1,7 @@
 /**
  * 首充类: 处理首充的相关操作
  */
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const gameConfig = require('../../../../utils/imports').DESIGN_CFG;
 const common_const_cfg = gameConfig.common_const_cfg;
 const common_log_const_cfg = gameConfig.common_log_const_cfg;

@@ -1,5 +1,5 @@
 const Api = require('./api');
-const ERROR_OBJ = require('../../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../../consts/error_code').ERROR_OBJ;
 
 class GoogleApi extends Api {
 

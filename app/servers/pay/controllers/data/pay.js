@@ -1,5 +1,5 @@
 const paySdk = require('../recharge/paySdk');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const logicResponse = require('../../../common/logicResponse');
 const constDef = require('../../../../consts/constDef');
 const versions = require('../../../../utils/imports').versions;

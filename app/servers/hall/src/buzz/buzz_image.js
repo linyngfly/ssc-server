@@ -16,7 +16,7 @@ var async = require('async');
 var CommonUtil = require('./CommonUtil');
 var HttpUtil = require('../utils/HttpUtil');
 var RedisUtil = require('../utils/RedisUtil');
-var CstError = require('../../../../consts/fish_error');
+var CstError = require('../../../../consts/error_code');
 
 //------------------------------------------------------------------------------
 // 业务

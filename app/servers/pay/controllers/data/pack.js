@@ -12,7 +12,7 @@ const utils = require('../../src/buzz/utils');
 const buzz_limit_items = require('../../src/buzz/buzz_limit_items');
 const CacheAccount = require('../../src/buzz/cache/CacheAccount');
 const dropManager = require('../../../../utils/DropManager');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const logicResponse = require('../../../common/logicResponse');
 
 const itemDef = require('../../../../consts/itemDef');

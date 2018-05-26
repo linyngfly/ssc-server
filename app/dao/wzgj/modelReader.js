@@ -1,4 +1,4 @@
-const dataModels = require('./dataModels');
+const dataModels = require('../../models/wzgj/dataModel.wzgj');
 
 let dataCache = {};
 for(let tab_name in dataModels){

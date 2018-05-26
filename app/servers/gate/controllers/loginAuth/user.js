@@ -11,7 +11,7 @@ const tools = require('../../../../utils/tools');
 const CharmUtil = require('../../../hall/src/utils/CharmUtil');
 const logBuilder = require('../../../../utils/logSync').logBuilder;
 const RewardModel = require('../../../../utils/account/RewardModel');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const rpcSender = require('../../../../net/rpcSender');
 const hallCmd = require('../../../../cmd/hallCmd');
 
@@ -81,20 +81,13 @@ class User {
     handleAuthCheck(account, data){
     }
 
-    loginStatus(token) {
-    }
-
     getUserInfo(data) {
-    }
-
-    reportUserAchievement(data) {
     }
 
     /**
      * 产生一个新玩家，并及时写入redis
      */
     async _genAccount(id, data) {
-
         let AccountDefault = KEYTYPEDEF.AccountDef;
         let OtherDef = KEYTYPEDEF.OtherDef;
         let newAccount = {};

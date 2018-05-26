@@ -1,5 +1,5 @@
 const _ = require('underscore');
-const CstError = require('../../../../consts/fish_error');
+const CstError = require('../../../../consts/error_code');
 const ERROR_OBJ = CstError.ERROR_OBJ;
 const ObjUtil = require('./ObjUtil');
 const ArrayUtil = require('../utils/ArrayUtil');

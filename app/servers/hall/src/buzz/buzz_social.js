@@ -6,7 +6,7 @@ const RedisUtil = require('../utils/RedisUtil');
 const buzz_charts = require('./buzz_charts');
 const redisKeys = require('../../../../database').dbConsts.REDISKEY;
 const dao_social = require('../dao/dao_social');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const _ = require("underscore");
 const versionsUtil = require('../../../../utils/imports').versionsUtil;
 

@@ -12,7 +12,7 @@ let RedisUtil = require('../../src/utils/RedisUtil');
 let BuzzUtil = require('../../src/utils/BuzzUtil');
 const logicResponse = require('../../../common/logicResponse');
 let DaoCommon = require('../../src/dao/dao_common');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 //根据时间从小到大排序
 DailyWeekendCfg.sort(function (a, b) {

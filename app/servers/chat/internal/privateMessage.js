@@ -1,4 +1,4 @@
-const CstError = require('../../../consts/fish_error'),
+const CstError = require('../../../consts/error_code'),
     ERROR_OBJ = CstError.ERROR_OBJ;
 const REDISKEY = require('../../../database').dbConsts.REDISKEY;
 const moment = require('moment');

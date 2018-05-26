@@ -6,7 +6,7 @@ const EventEmitter = require('events').EventEmitter;
 const configReader = require('../../utils/configReader');
 const constDef = require('../../consts/constDef');
 const GAMECFG = require('../../utils/imports').DESIGN_CFG;
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const Room = require('./entity/room');
 
 class FishRoom extends Room{

@@ -12,7 +12,7 @@
 var _ = require('underscore');
 var ObjUtil = require('../buzz/ObjUtil');
 var ArrayUtil = require('../utils/ArrayUtil');
-var buzz_cst_error = require('../../../../consts/fish_error');
+var buzz_cst_error = require('../../../../consts/error_code');
 
 var ERROR_OBJ = buzz_cst_error.ERROR_OBJ;
 

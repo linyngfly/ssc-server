@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `bank`(
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `address` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '开户行地址',
-  `username` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '户名',
+  `account` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '户名',
   `cardNO` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '银行卡号',
   `weixin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信',
   `zhifubao` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',

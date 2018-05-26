@@ -2,7 +2,7 @@ const soap = require('soap');
 const crypto = require('crypto');
 const BuyCardProtocol = require('./buyCardProtocol');
 const UseCardProtocol = require('./useCardProtocol');
-const ERROR_OBJ = require('../../../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../../../consts/error_code').ERROR_OBJ;
 
 const VIETNAMERROR_STRING = {
     '1': 'Giao dịch thành công',

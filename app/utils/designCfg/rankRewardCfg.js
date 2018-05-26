@@ -2,7 +2,7 @@ const DESIGN_CFG = require('../imports').DESIGN_CFG;
 const constDef = require('../../consts/constDef');
 const rank_rankgame_cfg = DESIGN_CFG.rank_rankgame_cfg;
 const designCfgName = require('./designCfgName');
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const updateCfgsEvent = require('./updateCfgsEvent');
 
 class RankRewardCfg {

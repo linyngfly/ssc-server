@@ -1,7 +1,7 @@
 const Pay = require('./pay');
 const WanbaApi = require('./sdk/wanba/wanbaApi');
 const dao_shop = require('../../src/dao/dao_shop');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 class WanbaPay extends Pay{
     constructor(config) {

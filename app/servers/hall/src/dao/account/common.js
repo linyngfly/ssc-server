@@ -6,7 +6,7 @@ const account_def = require('../../../../../database/consts').KEYTYPEDEF,
     AccountDefault = account_def.AccountDef,
     AccountOtherDef = account_def.OtherDef;
 const redisAccountSync = require('../../../../../utils/redisAccountSync');
-const buzz_cst_error = require('../../../../../consts/fish_error');
+const buzz_cst_error = require('../../../../../consts/error_code');
 
 const gameConfig = require('../../../../../utils/imports').DESIGN_CFG;
 const player_users_cfg = gameConfig.player_users_cfg;

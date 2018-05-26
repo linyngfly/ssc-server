@@ -1,7 +1,7 @@
 const Pay = require('./pay');
 const IosApi = require('./sdk/ios/iosApi');
 const dao_shop = require('../../src/dao/dao_shop');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 class IosPay extends Pay {
     constructor(config) {

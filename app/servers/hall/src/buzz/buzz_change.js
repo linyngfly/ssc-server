@@ -10,7 +10,7 @@
 // 工具
 //------------------------------------------------------------------------------
 var _ = require('underscore');
-var CstError = require('../../../../consts/fish_error');
+var CstError = require('../../../../consts/error_code');
 var ERROR_OBJ = CstError.ERROR_OBJ;
 var CommonUtil = require('./CommonUtil');
 var ObjUtil = require('./ObjUtil');

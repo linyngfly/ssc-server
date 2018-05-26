@@ -4,7 +4,7 @@ const mysqlAccountSync = require('../../../utils/mysqlAccountSync');
 const Task = require('../../../utils/task/task');
 const REDISKEY = require('../../../database/consts').REDISKEY;
 const utils = require('../../../utils/utils');
-const ERROR_CODE = require('../../../consts/fish_error').ERROR_CODE;
+const ERROR_CODE = require('../../../consts/error_code').ERROR_CODE;
 
 // const deleteAllKey = require('../../tools/deleteAllKey').deleteAllKey;
 

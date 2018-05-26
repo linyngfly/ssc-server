@@ -1,6 +1,6 @@
 const redisAccountSync = require('../../utils/redisAccountSync');
 const ACCOUNTKEY = require('../../database/consts').ACCOUNTKEY;
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const omelo = require('omelo');
 const versions = omelo.app.get('versions');
 const cheat_broken = versions.CHEAT_BROKEN;

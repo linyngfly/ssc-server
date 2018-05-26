@@ -1,6 +1,6 @@
 const moment = require('moment');
 const MissionModel = require('../../../../utils/account/RewardModel');
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const pack = require('../../../pay/controllers/data/pack');
 const BuzzUtil = require('../utils/BuzzUtil');
 const tools = require('../../../../utils/tools');

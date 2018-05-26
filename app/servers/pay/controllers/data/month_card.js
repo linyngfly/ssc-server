@@ -11,7 +11,7 @@ const tools = require('../../../../utils/tools');
 const GameEventBroadcast = require('../../../../common/broadcast/GameEventBroadcast');
 const pack = require('../data/pack');
 
-const ERROR_OBJ = require('../../../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 
 let CARD_DATA = {};
 for (let i = 0; i < shop_card_cfg.length; i++) {

@@ -1,7 +1,7 @@
 /**
  * 过滤未登陆用户请求
  */
-const ERROR_OBJ = require('../../consts/fish_error').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const serviceSwitch = require('./serviceSwitch');
 const answer = require('../../utils/answer');
 
