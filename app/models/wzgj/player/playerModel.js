@@ -3,18 +3,21 @@ module.exports = {
         def: 0,
         type: "number",
         tbl: 'user',
+        require:true,
         comment: '用户ID'
     },
     username: {
         def: '',
         type: "string",
         tbl: 'user',
+        require:true,
         comment: '登录名'
     },
     password: {
         def: '',
         type: "string",
         tbl: 'user',
+        require:true,
         comment: '登录密码'
     },
     phone: {

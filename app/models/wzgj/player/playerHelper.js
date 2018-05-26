@@ -19,35 +19,42 @@ class PlayerHelper {
             throw ERROR_OBJ.PARAM_MISSING;
         }
 
-        let fields = [];
+        let fields = {};
         if (data instanceof Array) {
-            fields = data;
-        } else {
-            for (let key in data) {
-                let item = {};
-                item[key] = data[key];
-                fields.push(item);
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
+                for (let key in item) {
+                    fields[key] = item[key];
+                }
             }
+        } else {
+            fields = data;
         }
 
-        if (fields.length === 0) {
+        if (Object.keys(fields).length == 0) {
             return;
+        }
+
+        for(let key in playerModel){
+            let item = playerModel[key];
+            if(item.require){
+                if(null == fields[key]){
+                    throw ERROR_OBJ.PARAM_MISSING;
+                }
+            }
         }
 
         let cmds = [];
         let player = new Player(uid);
-        for (let i = 0; i < fields.length; ++i) {
-            let item = fields[i];
-            for (let key in item) {
-                let cmd = player.getCmd(key);
-                if (cmd) {
-                    try {
-                        let value = Parser.serializeValue(key, item[key], player);
-                        player.appendValue(key, value);
-                        cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
-                    } catch (e) {
-                        e;
-                    }
+        for (let key in fields) {
+            let cmd = player.getCmd(key);
+            if (cmd) {
+                try {
+                    let value = Parser.serializeValue(key, fields[key], player);
+                    player.appendValue(key, value);
+                    cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
+                } catch (e) {
+                    e;
                 }
             }
         }
@@ -71,7 +78,7 @@ class PlayerHelper {
 
         if (fields.length > 1) {
             let cmds = [];
-            for(let i = 0; i<fields.length;i++){
+            for (let i = 0; i < fields.length; i++) {
                 cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
             }
             let docs = await redisConnector.multi(cmds);
@@ -79,7 +86,7 @@ class PlayerHelper {
             for (let i = 0; i < fields.length; ++i) {
                 try {
                     player.appendValue(fields[i], docs[i]);
-                }catch (e) {
+                } catch (e) {
                     e;
                 }
             }
