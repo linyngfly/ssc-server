@@ -16,7 +16,6 @@ $(document).ready(function () {
     $('#winRateRankList').on('click', winRateRankList);
     $('#todayRichRankList').on('click', todayRichRankList);
 
-
     $('#adminLogin').on('click', adminLogin);
     $('#recharge').on('click', recharge);
     $('#cash').on('click', cash);
@@ -307,52 +306,14 @@ $(document).ready(function () {
             alert('獲取朋友收益成功');
         });
     }
+
+    const globalCache = {
+
+    };
+
     /**
-     * login
+     * 注册
      */
-    function login() {
-        let username = $('#loginUser').val().trim();
-        let password = $('#loginPwd').val().trim();
-
-        $.post(httpHost + 'gate/clientApi/login', {username: username, password:password}, function (resp) {
-            if (resp.err) {
-                alert('login err='+ JSON.stringify(resp.err));
-                return;
-            }
-            console.log('login resp=', resp.data);
-            //query entry of connection
-            queryEntry(resp.data.uid, function (host, port) {
-                pomelo.init({
-                    host: host,
-                    port: port,
-                    log: true
-                }, function () {
-                    var route = "connector.entryHandler.login";
-                    pomelo.request(route, {token: res.token}, function (res) {
-                        if (res.result.code != 200) {
-                            alert('进入游戏失败');
-                            return;
-                        }
-
-                        console.log(res.data);
-                        playerInfo = res.data;
-
-                        var str = JSON.stringify(playerInfo);
-                        console.log(str);
-                        $('#playerInfo').html(str);
-
-                        rolename = playerInfo.roleName;
-
-                        setName();
-                        setRoom();
-                        showChat();
-                    });
-                });
-            });
-        });
-    }
-
-    //register
     function register() {
         var phone = $('#reg-name').val().trim();
         var code = $('#reg-phone').val().trim();
@@ -372,7 +333,62 @@ $(document).ready(function () {
             } else {
                 alert('registe ok！');
                 console.log(resp.data);
+
+                globalCache.player = resp.data;
             }
         });
     }
+
+    /**
+     * 登录
+     */
+    function login() {
+        let username = $('#loginUser').val().trim();
+        let password = $('#loginPwd').val().trim();
+
+        $.post(httpHost + 'gate/clientApi/login', {username: username, password:password}, function (resp) {
+            if (resp.err) {
+                alert('login err='+ JSON.stringify(resp.err));
+                return;
+            }
+            console.log('login resp=', resp.data);
+            alert('login ok');
+            globalCache.player = resp.data;
+        });
+    }
+
+    /**
+     * 加入游戏
+     */
+    function joinGame() {
+        queryEntry(resp.data.uid, function (host, port) {
+            pomelo.init({
+                host: host,
+                port: port,
+                log: true
+            }, function () {
+                var route = "connector.entryHandler.login";
+                pomelo.request(route, {token: res.token}, function (res) {
+                    if (res.result.code != 200) {
+                        alert('进入游戏失败');
+                        return;
+                    }
+
+                    console.log(res.data);
+                    playerInfo = res.data;
+
+                    var str = JSON.stringify(playerInfo);
+                    console.log(str);
+                    $('#playerInfo').html(str);
+
+                    rolename = playerInfo.roleName;
+
+                    setName();
+                    setRoom();
+                    showChat();
+                });
+            });
+        });
+    }
+
 });
