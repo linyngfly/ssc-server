@@ -1,8 +1,8 @@
 // vi /opt/fishjoy/servers/app/common/broadcast/buzz_broadcast.js
 const FamousOnlineBroadcast = require('./FamousOnlineBroadcast');
 const redisAccountSync = require('../../utils/redisAccountSync');
-const cache = require('../../servers/hall/src/rankCache/cache');
-const RANK_TYPE = require('../../servers/hall/src/rankCache/cacheConf').RANK_TYPE;
+const cache = require('../../servers/game/src/rankCache/cache');
+const RANK_TYPE = require('../../servers/game/src/rankCache/cacheConf').RANK_TYPE;
 const REDISKEY = require('../../database').dbConsts.REDISKEY;
 const TimeQueue = require('./TimeQueue');
 const tools = require('../../utils/tools');

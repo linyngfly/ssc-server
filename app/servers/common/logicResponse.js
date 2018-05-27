@@ -6,7 +6,7 @@ module.exports = {
         FILE: 3,
     },
 
-    ask: function (data, type = 0) {
+    ask: function (data = {}, type = 0) {
         return {
             data: data,
             type: type

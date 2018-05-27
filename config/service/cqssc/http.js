@@ -41,38 +41,38 @@ module.exports = {
       },
     }],
     hall: [{
-        id: 'hall-1-1',
+        id: 'game-1-1',
         useCluster: false,
         useSSL: versions.SSL,
         static: false,
         views: false,
         http: {
-          host: getServerCfg('hall', 'hall-1-1').host,
-          publicHost: getServerCfg('hall', 'hall-1-1').publicHost,
+          host: getServerCfg('hall', 'game-1-1').host,
+          publicHost: getServerCfg('hall', 'game-1-1').publicHost,
           port: 3602
         },
         https: {
-          host: getServerCfg('hall', 'hall-1-1').host,
-          publicHost: getServerCfg('hall', 'hall-1-1').publicHost,
+          host: getServerCfg('hall', 'game-1-1').host,
+          publicHost: getServerCfg('hall', 'game-1-1').publicHost,
           port: 3604,
           keyFile: SSL_CERT.KEY,
           certFile: SSL_CERT.CERT
         }
       },
       {
-        id: 'hall-1-2',
+        id: 'game-1-2',
         useCluster: false,
         useSSL: versions.SSL,
         static: false,
         views: false,
         http: {
-          host: getServerCfg('hall', 'hall-1-2').host,
-          publicHost: getServerCfg('hall', 'hall-1-2').publicHost,
+          host: getServerCfg('hall', 'game-1-2').host,
+          publicHost: getServerCfg('hall', 'game-1-2').publicHost,
           port: 3606
         },
         https: {
-          host: getServerCfg('hall', 'hall-1-2').host,
-          publicHost: getServerCfg('hall', 'hall-1-2').publicHost,
+          host: getServerCfg('hall', 'game-1-2').host,
+          publicHost: getServerCfg('hall', 'game-1-2').publicHost,
           port: 3608,
           keyFile: SSL_CERT.KEY,
           certFile: SSL_CERT.CERT
@@ -212,38 +212,38 @@ module.exports = {
           },
       }],
       hall: [{
-          id: 'hall-1-1',
+          id: 'game-1-1',
           useCluster: false,
           useSSL: versions.SSL,
           static: false,
           views: false,
           http: {
-              host: getServerCfg('hall', 'hall-1-1').host,
-              publicHost: getServerCfg('hall', 'hall-1-1').publicHost,
+              host: getServerCfg('hall', 'game-1-1').host,
+              publicHost: getServerCfg('hall', 'game-1-1').publicHost,
               port: 3602
           },
           https: {
-              host: getServerCfg('hall', 'hall-1-1').host,
-              publicHost: getServerCfg('hall', 'hall-1-1').publicHost,
+              host: getServerCfg('hall', 'game-1-1').host,
+              publicHost: getServerCfg('hall', 'game-1-1').publicHost,
               port: 3604,
               keyFile: SSL_CERT.KEY,
               certFile: SSL_CERT.CERT
           }
       },
           {
-              id: 'hall-1-2',
+              id: 'game-1-2',
               useCluster: false,
               useSSL: versions.SSL,
               static: false,
               views: false,
               http: {
-                  host: getServerCfg('hall', 'hall-1-2').host,
-                  publicHost: getServerCfg('hall', 'hall-1-2').publicHost,
+                  host: getServerCfg('hall', 'game-1-2').host,
+                  publicHost: getServerCfg('hall', 'game-1-2').publicHost,
                   port: 3606
               },
               https: {
-                  host: getServerCfg('hall', 'hall-1-2').host,
-                  publicHost: getServerCfg('hall', 'hall-1-2').publicHost,
+                  host: getServerCfg('hall', 'game-1-2').host,
+                  publicHost: getServerCfg('hall', 'game-1-2').publicHost,
                   port: 3608,
                   keyFile: SSL_CERT.KEY,
                   certFile: SSL_CERT.CERT

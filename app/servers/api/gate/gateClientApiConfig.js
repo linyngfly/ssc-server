@@ -3,27 +3,10 @@ const queryServices = require('../../gate/controllers/queryServices');
 const httpUtil = require('../../../utils/httpUtil');
 
 const api_list = {
-    get_api_server: {
-        route: '/get_api_server', //获取服务器列表
-        handler: queryServices.lists,
-        params: [],
-        accountFields: null,
-        ext: {
-            getNetProtocol: function (ctx) {
-                ctx.request.body = ctx.request.body || {};
-                ctx.request.body.protocol = ctx.request.protocol;
-            }
-        },
-    }, query_game_entry: {
-        route: '/query_game_entry', //查询游戏入口
-        handler: queryServices.query_game_entry,
-        params: [],
-        accountFields: null
-    },
     register: {
         route: '/register', //内置账号注册
         handler: innerUserAuth.register,
-        params: ['username','code','nickname','password'],
+        params: ['username', 'code', 'nickname', 'password'],
         accountFields: null,
         ext: {
             getIP: httpUtil.getIP
@@ -33,28 +16,45 @@ const api_list = {
         route: '/getPhoneCode', //获取手机验证码
         handler: innerUserAuth.getPhoneCode,
         params: ['phone'],
-        resp:['expires'],
+        resp: ['expires'],
         accountFields: null,
     },
     login: {
         route: '/login', //内置账号登录
         handler: innerUserAuth.login,
-        params: ['username','password'],
+        params: ['username', 'password'],
         accountFields: null,
         ext: {
             getIP: httpUtil.getIP
         }
-    }, logout: {
+    },
+    logout: {
         route: '/logout', //注销
         handler: innerUserAuth.logout,
         params: [],
         accountFields: null
-    }, modifyPassword: {
+    },
+    modifyPassword: {
         route: '/modifyPassword', //内置账号修改密码
         handler: innerUserAuth.modifyPassword,
         params: [],
         accountFields: null
-    }
+    },
+    get_api_server: {
+        route: '/get_api_server', //获取服务器列表
+        handler: queryServices.lists,
+        params: [],
+        accountFields: null,
+        ext: {
+            getProtocol: httpUtil.getProtocol
+        },
+    },
+    query_game_entry: {
+        route: '/query_game_entry', //查询游戏入口
+        handler: queryServices.query_game_entry,
+        params: [],
+        accountFields: null
+    },
 };
 
 

@@ -66,8 +66,13 @@ class InnerUserAuth {
         }
 
         try{
+            let uid = await sdkApi.isRegister(data);
+            if(uid == null){
+                throw ERROR_OBJ.USER_NOT_EXIST;
+            }
+            data.uid = uid;
             await sdkApi.logout(data);
-            return logicResponse.ask({status: 1, msg: "成功退出"});
+            return logicResponse.ask();
         }catch (err){
             logger.error("退出账户失败", err);
             throw ERROR_OBJ.LOGINOUT_FAIL;
