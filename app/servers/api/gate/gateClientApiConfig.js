@@ -10,8 +10,8 @@ const api_list = {
         accountFields: null,
         ext: {
             getNetProtocol: function (ctx) {
-                ctx.request.body.data = ctx.request.body.data || {};
-                ctx.request.body.data.protocol = ctx.request.protocol;
+                ctx.request.body = ctx.request.body || {};
+                ctx.request.body.protocol = ctx.request.protocol;
             }
         },
     }, query_game_entry: {

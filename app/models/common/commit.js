@@ -86,7 +86,7 @@ class Commit {
      * @param data
      */
     appendValue(key, data) {
-        let value = parser.parseValue(key, data);
+        let value = parser.parseValue(key, data, this);
         this[`_${key}`] = value;
     }
 

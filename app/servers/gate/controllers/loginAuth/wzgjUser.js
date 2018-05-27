@@ -1,21 +1,24 @@
+const _ = require('lodash');
 const User = require('./user');
 const models = require('../../../../models');
 const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const moment = require('moment');
-const QUERY_UID_BY_OPENID = "SELECT `id` FROM `user` WHERE `openid`=? ";
+const QUERY_UID_BY_OPENID = "SELECT `uid` FROM `user` WHERE `openid`=? ";
 
 class WZGJUser extends User {
     constructor() {
         super();
-        this._codes = {};
+        this._codes = {
+            "18602842393":"353221"
+        };
     }
 
     getUserInfo(data) {
         return data;
     }
 
-    _checkPhoneCode(code){
-        if(!this._codes[code]){
+    _checkPhoneCode(phone, code){
+        if(!this._codes[phone] || this._codes[phone] != code){
             throw ERROR_OBJ.PHONE_CODE_INVALID;
         }
     }
@@ -49,27 +52,30 @@ class WZGJUser extends User {
 
     async register(data) {
         //TODO 手机校验
-        this._checkPhoneCode(data.code);
+        this._checkPhoneCode(data.phone, data.code);
+
+        let playerData = _.cloneDeep(data);
         let openid = data.phone;
-        data.username = openid;
-        data.openid = data.username;
-        data.password = this._createSalt(data.username + data.password);
+        playerData.username = openid;
+        playerData.openid = data.username;
+        playerData.password = this._createSalt(data.username + data.password);
 
         let uid = await this._genUID();
-        data.id = uid;
+        playerData.uid = uid;
         let at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        data.created_at = at;
-        data.updated_at = at;
-        data.openid = openid;
+        playerData.created_at = at;
+        playerData.updated_at = at;
+        playerData.openid = openid;
 
         await redisConnector.hset(models.redisKeyConst.MAP_OPENID_UID, openid, uid);
-        await models.player.helper.createPlayer(uid, data);
+        await models.player.helper.createPlayer(uid, playerData);
         return uid;
     }
 
     async login(data) {
         let player = await models.player.helper.getPlayer(data.uid);
-        super.login(player);
+        data.player = player;
+        await super.login(data);
         return player.toJSON();
     }
 
@@ -79,9 +85,9 @@ class WZGJUser extends User {
         await player.commit();
     }
 
-    _authCheck(player, data){
-        let saltPassword = this._createSalt(player.username + data.password);
-        if (saltPassword !== player.password) {
+    _authCheck(data){
+        let saltPassword = this._createSalt(data.username + data.password);
+        if (saltPassword !== data.player.password) {
             throw ERROR_OBJ.USERNAME_PASSWORD_ERROR;
         }
     }

@@ -8,7 +8,7 @@ class CheatFilter {
     async before(ctx, next) {
         // 阻挡操作，让玩家不能进入游戏
         try {
-            let uid = ctx.request.body.data.uid;
+            let uid = ctx.request.body.uid;
             await tools.BuzzUtil.checkCheat(uid);
         } catch (err) {
             ctx.body = answer.httpResponse(err, ctx.request.body.aes, true);

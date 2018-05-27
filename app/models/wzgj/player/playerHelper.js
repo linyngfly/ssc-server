@@ -6,6 +6,7 @@ const playerModel = require('./playerModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('./mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
+const _ = require('lodash');
 
 class PlayerHelper {
     constructor(){
@@ -45,6 +46,13 @@ class PlayerHelper {
             if(item.require){
                 if(null == fields[key]){
                     throw ERROR_OBJ.PARAM_MISSING;
+                }
+            }
+            if(fields[key] == null){
+                if(item.type == 'object'){
+                    fields[key] = _.cloneDeep(item.def);
+                }else {
+                    fields[key] = item.def;
                 }
             }
         }

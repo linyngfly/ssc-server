@@ -3,8 +3,8 @@
  * @param {*} ctx
  */
 function _getIP(ctx) {
-    ctx.request.body.data = ctx.request.body.data || {};
-    ctx.request.body.data.ip = ctx.ip;
+    ctx.request.body = ctx.request.body || {};
+    ctx.request.body.ip = ctx.ip;
 }
 
 

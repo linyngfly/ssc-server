@@ -17,20 +17,12 @@ class User {
     }
 
     async _genUID(){
-        return new Promise(function (resolve, reject) {
-            redisConnector.incr(models.redisKeyConst.UID_COUNTER, function (err, count) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(count);
-                }
-            });
-        });
+        return await redisConnector.incr(models.redisKeyConst.UID_COUNTER);
     }
 
-    async login(player, data) {
-        this._authCheck(player, data);
-        await this._afterLogin(player);
+    async login(data) {
+        this._authCheck(data);
+        await this._afterLogin(data);
     }
 
     logout(){
@@ -48,7 +40,8 @@ class User {
         return hash.digest('hex');
     }
 
-    async _afterLogin(player){
+    async _afterLogin(data){
+        let player = data.player;
         let token = utils.generateSessionToken(player.uid);
         player.token = token;
         player.updated_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');

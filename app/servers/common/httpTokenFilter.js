@@ -17,8 +17,8 @@ class HttpTokenFilter {
                 }
             }
 
-            if (ignore == false && !!ctx.request.body && !!ctx.request.body.data && !!ctx.request.body.data.token && ctx.request.body.data.token !== undefined) {
-                let token = ctx.request.body.data.token;
+            if (ignore == false && !!ctx.request.body && !!ctx.request.body && !!ctx.request.body.token && ctx.request.body.token !== undefined) {
+                let token = ctx.request.body.token;
                 if (token) {
                     let strs = token.split('_');
                     if (strs.length >= 2) {
@@ -26,7 +26,7 @@ class HttpTokenFilter {
                         if (!Number.isNaN(uid)) {
                             await checkToken(uid, token);
                             ignore = true;
-                            ctx.request.body.data.uid = uid;
+                            ctx.request.body.uid = uid;
                         }
                     }
                 }

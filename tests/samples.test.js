@@ -50,3 +50,17 @@ describe('http test samples3', ()=>{
         });
     });
 });
+
+describe('test gate api', ()=>{
+    it('register', (done)=>{
+        request('http://127.0.0.1:3002')
+            .post('/gate/clientApi/register')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end((err, res)=>{
+                // console.log(res.text);
+                expect(res).to.be.an('object');
+                done();
+            });
+    });
+});

@@ -3,9 +3,9 @@ const statistics = require('./statistics');
 class ActiveStatisticsFilter {
 
     async before(ctx, next) {
-        if (ctx.request.body.data && ctx.request.body.data.uid) {
-            statistics.playerActive(ctx.request.body.data.uid);
-            statistics.playerApiOperateLog(ctx.request.body.data.uid, ctx.url);
+        if (ctx.request.body && ctx.request.body.uid) {
+            statistics.playerActive(ctx.request.body.uid);
+            statistics.playerApiOperateLog(ctx.request.body.uid, ctx.url);
         }
         await next();
     }

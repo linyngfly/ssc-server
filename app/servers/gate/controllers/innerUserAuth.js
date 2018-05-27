@@ -51,8 +51,8 @@ class InnerUserAuth {
             }
 
             data.uid = uid;
-            let account = await sdkApi.login(data);
-            return logicResponse.ask(account.toJSON());
+            let resp = await sdkApi.login(data);
+            return logicResponse.ask(resp);
         } catch (err) {
             logger.error('用户登录失败', err);
             throw err;

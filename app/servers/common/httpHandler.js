@@ -12,7 +12,7 @@ module.exports = async function handler(ctx, target, next) {
 
     try {
 
-        let reqData = ctx.request.body.data;
+        let reqData = ctx.request.body;
         if (reqData && reqData.uid) {
             reqData.account = await genAccount.getAccount(reqData.uid, ctx.url);
         }
@@ -24,7 +24,7 @@ module.exports = async function handler(ctx, target, next) {
         let {
             type,
             data
-        } = await target(ctx.request.body.data, ctx);
+        } = await target(ctx.request.body, ctx);
 
         switch (type) {
             case logicResponse.TYPE.DATA:

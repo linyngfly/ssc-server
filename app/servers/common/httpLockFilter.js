@@ -49,7 +49,7 @@ class HttpLockFilter {
         }
 
         try {
-            let uid = ctx.request.body && ctx.request.body.data && ctx.request.body.data.uid;
+            let uid = ctx.request.body && ctx.request.body && ctx.request.body.uid;
             if (uid && !await this.lock(ctx.url, uid)) {
                 logger.info(`${uid} API调用过于频繁`);
                 throw ERROR_OBJ.CALL_TOO_OFTEN;
@@ -66,7 +66,7 @@ class HttpLockFilter {
 
     async after(ctx, next) {
         logger.info('call after');
-        let uid = ctx.request.body && ctx.request.body.data &&  ctx.request.body.data.uid;
+        let uid = ctx.request.body && ctx.request.body &&  ctx.request.body.uid;
         uid && this.unlock(uid);
         await next();
     }
