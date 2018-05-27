@@ -1,19 +1,13 @@
-const redisAccountSync = require('../../utils/redisAccountSync');
-const ACCOUNTKEY = require('../../database/consts').ACCOUNTKEY;
+const models = require('../../models');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
-const omelo = require('omelo');
-const versions = omelo.app.get('versions');
-const cheat_broken = versions.CHEAT_BROKEN;
-const broken = cheat_broken.indexOf(versions.PUB) !== -1;
 
 module.exports = async function (uid, token) {
-    let account = await redisAccountSync.getAccountAsync(uid, [ACCOUNTKEY.TOKEN, ACCOUNTKEY.TEST]);
+    let account = await models.player.getPlayer(uid, [models.player.fieldConst.TOKEN, models.player.fieldConst.TEST]);
     if (account.token == "daily_reset") {
         throw ERROR_OBJ.DAILY_RESET;
-    } else if (account.test < 0 && broken || account.token.search('cheat') >= 0) {
+    } else if (account.test < 0 || account.token.search('cheat') >= 0) {
         throw ERROR_OBJ.PLAYER_CHEAT;
-    }
-    else if (account.token != token) {
+    } else if (account.token != token) {
         throw ERROR_OBJ.TOKEN_INVALID;
     }
 };

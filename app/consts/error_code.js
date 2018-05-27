@@ -320,6 +320,7 @@ const _errorCode = {
     MINIGAME_TYPE_INVALID: 7108, // 没有掉落该类型的mini游戏
     WEAPON_LEVEL_INVALID: 7109, //非法武器等级
     RM_WEAPON_LEVEL_LIMIT: 7120, // 倍率低于配位赛最低要求
+    PHONE_CODE_INVALID: 7121, // 手机验证码无效
 };
 
 const _errorObj = {
@@ -1525,6 +1526,11 @@ const _errorObj = {
     RM_WEAPON_LEVEL_LIMIT: {
         msg: i18n.RM_WEAPON_LEVEL_LIMIT[lan],
         code: _errorCode.RM_WEAPON_LEVEL_LIMIT,
+    },
+
+    PHONE_CODE_INVALID: {
+        msg: '手机验证码无效',
+        code: _errorCode.PHONE_CODE_INVALID,
     },
 
     // TODO: 配置表增加字段后解开注释

@@ -1,4 +1,4 @@
-const redisKey = require('../../database/index').dbConsts.REDISKEY;
+const models = require('../../models');
 class ServiceSwitch{
     constructor(){
         this._status = 0;
@@ -19,7 +19,7 @@ class ServiceSwitch{
     }
 
     async _getSwitchStatus(){
-        let result = await redisConnector.get(redisKey.SWITCH.SERVICE);
+        let result = await redisConnector.get(models.redisKeyConst.SWITCH.SERVICE);
         if(result){
             logger.error('switchStatus=', result);
             if(!Number.isNaN(Number(result.status))){
@@ -31,7 +31,7 @@ class ServiceSwitch{
 
     async _getApiSwitchList(){
         let self = this;
-        let results = await redisConnector.hgetall(redisKey.SWITCH.API);
+        let results = await redisConnector.hgetall(models.redisKeyConst.SWITCH.API);
         if(results){
             for(let api in results){
                 if(Number(results[api]) == 0){
@@ -43,8 +43,8 @@ class ServiceSwitch{
     }
 
     _openSwitch(){
-        redisConnector.sub(redisKey.DATA_EVENT_SYNC.PLATFORM_SERVICE_SWITCH, this._platform_service_switch.bind(this));
-        redisConnector.sub(redisKey.DATA_EVENT_SYNC.PLATFORM_API_SWITCH, this._platform_api_switch.bind(this));
+        // redisConnector.sub(redisKey.DATA_EVENT_SYNC.PLATFORM_SERVICE_SWITCH, this._platform_service_switch.bind(this));
+        // redisConnector.sub(redisKey.DATA_EVENT_SYNC.PLATFORM_API_SWITCH, this._platform_api_switch.bind(this));
     }
 
     _platform_service_switch(value){

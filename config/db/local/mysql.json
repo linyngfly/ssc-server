@@ -6,7 +6,7 @@
         "auth":true,
         "user": "root",
         "password": "root",
-        "database": "fishjoy",
+        "database": "lottery",
         "charset": "utf8"
     },
     "ext": {

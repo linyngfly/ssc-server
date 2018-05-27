@@ -1,6 +1,6 @@
 const innerUserAuth = require('../../gate/controllers/innerUserAuth');
 const queryServices = require('../../gate/controllers/queryServices');
-const tools = require('../../../utils/tools');
+const httpUtil = require('../../../utils/httpUtil');
 
 const api_list = {
     get_api_server: {
@@ -23,19 +23,26 @@ const api_list = {
     register: {
         route: '/register', //内置账号注册
         handler: innerUserAuth.register,
-        params: [phone,code,nickname,password],
+        params: ['phone','code','nickname','password'],
         accountFields: null,
         ext: {
-            getIP: tools.BuzzUtil.getIP
+            getIP: httpUtil.getIP
         }
+    },
+    getPhoneCode: {
+        route: '/getPhoneCode', //获取手机验证码
+        handler: innerUserAuth.getPhoneCode,
+        params: ['phone'],
+        resp:['expires'],
+        accountFields: null,
     },
     login: {
         route: '/login', //内置账号登录
         handler: innerUserAuth.login,
-        params: [phone,password],
+        params: ['phone','password'],
         accountFields: null,
         ext: {
-            getIP: tools.BuzzUtil.getIP
+            getIP: httpUtil.getIP
         }
     }, logout: {
         route: '/logout', //注销

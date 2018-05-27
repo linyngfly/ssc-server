@@ -1,5 +1,5 @@
 const omelo = require('omelo');
-const redisAccountSync = require('./redisAccountSync');
+// const redisAccountSync = require('./redisAccountSync');
 
 class GlobalStatusData {
     constructor() {
@@ -10,11 +10,11 @@ class GlobalStatusData {
         if(data && typeof data == 'object'){
             data = JSON.stringify(data);
         }
-        await redisAccountSync.oneCmdAsync(['hset', this._genKey(sid, dataType.name), uid, data]);
+        // await redisAccountSync.oneCmdAsync(['hset', this._genKey(sid, dataType.name), uid, data]);
     }
 
     async delData(dataType, uid, sid) {
-        await redisAccountSync.oneCmdAsync(['hdel', this._genKey(sid, dataType.name), uid]);
+        // await redisAccountSync.oneCmdAsync(['hdel', this._genKey(sid, dataType.name), uid]);
     }
 
     async queryData(dataType, serverType, uid) {

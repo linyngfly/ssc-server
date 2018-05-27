@@ -115,7 +115,7 @@ class Connector {
         this.events[event] = cb;
     }
 
-    async incrP(key) {
+    async incr(key) {
         if (key == null) {
             return;
         }
@@ -133,7 +133,7 @@ class Connector {
         }.bind(this));
     }
 
-    async expireP(key, time) {
+    async expire(key, time) {
         if (key == null || time == null) {
             return;
         }
@@ -508,6 +508,18 @@ class Connector {
         });
     }
 
+    async zadd(key, score, member) {
+        let self = this;
+        return new Promise((resolve, reject) => {
+            self._cmdClient.zadd(key, score, member, (err, res) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(res);
+                }
+            });
+        });
+    }
 
 }
 

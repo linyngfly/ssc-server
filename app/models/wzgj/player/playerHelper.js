@@ -3,9 +3,14 @@ const Parser = require('../../common/parser');
 const playerFieldConst = require('./playerFieldConst');
 const genRedisKey = require('../genRedisKey');
 const playerModel = require('./playerModel');
+const sqlConst = require('./sqlConst');
+const MysqlHelper = require('./mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 
 class PlayerHelper {
+    constructor(){
+        this._mysqlHelper = new MysqlHelper(playerModel);
+    }
     async exist(uid) {
         let exist = await redisConnector.hget(genRedisKey.getPlayerKey(playerFieldConst.USERNAME), uid);
         if (exist == null) {
@@ -73,7 +78,7 @@ class PlayerHelper {
         }
 
         if (!fields || fields.length == 0) {
-            fields = PlayerHelper.MODEL_FIELDS;
+            fields = sqlConst.MODEL_FIELDS;
         }
 
         if (fields.length > 1) {
@@ -104,13 +109,19 @@ class PlayerHelper {
             throw ERROR_OBJ.PARAM_MISSING;
         }
         let cmds = [];
-        PlayerHelper.MODEL_FIELDS.forEach(function (item) {
+        sqlConst.MODEL_FIELDS.forEach(function (item) {
             cmds.push(['hdel', genRedisKey.getPlayerKey(item), uid]);
         });
         return await redisConnector.multi(cmds);
     }
-}
 
-PlayerHelper.MODEL_FIELDS = Object.keys(playerModel);
+    async getMysqlPlayer(uid, fields = []){
+        return this._mysqlHelper.getTableRow(uid, fields);
+    }
+
+    async setMysqlPlayer(players){
+        this._mysqlHelper.setTableRow(players);
+    }
+}
 
 module.exports = new PlayerHelper();

@@ -4,7 +4,7 @@ const modules = require('../../../modules');
 const loadManagerCmd = require('../../../cmd/loadManagerCmd');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const globalStatusData = require('../../../utils/globalStatusData');
-const constDef = require('../../../consts/constDef');
+const constDef = require('../../../consts/consts');
 
 
 class QueryGameEntry {

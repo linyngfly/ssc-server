@@ -9,7 +9,7 @@ const rpcSender = require('../../../net/rpcSender');
 const fishCmd = require('../../../cmd/fishCmd');
 const redisKey = require('../../../database').dbConsts.REDISKEY;
 const Room = require('../entity/room');
-const constDef = require('../../../consts/constDef');
+const constDef = require('../../../consts/consts');
 
 class RankMatchRoom extends Room {
     constructor(opts) {

@@ -21,7 +21,7 @@ const tools = require('../../../utils/tools');
 const GameEventBroadcast = require('../../../common/broadcast/GameEventBroadcast');
 const rpcSender = require('../../../net/rpcSender');
 const globalStatusData = require('../../../utils/globalStatusData');
-const constDef = require('../../../consts/constDef');
+const constDef = require('../../../consts/consts');
 const ObjUtil = require('../../../../app/utils/tools/ObjUtil');
 
 const FIRE_DELAY = 50; //开炮事件服务端与客户端的延时,单位毫秒

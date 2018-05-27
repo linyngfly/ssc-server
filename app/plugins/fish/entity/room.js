@@ -1,7 +1,7 @@
 const omelo = require('omelo');
 const globalStatusData = require('../../../utils/globalStatusData');
 const rpcDefs = require('../../../net/rpcDefs');
-const constDef = require('../../../consts/constDef');
+const constDef = require('../../../consts/consts');
 class Room{
     constructor(opts){
         this._roomId = opts.roomId;

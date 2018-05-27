@@ -15,11 +15,23 @@ class PlayerCommit extends Commit {
     get username() {
         return this._value('username');
     }
+	set openid(value) {
+        this._modify('openid', value);
+    }
+    get openid() {
+        return this._value('openid');
+    }
 	set password(value) {
         this._modify('password', value);
     }
     get password() {
         return this._value('password');
+    }
+	set nickname(value) {
+        this._modify('nickname', value);
+    }
+    get nickname() {
+        return this._value('nickname');
     }
 	set phone(value) {
         this._modify('phone', value);
@@ -39,11 +51,11 @@ class PlayerCommit extends Commit {
     get from() {
         return this._value('from');
     }
-	set regTime(value) {
-        this._modify('regTime', value);
+	set created_at(value) {
+        this._modify('created_at', value);
     }
-    get regTime() {
-        return this._value('regTime');
+    get created_at() {
+        return this._value('created_at');
     }
 	set inviter(value) {
         this._modify('inviter', value);
@@ -57,11 +69,11 @@ class PlayerCommit extends Commit {
     get active() {
         return this._value('active');
     }
-	set forbidTalk(value) {
-        this._modify('forbidTalk', value);
+	set forbid_talk(value) {
+        this._modify('forbid_talk', value);
     }
-    get forbidTalk() {
-        return this._value('forbidTalk');
+    get forbid_talk() {
+        return this._value('forbid_talk');
     }
 	set friends(value) {
         this._modify('friends', value);
@@ -75,29 +87,23 @@ class PlayerCommit extends Commit {
     get role() {
         return this._value('role');
     }
-	set roleName(value) {
-        this._modify('roleName', value);
+	set figure_url(value) {
+        this._modify('figure_url', value);
     }
-    get roleName() {
-        return this._value('roleName');
+    get figure_url() {
+        return this._value('figure_url');
     }
-	set imageId(value) {
-        this._modify('imageId', value);
+	set rank_name(value) {
+        this._modify('rank_name', value);
     }
-    get imageId() {
-        return this._value('imageId');
+    get rank_name() {
+        return this._value('rank_name');
     }
-	set rank(value) {
-        this._modify('rank', value);
+	set pin_code(value) {
+        this._modify('pin_code', value);
     }
-    get rank() {
-        return this._value('rank');
-    }
-	set pinCode(value) {
-        this._modify('pinCode', value);
-    }
-    get pinCode() {
-        return this._value('pinCode');
+    get pin_code() {
+        return this._value('pin_code');
     }
 	set money(value) {
         this._modify('money', value);
@@ -117,17 +123,29 @@ class PlayerCommit extends Commit {
     get experience() {
         return this._value('experience');
     }
-	set loginCount(value) {
-        this._modify('loginCount', value);
+	set login_count(value) {
+        this._modify('login_count', value);
     }
-    get loginCount() {
-        return this._value('loginCount');
+    get login_count() {
+        return this._value('login_count');
     }
-	set lastOnlineTime(value) {
-        this._modify('lastOnlineTime', value);
+	set updated_at(value) {
+        this._modify('updated_at', value);
     }
-    get lastOnlineTime() {
-        return this._value('lastOnlineTime');
+    get updated_at() {
+        return this._value('updated_at');
+    }
+	set token(value) {
+        this._modify('token', value);
+    }
+    get token() {
+        return this._value('token');
+    }
+	set test(value) {
+        this._modify('test', value);
+    }
+    get test() {
+        return this._value('test');
     }
 	set ext(value) {
         this._modify('ext', value);
@@ -135,23 +153,23 @@ class PlayerCommit extends Commit {
     get ext() {
         return this._value('ext');
     }
-	set address(value) {
-        this._modify('address', value);
+	set bank_address(value) {
+        this._modify('bank_address', value);
     }
-    get address() {
-        return this._value('address');
+    get bank_address() {
+        return this._value('bank_address');
     }
-	set account(value) {
-        this._modify('account', value);
+	set bank_account(value) {
+        this._modify('bank_account', value);
     }
-    get account() {
-        return this._value('account');
+    get bank_account() {
+        return this._value('bank_account');
     }
-	set cardNO(value) {
-        this._modify('cardNO', value);
+	set bank_card(value) {
+        this._modify('bank_card', value);
     }
-    get cardNO() {
-        return this._value('cardNO');
+    get bank_card() {
+        return this._value('bank_card');
     }
 	set weixin(value) {
         this._modify('weixin', value);
@@ -165,11 +183,11 @@ class PlayerCommit extends Commit {
     get zhifubao() {
         return this._value('zhifubao');
     }
-	set bindTime(value) {
-        this._modify('bindTime', value);
+	set bind_card_at(value) {
+        this._modify('bind_card_at', value);
     }
-    get bindTime() {
-        return this._value('bindTime');
+    get bind_card_at() {
+        return this._value('bind_card_at');
     }
 }
 module.exports = PlayerCommit;

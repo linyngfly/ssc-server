@@ -1,27 +1,31 @@
-const constDef = require('../../../consts/constDef');
+const consts = require('../../../consts/consts');
 const authSdk = require('./loginAuth/authSdk');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const logger = require('omelo-logger').getLogger('gate', __filename);
 const logicResponse = require('../../common/logicResponse');
 
 class InnerUserAuth {
+    /**
+     * 注册
+     * @param data
+     * @returns {Promise<*|{data, type}>}
+     */
     async register(data) {
-        let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
+        let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data.phone);
+            let uid = await sdkApi.isRegister(data);
             if (uid != null) {
                 throw ERROR_OBJ.USERNAME_EXIST;
             } else {
-                let uid = await sdkApi.registe(data);
+                let uid = await sdkApi.register(data);
                 data.uid = uid;
-                let account = await sdkApi.login(data);
-                account.commit();
+                let resp = await sdkApi.login(data);
                 logger.info(`注册新用户${uid}`);
-                return logicResponse.ask(account.toJSON());
+                return logicResponse.ask(resp);
             }
         } catch (err) {
             logger.error('用户注册失败', err);
@@ -29,14 +33,19 @@ class InnerUserAuth {
         }
     }
 
+    /**
+     * 登录
+     * @param data
+     * @returns {Promise<*|{data, type}>}
+     */
     async login(data) {
-        let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
+        let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data);
+            let uid = await sdkApi.isRegister(data);
             if(uid == null){
                 throw ERROR_OBJ.USER_NOT_EXIST;
             }
@@ -50,18 +59,58 @@ class InnerUserAuth {
         }
     }
 
-    async modifyPassword(data) {
-        if (!data.username || !data.oldPassword || !data.newPassword) {
-            throw ERROR_OBJ.PARAM_MISSING;
+    async logout(data){
+        let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
+        if (!sdkApi) {
+            throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
-        let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
+        try{
+            await sdkApi.logout(data);
+            return logicResponse.ask({status: 1, msg: "成功退出"});
+        }catch (err){
+            logger.error("退出账户失败", err);
+            throw ERROR_OBJ.LOGINOUT_FAIL;
+        }
+    }
+
+    /**
+     * 发送短信验证码
+     * @param data
+     * @returns {Promise<void>}
+     */
+    async getPhoneCode(data){
+        let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegiste(data.username);
+            let resp = await sdkApi.sendPhoneCode(data.phone);
+            return logicResponse.ask(resp);
+        }catch(err){
+            logger.error('获取短信验证码失败', err);
+            throw err;
+        }
+    }
+
+    /**
+     * 修改密码
+     * @param data
+     * @returns {Promise<*|{data, type}>}
+     */
+    async modifyPassword(data) {
+        if (!data.username || !data.oldPassword || !data.newPassword) {
+            throw ERROR_OBJ.PARAM_MISSING;
+        }
+
+        let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
+        if (!sdkApi) {
+            throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
+        }
+
+        try {
+            let uid = await sdkApi.isRegister(data.username);
             if(uid == null){
                 throw ERROR_OBJ.USER_NOT_EXIST;
             }
@@ -73,35 +122,6 @@ class InnerUserAuth {
             throw ERROR_OBJ.OLD_PASSWORD_ERROR;
         }
     }
-
-    async bindPhone(data) {
-        let sdkApi = authSdk.sdk(constDef.AUTH_CHANNEL_ID.INNER);
-        if (!sdkApi) {
-            throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
-        }
-
-        try {
-            let uid = await sdkApi.isRegiste(data.username);
-            if(uid == null){
-                throw ERROR_OBJ.USER_NOT_EXIST;
-            }
-            data.uid = uid;
-            await sdkApi.bindPhone(data);
-        } catch (err) {
-            logger.error('用户手机号绑定失败', err);
-            throw ERROR_OBJ.OLD_PASSWORD_ERROR;
-        }
-    }
-
-    async logout(){
-        try{
-            return logicResponse.ask({status: 1, msg: "成功退出"});
-        }catch (err){
-            logger.error("退出账户失败", err);
-            throw ERROR_OBJ.LOGINOUT_FAIL;
-        }
-    }
-
 }
 
 module.exports = new InnerUserAuth();

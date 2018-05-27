@@ -1,5 +1,4 @@
 require('./app/utils/logHelper');
-require('./app/utils/globals');
 const omelo = require('omelo');
 const path = require('path');
 const fs = require('fs');
@@ -7,12 +6,9 @@ const versions = require('./config/versions');
 const omeloHttpPlugin = require('omelo-http-plugin');
 const logger = require('omelo-logger').getLogger('default', __filename);
 const sysConfig = require('./config/sysConfig');
-// const masterhaPlugin = require('omelo-masterha-plugin');
 const globalChannel = require('omelo-globalchannel-plugin');
 const status = require('omelo-status-plugin');
 const HotUpdate = require('./app/utils/hotUpdate');
-const designCfgUtils = require('./app/utils/designCfg/designCfgUtils');
-// const scale = require('omelo-scale-plugin');
 
 let SSL = null;
 if (sysConfig.SSL_CERT) {
@@ -123,116 +119,22 @@ app.configure('production|development', function () {
         }
     });
 
-    // master high availability
-    // app.use(masterhaPlugin, {
-    //     zookeeper: {
-    //         server: '127.0.0.1:2181',
-    //         path: '/pomelo/master'
-    //     }
-    // });
-
     // route configures
     const rpcRoute = require('./app/net/rpcRoute');
     app.route('game', rpcRoute.gameRoute);
     app.route('rankMatch', rpcRoute.rankMatchRoute);
 });
 
-// app.configure('production|development', 'master', function() {
-//     app.use(scale, {
-//         scale: {
-//             cpu: {
-//                 connector: 2,
-//                 interval: 10 * 1000,
-//                 increasement: 1
-//             },
-//             memory: {
-//                 lottery: 1,
-//                 interval: 15 * 1000,
-//                 increasement: 1
-//             },
-//             backup: 'config/backupServers.json'
-//         }
-//     });
-// });
-
 // 服务基础配置
-app.configure('production|development', 'loadManager|eventSync|r2mSync|ranking|resource|game|gate|hall|chat|logManager|pay', function () {
+app.configure('production|development', 'gate|', function () {
     global.logger = require('omelo-logger').getLogger(app.getServerId());
-
-    const VER = versions.VER_KEY[versions.PUB];
-    let hotUpdate = new HotUpdate([/.*?\.js$/, /.*?\.json$/]);
-    const GAME_CFG = require('./config/design_cfg');
-    hotUpdate.watch(`config/design_cfg/${VER}`, function (name, value) {
-        GAME_CFG[name] = value;
-        designCfgUtils.updateCfg(name, value);
-    });
-
-    // setInterval(function () {
-    //     global.logger.error(GAME_CFG.active_active_cfg[0].id);
-    // }, 5000);
 });
 
 //服务http配置
-app.configure('production|development', 'resource|gate|hall|chat|pay|loadManager', function () {
+app.configure('production|development', 'gate', function () {
     app.use(omeloHttpPlugin, {
         http: app.get('http')
     });
-});
-
-//服务http service switch配置
-app.configure('production|development', 'resource|gate|hall|chat|pay', function () {
-    omeloHttpPlugin.filter(httpSwitchFilter);
-});
-
-app.configure('production|development', 'resource|gate|hall|chat|pay|loadManager', function () {
-    omeloHttpPlugin.filter(httpAesFilter);
-});
-
-// 服务器token配置
-app.configure('production|development', 'hall|chat|pay', function () {
-    httpTokenFilter.addIgnoreRoute('/payCallback');
-    omeloHttpPlugin.filter(httpTokenFilter);
-    omeloHttpPlugin.filter(activeStatisticsFilter);
-});
-
-// 服务器pay配置
-app.configure('production|development', 'pay', function () {
-    httpLockFilter.addRoute("/pay/clientApi", httpLockFilter.matchMode.PART);
-    omeloHttpPlugin.filter(httpLockFilter);
-});
-
-// 服务器hall配置
-app.configure('production|development', 'hall', function () {
-    httpLockFilter.addRoute('/hall/clientApi/get_social_reward');
-    httpLockFilter.addRoute('/hall/clientApi/get_chart_reward');
-    httpLockFilter.addRoute('/hall/clientApi/get_day_reward');
-    httpLockFilter.addRoute('/hall/clientApi/guide_reward');
-    httpLockFilter.addRoute('/hall/clientApi/daily_reward');
-    httpLockFilter.addRoute('/hall/clientApi/achieve_reward');
-    httpLockFilter.addRoute('/hall/clientApi/mission_reward');
-    httpLockFilter.addRoute('/hall/clientApi/active_reward');
-    httpLockFilter.addRoute('/hall/clientApi/get_adv_gift');
-    httpLockFilter.addRoute('/hall/clientApi/get_ad_reward');
-    httpLockFilter.addRoute('/hall/clientApi/god_week_reward');
-    httpLockFilter.addRoute('/hall/clientApi/rankgame_box');
-    httpLockFilter.addRoute('/hall/clientApi/reward_petfish');
-    httpLockFilter.addRoute('/hall/clientApi/get_activity_reward');
-    httpLockFilter.addRoute('/hall/clientApi/get_day_extra_reward');
-    httpLockFilter.addRoute('/hall/clientApi/diamond_to_gold');
-    httpLockFilter.addRoute('/hall/clientApi/get_weekend_reward');
-    httpLockFilter.addRoute('/hall/clientApi/weapon_buy_skin');
-    omeloHttpPlugin.filter(httpLockFilter);
-});
-
-//资源服资源过期设置
-app.configure('production|development', 'resource', function () {
-    let http304Filter = new Http304Filter();
-    http304Filter.addPath('/default.png');
-    http304Filter.addPath('/jiaodie.png');
-    http304Filter.addPath('/upload/');
-    http304Filter.addPath('/fishjoy/res/raw-assets/');
-    http304Filter.addPath('/fishjoy/res/raw-internal/');
-    omeloHttpPlugin.filter(http304Filter);
 });
 
 // 网关配置
@@ -243,33 +145,17 @@ app.configure('production|development', 'gate', function () {
         useProtobuf: true
     });
 
-    httpTokenFilter.addIgnoreRoute('/auth');
-    httpTokenFilter.addIgnoreRoute('/login');
-    httpTokenFilter.addIgnoreRoute('/register');
-    httpTokenFilter.addIgnoreRoute('/modifyPassword');
-    omeloHttpPlugin.filter(httpTokenFilter);
+    // httpTokenFilter.addIgnoreRoute('/auth');
+    // httpTokenFilter.addIgnoreRoute('/login');
+    // httpTokenFilter.addIgnoreRoute('/register');
+    // httpTokenFilter.addIgnoreRoute('/modifyPassword');
+    // httpTokenFilter.addIgnoreRoute('/index.html');
+    // omeloHttpPlugin.filter(httpTokenFilter);
     app.before(serviceSwitchFilter);
     app.before(tokenFilter);
 
 });
 
-// 游戏服务配置
-app.configure('production|development', 'game', function () {
-    let connectorConfig = {
-        connector: omelo.connectors.hybridconnector,
-        heartbeat: 10,
-        useDict: true,
-        useProtobuf: true
-    };
-    SSL && (connectorConfig.ssl = SSL);
-    app.set('connectorConfig', connectorConfig);
-    // app.use(sync, {sync: {path: __dirname + '/app/logic/mapping', dbclient: redisClient, interval: 500}});
-    app.before(require('./app/servers/common/unLoginFilter'));
-    app.filter(require('./app/servers/game/filter/playerFilter'));
-    app.before(serviceSwitchFilter);
-    app.before(tokenFilter);
-
-});
 
 // start app
 app.start();

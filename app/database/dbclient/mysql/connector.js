@@ -57,83 +57,76 @@ class Connector {
         });
     }
 
-    buildParam(sql, datas) {
-        let sqlParams = [];
-        if (!sql || !datas) {
-            return sqlParams;
-        }
-
-        for (let i = 0; i < datas.length; ++i) {
-            sqlParams.push({
-                sql: sql,
-                params: datas[i]
-            });
-        }
-
-        return sqlParams;
-    }
-
-
     /**
      * 通过事务执行数据库操作
      * @param sqlCmds
      * @param callback
      */
-    execTransaction(sqlParams, callback) {
-        this.pool.getConnection(function (err, connection) {
-            if (err) {
-                callback(err, null);
-                return;
-            }
-            connection.beginTransaction(function (err) {
+    execTransaction(sqlCmds, cb) {
+        return new Promise(function (resolve, reject) {
+            this.pool.getConnection(function (err, connection) {
                 if (err) {
-                    connection.release();
-                    callback(err, null);
+                    logger.error('mysql getConnection err:', err);
+                    utils.invokeCallback(cb, err);
+                    reject(ERROR_OBJ.DB_ERR);
                     return;
                 }
-
-                let funcAry = [];
-                sqlParams.forEach(function (sql_param) {
-                    let temp = function (cb) {
-                        let sql = sql_param.sql;
-                        let param = sql_param.params;
-                        connection.query(sql, param, function (err) {
-                            if (err) {
-                                connection.rollback(function () {
-                                    logger.error("事务失败，", sql_param, " ERROR：", err);
-                                    cb(err);
-                                });
-                            } else {
-                                cb(null);
-                            }
-                        });
-                    };
-                    funcAry.push(temp);
-                });
-
-                async.series(funcAry, function (err, result) {
+                connection.beginTransaction(async function (err) {
                     if (err) {
-                        connection.rollback(function (err) {
-                            logger.error("事务回滚失败， error: " + err);
-                            connection.release();
-                            callback(err, null);
-                        });
-                    } else {
-                        connection.commit(function (err, info) {
-                            if (err) {
-                                logger.error("执行事务失败，", err);
-                                connection.rollback(function () {
-                                    connection.release();
-                                    callback(err, null);
-                                    return;
-                                });
-                            } else {
-                                connection.release();
-                                callback(null, info);
-                                return;
-                            }
-                        });
+                        connection.release();
+                        logger.error('mysql beginTransaction err:', err);
+                        utils.invokeCallback(cb, err);
+                        reject(ERROR_OBJ.DB_ERR);
+                        return;
                     }
+
+                    let funcArray = [];
+                    for (let i = 0; i < sqlCmds.length; i++) {
+                        let sqlCmd = sqlCmds[i];
+                        let func = async function () {
+                            let sql = sqlCmd.sql;
+                            let param = sqlCmd.params;
+                            return new Promise(function (resolve, reject) {
+                                connection.query(sql, param, function (err) {
+                                    if (err) {
+                                        logger.error('mysql operate err=', err);
+                                        reject(err);
+                                    } else {
+                                        resolve();
+                                    }
+                                });
+                            });
+                        };
+                        funcArray.push(func);
+                    }
+
+                    for (let i = 0; i < funcArray.length; i++) {
+                        let func = funcArray[i];
+                        try {
+                            await func();
+                        } catch (e) {
+                            logger.error("数据库操作失败， error: " + e);
+                            connection.rollback(function (err) {
+                                logger.error("事务回滚失败， error: " + err);
+                                connection.release();
+                                utils.invokeCallback(cb, err);
+                                reject(ERROR_OBJ.DB_ERR);
+                                return;
+                            });
+                        }
+                    }
+
+                    connection.commit(function (err) {
+                        connection.release();
+                        utils.invokeCallback(cb, err);
+                        if (err) {
+                            logger.error("执行事务失败，", err);
+                            reject(ERROR_OBJ.DB_ERR);
+                        } else {
+                            resolve();
+                        }
+                    });
+
                 });
             });
         });

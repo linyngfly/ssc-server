@@ -1,4 +1,4 @@
 module.exports ={
-    playerHelper:require('./playerHelper'),
-    playerFieldConst:require('./playerFieldConst'),
+    helper:require('./playerHelper'),
+    fieldConst:require('./playerFieldConst'),
 };

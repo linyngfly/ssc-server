@@ -25,8 +25,14 @@ module.exports = {
             id: 'gate',
             useCluster: false,
             useSSL: versions.SSL,
-            static: false,
-            views: false,
+            static:{
+                enable:true,
+                opts:{
+                    root:null,
+                    index:false
+                }
+            },
+            views: true,
             http: {
                 host: getServerCfg('gate', 'gate').host,
                 publicHost: getServerCfg('gate', 'gate').publicHost,

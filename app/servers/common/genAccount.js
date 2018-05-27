@@ -1,4 +1,4 @@
-const redisAccountSync = require('../../utils/redisAccountSync');
+const models = require('../../models');
 
 class GenAccount {
     constructor() {
@@ -15,7 +15,7 @@ class GenAccount {
             return;
         }
 
-        return await redisAccountSync.getAccountAsync(uid, apiCfg.accountFields);
+        return await models.player.helper.getPlayer(uid, apiCfg.accountFields);
     }
 
     checkParams(url, reqData) {

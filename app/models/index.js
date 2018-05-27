@@ -27,6 +27,6 @@ function readDirSync(_path){
 readDirSync(root);
 
 module.exports = MODELS;
-console.log(MODELS);
+// console.log(MODELS);
 
 // MODELS.player.playerHelper.createPlayer(1, {username:'linyng', phone:'18183276216'});

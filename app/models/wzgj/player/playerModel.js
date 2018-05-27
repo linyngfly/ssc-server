@@ -4,6 +4,7 @@ module.exports = {
         type: "number",
         tbl: 'user',
         require:true,
+        primary_key:true,
         comment: '用户ID'
     },
     username: {
@@ -13,12 +14,25 @@ module.exports = {
         require:true,
         comment: '登录名'
     },
+    openid: {
+        def: '',
+        type: "string",
+        tbl: 'user',
+        require:true,
+        comment: '用户唯一标识'
+    },
     password: {
         def: '',
         type: "string",
         tbl: 'user',
         require:true,
         comment: '登录密码'
+    },
+    nickname: {
+        def: '',
+        type: "string",
+        tbl: 'user',
+        comment: '昵称'
     },
     phone: {
         def: '',
@@ -38,7 +52,7 @@ module.exports = {
         tbl: 'user',
         comment: '登录来源IP'
     },
-    regTime: {
+    created_at: {
         def: '1970-01-02 00:00:00',
         type: "timestamp",
         tbl: 'user',
@@ -56,7 +70,7 @@ module.exports = {
         tbl: 'user',
         comment: '是否激活'
     },
-    forbidTalk: {
+    forbid_talk: {
         def: 0,
         type: "number",
         tbl: 'user',
@@ -74,25 +88,19 @@ module.exports = {
         tbl: 'user',
         comment: '0:玩家,1:一级代理商,2:二级代理商,3:体验用户'
     },
-    roleName: {
-        def: '',
-        type: "string",
-        tbl: 'user',
-        comment: '角色名称'
-    },
-    imageId: {
+    figure_url: {
         def: '1',
         type: "string",
         tbl: 'user',
         comment: '头像id(1~6)'
     },
-    rank: {
+    rank_name: {
         def: '',
         type: "string",
         tbl: 'user',
         comment: '荣誉称号'
     },
-    pinCode: {
+    pin_code: {
         def: '',
         type: "string",
         tbl: 'user',
@@ -114,41 +122,55 @@ module.exports = {
     experience: {
         def: 0,
         type: "number",
+        inc:true,
         tbl: 'user',
         comment: '经验值'
     },
-    loginCount: {
+    login_count: {
         def: 0,
         type: "number",
+        inc:true,
         tbl: 'user',
         comment: '登录次数'
     },
-    lastOnlineTime: {
+    updated_at: {
         def: '1970-01-02 00:00:00',
         type: "timestamp",
         tbl: 'user',
         comment: '最后在线时间'
     },
+    token: {
+        def: '',
+        type: "string",
+        tbl: 'user',
+        comment: '会话token'
+    },
+    test: {
+        def: 1,
+        type: "number",
+        tbl: 'user',
+        comment: '封号标识（<0封号）'
+    },
     ext: {
         def: {},
         type: "object",
         tbl: 'user',
-        comment: '最后在线时间'
+        comment: '扩展数据'
     },
 
-    address: {
+    bank_address: {
         def: '',
         type: "string",
         tbl: 'bank',
         comment: '开户行地址'
     },
-    account: {
+    bank_account: {
         def: '',
         type: "string",
         tbl: 'bank',
         comment: '户名'
     },
-    cardNO: {
+    bank_card: {
         def: '',
         type: "string",
         tbl: 'bank',
@@ -166,17 +188,23 @@ module.exports = {
         tbl: 'bank',
         comment: '支付宝'
     },
-    bindTime: {
+    bind_card_at: {
         def: '1970-01-02 00:00:00',
         type: "timestamp",
         tbl: 'bank',
         comment: '绑卡时间'
     }
 };
-let genCode = false;
-if(global.genCode){
+let genCode = true;
+if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');
-    const filename = path.join(__dirname, 'PlayerCommit.js');
-    genCode.genCommitByModel(module.exports, filename, 'PlayerCommit');
+    const playerCommit = path.join(__dirname, 'PlayerCommit.js');
+    genCode.genCommitByModel(module.exports, playerCommit, 'PlayerCommit');
+
+    const sqlConst = path.join(__dirname, 'sqlConst.js');
+    genCode.genTables(module.exports, sqlConst);
+
+    const fieldConst = path.join(__dirname, 'playerFieldConst.js');
+    genCode.genFieldConst(module.exports, fieldConst);
 }
