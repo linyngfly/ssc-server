@@ -23,7 +23,7 @@ const api_list = {
     register: {
         route: '/register', //内置账号注册
         handler: innerUserAuth.register,
-        params: ['phone','code','nickname','password'],
+        params: ['username','code','nickname','password'],
         accountFields: null,
         ext: {
             getIP: httpUtil.getIP
@@ -39,7 +39,7 @@ const api_list = {
     login: {
         route: '/login', //内置账号登录
         handler: innerUserAuth.login,
-        params: ['phone','password'],
+        params: ['username','password'],
         accountFields: null,
         ext: {
             getIP: httpUtil.getIP

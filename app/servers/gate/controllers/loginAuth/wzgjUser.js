@@ -35,7 +35,7 @@ class WZGJUser extends User {
     }
 
     async isRegister(data){
-        let openid = data.phone;
+        let openid = data.username;
         let uid = await redisConnector.hget(models.redisKeyConst.MAP_OPENID_UID, openid);
         if(uid != null){
             return uid;
@@ -52,11 +52,11 @@ class WZGJUser extends User {
 
     async register(data) {
         //TODO 手机校验
-        this._checkPhoneCode(data.phone, data.code);
+        this._checkPhoneCode(data.username, data.code);
 
         let playerData = _.cloneDeep(data);
-        let openid = data.phone;
-        playerData.username = openid;
+        let openid = data.username;
+        playerData.phone = openid;
         playerData.openid = data.username;
         playerData.password = this._createSalt(data.username + data.password);
 

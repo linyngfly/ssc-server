@@ -17,7 +17,7 @@ module.exports = async function handler(ctx, target, next) {
             reqData.account = await genAccount.getAccount(reqData.uid, ctx.url);
         }
 
-        if (!genAccount.checkParams(ctx, reqData)) {
+        if (!genAccount.checkParams(ctx.url, reqData)) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
 

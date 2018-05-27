@@ -20,10 +20,10 @@ class GenAccount {
 
     checkParams(url, reqData) {
         let apiCfg = this._apiCfgMap.get(url);
-        if (apiCfg && apiCfg.requireParams && apiCfg.requireParams.length > 0) {
-            let requireParams = apiCfg.requireParams;
-            for (let i = 0; i < requireParams.length; i++) {
-                if (reqData[requireParams[i]] == null) {
+        if (apiCfg && apiCfg.params && apiCfg.params.length > 0) {
+            let params = apiCfg.params;
+            for (let i = 0; i < params.length; i++) {
+                if (reqData[params[i]] == null) {
                     return false;
                 }
             }
