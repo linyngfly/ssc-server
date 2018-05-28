@@ -1,3 +1,1 @@
-module.exports = {
-    Lucky28:require('./lucky28')
-};
+module.exports = require('./lucky28');

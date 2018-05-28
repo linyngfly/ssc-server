@@ -1,23 +1,34 @@
 class Canada28{
     constructor(){
-
     }
 
     start(){
-
     }
 
     stop(){
+    }
+
+    async request(route, msg, session){
+        if(!this[route]){
+            throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
+        }
+        this[route](msg, session);
+    }
+
+    async rpc(method, msg){
+        if(!this[method]){
+            throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
+        }
+        this[method](msg);
+    }
+
+    c_bet(msg, session){
 
     }
 
-    request(route, msg, session){
-
-    }
-
-    rpc(method, data){
+    c_unBet(msg, session){
 
     }
 }
 
-module.exports = Canada28;
+module.exports = new Canada28();

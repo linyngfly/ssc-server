@@ -2,15 +2,12 @@ const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 
 class Cqssc{
     constructor(){
-
     }
 
     start(){
-
     }
 
     stop(){
-
     }
 
     async request(route, msg, session){
@@ -36,4 +33,4 @@ class Cqssc{
     }
 }
 
-module.exports = Cqssc;
+module.exports = new Cqssc();

@@ -1,3 +1,1 @@
-module.exports = {
-    Cqssc:require('./cqssc')
-};
+module.exports = require('./cqssc');

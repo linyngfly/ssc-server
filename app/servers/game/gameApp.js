@@ -2,6 +2,7 @@ const omelo = require('omelo');
 const {RedisConnector, MysqlConnector} = require('../../database/dbclient');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const plugins = require('../../plugins');
+console.log('plugins=',plugins);
 
 class GameApp {
     async start() {
@@ -18,6 +19,23 @@ class GameApp {
             return;
         }
 
+        for(let mainType in plugins){
+            let SUB_GAMES = plugins[mainType].SUB_GAMES;
+            if(!SUB_GAMES){
+                plugins[mainType].start();
+                logger.info('启动主游戏', mainType);
+            }else {
+                for(let sub in SUB_GAMES){
+                    logger.info('启动子游戏', sub);
+                    logger.info('启动子游戏', SUB_GAMES);
+                    SUB_GAMES[sub].start();
+
+                }
+            }
+
+
+
+        }
         logger.info('游戏服务启动成功');
     }
 

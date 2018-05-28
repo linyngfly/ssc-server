@@ -1,3 +1,1 @@
-module.exports = {
-    Canada28:require('./canada28')
-};
+module.exports = require('./canada28');
