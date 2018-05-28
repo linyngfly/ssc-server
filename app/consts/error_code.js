@@ -321,6 +321,7 @@ const _errorCode = {
     WEAPON_LEVEL_INVALID: 7109, //非法武器等级
     RM_WEAPON_LEVEL_LIMIT: 7120, // 倍率低于配位赛最低要求
     PHONE_CODE_INVALID: 7121, // 手机验证码无效
+    NOT_SUPPORT_GAME_TYPE: 7122, // 不支持此游戏类型
 };
 
 const _errorObj = {
@@ -1527,10 +1528,13 @@ const _errorObj = {
         msg: i18n.RM_WEAPON_LEVEL_LIMIT[lan],
         code: _errorCode.RM_WEAPON_LEVEL_LIMIT,
     },
-
     PHONE_CODE_INVALID: {
         msg: '手机验证码无效',
         code: _errorCode.PHONE_CODE_INVALID,
+    },
+    NOT_SUPPORT_GAME_TYPE: {
+        msg: '不支持此游戏类型',
+        code: _errorCode.NOT_SUPPORT_GAME_TYPE,
     },
 
     // TODO: 配置表增加字段后解开注释

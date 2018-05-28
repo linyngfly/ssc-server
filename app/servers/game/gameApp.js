@@ -32,9 +32,6 @@ class GameApp {
 
                 }
             }
-
-
-
         }
         logger.info('游戏服务启动成功');
     }
@@ -72,9 +69,11 @@ class GameApp {
                     }
                     session.on('closed', self.close.bind(self));
                     //TODO 处理校验玩家要加入的游戏类型是否支持
-                    let gameType = msg.gameType;
-                    if (plugins[gameType]) {
-                        session.set('gameType', gameType);
+                    let mainType = msg.mainType;
+                    let subType = msg.subType;
+                    if (plugins[mainType] && subType && plugins[mainType][subType]) {
+                        session.set('mainType', mainType);
+                        session.set('subType', subType);
                         session.pushAll((err) => {
                             if (err) {
                                 logger.error('session.pushAll err=', err);
@@ -84,6 +83,8 @@ class GameApp {
                             resolve();
                             logger.info(`用户[${msg.uid}]登陆成功`);
                         })
+                    }else {
+                        reject(ERROR_OBJ.NOT_SUPPORT_GAME_TYPE);
                     }
                 });
             });
