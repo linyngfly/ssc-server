@@ -6,34 +6,17 @@ class ReqHandler {
         this._entry = entry;
     }
 
-    static register(name) {
+    static register(route) {
         let prototype = ReqHandler.prototype;
-        prototype[name] = function (msg, session, next) {
+        prototype[route] = async function (msg, session, next) {
             msg.uid = msg.uid || session.uid;
-            this.request(name, msg, session, next);
+            try{
+                let resp = await this._entry.request(route, msg, session);
+                utils.invokeCallback(next, null, resp || {Error:ERROR_OBJ.OK});
+            }catch (err){
+                utils.invokeCallback(next, null, {Error:err});
+            }
         };
-    }
-
-    request(route, msg, session, next) {
-        try{
-            this._entry.request(route, msg, session, (err, result)=>{
-                this.response(err, result, next);
-            });
-        }catch (err){
-            this.response(err, null, next);
-        }
-    }
-
-    response(err, result, next) {
-        if (err) {
-            utils.invokeCallback(next, null, {Error:err});
-            return;
-        }
-        if (result) {
-            utils.invokeCallback(next, null, result || {Error:ERROR_OBJ.OK});
-        } else {
-            utils.invokeCallback(next, null, {Error:ERROR_OBJ.OK});
-        }
     }
 }
 
