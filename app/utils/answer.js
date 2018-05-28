@@ -34,7 +34,7 @@ function HttpResponse(data, aes, isError = false){
         }
 
     }else{
-        res.err = data;
+        res.error = data;
     }
     return res;
 }

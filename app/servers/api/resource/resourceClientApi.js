@@ -31,6 +31,6 @@ const api_list = {
 
 
 module.exports = {
-    apiCfgs: api_list,
+    API: api_list,
     PREFIX: '/resource/clientApi',
 };

@@ -1,6 +1,6 @@
 const listenApi = require('../../api/listenApi');
-const {apiCfgs,PREFIX} = require('../../api/resource/resourceClientApiConfig');
+const {API,PREFIX} = require('../../api/resource/resourceClientApi');
 
 module.exports = (router) => {
-    listenApi(router, 'resource', 'resourceClientApiConfig', apiCfgs, PREFIX);
+    listenApi(router, 'resource', 'resourceClientApi', API, PREFIX);
 };

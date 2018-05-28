@@ -1,6 +1,6 @@
 const listenApi = require('../../api/listenApi');
-const {apiCfgs,PREFIX} = require('../../api/gate/gateClientApiConfig');
+const {API,PREFIX} = require('../../api/gate/gateClientApi');
 
 module.exports = (router) => {
-    listenApi(router, 'gate', 'gateClientApiConfig', apiCfgs, PREFIX);
+    listenApi(router, 'gate', 'gateClientApi', API, PREFIX);
 };

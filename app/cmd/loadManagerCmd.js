@@ -1,4 +1,4 @@
-const SysCmd = require('./sysCmd');
+const SysCmd = require('./cmd');
 
 /**
  * 登录服务器接口定义

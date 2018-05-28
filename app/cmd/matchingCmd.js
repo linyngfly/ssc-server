@@ -1,4 +1,4 @@
-const SysCmd = require('./sysCmd');
+const SysCmd = require('./cmd');
 
 /**
  * 匹配服务器接口

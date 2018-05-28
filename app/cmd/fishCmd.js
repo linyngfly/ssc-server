@@ -1,4 +1,4 @@
-const SysCmd = require('./sysCmd');
+const SysCmd = require('./cmd');
 class FishCmd extends SysCmd {
     constructor() {
         super();

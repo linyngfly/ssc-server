@@ -14,12 +14,12 @@ function loadApi(list, dir, tag) {
     }
 }
 
-module.exports = function (router, dir, tag, apiCfgs, PREFIX) {
-    loadApi(apiCfgs, dir, tag);
+module.exports = function (router, dir, tag, API, PREFIX) {
+    loadApi(API, dir, tag);
 
     router.prefix(PREFIX);
-    for (let key in apiCfgs) {
-        let apiCfg = apiCfgs[key];
+    for (let key in API) {
+        let apiCfg = API[key];
         router.post(apiCfg.route, async (ctx, next) => {
             if (apiCfg.ext) {
                 for (let i in apiCfg.ext) {

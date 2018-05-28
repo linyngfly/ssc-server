@@ -1,4 +1,4 @@
-class SysCmd {
+class Cmd {
     constructor() {
         this._req = {};
         this._push = {};
@@ -30,4 +30,4 @@ class SysCmd {
     }
 }
 
-module.exports = SysCmd;
+module.exports = Cmd;

@@ -1,7 +1,12 @@
-class ReqHandler {
-    constructor() {}
+const omelo = require('omelo');
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
-    static registe(name) {
+class ReqHandler {
+    constructor(entry) {
+        this._entry = entry;
+    }
+
+    static register(name) {
         let prototype = ReqHandler.prototype;
         prototype[name] = function (msg, session, next) {
             msg.uid = msg.uid || session.uid;
@@ -10,18 +15,24 @@ class ReqHandler {
     }
 
     request(route, msg, session, next) {
-        next(null, answer.respNoData(CONSTS.SYS_CODE.NOT_SUPPORT_SERVICE));
+        try{
+            this._entry.request(route, msg, session, (err, result)=>{
+                this.response(err, result, next);
+            });
+        }catch (err){
+            this.response(err, null, next);
+        }
     }
 
     response(err, result, next) {
         if (err) {
-            utils.invokeCallback(next, null, {error:err});
+            utils.invokeCallback(next, null, {Error:err});
             return;
         }
         if (result) {
-            utils.invokeCallback(next, null, result);
+            utils.invokeCallback(next, null, result || {Error:ERROR_OBJ.OK});
         } else {
-            utils.invokeCallback(next, null, {error:CONSTS.SYS_CODE.OK});
+            utils.invokeCallback(next, null, {Error:ERROR_OBJ.OK});
         }
     }
 }
