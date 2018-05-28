@@ -28,14 +28,17 @@ class GameApp {
     }
 
     async rpc(method, msg) {
-        this[method](msg);
+        if(this[method]){
+            return this[method](msg);
+        }
+        await plugins[msg.gameType].rpc(route, msg);
     }
 
     async request(route, msg, session) {
         if (this[route]) {
             return await this[route](msg, session);
         }
-        await this[route](msg, session);
+        await plugins[session.get('gameType')].request(route, msg, session);
     }
 
     c_enter(msg, session) {

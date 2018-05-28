@@ -1,3 +1,5 @@
+const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
+
 class Cqssc{
     constructor(){
 
@@ -11,11 +13,25 @@ class Cqssc{
 
     }
 
-    request(route, msg, session){
+    async request(route, msg, session){
+        if(!this[route]){
+            throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
+        }
+        this[route](msg, session);
+    }
+
+    async rpc(method, msg){
+        if(!this[method]){
+            throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
+        }
+        this[method](msg);
+    }
+
+    c_bet(msg, session){
 
     }
 
-    rpc(method, data){
+    c_unBet(msg, session){
 
     }
 }
