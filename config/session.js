@@ -1,4 +1,4 @@
 module.exports = {
-	secret: "fishjoy&2017_12_11_@12345",
+	secret: "linyng&2018_05_29_@123654",
 	expire: -1
 };

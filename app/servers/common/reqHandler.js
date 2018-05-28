@@ -1,4 +1,3 @@
-const omelo = require('omelo');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
 class ReqHandler {

@@ -46,39 +46,27 @@ module.exports = {
                 certFile: SSL_CERT.CERT
             },
         }],
-        hall: [{
+        game: [{
             id: 'game-1-1',
             useCluster: false,
             useSSL: versions.SSL,
-            static: false,
+            static:{
+                enable:false,
+                opts:{
+                    root:null,
+                    index:false
+                }
+            },
             views: false,
             http: {
-                host: getServerCfg('hall', 'game-1-1').host,
-                publicHost: getServerCfg('hall', 'game-1-1').publicHost,
+                host: getServerCfg('game', 'game-1-1').host,
+                publicHost: getServerCfg('game', 'game-1-1').publicHost,
                 port: 3602
             },
             https: {
-                host: getServerCfg('hall', 'game-1-1').host,
-                publicHost: getServerCfg('hall', 'game-1-1').publicHost,
+                host: getServerCfg('game', 'game-1-1').host,
+                publicHost: getServerCfg('game', 'game-1-1').publicHost,
                 port: 3604,
-                keyFile: SSL_CERT.KEY,
-                certFile: SSL_CERT.CERT
-            }
-        },{
-            id: 'game-1-2',
-            useCluster: false,
-            useSSL: versions.SSL,
-            static: false,
-            views: false,
-            http: {
-                host: getServerCfg('hall', 'game-1-2').host,
-                publicHost: getServerCfg('hall', 'game-1-2').publicHost,
-                port: 3606
-            },
-            https: {
-                host: getServerCfg('hall', 'game-1-2').host,
-                publicHost: getServerCfg('hall', 'game-1-2').publicHost,
-                port: 3608,
                 keyFile: SSL_CERT.KEY,
                 certFile: SSL_CERT.CERT
             }

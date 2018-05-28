@@ -15,7 +15,7 @@ class GameModule {
             return;
         }
         
-        let loadInfo = this.app.entry.getLoadInfo();
+        let loadInfo = {};//TODO this.app.entry.getLoadInfo();
 
         agent.notify(module.exports.moduleId, {
             serverId: agent.id,

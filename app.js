@@ -8,8 +8,7 @@ const logger = require('omelo-logger').getLogger('default', __filename);
 const sysConfig = require('./config/sysConfig');
 const globalChannel = require('omelo-globalchannel-plugin');
 const status = require('omelo-status-plugin');
-const HotUpdate = require('./app/utils/hotUpdate');
-
+const sscCmd = require('./app/cmd/sscCmd');
 let SSL = null;
 if (sysConfig.SSL_CERT) {
     SSL = {
@@ -126,12 +125,12 @@ app.configure('production|development', function () {
 });
 
 // 服务基础配置
-app.configure('production|development', 'gate|', function () {
+app.configure('production|development', 'gate|game|resource', function () {
     global.logger = require('omelo-logger').getLogger(app.getServerId());
 });
 
 //服务http配置
-app.configure('production|development', 'gate', function () {
+app.configure('production|development', 'gate|game|resource', function () {
     app.use(omeloHttpPlugin, {
         http: app.get('http')
     });
@@ -139,12 +138,6 @@ app.configure('production|development', 'gate', function () {
 
 // 网关配置
 app.configure('production|development', 'gate', function () {
-    app.set('connectorConfig', {
-        connector: omelo.connectors.hybridconnector,
-        useDict: true,
-        useProtobuf: true
-    });
-
     // httpTokenFilter.addIgnoreRoute('/auth');
     // httpTokenFilter.addIgnoreRoute('/login');
     // httpTokenFilter.addIgnoreRoute('/register');
@@ -152,8 +145,19 @@ app.configure('production|development', 'gate', function () {
     // httpTokenFilter.addIgnoreRoute('/index.html');
     // omeloHttpPlugin.filter(httpTokenFilter);
     app.before(serviceSwitchFilter);
-    app.before(tokenFilter);
+});
 
+// 游戏服务配置
+app.configure('production|development', 'game', function () {
+    let connectorConfig = {
+        connector: omelo.connectors.hybridconnector,
+        heartbeat: 10,
+        useDict: true,
+        useProtobuf: true
+    };
+    SSL && (connectorConfig.ssl = SSL);
+    app.set('connectorConfig', connectorConfig);
+    app.before(tokenFilter);
 });
 
 

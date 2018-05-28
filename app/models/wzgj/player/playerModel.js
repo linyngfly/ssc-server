@@ -195,7 +195,7 @@ module.exports = {
         comment: '绑卡时间'
     }
 };
-let genCode = true;
+let genCode = false;
 if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');

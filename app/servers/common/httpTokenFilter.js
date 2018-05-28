@@ -9,35 +9,17 @@ class HttpTokenFilter {
 
     async before(ctx, next) {
         try {
-            let ignore = false;
             for (let route of this._ignoreRouteMap) {
                 if (ctx.url.search(route) >= 0) {
-                    ignore = true;
-                    break;
+                    return await next();
                 }
             }
 
-            if (ignore == false && !!ctx.request.body && !!ctx.request.body && !!ctx.request.body.token && ctx.request.body.token !== undefined) {
-                let token = ctx.request.body.token;
-                if (token) {
-                    let strs = token.split('_');
-                    if (strs.length >= 2) {
-                        let uid = Number.parseInt(strs[0]);
-                        if (!Number.isNaN(uid)) {
-                            await checkToken(uid, token);
-                            ignore = true;
-                            ctx.request.body.uid = uid;
-                        }
-                    }
-                }
+            if (ctx.request.body && ctx.request.body.token) {
+                ctx.request.body.uid = await checkToken(ctx.request.body.token);
+            }else {
+                throw ERROR_OBJ.PARAM_MISSING;
             }
-
-            if (ignore) {
-                await next();
-            } else {
-                throw ERROR_OBJ.TOKEN_INVALID;
-            }
-
         } catch (err) {
             logger.info(ctx.url, '会话TOKEN无效，请重新登录', err);
             ctx.body = answer.httpResponse(err, ctx.request.body.aes, true);

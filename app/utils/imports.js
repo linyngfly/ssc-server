@@ -3,6 +3,7 @@ const versionsUtil = require('../../config/versionsUtil');
 
 module.exports = {
     DESIGN_CFG: require('../../config/design_cfg'),
+    session: require('../../config/session'),
     versions: versions,
     versionsUtil: versionsUtil,
     dbCfg: require('../../config/db'),
