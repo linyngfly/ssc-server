@@ -1,6 +1,7 @@
 const omelo = require('omelo');
-const { RedisConnector, MysqlConnector } = require('../../database/dbclient');
+const {RedisConnector, MysqlConnector} = require('../../database/dbclient');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
+const plugins = require('../../plugins');
 
 class GameApp {
     async start() {
@@ -31,7 +32,7 @@ class GameApp {
     }
 
     async request(route, msg, session) {
-        if(this[route]){
+        if (this[route]) {
             return await this[route](msg, session);
         }
         await this[route](msg, session);
@@ -40,18 +41,29 @@ class GameApp {
     c_enter(msg, session) {
         let self = this;
         let sessionService = omelo.app.get('sessionService');
-
         return new Promise(function (resolve, reject) {
-            sessionService.kick(msg.uid, function () {
-                session.bind(msg.uid, function (err) {
-                    if(err){
-                        reject(err);
+            sessionService.kick(msg.uid, () => {
+                session.bind(msg.uid, (err) => {
+                    if (err) {
+                        logger.error('session.bind err=', err);
+                        reject(ERROR_OBJ.NETWORK_ERROR);
                         return;
                     }
                     session.on('closed', self.close.bind(self));
                     //TODO 处理校验玩家要加入的游戏类型是否支持
-                    resolve();
-                    logger.info(`用户[${msg.uid}]登陆成功`);
+                    let gameType = msg.gameType;
+                    if (plugins[gameType]) {
+                        session.set('gameType', gameType);
+                        session.pushAll((err) => {
+                            if (err) {
+                                logger.error('session.pushAll err=', err);
+                                reject(ERROR_OBJ.NETWORK_ERROR);
+                                return;
+                            }
+                            resolve();
+                            logger.info(`用户[${msg.uid}]登陆成功`);
+                        })
+                    }
                 });
             });
         });
