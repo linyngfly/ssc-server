@@ -1,8 +1,0 @@
-{
-  "development": {
-    "id": "master", "host": "103.90.220.2", "port": 3005
-  },
-  "production": {
-    "id": "master", "host": "103.90.220.2", "port": 3005
-  }
-}

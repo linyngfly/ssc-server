@@ -5,8 +5,8 @@
         "port": 3306,
         "auth":true,
         "user": "root",
-        "password": "root",
-        "database": "fishjoy",
+        "password": "linyng",
+        "database": "lottery",
         "charset": "utf8"
     },
     "ext": {
