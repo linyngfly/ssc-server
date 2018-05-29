@@ -1,5 +1,8 @@
 module.exports = {
     BET_CLOSE_RESERVE_DURATION:30, //投注提前关闭时间
+    DES_SEPARATOR:'/',
+    BET_SEPARATOR:'/',
+
     BET_STATE:{    // 0待开奖，1 撤销，2 赢 3输
         BET_WAIT:1,
         BET_CANCEL:2,
@@ -8,7 +11,7 @@ module.exports = {
         BET_BACK:5
     },
     CQSSC:{
-        Bet_Type:{
+        BetType:{
             UNKNOWN:0,
             SIZE:1,
             POS:2,
