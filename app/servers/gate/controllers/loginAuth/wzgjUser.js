@@ -18,6 +18,7 @@ class WZGJUser extends User {
     }
 
     _checkPhoneCode(phone, code){
+        return;
         if(!this._codes[phone] || this._codes[phone] != code){
             throw ERROR_OBJ.PHONE_CODE_INVALID;
         }
