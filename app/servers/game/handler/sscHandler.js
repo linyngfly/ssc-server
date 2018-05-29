@@ -10,9 +10,18 @@ class SscHandler extends ReqHandler{
 
 module.exports = function () {
     let req = sscCmd.request;
+    let checkMap = new Map();
     for(let k of Object.keys(req)){
-        SscHandler.register(req[k].route.split('.')[2]);
+        let route = req[k].route.split('.')[2];
+        let protocol = req[k].msg;
+        SscHandler.register(route);
+        let params = SscHandler.getParams(protocol);
+        if(params){
+            checkMap.set(route, params);
+        }
     }
+    let handler = new SscHandler();
+    handler.checkMap = checkMap;
     return new SscHandler();
 };
 

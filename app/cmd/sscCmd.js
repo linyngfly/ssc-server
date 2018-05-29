@@ -39,12 +39,14 @@ class SSCCmd extends Cmd {
         };
         /**
          * 玩家投注
-         * @type {{route: string, msg: {}, res: {}}}
+         * @type {{route: string, msg: {betData: string}, resp: {}}}
          */
         this._req.bet = {
             route: 'game.sscHandler.c_bet',
-            msg: {},
-            res: {}
+            msg: {
+                betData:'大100'
+            },
+            resp: {}
         };
 
         this._req.unBet = {
