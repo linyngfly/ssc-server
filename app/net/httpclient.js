@@ -9,13 +9,13 @@ const httpclient = module.exports;
 httpclient.postData = function (data, url) {
     // let postData = querystring.stringify(data);
     let postData = JSON.stringify(data);
-    let url_fileds = URL.parse(url);
-    let enableHttps = url_fileds.protocol === 'https:';
+    let fields = URL.parse(url);
+    let enableHttps = fields.protocol === 'https:';
     const options = {
         method: "POST",
-        host: url_fileds.hostname,
-        port: url_fileds.port,
-        path: url_fileds.path,
+        host: fields.hostname,
+        port: fields.port,
+        path: fields.path,
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             'Content-Length': Buffer.byteLength(postData)
@@ -45,11 +45,23 @@ httpclient.postData = function (data, url) {
 };
 
 httpclient.getData = function (url) {
-    let url_fileds = URL.parse(url);
-    let enableHttps = url_fileds.protocol === 'https:';
+    let fields = URL.parse(url);
+    let enableHttps = fields.protocol === 'https:';
     return new Promise(function (resolve, reject) {
         let net = enableHttps ? https : http;
-        let req = net.request(url, function (res) {
+        const options = {
+            method: "GET",
+            host: fields.hostname,
+            port: fields.port,
+            path: fields.path,
+        };
+        let req = net.request(options, function (res) {
+            if(res.statusCode != 200){
+                logger.error('http请求失败，statusCode=', res.statusCode);
+                reject(ERROR_OBJ.NETWORK_ERROR);
+                return;
+            }
+
             let bufCache = null;
             res.on('data', function (chunk) {
                 if (!bufCache) {

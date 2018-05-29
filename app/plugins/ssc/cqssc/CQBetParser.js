@@ -70,7 +70,7 @@ class CQBetParser{
         this._CQBetDict.init();
     }
 
-    checkType(betData) {
+    _checkType(betData) {
         let type = null;
         let splitData = null;
         for(;;){
@@ -115,7 +115,7 @@ class CQBetParser{
         return [type,splitData];
     }
 
-    handleSize(splitData) {
+    _handleSize(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -155,7 +155,7 @@ class CQBetParser{
         return [null, parseResult];
     }
 
-    handlePos(splitData) {
+    _handlePos(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -206,7 +206,7 @@ class CQBetParser{
         return [null, parseResult];
     }
 
-    handleNum(splitData) {
+    _handleNum(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -246,7 +246,7 @@ class CQBetParser{
         return [null, parseResult];
     }
 
-    handleBS1(splitData) {
+    _handleBS1(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -286,7 +286,7 @@ class CQBetParser{
         return [null, parseResult];
     }
 
-    handleBS2(splitData) {
+    _handleBS2(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -336,7 +336,7 @@ class CQBetParser{
         return [null, parseResult];
     }
 
-    handleBS3(splitData) {
+    _handleBS3(splitData) {
         let parseResult = {
             total:0,
             betTypeInfo:{},
@@ -374,39 +374,37 @@ class CQBetParser{
     }
 
     parse(data){
-
         let parseRet = null;
-        let [type, splitData] = this.checkType(data);
+        let [type, splitData] = this._checkType(data);
         switch (type){
             case config.CQSSC.BetType.SIZE:{
-                parseRet = this.handleSize(splitData);
+                parseRet = this._handleSize(splitData);
             }
                 break;
             case config.CQSSC.BetType.POS:{
-                parseRet = this.handlePos(splitData);
+                parseRet = this._handlePos(splitData);
             }
                 break;
             case config.CQSSC.BetType.NUM:{
-                parseRet = this.handleNum(splitData);
+                parseRet = this._handleNum(splitData);
             }
                 break;
             case config.CQSSC.BetType.BS1:{
-                parseRet = this.handleBS1(splitData);
+                parseRet = this._handleBS1(splitData);
             }
                 break;
             case config.CQSSC.BetType.BS2:{
-                parseRet = this.handleBS2(splitData);
+                parseRet = this._handleBS2(splitData);
             }
                 break;
             case config.CQSSC.BetType.BS3:{
-                parseRet = this.handleBS3(splitData);
+                parseRet = this._handleBS3(splitData);
             }
                 break;
             default:
                 parseRet = [ERROR_OBJ.BET_DATA_INVALID];
                 break;
         }
-
         return parseRet;
     }
 }

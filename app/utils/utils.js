@@ -184,13 +184,13 @@ utils.generateSessionToken = function (uid) {
     return uid + '_' + crypto.randomBytes(24).toString('hex');
 };
 
-Object.deepClone=(obj)=>{
+Object.deepClone = (obj) => {
     return clone(obj);
- };
+};
 
 // 格式化时间
-Date.prototype.format = function (fmt) {
-    var o = {
+Date.prototype.format = function (fmt = 'yyyy-MM-dd hh:mm:ss') {
+    let o = {
         'M+': this.getMonth() + 1, // 月份
         'd+': this.getDate(), // 日
         'h+': this.getHours(), // 小时
@@ -202,7 +202,7 @@ Date.prototype.format = function (fmt) {
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
     }
-    for (var k in o) {
+    for (let k in o) {
         if (new RegExp('(' + k + ')').test(fmt)) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1)
                 ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));

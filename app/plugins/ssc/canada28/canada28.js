@@ -1,3 +1,8 @@
+/**
+ * http://www2.opencai.net/apifree/
+ * 加拿大卑斯快乐8
+ */
+
 class Canada28{
     constructor(){
     }

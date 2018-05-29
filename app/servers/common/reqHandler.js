@@ -33,8 +33,8 @@ class ReqHandler {
             msg.uid = msg.uid || session.uid;
             try{
                 this._checkParam(route, msg);
-                let resp = await this._entry.request(route, msg, session);
-                utils.invokeCallback(next, null, resp || {Error:ERROR_OBJ.OK});
+                let [err, resp] = await this._entry.request(route, msg, session);
+                utils.invokeCallback(next, err, resp || {Error:ERROR_OBJ.OK});
             }catch (err){
                 utils.invokeCallback(next, null, {Error:err});
             }

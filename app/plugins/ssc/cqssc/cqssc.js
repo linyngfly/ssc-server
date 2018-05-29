@@ -33,6 +33,10 @@ class Cqssc{
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
+        let [err, parseRet] = this._betParser.parse(msg.betData);
+        if(err){
+            return [err];
+        }
 
     }
 
