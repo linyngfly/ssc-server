@@ -90,7 +90,7 @@ class CQBetParser{
 
     handlePos(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -98,7 +98,7 @@ class CQBetParser{
 
         let result = betData.match(this._reg2);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
@@ -107,14 +107,14 @@ class CQBetParser{
         //投注位置1～5
         for(let i = 0; i< ballPos.length;++i){
             if(ballPos[i]> 5 ||ballPos[i]<=0){
-                parseResult.error = Code.GAME.FA_BET_BALL_INVALID;
+                parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                 return parseResult;
             }
         }
 
         let perMoney = parseInt(result[3],10);
         if(isNaN(perMoney) || perMoney === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -125,7 +125,7 @@ class CQBetParser{
                 if(betType){
                     let item = {};
                     item.type = betType;
-                    item.result = ballPos[j] + this.consts.BET_SEPARATOR + types[i];
+                    item.result = ballPos[j] + config.BET_SEPARATOR + types[i];
                     item.money = perMoney;
 
                     parseResult.betItems.push(item);
@@ -141,7 +141,7 @@ class CQBetParser{
                     parseResult.betTypeInfo[betType.code].desc += `${item.result}${config.DES_SEPARATOR}${perMoney} `;
 
                 }else {
-                    parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+                    parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                     return parseResult;
                 }
             }
@@ -152,7 +152,7 @@ class CQBetParser{
 
     handleNum(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -160,13 +160,13 @@ class CQBetParser{
 
         let result = betData.match(this._reg3);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
         let perMoney = parseInt(result[2],10);
         if(isNaN(perMoney) || perMoney === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -177,7 +177,7 @@ class CQBetParser{
                 if(betType){
                     let tempItem = {};
                     tempItem.type = betType;
-                    tempItem.result = j + this.consts.BET_SEPARATOR + types[i];
+                    tempItem.result = j + config.BET_SEPARATOR + types[i];
                     tempItem.money = perMoney;
                     parseResult.betItems.push(tempItem);
 
@@ -191,7 +191,7 @@ class CQBetParser{
                     parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney} `;
                 }
                 else {
-                    parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+                    parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                     return parseResult;
                 }
             }
@@ -202,7 +202,7 @@ class CQBetParser{
 
     handleBS1(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -210,13 +210,13 @@ class CQBetParser{
 
         let result = betData.match(this._reg4);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
         let perMoney = parseInt(result[2],10);
         if(isNaN(perMoney) || perMoney === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -241,7 +241,7 @@ class CQBetParser{
                     parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney} `;
                 }
                 else {
-                    parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+                    parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                     return parseResult;
                 }
             }
@@ -252,7 +252,7 @@ class CQBetParser{
 
     handleBS2(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -260,7 +260,7 @@ class CQBetParser{
 
         let result = betData.match(this._reg5);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
@@ -275,7 +275,7 @@ class CQBetParser{
         });
 
         if(isNaN(sum) || sum === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -302,7 +302,7 @@ class CQBetParser{
                     parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${tempItem.money} `;
                 }
                 else {
-                    parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+                    parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                     return parseResult;
                 }
             }
@@ -313,7 +313,7 @@ class CQBetParser{
 
     handleBS3(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -321,13 +321,13 @@ class CQBetParser{
 
         let result = betData.match(this._reg6);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
         let perMoney = parseInt(result[3],10);
         if(isNaN(perMoney) || perMoney === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -335,7 +335,7 @@ class CQBetParser{
         let type = result[2];
         let betType = this._CQBetDict.get(key+type);
         if(!betType){
-            parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+            parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
             return parseResult;
         }
 
@@ -386,11 +386,11 @@ class CQBetParser{
             }
                 break;
             default:
-                parseRet = {error:Code.GAME.FA_BET_INFO_INVALID};
+                parseRet = {error:ERROR_OBJ.BET_TYPE_NOT_EXIST};
                 break;
         }
 
-        if(!!parseRet && parseRet.error.code === Code.OK.code){
+        if(!!parseRet && parseRet.error.code === ERROR_OBJ.OK.code){
             cb(null, parseRet);
         }
         else {

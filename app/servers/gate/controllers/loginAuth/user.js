@@ -1,5 +1,5 @@
 const moment = require('moment');
-const token = require('../../../../utils/token');
+const Token = require('../../../../utils/token');
 const session = require('../../../../utils/imports').session;
 const crypto = require('crypto');
 const models = require('../../../../models');
@@ -43,10 +43,10 @@ class User {
 
     async _afterLogin(data){
         let player = data.player;
-        let token = token.create(player.uid, Date.now(), session.secret);
+        let token = Token.create(player.uid, Date.now(), session.secret);
         player.token = token;
         player.updated_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        player.login_count += 1;
+        player.login_count = 1;
         await player.commit();
     }
 }

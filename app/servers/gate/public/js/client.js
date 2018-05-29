@@ -327,9 +327,9 @@ $(document).ready(function () {
             nickname: nickname,
             password: password,
         }, function (resp) {
-            if (resp.err) {
-                alert('registe err='+ JSON.stringify(resp.err));
-                console.log(resp.err);
+            if (resp.error) {
+                alert('registe err='+ JSON.stringify(resp.error));
+                console.log(resp.error);
             } else {
                 alert('registe ok！');
                 console.log(resp.data);
@@ -347,8 +347,8 @@ $(document).ready(function () {
         let password = $('#loginPwd').val().trim();
 
         $.post(httpHost + 'gate/clientApi/login', {username: username, password:password}, function (resp) {
-            if (resp.err) {
-                alert('login err='+ JSON.stringify(resp.err));
+            if (resp.error) {
+                alert('login err='+ JSON.stringify(resp.error));
                 return;
             }
             console.log('login resp=', resp.data);
