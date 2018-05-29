@@ -1,4 +1,5 @@
-const error_code = require('../../consts/error_code');
+const ERROR_CODE = require('../../consts/error_code').ERROR_CODE;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
 const _errorCode = {
     QUERY_LOTTERY_INFO_ERROR: 10000, //查询开奖信息失败
@@ -12,6 +13,10 @@ const _errorCode = {
     BET_CHANNEL_CLOSE: 10008, //本期投注已关闭
     BET_DATA_INVALID: 10009, //投注数据无效
 };
+
+for(let item in ERROR_CODE){
+    _errorCode[item] = ERROR_CODE[item];
+}
 
 const _errorObj = {
 
@@ -57,6 +62,10 @@ const _errorObj = {
         code: _errorCode.BET_DATA_INVALID,
     },
 };
+
+for(let item in ERROR_OBJ){
+    _errorObj[item] = ERROR_OBJ[item];
+}
 
 module.exports.ERROR_CODE = _errorCode;
 module.exports.ERROR_OBJ = _errorObj;
