@@ -322,6 +322,7 @@ const _errorCode = {
     RM_WEAPON_LEVEL_LIMIT: 7120, // 倍率低于配位赛最低要求
     PHONE_CODE_INVALID: 7121, // 手机验证码无效
     NOT_SUPPORT_GAME_TYPE: 7122, // 不支持此游戏类型
+
 };
 
 const _errorObj = {
@@ -1537,9 +1538,6 @@ const _errorObj = {
         code: _errorCode.NOT_SUPPORT_GAME_TYPE,
     },
 
-    // TODO: 配置表增加字段后解开注释
-    // FIRST_RECHARGE_NO_RMB: { code: _errorCode.FIRST_RECHARGE_NO_RMB, msg: i18n.FIRST_RECHARGE_NO_RMB[lan] },
-    // FIRST_RECHARGE_ALREADY: { code: _errorCode.FIRST_RECHARGE_ALREADY, msg: i18n.FIRST_RECHARGE_ALREADY[lan] },
 };
 
 module.exports.ERROR_CODE = _errorCode;

@@ -2,7 +2,7 @@
  * Created by linyng on 17-5-22.
  */
 
-const Code = require('../../../shared/code');
+const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 const config = require('../config');
 const CQBetDict = require('./CQBetDict');
 
@@ -41,7 +41,7 @@ class CQBetParser{
 
     handleSize(betData) {
         let parseResult = {
-            error:Code.OK,
+            error:ERROR_OBJ.OK,
             total:0,
             betTypeInfo:{},
             betItems:[]
@@ -49,13 +49,13 @@ class CQBetParser{
 
         let result = betData.match(this._reg1);
         if(!result){
-            parseResult.error = Code.GAME.FA_BET_TYPE_NOT_EXIST;
+            parseResult.error = ERROR_OBJ.BET_TYPE_NOT_EXIST;
             return parseResult;
         }
 
         let perMoney = parseInt(result[2],10);
         if(isNaN(perMoney) || perMoney === 0){
-            parseResult.error = Code.GAME.FA_BET_MONEY_INVALID;
+            parseResult.error = ERROR_OBJ.BET_AMOUNT_INVALID;
             return parseResult;
         }
 
@@ -80,7 +80,7 @@ class CQBetParser{
                 parseResult.betTypeInfo[betType.code].desc += `${item.result}/${perMoney} `;
             }
             else {
-                parseResult.error = Code.GAME.FA_BET_OPERATE_INVALID;
+                parseResult.error = ERROR_OBJ.BET_DATA_INVALID;
                 return parseResult;
             }
         }
