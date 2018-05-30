@@ -4,9 +4,11 @@ const querystring = require('querystring');
 const URL = require('url');
 const ERROR_OBJ = require('../consts/error_code').ERROR_OBJ;
 
-const httpclient = module.exports;
+module.exports.postData = _postData;
+module.exports.getData = _getData;
+module.exports.get = _get;
 
-httpclient.postData = function (data, url) {
+function _postData(data, url) {
     // let postData = querystring.stringify(data);
     let postData = JSON.stringify(data);
     let fields = URL.parse(url);
@@ -41,20 +43,22 @@ httpclient.postData = function (data, url) {
         req.write(postData);
         req.end();
     });
+}
 
-};
-
-httpclient.getData = function (url) {
+function _getData(url) {
     let fields = URL.parse(url);
-    let enableHttps = fields.protocol === 'https:';
+    const options = {
+        method: "GET",
+        host: fields.hostname,
+        port: fields.port,
+        path: fields.path,
+    };
+    return _get(options, fields.protocol === 'https:');
+}
+
+function _get(options, isHttps = false){
+    let net = isHttps ? https : http;
     return new Promise(function (resolve, reject) {
-        let net = enableHttps ? https : http;
-        const options = {
-            method: "GET",
-            host: fields.hostname,
-            port: fields.port,
-            path: fields.path,
-        };
         let req = net.request(options, function (res) {
             if(res.statusCode != 200){
                 logger.error('http请求失败，statusCode=', res.statusCode);
@@ -80,6 +84,6 @@ httpclient.getData = function (url) {
             reject(ERROR_OBJ.NETWORK_ERROR);
         });
         req.end();
-
     });
-};
+}
+
