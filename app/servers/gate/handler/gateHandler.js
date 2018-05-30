@@ -1,12 +1,25 @@
 const ReqHandler = require('../../common/reqHandler');
 const gateCmd = require('../../../cmd/gateCmd');
 
-class GateHandler extends ReqHandler{}
+class GateHandler extends ReqHandler{
+    constructor(){
+        super(omelo.app.entry);
+    }
+}
 
 module.exports = function () {
     let req = gateCmd.request;
+    let checkMap = new Map();
     for(let k of Object.keys(req)){
-        GateHandler.register(req[k].route.split('.')[2]);
+        let route = req[k].route.split('.')[2];
+        let protocol = req[k].msg;
+        GateHandler.register(route);
+        let params = GateHandler.getParams(protocol);
+        if(params){
+            checkMap.set(route, params);
+        }
     }
-    return  new GateHandler();
+    let handler = new GateHandler();
+    handler.checkMap = checkMap;
+    return  handler;
 };

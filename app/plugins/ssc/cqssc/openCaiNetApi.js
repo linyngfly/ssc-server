@@ -3,20 +3,25 @@ const util = require('util');
 const config = require('../config');
 const httpclient = require('../../../net/httpclient');
 
+/**
+ * https://user.opencai.net/bucket/order.aspx
+ * 账户 18108083126  密码dswd2017
+ */
+
 class OpenCaiNetApi {
     constructor() {
         this._sdkAddress = [
             {
-                host: 'r.apiplus.net',
+                host: 'ho.apiplus.net',
                 port: 80,
                 method: "GET",
-                path: '/newly.do?token=8396675f3e16356cd2d20d7c84d1aa58&code=%s&rows=%d&format=json'
+                path: '/newly.do?token=t208b2a08fd475e76k&code=%s&rows=%d&format=json'
             },
             {
-                host: 'r.apiplus.net',
+                host: 'z.apiplus.net',
                 port: 80,
                 method: "GET",
-                path: '/newly.do?token=b8df1b564c190ccb343f3308b6a3379e&code=%s&rows=%d&format=json'
+                path: '/newly.do?token=t208b2a08fd475e76k&code=%s&rows=%d&format=json'
             }
         ];
     }
@@ -28,11 +33,6 @@ class OpenCaiNetApi {
     }
 
     async getLotteryInfo(type, rows = 2) {
-
-        this._sdkAddress.sort(() => {
-            return Math.random() > 0.5 ? -1 : 1;
-        });
-
         let lotteryInfo = {};
         for (let i = 0; i < this._sdkAddress.length; i++) {
             try {

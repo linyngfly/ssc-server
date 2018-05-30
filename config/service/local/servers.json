@@ -9,9 +9,16 @@
     "resource": [{
       "id": "resource",
       "host": "127.0.0.1",
-      "port": 3501,
+      "port": 3101,
       "publicHost": "127.0.0.1",
-      "args": " --inspect=127.0.0.1:13501"
+      "args": " --inspect=127.0.0.1:13101"
+    }],
+    "lottery": [{
+      "id": "lottery",
+      "host": "127.0.0.1",
+      "port": 3201,
+      "publicHost": "127.0.0.1",
+      "args": " --inspect=127.0.0.1:13201"
     }],
     "game": [{
       "id": "game-1-1",

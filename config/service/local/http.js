@@ -46,6 +46,50 @@ module.exports = {
                 certFile: SSL_CERT.CERT
             },
         }],
+        resource: [{
+            id: 'resource',
+            useCluster: true,
+            useSSL: versions.SSL,
+            static:{
+                enable:true,
+                opts:{
+                    root:null,
+                    index:false
+                }
+            },
+            views: true,
+            http: {
+                host: getServerCfg('resource', 'resource').host,
+                publicHost: getServerCfg('resource', 'resource').publicHost,
+                port: 3102
+            },
+            https: {
+                host: getServerCfg('resource', 'resource').host,
+                publicHost: getServerCfg('resource', 'resource').publicHost,
+                port: 443,
+                keyFile: SSL_CERT.KEY,
+                certFile: SSL_CERT.CERT
+            }
+        }],
+        lottery: [{
+            id: 'lottery',
+            useCluster: false,
+            useSSL: versions.SSL,
+            static: false,
+            views: false,
+            http: {
+                host: getServerCfg('lottery', 'lottery').host,
+                publicHost: getServerCfg('lottery', 'lottery').publicHost,
+                port: 3202
+            },
+            https: {
+                host: getServerCfg('lottery', 'lottery').host,
+                publicHost: getServerCfg('lottery', 'lottery').publicHost,
+                port: 3204,
+                keyFile: SSL_CERT.KEY,
+                certFile: SSL_CERT.CERT
+            }
+        }],
         game: [{
             id: 'game-1-1',
             useCluster: false,
@@ -86,73 +130,6 @@ module.exports = {
                 host: getServerCfg('chat', 'chat').host,
                 publicHost: getServerCfg('chat', 'chat').publicHost,
                 port: 3704,
-                keyFile: SSL_CERT.KEY,
-                certFile: SSL_CERT.CERT
-            }
-        }],
-        admin: [{
-            id: 'admin',
-            useCluster: false,
-            useSSL: versions.SSL,
-            static: true,
-            views: true,
-            http: {
-                host: getServerCfg('admin', 'admin').host,
-                publicHost: getServerCfg('admin', 'admin').publicHost,
-                port: 3802
-            },
-            https: {
-                host: getServerCfg('admin', 'admin').host,
-                publicHost: getServerCfg('admin', 'admin').publicHost,
-                port: 443,
-                keyFile: SSL_CERT.KEY,
-                certFile: SSL_CERT.CERT
-            },
-            session: {
-                store: dbCfg.redis.server,
-                maxAge: 36000000
-            }
-        }],
-        resource: [{
-            id: 'resource',
-            useCluster: true,
-            useSSL: versions.SSL,
-            static:{
-                enable:true,
-                opts:{
-                    root:null,
-                    index:false
-                }
-            },
-            views: true,
-            http: {
-                host: getServerCfg('resource', 'resource').host,
-                publicHost: getServerCfg('resource', 'resource').publicHost,
-                port: 3502
-            },
-            https: {
-                host: getServerCfg('resource', 'resource').host,
-                publicHost: getServerCfg('resource', 'resource').publicHost,
-                port: 443,
-                keyFile: SSL_CERT.KEY,
-                certFile: SSL_CERT.CERT
-            }
-        }],
-        pay: [{
-            id: 'pay',
-            useCluster: false,
-            useSSL: versions.SSL,
-            static: false,
-            views: false,
-            http: {
-                host: getServerCfg('pay', 'pay').host,
-                publicHost: getServerCfg('pay', 'pay').publicHost,
-                port: 4202
-            },
-            https: {
-                host: getServerCfg('pay', 'pay').host,
-                publicHost: getServerCfg('pay', 'pay').publicHost,
-                port: 4204,
                 keyFile: SSL_CERT.KEY,
                 certFile: SSL_CERT.CERT
             }
