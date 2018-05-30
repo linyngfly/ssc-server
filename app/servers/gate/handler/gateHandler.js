@@ -1,5 +1,6 @@
 const ReqHandler = require('../../common/reqHandler');
 const gateCmd = require('../../../cmd/gateCmd');
+const omelo = require('omelo');
 
 class GateHandler extends ReqHandler{
     constructor(){

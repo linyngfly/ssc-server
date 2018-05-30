@@ -9,4 +9,4 @@ class BonusPool{
     }
 }
 
-module.export = BonusPool;
+module.exports = BonusPool;
