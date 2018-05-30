@@ -10,6 +10,18 @@ module.exports = {
         BET_LOSE:4,
         BET_BACK:5
     },
+
+    OPEN_CAI_NET:{
+        BJKL8:{
+            CODE:'bjkl8',
+            INTERVAL: 5
+        },
+        CAKENO:{
+            CODE:'cakeno',
+            INTERVAL: 3
+        }
+    },
+
     CQSSC:{
         BetType:{
             UNKNOWN:0,
@@ -40,9 +52,9 @@ module.exports = {
 
     },
     CANADA28:{
-
+        LOTTERY_CODE:'bjkl8'
     },
     LUCKY28:{
-
+        LOTTERY_CODE:'bjkl8'
     }
 };

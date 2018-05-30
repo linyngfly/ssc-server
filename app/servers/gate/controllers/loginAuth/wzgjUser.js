@@ -3,7 +3,7 @@ const User = require('./user');
 const models = require('../../../../models');
 const ERROR_OBJ = require('../../../../consts/error_code').ERROR_OBJ;
 const moment = require('moment');
-const QUERY_UID_BY_OPENID = "SELECT `uid` FROM `user` WHERE `openid`=? ";
+const QUERY_UID_BY_OPENID = "SELECT `id` FROM `user` WHERE `openid`=? ";
 
 class WZGJUser extends User {
     constructor() {

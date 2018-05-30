@@ -1,5 +1,6 @@
 const sqlConst = require('./sqlConst');
 const moment = require('moment');
+const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 
 class MysqlHelper {
     constructor(models) {

@@ -1,5 +1,5 @@
 module.exports = {
-    uid: {
+    id: {
         def: 0,
         type: "number",
         tbl: 'user',
