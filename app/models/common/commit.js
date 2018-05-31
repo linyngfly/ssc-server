@@ -60,6 +60,10 @@ class Commit {
         return this[`_${key}`];
     }
 
+    _sync(key, value){
+        this[`_${key}`] = value;
+    }
+
     getFieldDef(field){
     }
 
@@ -75,9 +79,8 @@ class Commit {
             } else {
                 cmd = 'HINCRBY';
             }
-
         }
-        return cmd;
+        return [cmd, typeInfo.inc === true];
     }
 
     /**
@@ -118,20 +121,38 @@ class Commit {
         }
 
         let cmds = [];
-        fields.forEach(function (key) {
+        let syncIndexs = {}, index = 0;
+        for(let i=0;i<fields.length;i++){
+            let key = fields[i];
             let tk = key[0];
-            let cmd = this.getCmd(tk);
+            let [cmd,inc] = this.getCmd(tk);
             if (cmd) {
                 let v = parser.serializeValue(tk, key[1], this);
                 if (v != null) {
                     cmds.push([cmd, this.getKey(tk), this.getId(), v]);
+                    if(inc){
+                        syncIndexs[index] = tk;
+                    }
+                    ++index;
                 }
             }
-        }.bind(this));
+        }
 
         this.__update = [];
 
-        return await redisConnector.multi(cmds);
+        if(cmds.length == 0){
+            return;
+        }
+
+        let ret =  await redisConnector.multi(cmds);
+        if(!ret){
+            return;
+        }
+
+        for(let index in syncIndexs){
+            this._sync(syncIndexs[index], ret[index]);
+        }
+        return ret;
     }
 }
 

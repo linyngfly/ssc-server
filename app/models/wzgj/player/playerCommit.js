@@ -3,11 +3,11 @@ class PlayerCommit extends Commit {
     constructor() {
         super();
     }
-	set uid(value) {
-        this._modify('uid', value);
+	set id(value) {
+        this._modify('id', value);
     }
-    get uid() {
-        return this._value('uid');
+    get id() {
+        return this._value('id');
     }
 	set username(value) {
         this._modify('username', value);

@@ -1,14 +1,5 @@
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
-function ttt() {
-return 1111
-}
-
-let [a,b] = ttt() || [];
-console.log(a);
-console.log(b);
-return;
-
 class ReqHandler {
     constructor(entry) {
         this._entry = entry;

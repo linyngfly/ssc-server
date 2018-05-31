@@ -1,6 +1,6 @@
 const omelo = require('omelo');
-const globalStatusData = require('../../../utils/globalStatusData');
-const rpcDefs = require('../../../net/rpcDefs');
+const globalStatusData = require('../../utils/globalStatusData');
+const rpcDefs = require('../../net/rpcDefs');
 
 class Hall{
     constructor(opts){

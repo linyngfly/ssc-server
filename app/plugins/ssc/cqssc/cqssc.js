@@ -4,6 +4,7 @@ const BonusPool = require('./bonusPool');
 const CQPlayer = require('./CQPlayer');
 const Hall = require('../Hall');
 const config = require('../config');
+const models = require('../../../models');
 const constants = require('../../../consts/constants');
 
 class Cqssc extends Hall {
@@ -25,21 +26,10 @@ class Cqssc extends Hall {
     }
 
     async request(route, msg, session) {
-        let player = this._playerMap.get(msg.uid);
-        if(!player){
-            throw ERROR_OBJ.PLAYER_NOT_IN_HALL;
-        }
-
-        player.updateActiveTime();
-        if (this[route]) {
-            return this[route](msg, session);
-        }
-
-        let func = player[route];
-        if (typeof func != 'function') {
+        if(!this[route]){
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
-        func.apply(player, Array.prototype.slice.call(arguments, 2));
+        this[route](msg, session);
     }
 
     async rpc(method, msg) {
@@ -62,7 +52,6 @@ class Cqssc extends Hall {
         }
         player = new CQPlayer(msgId);
         this._addPlayer(player);
-
     }
 
     leave(msg) {
@@ -72,6 +61,9 @@ class Cqssc extends Hall {
         }else {
             player.state = constants.PLAYER_STATE.OFFLINE;
         }
+    }
+
+    _createPlayer({uid,sid}){
 
     }
 
@@ -87,7 +79,10 @@ class Cqssc extends Hall {
     }
 
     setPlayerState(uid, state) {
-
+        let player = this._playerMap.get(uid);
+        if (player) {
+            player.state = state;
+        }
     }
 
 

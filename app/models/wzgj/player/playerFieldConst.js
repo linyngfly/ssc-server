@@ -1,5 +1,5 @@
 module.exports ={
-   UID:'uid',
+   ID:'id',
    USERNAME:'username',
    OPENID:'openid',
    PASSWORD:'password',

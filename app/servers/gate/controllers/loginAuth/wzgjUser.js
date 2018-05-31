@@ -62,7 +62,7 @@ class WZGJUser extends User {
         playerData.password = this._createSalt(data.username + data.password);
 
         let uid = await this._genUID();
-        playerData.uid = uid;
+        playerData.id = uid;
         let at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         playerData.created_at = at;
         playerData.updated_at = at;
