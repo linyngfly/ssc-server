@@ -12,9 +12,10 @@ const _errorCode = {
     BET_AMOUNT_INVALID: 10007, //投注金额无效
     BET_CHANNEL_CLOSE: 10008, //本期投注已关闭
     BET_DATA_INVALID: 10009, //投注数据无效
+    PLAYER_NOT_IN_HALL: 10010, //玩家已经不在投注大厅，重新加入
 };
 
-for(let item in ERROR_CODE){
+for (let item in ERROR_CODE) {
     _errorCode[item] = ERROR_CODE[item];
 }
 
@@ -61,9 +62,13 @@ const _errorObj = {
         msg: '投注数据无效',
         code: _errorCode.BET_DATA_INVALID,
     },
+    PLAYER_NOT_IN_HALL: {
+        msg: '玩家已经不在投注大厅，重新加入',
+        code: _errorCode.PLAYER_NOT_IN_HALL,
+    },
 };
 
-for(let item in ERROR_OBJ){
+for (let item in ERROR_OBJ) {
     _errorObj[item] = ERROR_OBJ[item];
 }
 

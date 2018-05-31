@@ -11,7 +11,6 @@ var PlayerHandler = function (app) {
     this.gameService = null;
 };
 
-
 //玩家投注限额检查
 PlayerHandler.prototype.betLimiteCheck = async function (player, parseBetInfo, callback) {
     for (let type in parseBetInfo.betTypeInfo) {

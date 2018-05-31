@@ -28,6 +28,8 @@ module.exports = {
     },
 
     CQSSC:{
+        MSG_CHANNEL_NAME:'CQSSC_HALL',
+
         BetType:{
             UNKNOWN:0,
             SIZE:1,

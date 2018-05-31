@@ -31,6 +31,13 @@ class Player extends EventEmitter{
         this._sid = value;
     }
 
+    get msgId(){
+        return {
+            sid:this._sid,
+            uid:this._uid
+        }
+    }
+
     send(route, msg){
         messageService.send(route, msg, {uid: this._uid, sid: this._sid});
     }

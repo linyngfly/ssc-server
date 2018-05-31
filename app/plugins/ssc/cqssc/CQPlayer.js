@@ -7,6 +7,9 @@ class CQPlayer extends Player{
         this._betsMap = new Map();
     }
 
+    isBet(){
+        return this._betsMap.size != 0;
+    }
 
     canBet(){
 
