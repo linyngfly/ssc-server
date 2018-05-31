@@ -1,4 +1,4 @@
-const consts = require('../../../consts/consts');
+const consts = require('../../../consts/constants');
 const authSdk = require('./loginAuth/authSdk');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const logger = require('omelo-logger').getLogger('gate', __filename);

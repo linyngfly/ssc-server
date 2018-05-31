@@ -1,10 +1,10 @@
 const loginConfig = require('./login.config');
-const constDef = require('../../../../consts/consts');
+const constants = require('../../../../consts/constants');
 
 class AuthSdk {
     constructor() {
         this._sdkMap = new Map();
-        this.install(constDef.AUTH_CHANNEL_ID.WZGJ_INNER);
+        this.install(constants.AUTH_CHANNEL_ID.WZGJ_INNER);
     }
 
     sdk(type) {

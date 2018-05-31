@@ -4,7 +4,7 @@ const modules = require('../../../modules');
 const loadManagerCmd = require('../../../cmd/loadManagerCmd');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const globalStatusData = require('../../../utils/globalStatusData');
-const constDef = require('../../../consts/consts');
+const constants = require('../../../consts/constants');
 
 
 class QueryGameEntry {
@@ -19,7 +19,7 @@ class QueryGameEntry {
             }
         } else {
 
-            let gamePos = await globalStatusData.queryData(constDef.GLOBAL_STATUS_DATA_TYPE.PLAYER_GAME_POS, rpcSender.serverType.game, data.uid);
+            let gamePos = await globalStatusData.queryData(constants.GLOBAL_STATUS_DATA_TYPE.PLAYER_GAME_POS, rpcSender.serverType.game, data.uid);
             if (gamePos) {
                 serverInfo = this._getEntryByRoomId(gamePos.roomId);
             } else {

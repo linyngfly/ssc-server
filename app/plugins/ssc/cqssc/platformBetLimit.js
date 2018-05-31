@@ -1,5 +1,8 @@
 class BetLimit{
     constructor(){
+    }
+
+    canBet(type, value){
 
     }
 }

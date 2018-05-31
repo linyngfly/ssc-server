@@ -2,7 +2,7 @@ const omelo = require('omelo');
 const {RedisConnector, MysqlConnector} = require('../../database/dbclient');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const plugins = require('../../plugins');
-const consts = require('../../consts/consts');
+const consts = require('../../consts/constants');
 const omeloUtil = require('../common/omeloUtil');
 
 class GameApp {
@@ -55,11 +55,11 @@ class GameApp {
             return await this[route](msg, session);
         }
 
-        let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+        let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
         await game.request(route, msg, session);
     }
 
-    _getGame(main, sub){
+    getGame(main, sub){
         let game = null;
         if (main) {
             if(sub){
@@ -77,8 +77,8 @@ class GameApp {
     }
 
     async c_enter(msg, session) {
-        let game = this._getGame(msg.mainType, msg.subType);
-        await game.enter(msg);
+        let game = this.getGame(msg.mainType, msg.subType);
+
         await omeloUtil.kick(msg.uid, 'login');
         await omeloUtil.bind(session, msg.uid);
 
@@ -86,13 +86,14 @@ class GameApp {
         kvs[consts.PLUGINS.MAIN] = msg.mainType;
         kvs[consts.PLUGINS.SUB] = msg.subType;
         await omeloUtil.set(session, kvs);
-
         session.on('closed', this.close.bind(this));
+        msg.sid = session.frontendId;
+        await game.enter(msg);
         logger.info(`玩家[${msg.uid}]登录游戏[${msg.mainType}->${msg.subType}]成功`);
     }
 
     async c_leave(msg, session) {
-        let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+        let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
         game.leave(msg);
         await omeloUtil.kick(msg.uid || session.uid, 'logout');
         logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
@@ -101,7 +102,7 @@ class GameApp {
     close(session, reason) {
         let uid = session && session.uid;
         if(uid){
-            let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+            let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
             game.setPlayerState(uid, consts.PLAYER_STATE.OFFLINE);
             logger.info(`玩家[${uid}],网络连接断开`, reason);
         }else {
