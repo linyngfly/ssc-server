@@ -1,4 +1,4 @@
-class BonusPool{
+class BetPool{
     /**
      * 投注通道是否关闭
      * 提前30s封注
@@ -7,6 +7,14 @@ class BonusPool{
     canBetNow(){
         return true;
     }
+
+    getNextPeriod(){
+
+    }
+
+    getIdentify(){
+
+    }
 }
 
-module.exports = BonusPool;
+module.exports = BetPool;

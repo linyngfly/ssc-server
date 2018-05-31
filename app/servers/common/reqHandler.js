@@ -1,5 +1,14 @@
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
+function ttt() {
+return 1111
+}
+
+let [a,b] = ttt() || [];
+console.log(a);
+console.log(b);
+return;
+
 class ReqHandler {
     constructor(entry) {
         this._entry = entry;
@@ -33,10 +42,23 @@ class ReqHandler {
             msg.uid = msg.uid || session.uid;
             try{
                 this._checkParam(route, msg);
-                let [err, resp] = await this._entry.request(route, msg, session);
-                utils.invokeCallback(next, err, resp || {Error:ERROR_OBJ.OK});
+                let err = null, resp = null;
+                let ret = await this._entry.request(route, msg, session) || [];
+                if(ret instanceof Array){
+                    let [_err, _resp] = ret;
+                    if(_err && _err.code && _err.msg){
+                        err = _err;
+                        resp = _resp;
+                    }else {
+                        resp = ret;
+                    }
+
+                }else {
+                    resp = ret;
+                }
+                utils.invokeCallback(next, err, resp || {error:ERROR_OBJ.OK});
             }catch (err){
-                utils.invokeCallback(next, null, {Error:err});
+                utils.invokeCallback(next, null, {error:err});
             }
         };
     }

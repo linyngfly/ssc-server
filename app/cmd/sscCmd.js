@@ -25,7 +25,11 @@ class SSCCmd extends Cmd {
          */
         this._req.enter = {
             route: 'game.sscHandler.c_enter',
-            msg: {},
+            msg: {
+                mainType:'ssc',
+                subType:'lucky28',
+                token:'afsdfaffsa2342',
+            },
             res: {}
         };
         /**
@@ -51,7 +55,9 @@ class SSCCmd extends Cmd {
 
         this._req.unBet = {
             route: 'game.sscHandler.c_unBet',
-            msg: {},
+            msg: {
+                betId:1,
+            },
             res: {}
         };
     }
@@ -66,6 +72,11 @@ class SSCCmd extends Cmd {
 
         this._push.unBet = {
             route: 's_unBet',
+            msg: {},
+        };
+
+        this._push.betResult = {
+            route: 's_betResult',
             msg: {},
         };
     }

@@ -1,11 +1,11 @@
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 const CQBetParser = require('./CQBetParser');
-const BonusPool = require('./bonusPool');
+const BetPool = require('./betPool');
 
 class Cqssc{
     constructor(){
         this._betParser = new CQBetParser();
-        this._bonusPool = new BonusPool();
+        this._bonusPool = new BetPool();
     }
 
     start(){
@@ -26,6 +26,18 @@ class Cqssc{
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
         this[method](msg);
+    }
+
+    enter(msg){
+
+    }
+
+    leave(msg){
+
+    }
+
+    setPlayerState(uid, state){
+
     }
 
     c_bet(msg, session){

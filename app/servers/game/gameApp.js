@@ -2,7 +2,8 @@ const omelo = require('omelo');
 const {RedisConnector, MysqlConnector} = require('../../database/dbclient');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 const plugins = require('../../plugins');
-console.log('plugins=',plugins);
+const consts = require('../../consts/consts');
+const omeloUtil = require('../common/omeloUtil');
 
 class GameApp {
     async start() {
@@ -46,64 +47,66 @@ class GameApp {
         if(this[method]){
             return this[method](msg);
         }
-        await plugins[msg.gameType].rpc(route, msg);
+        await plugins[msg.gameType].rpc(method, msg);
     }
 
     async request(route, msg, session) {
         if (this[route]) {
             return await this[route](msg, session);
         }
-        await plugins[session.get('gameType')].request(route, msg, session);
+
+        let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+        await game.request(route, msg, session);
     }
 
-    c_enter(msg, session) {
-        let self = this;
-        let sessionService = omelo.app.get('sessionService');
-        return new Promise(function (resolve, reject) {
-            sessionService.kick(msg.uid, () => {
-                session.bind(msg.uid, (err) => {
-                    if (err) {
-                        logger.error('session.bind err=', err);
-                        reject(ERROR_OBJ.NETWORK_ERROR);
-                        return;
-                    }
-                    session.on('closed', self.close.bind(self));
-                    //TODO 处理校验玩家要加入的游戏类型是否支持
-                    let mainType = msg.mainType;
-                    let subType = msg.subType;
-                    if (plugins[mainType] && subType && plugins[mainType][subType]) {
-                        session.set('mainType', mainType);
-                        session.set('subType', subType);
-                        session.pushAll((err) => {
-                            if (err) {
-                                logger.error('session.pushAll err=', err);
-                                reject(ERROR_OBJ.NETWORK_ERROR);
-                                return;
-                            }
-                            resolve();
-                            logger.info(`用户[${msg.uid}]登陆成功`);
-                        })
-                    }else {
-                        reject(ERROR_OBJ.NOT_SUPPORT_GAME_TYPE);
-                    }
-                });
-            });
-        });
+    _getGame(main, sub){
+        let game = null;
+        if (main) {
+            if(sub){
+                game = plugins[main] && plugins[main][sub];
+            }else {
+                game = plugins[main];
+            }
+        }
+
+        if(!game){
+            throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
+        }
+
+        return game;
     }
 
-    c_leave(msg, session) {
-        session.uid;
-        let sessionService = omelo.app.get('sessionService');
-        sessionService && sessionService.kick(msg.uid);
-        utils.invokeCallback(cb, null);
+    async c_enter(msg, session) {
+        let game = this._getGame(msg.mainType, msg.subType);
+        await game.enter(msg);
+        await omeloUtil.kick(msg.uid, 'login');
+        await omeloUtil.bind(session, msg.uid);
+
+        let kvs = {};
+        kvs[consts.PLUGINS.MAIN] = msg.mainType;
+        kvs[consts.PLUGINS.SUB] = msg.subType;
+        await omeloUtil.set(session, kvs);
+
+        session.on('closed', this.close.bind(this));
+        logger.info(`玩家[${msg.uid}]登录游戏[${msg.mainType}->${msg.subType}]成功`);
+    }
+
+    async c_leave(msg, session) {
+        let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+        game.leave(msg);
+        await omeloUtil.kick(msg.uid || session.uid, 'logout');
+        logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
     }
 
     close(session, reason) {
-        if (!session || !session.uid) {
-            return;
+        let uid = session && session.uid;
+        if(uid){
+            let game = this._getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
+            game.setPlayerState(uid, consts.PLAYER_STATE.OFFLINE);
+            logger.info(`玩家[${uid}],网络连接断开`, reason);
+        }else {
+            logger.info(`未知玩家,网络连接断开`, reason);
         }
-        let uid = session.uid;
-        logger.info(`用户[${uid}] 网络连接断开`, reason);
     }
 }
 

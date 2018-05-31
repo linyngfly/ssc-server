@@ -1,4 +1,9 @@
 module.exports = {
+    PLAYER_STATE: {
+        OFFLINE: 0, //离线
+        ONLINE: 1 //在线
+    },
+
     BET_CLOSE_RESERVE_DURATION:30, //投注提前关闭时间
     DES_SEPARATOR:'/',
     BET_SEPARATOR:'/',
