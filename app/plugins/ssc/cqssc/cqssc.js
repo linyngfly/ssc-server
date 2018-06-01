@@ -40,17 +40,12 @@ class Cqssc extends Hall {
     }
 
     enter(msg) {
-        let msgId = {
-            sid: msg.sid,
-            uid: msg.uid,
-        };
-
         let player = this._playerMap.get(msg.uid);
         if (player) {
             player.state = constants.PLAYER_STATE.ONLINE;
             return;
         }
-        player = new CQPlayer(msgId);
+        player = this._createPlayer(msg.uid, msg.sid);
         this._addPlayer(player);
     }
 
@@ -63,8 +58,9 @@ class Cqssc extends Hall {
         }
     }
 
-    _createPlayer({uid,sid}){
-
+    async _createPlayer(uid,sid){
+        let playerModel = await models.player.helper.getPlayer(uid);
+        return new CQPlayer({uid:uid,sid:sid,playerModel:playerModel});
     }
 
     _addPlayer(player){

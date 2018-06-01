@@ -5,6 +5,11 @@ class CQPlayer extends Player{
     constructor(opts){
         super(opts);
         this._betsMap = new Map();
+        this._playerModel = opts.playerModel;
+    }
+
+    get playerModel(){
+        return this._playerModel;
     }
 
     isBet(){
