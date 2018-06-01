@@ -1,26 +1,26 @@
-const Player = require('./player');
+const Account = require('./account');
 const Parser = require('../../common/parser');
-const playerFieldConst = require('./playerFieldConst');
+const accountFieldConst = require('./accountFieldConst');
 const genRedisKey = require('../genRedisKey');
-const playerModel = require('./playerModel');
+const accountModel = require('./accountModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('../../common/mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
-class PlayerHelper {
+class AccountHelper {
     constructor(){
-        this._mysqlHelper = new MysqlHelper(playerModel);
+        this._mysqlHelper = new MysqlHelper(accountModel);
     }
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(playerFieldConst.USERNAME), uid);
+        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(accountFieldConst.USERNAME), uid);
         if (exist == null) {
             return false;
         }
         return true;
     }
 
-    async createPlayer(uid, data) {
+    async createAccount(uid, data) {
         if (uid == null || data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -41,8 +41,8 @@ class PlayerHelper {
             return;
         }
 
-        for(let key in playerModel){
-            let item = playerModel[key];
+        for(let key in accountModel){
+            let item = accountModel[key];
             if(item.require){
                 if(null == fields[key]){
                     throw ERROR_OBJ.PARAM_MISSING;
@@ -58,13 +58,13 @@ class PlayerHelper {
         }
 
         let cmds = [];
-        let player = new Player(uid);
+        let account = new Account(uid);
         for (let key in fields) {
-            let cmd = player.getCmd(key);
+            let cmd = account.getCmd(key);
             if (cmd) {
                 try {
-                    let value = Parser.serializeValue(key, fields[key], player);
-                    player.appendValue(key, value);
+                    let value = Parser.serializeValue(key, fields[key], account);
+                    account.appendValue(key, value);
                     cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
                 } catch (e) {
                     e;
@@ -72,10 +72,10 @@ class PlayerHelper {
             }
         }
         await redisConnector.multi(cmds);
-        return player;
+        return account;
     }
 
-    async getPlayer(uid, fields) {
+    async getAccount(uid, fields) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -95,24 +95,24 @@ class PlayerHelper {
                 cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
             }
             let docs = await redisConnector.multi(cmds);
-            let player = new Player(uid);
+            let account = new Account(uid);
             for (let i = 0; i < fields.length; ++i) {
                 try {
-                    player.appendValue(fields[i], docs[i]);
+                    account.appendValue(fields[i], docs[i]);
                 } catch (e) {
                     e;
                 }
             }
-            return player;
+            return account;
         } else {
             let doc = await redisConnector.hget(genRedisKey.getPlayerKey(fields[0]), uid);
-            let player = new Player(uid);
-            player.appendValue(fields[0], doc);
-            return player;
+            let account = new Account(uid);
+            account.appendValue(fields[0], doc);
+            return account;
         }
     }
 
-    async delPlayer(uid) {
+    async delAccount(uid) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -123,13 +123,13 @@ class PlayerHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlPlayer(uid, fields = []){
+    async getMysqlAccount(uid, fields = []){
         return this._mysqlHelper.getTableRow(uid, fields);
     }
 
-    async setMysqlPlayer(players){
+    async setMysqlAccount(players){
         this._mysqlHelper.setTableRow(players);
     }
 }
 
-module.exports = new PlayerHelper();
+module.exports = new AccountHelper();

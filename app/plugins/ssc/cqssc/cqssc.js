@@ -59,7 +59,7 @@ class Cqssc extends Hall {
     }
 
     async _createPlayer(uid,sid){
-        let playerModel = await models.player.helper.getPlayer(uid);
+        let playerInfo = await models.player.helper.getAccount(uid);
         return new CQPlayer({uid:uid,sid:sid,playerModel:playerModel});
     }
 
@@ -94,7 +94,12 @@ class Cqssc extends Hall {
 
         //TODO 投注限额
         let player = this._playerMap.get(msg.uid);
-        player.bet(this._bonusPool.getNextPeriod(), this._bonusPool.getIdentify(), msg.betData, parseRet);
+        player.bet({
+            period:this._bonusPool.getNextPeriod(),
+            identify:this._bonusPool.getIdentify(),
+            betData:msg.betData,
+            parseRet:parseRet
+        });
 
 
     }

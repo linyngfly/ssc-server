@@ -8,7 +8,7 @@ class User {
     constructor() {
     }
 
-    async _queryPlayerFromMysql(uid) {
+    async _queryAccount(uid) {
     }
 
     async isRegister(openId) {

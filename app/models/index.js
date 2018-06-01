@@ -29,4 +29,4 @@ readDirSync(root);
 module.exports = MODELS;
 // console.log(MODELS);
 
-// MODELS.player.playerHelper.createPlayer(1, {username:'linyng', phone:'18183276216'});
+// MODELS.account.playerHelper.createAccount(1, {username:'linyng', phone:'18183276216'});

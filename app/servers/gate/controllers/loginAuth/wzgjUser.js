@@ -18,15 +18,16 @@ class WZGJUser extends User {
     }
 
     _checkPhoneCode(phone, code){
+        //TODO 暂时
         return;
         if(!this._codes[phone] || this._codes[phone] != code){
             throw ERROR_OBJ.PHONE_CODE_INVALID;
         }
     }
 
-    async _queryPlayerFromMysql(uid) {
-        let mysqlPlayer = await models.player.helper.getMysqlPlayer(uid);
-        return await models.player.helper.createPlayer(uid, mysqlPlayer);
+    async _queryAccount(uid) {
+        let mysqlPlayer = await models.account.helper.getMysqlAccount(uid);
+        return await models.account.helper.createAccount(uid, mysqlPlayer);
     }
 
     async sendPhoneCode(phone){
@@ -45,7 +46,7 @@ class WZGJUser extends User {
         let rows = await mysqlConnector.query(QUERY_UID_BY_OPENID, [openid]);
         let row = rows && rows[0];
         if (row) {
-            await this._queryPlayerFromMysql(row.id);
+            await this._queryAccount(row.id);
             await redisConnector.hset(models.redisKeyConst.MAP_OPENID_UID, openid, row.id);
             return row.id;
         }
@@ -55,53 +56,53 @@ class WZGJUser extends User {
         //TODO 手机校验
         this._checkPhoneCode(data.username, data.code);
 
-        let playerData = _.cloneDeep(data);
+        let accountData = _.cloneDeep(data);
         let openid = data.username;
-        playerData.phone = openid;
-        playerData.openid = data.username;
-        playerData.password = this._createSalt(data.username + data.password);
+        accountData.phone = openid;
+        accountData.openid = data.username;
+        accountData.password = this._createSalt(data.username + data.password);
 
         let uid = await this._genUID();
-        playerData.id = uid;
+        accountData.id = uid;
         let at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        playerData.created_at = at;
-        playerData.updated_at = at;
-        playerData.openid = openid;
+        accountData.created_at = at;
+        accountData.updated_at = at;
+        accountData.openid = openid;
 
         await redisConnector.hset(models.redisKeyConst.MAP_OPENID_UID, openid, uid);
-        await models.player.helper.createPlayer(uid, playerData);
+        await models.account.helper.createAccount(uid, accountData);
         return uid;
     }
 
     async login(data) {
-        let player = await models.player.helper.getPlayer(data.uid);
-        data.player = player;
+        let account = await models.account.helper.getAccount(data.uid);
+        data.account = account;
         await super.login(data);
-        return player.toJSON();
+        return account.toJSON();
     }
 
     async logout(data){
-        let player = await models.player.helper.getPlayer(data.uid);
-        player.token = '';
-        await player.commit();
+        let account = await models.account.helper.getAccount(data.uid);
+        account.token = '';
+        await account.commit();
     }
 
     _authCheck(data){
         let saltPassword = this._createSalt(data.username + data.password);
-        if (saltPassword !== data.player.password) {
+        if (saltPassword !== data.account.password) {
             throw ERROR_OBJ.USERNAME_PASSWORD_ERROR;
         }
     }
 
     async modifyPassword(data) {
-        let player = await models.player.helper.getPlayer(data.uid);
-        if (player) {
-            let oldSaltPassword = this._createSalt(player.username + player.password);
-            if (oldSaltPassword == player.password) {
-                let newSaltPassword = this._createSalt(player.username + data.newPassword);
-                player.password = newSaltPassword;
-                await player.commit();
-                return player;
+        let account = await models.account.helper.getAccount(data.uid);
+        if (account) {
+            let oldSaltPassword = this._createSalt(account.username + account.password);
+            if (oldSaltPassword == account.password) {
+                let newSaltPassword = this._createSalt(account.username + data.newPassword);
+                account.password = newSaltPassword;
+                await account.commit();
+                return account;
             } else {
                 throw ERROR_OBJ.PASSWORD_ERROR;
             }

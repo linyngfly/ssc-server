@@ -200,12 +200,12 @@ let genCode = true;
 if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');
-    const playerCommit = path.join(__dirname, 'PlayerCommit.js');
-    genCode.genCommitByModel(module.exports, playerCommit, 'PlayerCommit');
+    const playerCommit = path.join(__dirname, 'AccountCommit.js');
+    genCode.genCommitByModel(module.exports, playerCommit, 'AccountCommit');
 
     const sqlConst = path.join(__dirname, 'sqlConst.js');
     genCode.genTables(module.exports, sqlConst);
 
-    const fieldConst = path.join(__dirname, 'playerFieldConst.js');
+    const fieldConst = path.join(__dirname, 'accountFieldConst.js');
     genCode.genFieldConst(module.exports, fieldConst);
 }

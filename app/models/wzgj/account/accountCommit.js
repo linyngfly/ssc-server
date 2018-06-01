@@ -1,5 +1,5 @@
 const Commit = require('../../common/commit');
-class PlayerCommit extends Commit {
+class AccountCommit extends Commit {
     constructor() {
         super();
     }
@@ -105,11 +105,11 @@ class PlayerCommit extends Commit {
     get pin_code() {
         return this._value('pin_code');
     }
-	set money(value) {
-        this._modify('money', value);
+	set gold(value) {
+        this._modify('gold', value);
     }
-    get money() {
-        return this._value('money');
+    get gold() {
+        return this._value('gold');
     }
 	set level(value) {
         this._modify('level', value);
@@ -190,4 +190,4 @@ class PlayerCommit extends Commit {
         return this._value('bind_card_at');
     }
 }
-module.exports = PlayerCommit;
+module.exports = AccountCommit;

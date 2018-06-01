@@ -3,12 +3,15 @@
  * @type {{}}
  */
 
+const PREFIX = 'wzgj:';
+
 module.exports = {
-    MAP_OPENID_UID: "map:openid:uid",
+    PREFIX: PREFIX,
+    MAP_OPENID_UID: `${PREFIX}openid:uid`,
     SWITCH: {
-        SERVICE: "ctrl:switch:service", //服务开关
-        SERVICE_MSG: "ctrl:switch:service:msg", //服务开关说明
-        API:"ctrl:switch:api", //api开关
+        SERVICE: `${PREFIX}switch:service`, //服务开关
+        API: `${PREFIX}switch:api`, //api开关
     },
-    UID_COUNTER:'wzgj:uid_counter',
+    UID_COUNTER: `${PREFIX}counter:uid`,
+    BETID_COUNTER: `${PREFIX}counter:betId`,
 };

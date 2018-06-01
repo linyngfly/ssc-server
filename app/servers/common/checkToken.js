@@ -19,7 +19,7 @@ module.exports = async function (token) {
         }
     }
 
-    let account = await models.player.getPlayer(uid, [models.player.fieldConst.TOKEN, models.player.fieldConst.TEST]);
+    let account = await models.player.getAccount(uid, [models.player.fieldConst.TOKEN, models.player.fieldConst.TEST]);
     if (account.test < 0) {
         throw ERROR_OBJ.PLAYER_CHEAT;
     } else if (account.token != token) {

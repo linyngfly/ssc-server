@@ -15,7 +15,7 @@ class GenAccount {
             return;
         }
 
-        return await models.player.helper.getPlayer(uid, apiCfg.accountFields);
+        return await models.player.helper.getAccount(uid, apiCfg.accountFields);
     }
 
     checkParams(url, reqData) {

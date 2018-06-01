@@ -20,8 +20,10 @@ class CQPlayer extends Player{
 
     }
 
-    async bet(period, identify, betData, parseRet){
-        await models.player.helper.getPlayer(this.uid, apiCfg.accountFields);
+    async bet({period, identify, betData, parseRet}){
+        await models.bet.helper.createBet(this.uid, {
+
+        });
     }
 
     unBet(){

@@ -1,8 +1,8 @@
-const PLAYER_PREFIX = 'player:uid:';
-
+const redisKeyConst = require('./redisKeyConst');
+const ACCOUNT_PREFIX = `${redisKeyConst.PREFIX}account:`;
 module.exports = {
-    PLAYER_PREFIX:PLAYER_PREFIX,
+    ACCOUNT_PREFIX:ACCOUNT_PREFIX,
     getPlayerKey: function (field) {
-        return `${PLAYER_PREFIX}${field}`;
+        return `${ACCOUNT_PREFIX}${field}`;
     }
 };

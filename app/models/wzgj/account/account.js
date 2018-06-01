@@ -1,8 +1,8 @@
-const PlayerCommit = require('./playerCommit');
+const AccountCommit = require('./accountCommit');
 const genRedisKey = require('../genRedisKey');
-const playerModel = require('./playerModel');
+const accountModel = require('./accountModel');
 
-class Player extends PlayerCommit{
+class Account extends AccountCommit{
     constructor(uid){
         super();
         this.__uid = uid;
@@ -13,7 +13,7 @@ class Player extends PlayerCommit{
     }
 
     getFieldDef(field){
-        return playerModel[field];
+        return accountModel[field];
     }
 
     getKey(field){
@@ -25,7 +25,7 @@ class Player extends PlayerCommit{
     }
 
     static serialize(uid, data){
-        let player = new Player(uid);
+        let player = new Account(uid);
         for(let key in data){
             player.appendValue(key, data[key]);
         }
@@ -33,4 +33,4 @@ class Player extends PlayerCommit{
     }
 }
 
-module.exports = Player;
+module.exports = Account;

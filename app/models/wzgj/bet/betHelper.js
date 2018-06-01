@@ -8,7 +8,7 @@ const MysqlHelper = require('../../common/mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
-class PlayerHelper {
+class BetHelper {
     constructor(){
         this._mysqlHelper = new MysqlHelper(betModel);
     }
@@ -132,4 +132,4 @@ class PlayerHelper {
     }
 }
 
-module.exports = new PlayerHelper();
+module.exports = new BetHelper();

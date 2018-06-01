@@ -20,7 +20,7 @@ class PlayerHelper {
         return true;
     }
 
-    async createPlayer(uid, data) {
+    async createAccount(uid, data) {
         if (uid == null || data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -75,7 +75,7 @@ class PlayerHelper {
         return player;
     }
 
-    async getPlayer(uid, fields) {
+    async getAccount(uid, fields) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -112,7 +112,7 @@ class PlayerHelper {
         }
     }
 
-    async delPlayer(uid) {
+    async delAccount(uid) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -123,11 +123,11 @@ class PlayerHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlPlayer(uid, fields = []){
+    async getMysqlAccount(uid, fields = []){
         return this._mysqlHelper.getTableRow(uid, fields);
     }
 
-    async setMysqlPlayer(players){
+    async setMysqlAccount(players){
         this._mysqlHelper.setTableRow(players);
     }
 }
