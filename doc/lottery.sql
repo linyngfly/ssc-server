@@ -63,7 +63,7 @@ IF NOT EXISTS `bank` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `bets_log` (
-	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注ID',,
 	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
 	`period` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
 	`identify` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',

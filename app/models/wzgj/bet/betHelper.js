@@ -1,8 +1,8 @@
-const Player = require('./player');
+const Bet = require('./bet');
 const Parser = require('../../common/parser');
-const playerFieldConst = require('./playerFieldConst');
+const betFieldConst = require('./betFieldConst');
 const genRedisKey = require('../genRedisKey');
-const playerModel = require('./playerModel');
+const betModel = require('./betModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('../../common/mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
@@ -10,17 +10,17 @@ const _ = require('lodash');
 
 class PlayerHelper {
     constructor(){
-        this._mysqlHelper = new MysqlHelper(playerModel);
+        this._mysqlHelper = new MysqlHelper(betModel);
     }
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(playerFieldConst.USERNAME), uid);
+        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(betFieldConst.ID), uid);
         if (exist == null) {
             return false;
         }
         return true;
     }
 
-    async createPlayer(uid, data) {
+    async createBet(uid, data) {
         if (uid == null || data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -41,8 +41,8 @@ class PlayerHelper {
             return;
         }
 
-        for(let key in playerModel){
-            let item = playerModel[key];
+        for(let key in betModel){
+            let item = betModel[key];
             if(item.require){
                 if(null == fields[key]){
                     throw ERROR_OBJ.PARAM_MISSING;
@@ -58,13 +58,13 @@ class PlayerHelper {
         }
 
         let cmds = [];
-        let player = new Player(uid);
+        let bet = new Bet(uid);
         for (let key in fields) {
-            let cmd = player.getCmd(key);
+            let cmd = bet.getCmd(key);
             if (cmd) {
                 try {
-                    let value = Parser.serializeValue(key, fields[key], player);
-                    player.appendValue(key, value);
+                    let value = Parser.serializeValue(key, fields[key], bet);
+                    bet.appendValue(key, value);
                     cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
                 } catch (e) {
                     e;
@@ -72,10 +72,10 @@ class PlayerHelper {
             }
         }
         await redisConnector.multi(cmds);
-        return player;
+        return bet;
     }
 
-    async getPlayer(uid, fields) {
+    async getBet(uid, fields) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -95,24 +95,24 @@ class PlayerHelper {
                 cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
             }
             let docs = await redisConnector.multi(cmds);
-            let player = new Player(uid);
+            let bet = new Bet(uid);
             for (let i = 0; i < fields.length; ++i) {
                 try {
-                    player.appendValue(fields[i], docs[i]);
+                    bet.appendValue(fields[i], docs[i]);
                 } catch (e) {
                     e;
                 }
             }
-            return player;
+            return bet;
         } else {
             let doc = await redisConnector.hget(genRedisKey.getPlayerKey(fields[0]), uid);
-            let player = new Player(uid);
-            player.appendValue(fields[0], doc);
-            return player;
+            let bet = new Bet(uid);
+            bet.appendValue(fields[0], doc);
+            return bet;
         }
     }
 
-    async delPlayer(uid) {
+    async delBet(uid) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -123,11 +123,11 @@ class PlayerHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlPlayer(uid, fields = []){
+    async getMysqlBet(uid, fields = []){
         return this._mysqlHelper.getTableRow(uid, fields);
     }
 
-    async setMysqlPlayer(players){
+    async setMysqlBet(players){
         this._mysqlHelper.setTableRow(players);
     }
 }

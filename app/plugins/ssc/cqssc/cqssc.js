@@ -100,6 +100,9 @@ class Cqssc extends Hall {
     }
 
     c_unBet(msg) {
+        if (!this._bonusPool.canBetNow()) {
+            throw ERROR_OBJ.BET_CHANNEL_CLOSE;
+        }
 
     }
 

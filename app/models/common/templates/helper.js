@@ -1,10 +1,10 @@
-const Player = require('./player');
+module.exports = `const Player = require('./player');
 const Parser = require('../../common/parser');
 const playerFieldConst = require('./playerFieldConst');
 const genRedisKey = require('../genRedisKey');
 const playerModel = require('./playerModel');
 const sqlConst = require('./sqlConst');
-const MysqlHelper = require('../../common/mysqlHelper');
+const MysqlHelper = require('./mysqlHelper');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
@@ -133,3 +133,4 @@ class PlayerHelper {
 }
 
 module.exports = new PlayerHelper();
+`

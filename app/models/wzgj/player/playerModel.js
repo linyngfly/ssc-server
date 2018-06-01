@@ -106,12 +106,12 @@ module.exports = {
         tbl: 'user',
         comment: '取款密码'
     },
-    money: {
+    gold: {
         def: 0,
         type: "number",
         tbl: 'user',
         inc:true,
-        alias: 'accountAmount',
+        alias: 'money',
         comment: '账户金额'
     },
     level: {

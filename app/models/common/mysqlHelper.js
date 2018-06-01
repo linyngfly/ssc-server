@@ -1,6 +1,6 @@
-const sqlConst = require('./sqlConst');
+const sqlConst = require('../wzgj/player/sqlConst');
 const moment = require('moment');
-const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
+const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
 class MysqlHelper {
     constructor(models) {
