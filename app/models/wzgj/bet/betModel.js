@@ -5,7 +5,6 @@ module.exports = {
         def: 0,
         type: "number",
         tbl: 'bets_log',
-        require: true,
         primary_key: true,
         comment: '投注ID'
     },
@@ -34,7 +33,6 @@ module.exports = {
         def: '',
         type: "string",
         tbl: 'bets_log',
-        alias: 'betData',
         require: true,
         comment: '原始投注数据'
     },

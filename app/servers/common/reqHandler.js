@@ -1,4 +1,5 @@
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
+const utils = require('../../utils/utils');
 
 class ReqHandler {
     constructor(entry) {
@@ -34,18 +35,20 @@ class ReqHandler {
             try{
                 this._checkParam(route, msg);
                 let err = null, resp = null;
-                let ret = await this._entry.request(route, msg, session) || [];
-                if(ret instanceof Array){
-                    let [_err, _resp] = ret;
-                    if(_err && _err.code && _err.msg){
-                        err = _err;
-                        resp = _resp;
+                let ret = await this._entry.request(route, msg, session);
+                if(ret){
+                    if(ret instanceof Array){
+                        let [_err, _resp] = ret;
+                        if(_err && _err.code && _err.msg){
+                            err = _err;
+                            resp = _resp;
+                        }else {
+                            resp = ret;
+                        }
+    
                     }else {
                         resp = ret;
                     }
-
-                }else {
-                    resp = ret;
                 }
                 utils.invokeCallback(next, err, resp || {error:ERROR_OBJ.OK});
             }catch (err){

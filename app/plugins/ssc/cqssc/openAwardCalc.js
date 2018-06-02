@@ -24,12 +24,12 @@ class OpenAwardCalc {
 
     // 和大小计算 大>=23  小<23
     _totalSizeCalc() {
-        this._openResult.add(this._total >= 23 ? config.CQSSC.BetDic.BIG : config.CQSSC.BetDic.SMALL);
+        this._openResult.add(this._total >= 23 ? config.CQSSC.BET_DIC.BIG : config.CQSSC.BET_DIC.SMALL);
     }
 
     // 和单双计算
     _totalSingleDoubleCalc() {
-        this._openResult.add(this._total % 2 === 0 ? config.CQSSC.BetDic.DOUBLE : config.CQSSC.BetDic.SINGLE);
+        this._openResult.add(this._total % 2 === 0 ? config.CQSSC.BET_DIC.DOUBLE : config.CQSSC.BET_DIC.SINGLE);
     }
 
     // 龙虎计算 龙 1球 > 5球 虎 1球 < 5球
@@ -40,7 +40,7 @@ class OpenAwardCalc {
         if (number1 === number5) {
             return;
         }
-        this._openResult.add(number1 > number5 ? config.CQSSC.BetDic.DRAGON : config.CQSSC.BetDic.TIGER);
+        this._openResult.add(number1 > number5 ? config.CQSSC.BET_DIC.DRAGON : config.CQSSC.BET_DIC.TIGER);
     }
 
     // 合玩法 1球=5球
@@ -48,8 +48,8 @@ class OpenAwardCalc {
         let number1 = this._numbers[0];
         let number5 = this._numbers[4];
         if (number1 === number5) {
-            this._openResult.add(config.CQSSC.BetDic.EQUAL1);
-            this._openResult.add(config.CQSSC.BetDic.EQUAL2);
+            this._openResult.add(config.CQSSC.BET_DIC.EQUAL1);
+            this._openResult.add(config.CQSSC.BET_DIC.EQUAL2);
         }
     }
 
@@ -57,9 +57,9 @@ class OpenAwardCalc {
     _perPosSizeSingleDoubleCalc() {
         for (let i = 0; i < this._numbers.length; ++i) {
             let num = parseInt(this._numbers[i], 10);
-            let size = num <= 4 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BetDic.SMALL) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BetDic.BIG);
+            let size = num <= 4 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.SMALL) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.BIG);
 
-            let sd = num % 2 === 0 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BetDic.DOUBLE) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BetDic.SINGLE);
+            let sd = num % 2 === 0 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.DOUBLE) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.SINGLE);
 
             this._openResult.add(size);
             this._openResult.add(sd);
@@ -85,15 +85,15 @@ class OpenAwardCalc {
     //豹子：连续3球相同
     _pantherCalc() {
         if (this._numbers[0] === this._numbers[1] && this._numbers[1] === this._numbers[2]) {
-            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BetDic.BAO);
+            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BET_DIC.BAO);
         }
 
         if (this._numbers[1] === this._numbers[2] && this._numbers[2] === this._numbers[3]) {
-            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BetDic.BAO);
+            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BET_DIC.BAO);
         }
 
         if (this._numbers[2] === this._numbers[3] && this._numbers[3] === this._numbers[4]) {
-            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BetDic.BAO);
+            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BET_DIC.BAO);
         }
     }
 
@@ -121,15 +121,15 @@ class OpenAwardCalc {
 
     _shunZiCalc() {
         if (this.checkShunZi([Number(this._numbers[0]), Number(this._numbers[1]), Number(this._numbers[2])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BetDic.SHUN);
+            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BET_DIC.SHUN);
         }
 
         if (this.checkShunZi([Number(this._numbers[1]), Number(this._numbers[2]), Number(this._numbers[3])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BetDic.SHUN);
+            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BET_DIC.SHUN);
         }
 
         if (this.checkShunZi([Number(this._numbers[2]), Number(this._numbers[3]), Number(this._numbers[4])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BetDic.SHUN);
+            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BET_DIC.SHUN);
         }
     }
 }

@@ -69,9 +69,10 @@ class WZGJUser extends User {
         accountData.updated_at = at;
         accountData.openid = openid;
 
-        await redisConnector.hset(models.constants.MAP_OPENID_UID, openid, uid);
-        await models.account.helper.createAccount(uid, accountData);
-        return uid;
+        let account = await models.account.helper.createAccount(accountData);
+        await redisConnector.hset(models.constants.MAP_OPENID_UID, openid, account.uid);
+
+        return account.uid;
     }
 
     async login(data) {

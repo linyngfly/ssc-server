@@ -20,7 +20,6 @@ class Cqssc extends Hall {
     async _openAward(last){
         let openAwardCalc = new OpenAwardCalc(last.numbers.split(','));
         let openResult = openAwardCalc.calc();
-        //TODO
         for(let player of this._playerMap.values()){
             await player.openAward(last.period, last.numbers, openResult);
         }
@@ -68,13 +67,13 @@ class Cqssc extends Hall {
         this[method](msg);
     }
 
-    enter(msg) {
+    async enter(msg) {
         let player = this._playerMap.get(msg.uid);
         if (player) {
             player.state = constants.PLAYER_STATE.ONLINE;
             return;
         }
-        player = this._createPlayer(msg.uid, msg.sid);
+        player = await this._createPlayer(msg.uid, msg.sid);
         this._addPlayer(player);
     }
 
@@ -164,7 +163,7 @@ class Cqssc extends Hall {
                 ext: {
                     nickname: player.account.nickname,
                 }
-            })
+            });
         });
 
         player.on(sscCmd.push.unBet.route, (data) => {
@@ -173,7 +172,7 @@ class Cqssc extends Hall {
                 ext: {
                     nickname: player.account.nickname,
                 }
-            })
+            });
         });
 
         player.on(sscCmd.push.chat.route, (data) => {
@@ -182,7 +181,7 @@ class Cqssc extends Hall {
                 ext: {
                     nickname: player.account.nickname,
                 }
-            })
+            });
         });
 
         player.on(sscCmd.push.betResult.route, (data) => {

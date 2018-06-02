@@ -26,7 +26,6 @@ class CQPlayer extends Player {
         let bets = [];
         for (let bet of this._betsMap.values()) {
             if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
-                let betWinMoney = 0;
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
@@ -51,7 +50,7 @@ class CQPlayer extends Player {
         if(bets.length == 0){
             return;
         }
-
+        this._betsMap.clear();
         await this.account.commit();
         this.emit(sscCmd.push.betResult.route, {numbers:numbers, bets:bets})
     }

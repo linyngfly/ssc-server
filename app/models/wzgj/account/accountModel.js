@@ -5,7 +5,6 @@ module.exports = {
         def: 0,
         type: "number",
         tbl: 'user',
-        require:true,
         primary_key:true,
         comment: '用户ID'
     },
@@ -113,7 +112,6 @@ module.exports = {
         type: "number",
         tbl: 'user',
         inc:true,
-        alias: 'money',
         comment: '账户金额'
     },
     level: {
@@ -198,7 +196,7 @@ module.exports = {
         comment: '绑卡时间'
     }
 };
-let genCode = false;
+let genCode = true;
 if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');

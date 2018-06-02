@@ -116,10 +116,12 @@ class SSCCmd extends Cmd {
         this._push.betResult = {
             route: 's_betResult',
             msg: {
-                openResult:{
+            },
+        };
 
-                },
-
+        this._push.openLottery = {
+            route: 's_openLottery',
+            msg: {
             },
         };
     }

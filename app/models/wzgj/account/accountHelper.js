@@ -5,7 +5,7 @@ const genRedisKey = require('../genRedisKey');
 const accountModel = require('./accountModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('../../common/mysqlHelper');
-const models = require('../../../models');
+const constants = require('../constants');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
@@ -22,7 +22,7 @@ class AccountHelper {
     }
 
     async _genUID(){
-        return await redisConnector.incr(models.constants.UID_COUNTER);
+        return await redisConnector.incr(constants.UID_COUNTER);
     }
 
     async createAccount(data) {
@@ -67,7 +67,7 @@ class AccountHelper {
         fields.id = uid;
         let account = new Account(uid);
         for (let key in fields) {
-            let cmd = account.getCmd(key);
+            let [cmd] = account.getCmd(key) || [];
             if (cmd) {
                 try {
                     let value = Parser.serializeValue(key, fields[key], account);

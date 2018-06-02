@@ -1,6 +1,6 @@
 const EventEmitter = require('events').EventEmitter;
 const messageService = require('../../net/messageService');
-const config = require('./config');
+const constants = require('../../consts/constants');
 
 class Player extends EventEmitter{
     constructor(opts){
@@ -8,7 +8,7 @@ class Player extends EventEmitter{
         this._sid = opts.sid || '';
         this._uid = opts.uid || '';
         this._activeTime = Date.now();
-        this._state = config.PLAYER_STATE.ONLINE;
+        this._state = constants.PLAYER_STATE.ONLINE;
     }
 
     get state(){

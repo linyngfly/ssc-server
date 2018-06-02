@@ -21,7 +21,7 @@ class GameApp {
         }
 
         for(let mainType in plugins){
-            let SUB_GAMES = plugins[mainType].SUB_GAMES;
+            let SUB_GAMES = plugins[mainType];
             if(!SUB_GAMES){
                 plugins[mainType].start();
                 logger.error('启动主游戏', mainType);

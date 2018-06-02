@@ -19,7 +19,7 @@ module.exports = async function (token) {
         }
     }
 
-    let account = await models.account.getAccount(uid, [models.account.fieldConst.TOKEN, models.account.fieldConst.TEST]);
+    let account = await models.account.helper.getAccount(uid, [models.account.fieldConst.TOKEN, models.account.fieldConst.TEST]);
     if (account.test < 0) {
         throw ERROR_OBJ.PLAYER_CHEAT;
     } else if (account.token != token) {

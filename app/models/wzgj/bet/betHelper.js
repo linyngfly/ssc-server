@@ -5,6 +5,7 @@ const genRedisKey = require('../genRedisKey');
 const betModel = require('./betModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('../../common/mysqlHelper');
+const constants = require('../constants');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
@@ -22,12 +23,12 @@ class BetHelper {
     }
 
     async _genId(){
-        return await redisConnector.incr(models.constants.BET_ID_COUNTER);
+        return await redisConnector.incr(constants.BET_ID_COUNTER);
     }
 
 
     async createBet(data) {
-        if (uid == null || data == null) {
+        if (data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
 
@@ -68,7 +69,7 @@ class BetHelper {
         fields.id = id;
         let bet = new Bet(id);
         for (let key in fields) {
-            let cmd = bet.getCmd(key);
+            let [cmd] = bet.getCmd(key) || [];
             if (cmd) {
                 try {
                     let value = Parser.serializeValue(key, fields[key], bet);

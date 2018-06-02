@@ -5,11 +5,15 @@ const accountModel = require('./accountModel');
 class Account extends AccountCommit{
     constructor(uid){
         super();
-        this.__uid = uid;
+        this._id = uid;
     }
 
     get uid() {
-        return Number(this.__uid);
+        return this._id;
+    }
+
+    getId(){
+        return this._id;
     }
 
     getFieldDef(field){
@@ -18,10 +22,6 @@ class Account extends AccountCommit{
 
     getKey(field){
         return genRedisKey.getAccountKey(field);
-    }
-
-    getId(){
-        return this.__uid;
     }
 
     static serialize(uid, data){

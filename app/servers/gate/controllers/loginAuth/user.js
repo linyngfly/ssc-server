@@ -38,7 +38,7 @@ class User {
     }
 
     async _afterLogin(data){
-        let player = data.player;
+        let player = data.account;
         let token = Token.create(player.uid, Date.now(), session.secret);
         player.token = token;
         player.updated_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');

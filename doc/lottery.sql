@@ -67,7 +67,7 @@ IF NOT EXISTS `bets_log` (
 	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
 	`period` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
 	`identify` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',
-	`betInfo` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '投注信息{type:0,value:0}',
+	`betData` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户输入投注数据',
 	`state` SMALLINT (6) UNSIGNED NOT NULL COMMENT '0待开奖，1 撤销，2 赢 3输',
 	`betCount` SMALLINT (6) UNSIGNED NOT NULL COMMENT '投注数',
 	`winCount` SMALLINT (6) UNSIGNED NOT NULL COMMENT '投赢注数',

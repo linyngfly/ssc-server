@@ -14,4 +14,4 @@ function readDirSync(_path){
 
 readDirSync(__dirname);
 console.log(MODULES);
-module.exports.SUB_GAMES = MODULES;
+module.exports = MODULES;

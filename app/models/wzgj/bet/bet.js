@@ -3,13 +3,17 @@ const genRedisKey = require('../genRedisKey');
 const betModel = require('./betModel');
 
 class Bet extends BetCommit{
-    constructor(uid){
+    constructor(id){
         super();
-        this.__uid = uid;
+        this._id = id;
     }
 
     get uid() {
-        return Number(this.__uid);
+        return Number(this._id);
+    }
+
+    getId(){
+        return this._id;
     }
 
     getFieldDef(field){
@@ -18,10 +22,6 @@ class Bet extends BetCommit{
 
     getKey(field){
         return genRedisKey.getAccountKey(field);
-    }
-
-    getId(){
-        return this.__uid;
     }
 
     static serialize(uid, data){

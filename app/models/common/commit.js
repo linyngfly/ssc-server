@@ -125,7 +125,7 @@ class Commit {
         for(let i=0;i<fields.length;i++){
             let key = fields[i];
             let tk = key[0];
-            let [cmd,inc] = this.getCmd(tk);
+            let [cmd,inc] = this.getCmd(tk) || [];
             if (cmd) {
                 let v = parser.serializeValue(tk, key[1], this);
                 if (v != null) {
