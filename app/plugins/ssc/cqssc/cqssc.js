@@ -26,7 +26,7 @@ class Cqssc extends Hall {
     }
 
     async request(route, msg, session) {
-        if(!this[route]){
+        if (!this[route]) {
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
         this[route](msg, session);
@@ -53,23 +53,23 @@ class Cqssc extends Hall {
         let player = this._playerMap.get(msg.uid);
         if (!player.isBet()) {
             this._delPlayer(player);
-        }else {
+        } else {
             player.state = constants.PLAYER_STATE.OFFLINE;
         }
     }
 
-    async _createPlayer(uid,sid){
-        let playerInfo = await models.player.helper.getAccount(uid);
-        return new CQPlayer({uid:uid,sid:sid,playerModel:playerModel});
+    async _createPlayer(uid, sid) {
+        let account = await models.account.helper.getAccount(uid);
+        return new CQPlayer({uid: uid, sid: sid, account: account});
     }
 
-    _addPlayer(player){
+    _addPlayer(player) {
         this.addEvent(player);
         this.addMsgChannel(player.msgId);
         this._playerMap.set(player.uid, player);
     }
 
-    _delPlayer(player){
+    _delPlayer(player) {
         this.leaveMsgChannel(player.msgId);
         this._playerMap.delete(player.uid);
     }
@@ -81,8 +81,19 @@ class Cqssc extends Hall {
         }
     }
 
-
-    c_bet(msg) {
+    // {
+    //     "total": 200,
+    //     "betTypeInfo": {
+    //         "1": {"money": 100, "type": {"code": 1, "desc": "大"}, "desc": "大/100 "},
+    //         "3": {"money": 100, "type": {"code": 3, "desc": "单"}, "desc": "单/100 "}
+    //     },
+    //     "betItems": [{"result": "大", "money": 100, "type": {"code": 1, "desc": "大"}}, {
+    //         "result": "单",
+    //         "money": 100,
+    //         "type": {"code": 3, "desc": "单"}
+    //     }]
+    // }
+    async c_bet(msg) {
         if (!this._bonusPool.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
@@ -94,25 +105,28 @@ class Cqssc extends Hall {
 
         //TODO 投注限额
         let player = this._playerMap.get(msg.uid);
-        player.bet({
-            period:this._bonusPool.getNextPeriod(),
-            identify:this._bonusPool.getIdentify(),
-            betData:msg.betData,
-            parseRet:parseRet
+        await player.bet({
+            period: this._bonusPool.getNextPeriod(),
+            identify: this._bonusPool.getIdentify(),
+            betData: msg.betData,
+            parseRet: parseRet
         });
 
 
     }
 
-    c_unBet(msg) {
+    async c_unBet(msg) {
         if (!this._bonusPool.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
+        let player = this._playerMap.get(msg.uid);
+        await player.unBet(msg.id);
     }
 
-    c_chat(msg) {
-
+    async c_chat(msg) {
+        let player = this._playerMap.get(msg.uid);
+        player.chat(msg);
     }
 
     addEvent(player) {

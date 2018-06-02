@@ -19,7 +19,7 @@ class ServiceSwitch{
     }
 
     async _getSwitchStatus(){
-        let result = await redisConnector.get(models.redisKeyConst.SWITCH.SERVICE);
+        let result = await redisConnector.get(models.constants.SWITCH.SERVICE);
         if(result){
             logger.error('switchStatus=', result);
             if(!Number.isNaN(Number(result.status))){
@@ -31,7 +31,7 @@ class ServiceSwitch{
 
     async _getApiSwitchList(){
         let self = this;
-        let results = await redisConnector.hgetall(models.redisKeyConst.SWITCH.API);
+        let results = await redisConnector.hgetall(models.constants.SWITCH.API);
         if(results){
             for(let api in results){
                 if(Number(results[api]) == 0){

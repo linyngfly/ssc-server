@@ -17,7 +17,7 @@ class Bet extends BetCommit{
     }
 
     getKey(field){
-        return genRedisKey.getPlayerKey(field);
+        return genRedisKey.getAccountKey(field);
     }
 
     getId(){

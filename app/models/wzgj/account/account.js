@@ -17,7 +17,7 @@ class Account extends AccountCommit{
     }
 
     getKey(field){
-        return genRedisKey.getPlayerKey(field);
+        return genRedisKey.getAccountKey(field);
     }
 
     getId(){

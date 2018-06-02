@@ -13,7 +13,7 @@ class PlayerHelper {
         this._mysqlHelper = new MysqlHelper(playerModel);
     }
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(playerFieldConst.USERNAME), uid);
+        let exist = await redisConnector.hget(genRedisKey.getAccountKey(playerFieldConst.USERNAME), uid);
         if (exist == null) {
             return false;
         }
@@ -65,7 +65,7 @@ class PlayerHelper {
                 try {
                     let value = Parser.serializeValue(key, fields[key], player);
                     player.appendValue(key, value);
-                    cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
+                    cmds.push([cmd, genRedisKey.getAccountKey(key), uid, value]);
                 } catch (e) {
                     e;
                 }
@@ -92,7 +92,7 @@ class PlayerHelper {
         if (fields.length > 1) {
             let cmds = [];
             for (let i = 0; i < fields.length; i++) {
-                cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
+                cmds.push(['hget', genRedisKey.getAccountKey(fields[i]), uid]);
             }
             let docs = await redisConnector.multi(cmds);
             let player = new Player(uid);
@@ -105,7 +105,7 @@ class PlayerHelper {
             }
             return player;
         } else {
-            let doc = await redisConnector.hget(genRedisKey.getPlayerKey(fields[0]), uid);
+            let doc = await redisConnector.hget(genRedisKey.getAccountKey(fields[0]), uid);
             let player = new Player(uid);
             player.appendValue(fields[0], doc);
             return player;
@@ -118,7 +118,7 @@ class PlayerHelper {
         }
         let cmds = [];
         sqlConst.MODEL_FIELDS.forEach(function (item) {
-            cmds.push(['hdel', genRedisKey.getPlayerKey(item), uid]);
+            cmds.push(['hdel', genRedisKey.getAccountKey(item), uid]);
         });
         return await redisConnector.multi(cmds);
     }

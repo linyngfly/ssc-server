@@ -13,6 +13,10 @@ const _errorCode = {
     BET_CHANNEL_CLOSE: 10008, //本期投注已关闭
     BET_DATA_INVALID: 10009, //投注数据无效
     PLAYER_NOT_IN_HALL: 10010, //玩家已经不在投注大厅，重新加入
+    ACCOUNT_AMOUNT_NOT_ENOUGH: 10011, //账号余额不足
+    BET_NOT_EXIST: 10012, //投注不存在
+    BET_CANNOT_CANCEL: 10013, //投注已经无法撤销
+    CHAT_TOO_FREQUENT: 10014, //聊天太频繁,稍后再试
 };
 
 for (let item in ERROR_CODE) {
@@ -65,6 +69,22 @@ const _errorObj = {
     PLAYER_NOT_IN_HALL: {
         msg: '玩家已经不在投注大厅，重新加入',
         code: _errorCode.PLAYER_NOT_IN_HALL,
+    },
+    ACCOUNT_AMOUNT_NOT_ENOUGH: {
+        msg: '账号余额不足，重新加入',
+        code: _errorCode.ACCOUNT_AMOUNT_NOT_ENOUGH,
+    },
+    BET_NOT_EXIST: {
+        msg: '投注不存在',
+        code: _errorCode.BET_NOT_EXIST,
+    },
+    BET_CANNOT_CANCEL: {
+        msg: '投注已经无法撤销',
+        code: _errorCode.BET_CANNOT_CANCEL,
+    },
+    CHAT_TOO_FREQUENT: {
+        msg: '聊天太频繁,稍后再试',
+        code: _errorCode.CHAT_TOO_FREQUENT,
     },
 };
 

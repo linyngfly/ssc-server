@@ -38,7 +38,7 @@ class WZGJUser extends User {
 
     async isRegister(data){
         let openid = data.username;
-        let uid = await redisConnector.hget(models.redisKeyConst.MAP_OPENID_UID, openid);
+        let uid = await redisConnector.hget(models.constants.MAP_OPENID_UID, openid);
         if(uid != null){
             return uid;
         }
@@ -47,7 +47,7 @@ class WZGJUser extends User {
         let row = rows && rows[0];
         if (row) {
             await this._queryAccount(row.id);
-            await redisConnector.hset(models.redisKeyConst.MAP_OPENID_UID, openid, row.id);
+            await redisConnector.hset(models.constants.MAP_OPENID_UID, openid, row.id);
             return row.id;
         }
     }
@@ -62,14 +62,14 @@ class WZGJUser extends User {
         accountData.openid = data.username;
         accountData.password = this._createSalt(data.username + data.password);
 
-        let uid = await this._genUID();
-        accountData.id = uid;
+        // let uid = await this._genUID();
+        // accountData.id = uid;
         let at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         accountData.created_at = at;
         accountData.updated_at = at;
         accountData.openid = openid;
 
-        await redisConnector.hset(models.redisKeyConst.MAP_OPENID_UID, openid, uid);
+        await redisConnector.hset(models.constants.MAP_OPENID_UID, openid, uid);
         await models.account.helper.createAccount(uid, accountData);
         return uid;
     }

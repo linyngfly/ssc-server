@@ -1,3 +1,5 @@
+const constants = require('../constants');
+
 module.exports = {
     id: {
         def: 0,
@@ -28,11 +30,11 @@ module.exports = {
         require: true,
         comment: '彩票标志'
     },
-    oriBetInfo: {
+    betData: {
         def: '',
         type: "string",
         tbl: 'bets_log',
-        alias: 'betInfo',
+        alias: 'betData',
         require: true,
         comment: '原始投注数据'
     },
@@ -84,10 +86,10 @@ module.exports = {
         comment: '投注时间'
     },
     state: {
-        def: 0,
+        def: constants.BET_STATE.BET_WAIT,
         type: "number",
         tbl: 'bets_log',
-        comment: '0待开奖，1 撤销，2 赢 3输'
+        comment: '0待开奖，1 撤销，2 赢 3输 4返还'
     },
 };
 let genCode = true;

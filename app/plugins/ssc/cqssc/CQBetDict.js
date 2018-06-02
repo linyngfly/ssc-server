@@ -70,7 +70,7 @@ class CQBetDict{
                     code: ++rangeIndex,
                     desc:key
                 }
-                this._betTypeDictMap[key] =value;
+                this._betTypeDictMap.set(key, value);
             }
         }
         end =  rangeIndex;
@@ -86,11 +86,11 @@ class CQBetDict{
         
         if(pos === -1){
             let key = `${type}`;
-            return this._betTypeDictMap[key];
+            return this._betTypeDictMap.get(key);
         }
         else {
             let key = `${pos}球${type}`;
-            return this._betTypeDictMap[key];
+            return this._betTypeDictMap.get(key);
         }
     }
 

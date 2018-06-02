@@ -1,20 +1,9 @@
 module.exports = {
-    PLAYER_STATE: {
-        OFFLINE: 0, //离线
-        ONLINE: 1 //在线
-    },
 
-    BET_CLOSE_RESERVE_DURATION:30, //投注提前关闭时间
+    BET_ADVANCE_CLOSE_TIME:30, //投注提前关闭时间单位秒(s)
     DES_SEPARATOR:'/',
     BET_SEPARATOR:'/',
-
-    BET_STATE:{    // 0待开奖，1 撤销，2 赢 3输
-        BET_WAIT:1,
-        BET_CANCEL:2,
-        BET_WIN:3,
-        BET_LOSE:4,
-        BET_BACK:5
-    },
+    CHAT_INTERVAL_TIME: 5000, //聊天间隔时间单位(ms)
 
     OPEN_CAI_NET:{
         BJKL8:{

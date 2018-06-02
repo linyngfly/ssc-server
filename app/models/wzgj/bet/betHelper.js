@@ -12,15 +12,21 @@ class BetHelper {
     constructor(){
         this._mysqlHelper = new MysqlHelper(betModel);
     }
+
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(betFieldConst.ID), uid);
+        let exist = await redisConnector.hget(genRedisKey.getAccountKey(betFieldConst.ID), uid);
         if (exist == null) {
             return false;
         }
         return true;
     }
 
-    async createBet(uid, data) {
+    async _genId(){
+        return await redisConnector.incr(models.constants.BET_ID_COUNTER);
+    }
+
+
+    async createBet(data) {
         if (uid == null || data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
@@ -38,7 +44,7 @@ class BetHelper {
         }
 
         if (Object.keys(fields).length == 0) {
-            return;
+            return ERROR_OBJ.BET_DATA_INVALID;
         }
 
         for(let key in betModel){
@@ -58,14 +64,16 @@ class BetHelper {
         }
 
         let cmds = [];
-        let bet = new Bet(uid);
+        let id = await this._genId();
+        fields.id = id;
+        let bet = new Bet(id);
         for (let key in fields) {
             let cmd = bet.getCmd(key);
             if (cmd) {
                 try {
                     let value = Parser.serializeValue(key, fields[key], bet);
                     bet.appendValue(key, value);
-                    cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
+                    cmds.push([cmd, genRedisKey.getAccountKey(key), id, value]);
                 } catch (e) {
                     e;
                 }
@@ -75,12 +83,12 @@ class BetHelper {
         return bet;
     }
 
-    async getBet(uid, fields) {
-        if (uid == null) {
+    async getBet(id, fields) {
+        if (id == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
 
-        let isHave = await this.exist(uid);
+        let isHave = await this.exist(id);
         if (!isHave) {
             throw ERROR_OBJ.PLAYER_NOT_EXIST;
         }
@@ -92,10 +100,10 @@ class BetHelper {
         if (fields.length > 1) {
             let cmds = [];
             for (let i = 0; i < fields.length; i++) {
-                cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
+                cmds.push(['hget', genRedisKey.getAccountKey(fields[i]), id]);
             }
             let docs = await redisConnector.multi(cmds);
-            let bet = new Bet(uid);
+            let bet = new Bet(id);
             for (let i = 0; i < fields.length; ++i) {
                 try {
                     bet.appendValue(fields[i], docs[i]);
@@ -105,26 +113,26 @@ class BetHelper {
             }
             return bet;
         } else {
-            let doc = await redisConnector.hget(genRedisKey.getPlayerKey(fields[0]), uid);
-            let bet = new Bet(uid);
+            let doc = await redisConnector.hget(genRedisKey.getAccountKey(fields[0]), id);
+            let bet = new Bet(id);
             bet.appendValue(fields[0], doc);
             return bet;
         }
     }
 
-    async delBet(uid) {
-        if (uid == null) {
+    async delBet(id) {
+        if (id == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
         let cmds = [];
         sqlConst.MODEL_FIELDS.forEach(function (item) {
-            cmds.push(['hdel', genRedisKey.getPlayerKey(item), uid]);
+            cmds.push(['hdel', genRedisKey.getAccountKey(item), id]);
         });
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlBet(uid, fields = []){
-        return this._mysqlHelper.getTableRow(uid, fields);
+    async getMysqlBet(id, fields = []){
+        return this._mysqlHelper.getTableRow(id, fields);
     }
 
     async setMysqlBet(players){

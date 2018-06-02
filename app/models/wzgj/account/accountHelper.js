@@ -5,6 +5,7 @@ const genRedisKey = require('../genRedisKey');
 const accountModel = require('./accountModel');
 const sqlConst = require('./sqlConst');
 const MysqlHelper = require('../../common/mysqlHelper');
+const models = require('../../../models');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const _ = require('lodash');
 
@@ -13,15 +14,19 @@ class AccountHelper {
         this._mysqlHelper = new MysqlHelper(accountModel);
     }
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getPlayerKey(accountFieldConst.USERNAME), uid);
+        let exist = await redisConnector.hget(genRedisKey.getAccountKey(accountFieldConst.USERNAME), uid);
         if (exist == null) {
             return false;
         }
         return true;
     }
 
-    async createAccount(uid, data) {
-        if (uid == null || data == null) {
+    async _genUID(){
+        return await redisConnector.incr(models.constants.UID_COUNTER);
+    }
+
+    async createAccount(data) {
+        if (data == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }
 
@@ -58,6 +63,8 @@ class AccountHelper {
         }
 
         let cmds = [];
+        let uid = await this._genUID();
+        fields.id = uid;
         let account = new Account(uid);
         for (let key in fields) {
             let cmd = account.getCmd(key);
@@ -65,7 +72,7 @@ class AccountHelper {
                 try {
                     let value = Parser.serializeValue(key, fields[key], account);
                     account.appendValue(key, value);
-                    cmds.push([cmd, genRedisKey.getPlayerKey(key), uid, value]);
+                    cmds.push([cmd, genRedisKey.getAccountKey(key), uid, value]);
                 } catch (e) {
                     e;
                 }
@@ -92,7 +99,7 @@ class AccountHelper {
         if (fields.length > 1) {
             let cmds = [];
             for (let i = 0; i < fields.length; i++) {
-                cmds.push(['hget', genRedisKey.getPlayerKey(fields[i]), uid]);
+                cmds.push(['hget', genRedisKey.getAccountKey(fields[i]), uid]);
             }
             let docs = await redisConnector.multi(cmds);
             let account = new Account(uid);
@@ -105,7 +112,7 @@ class AccountHelper {
             }
             return account;
         } else {
-            let doc = await redisConnector.hget(genRedisKey.getPlayerKey(fields[0]), uid);
+            let doc = await redisConnector.hget(genRedisKey.getAccountKey(fields[0]), uid);
             let account = new Account(uid);
             account.appendValue(fields[0], doc);
             return account;
@@ -118,7 +125,7 @@ class AccountHelper {
         }
         let cmds = [];
         sqlConst.MODEL_FIELDS.forEach(function (item) {
-            cmds.push(['hdel', genRedisKey.getPlayerKey(item), uid]);
+            cmds.push(['hdel', genRedisKey.getAccountKey(item), uid]);
         });
         return await redisConnector.multi(cmds);
     }

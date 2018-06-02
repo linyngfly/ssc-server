@@ -1,8 +1,7 @@
 const moment = require('moment');
+const crypto = require('crypto');
 const Token = require('../../../../utils/token');
 const session = require('../../../../utils/imports').session;
-const crypto = require('crypto');
-const models = require('../../../../models');
 
 class User {
     constructor() {
@@ -17,9 +16,6 @@ class User {
     async register(data) {
     }
 
-    async _genUID(){
-        return await redisConnector.incr(models.redisKeyConst.UID_COUNTER);
-    }
 
     async login(data) {
         this._authCheck(data);

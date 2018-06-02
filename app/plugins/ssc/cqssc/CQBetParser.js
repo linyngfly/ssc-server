@@ -409,6 +409,12 @@ class CQBetParser{
     }
 }
 
-module.exports = CQBetParser;
+
+//test
+ let tt = new CQBetParser();
+ console.log(JSON.stringify(tt.parse('大单100')));
+
+
+ module.exports = CQBetParser;
 
 

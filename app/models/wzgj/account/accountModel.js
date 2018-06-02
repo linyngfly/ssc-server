@@ -1,3 +1,5 @@
+const constants = require('../constants');
+
 module.exports = {
     id: {
         def: 0,
@@ -83,13 +85,13 @@ module.exports = {
         comment: '朋友列表'
     },
     role: {
-        def: 0,
+        def: constants.ROLE.PLAYER,
         type: "number",
         tbl: 'user',
         comment: '0:玩家,1:一级代理商,2:二级代理商,3:体验用户'
     },
     figure_url: {
-        def: '1',
+        def: constants.IMG_ID.IMD1,
         type: "string",
         tbl: 'user',
         comment: '头像id(1~6)'
