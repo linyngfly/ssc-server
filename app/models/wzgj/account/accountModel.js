@@ -108,7 +108,7 @@ module.exports = {
         tbl: 'user',
         comment: '取款密码'
     },
-    gold: {
+    money: {
         def: 0,
         type: "number",
         tbl: 'user',

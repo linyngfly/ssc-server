@@ -1,6 +1,7 @@
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 const CQBetParser = require('./CQBetParser');
 const BonusPool = require('./bonusPool');
+const OpenAwardCalc = require('./openAwardCalc');
 const CQPlayer = require('./CQPlayer');
 const Hall = require('../Hall');
 const config = require('../config');
@@ -16,8 +17,13 @@ class Cqssc extends Hall {
         this._playerMap = new Map();
     }
 
-    _openAward(last){
-
+    async _openAward(last){
+        let openAwardCalc = new OpenAwardCalc(last.numbers.split(','));
+        let openResult = openAwardCalc.calc();
+        //TODO
+        for(let player of this._playerMap.values()){
+            await player.openAward(last.period, last.numbers, openResult);
+        }
     }
 
     start() {
@@ -33,8 +39,8 @@ class Cqssc extends Hall {
             });
         });
 
-        this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, (lotteryInfo)=>{
-            self._openAward(lotteryInfo.last);
+        this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo)=>{
+            await self._openAward(lotteryInfo.last);
             self.broadcast(sscCmd.push.countdown.route, {
                 lotteryInfo: lotteryInfo,
             });
@@ -180,7 +186,7 @@ class Cqssc extends Hall {
         });
 
         player.on(sscCmd.push.betResult.route, (data) => {
-            player.send(sscCmd.push.betResult.route, data)
+            player.send(sscCmd.push.betResult.route, data);
         });
     }
 }

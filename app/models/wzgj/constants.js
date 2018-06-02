@@ -52,6 +52,5 @@ module.exports = {
         CANCEL: 1, //撤销
         WIN: 2, //赢
         LOSE: 3, //输
-        BACK: 4, //返还
     },
 };

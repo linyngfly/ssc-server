@@ -116,6 +116,9 @@ class SSCCmd extends Cmd {
         this._push.betResult = {
             route: 's_betResult',
             msg: {
+                openResult:{
+
+                },
 
             },
         };

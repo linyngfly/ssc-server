@@ -17,6 +17,45 @@ class CQPlayer extends Player {
         return this._account;
     }
 
+    //获取投注的赔率
+    _getBetRate(typeCode) {
+        return 1;
+    }
+
+    async openAward(period, numbers, openResult) {
+        let bets = [];
+        for (let bet of this._betsMap.values()) {
+            if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
+                let betWinMoney = 0;
+                let betItems = bet.betItems;
+                for (let i = 0; i < betItems.length; i++) {
+                    let item = betItems[i];
+                    let multi = this._getBetRate(item.type.code);
+                    if (openResult.has(item.result)) {
+                        let inc = item.money * (1 + multi);
+                        inc = Number(inc.toFixed(2));
+                        bet.winCount++;
+                        bet.winMoney += inc;
+                        this.account.winCount = 1;
+                        this.account.money = inc;
+                    }
+                }
+
+                let incomeMoney = Number((bet.winMoney - bet.betMoney).toFixed(2));
+                bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
+                bets.push({id: bet.id, state: bet.state, money: incomeMoney});
+                await bet.commit();
+            }
+        }
+
+        if(bets.length == 0){
+            return;
+        }
+
+        await this.account.commit();
+        this.emit(sscCmd.push.betResult.route, {numbers:numbers, bets:bets})
+    }
+
     isBet() {
         return this._betsMap.size != 0;
     }
@@ -26,25 +65,25 @@ class CQPlayer extends Player {
     }
 
     async bet({period, identify, betData, parseRet}) {
-        this._account.gold = -parseRet.total;
-        await this._account.commit();
-        if(this._account.gold < 0){
+        this.account.money = -parseRet.total;
+        await this.account.commit();
+        if (this.account.money < 0) {
             throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
-        }else {
-            this._account.gold = parseRet.total;
-            await this._account.commit();
+        } else {
+            this.account.money = parseRet.total;
+            await this.account.commit();
         }
 
         let bet = await models.bet.helper.createBet({
-            uid:this.uid,
-            period:period,
-            identify:identify,
-            betData:betData,
-            betTypeInfo:parseRet.betTypeInfo,
-            betItems:parseRet.betItems,
-            betCount:parseRet.betItems.length,
-            betMoney:parseRet.total,
-            betTime:moment().format('YYYY-MM-DD HH:mm:ss')
+            uid: this.uid,
+            period: period,
+            identify: identify,
+            betData: betData,
+            betTypeInfo: parseRet.betTypeInfo,
+            betItems: parseRet.betItems,
+            betCount: parseRet.betItems.length,
+            betMoney: parseRet.total,
+            betTime: moment().format('YYYY-MM-DD HH:mm:ss')
         });
         this._betsMap.set(bet.id, bet);
         this.emit(sscCmd.push.bet.route, bet.toJSON());
@@ -52,22 +91,28 @@ class CQPlayer extends Player {
 
     async unBet(id) {
         let bet = this._betsMap.get(id);
-        if(!bet){
+        if (!bet) {
             throw ERROR_OBJ.BET_NOT_EXIST;
         }
 
-        if(bet.state != models.constants.BET_STATE.WAIT){
+        if (bet.state != models.constants.BET_STATE.WAIT) {
             throw ERROR_OBJ.BET_CANNOT_CANCEL;
         }
 
+        this.account.money = bet.betMoney;
         bet.state = models.constants.BET_STATE.CANCEL;
+
         await bet.commit();
+        await this.account.commit();
+
+        this._betsMap.delete(id);
+
         this.emit(sscCmd.push.unBet.route, bet.toJSON());
     }
 
-    async chat(msg){
+    async chat(msg) {
         let now = Date.now();
-        if(now - this._last_chat_timestamp < config.CHAT_INTERVAL_TIME){
+        if (now - this._last_chat_timestamp < config.CHAT_INTERVAL_TIME) {
             throw ERROR_OBJ.CHAT_TOO_FREQUENT;
         }
 

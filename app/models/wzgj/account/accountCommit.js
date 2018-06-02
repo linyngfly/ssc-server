@@ -105,11 +105,11 @@ class AccountCommit extends Commit {
     get pin_code() {
         return this._value('pin_code');
     }
-	set gold(value) {
-        this._modify('gold', value);
+	set money(value) {
+        this._modify('money', value);
     }
-    get gold() {
-        return this._value('gold');
+    get money() {
+        return this._value('money');
     }
 	set level(value) {
         this._modify('level', value);

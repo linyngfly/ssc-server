@@ -16,7 +16,7 @@ module.exports ={
    FIGURE_URL:'figure_url',
    RANK_NAME:'rank_name',
    PIN_CODE:'pin_code',
-   GOLD:'gold',
+   MONEY:'money',
    LEVEL:'level',
    EXPERIENCE:'experience',
    LOGIN_COUNT:'login_count',
