@@ -2,6 +2,7 @@ const Player = require('../player');
 const config = require('../config');
 const models = require('../../../models');
 const moment = require('moment');
+const sscCmd = require('../../../cmd/sscCmd');
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 
 class CQPlayer extends Player {
@@ -25,18 +26,17 @@ class CQPlayer extends Player {
     }
 
     async bet({period, identify, betData, parseRet}) {
-        await this._account.gold = -parseRet.total;
+        this._account.gold = -parseRet.total;
         await this._account.commit();
         if(this._account.gold < 0){
             throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
         }else {
-            await this._account.gold = parseRet.total;
+            this._account.gold = parseRet.total;
             await this._account.commit();
         }
 
         let bet = await models.bet.helper.createBet({
             uid:this.uid,
-            nickname:this._account.nickname,
             period:period,
             identify:identify,
             betData:betData,
@@ -47,6 +47,7 @@ class CQPlayer extends Player {
             betTime:moment().format('YYYY-MM-DD HH:mm:ss')
         });
         this._betsMap.set(bet.id, bet);
+        this.emit(sscCmd.push.bet.route, bet.toJSON());
     }
 
     async unBet(id) {
@@ -61,6 +62,7 @@ class CQPlayer extends Player {
 
         bet.state = models.constants.BET_STATE.CANCEL;
         await bet.commit();
+        this.emit(sscCmd.push.unBet.route, bet.toJSON());
     }
 
     async chat(msg){
@@ -69,7 +71,8 @@ class CQPlayer extends Player {
             throw ERROR_OBJ.CHAT_TOO_FREQUENT;
         }
 
-        //TODO 发送消息
+        //TODO 发送消息，校验消息格式
+        this.emit(sscCmd.push.chat.route, msg);
         this._last_chat_timestamp = Date.now();
     }
 }

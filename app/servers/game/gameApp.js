@@ -24,11 +24,11 @@ class GameApp {
             let SUB_GAMES = plugins[mainType].SUB_GAMES;
             if(!SUB_GAMES){
                 plugins[mainType].start();
-                logger.info('启动主游戏', mainType);
+                logger.error('启动主游戏', mainType);
             }else {
                 for(let sub in SUB_GAMES){
-                    logger.info('启动子游戏', sub);
-                    logger.info('启动子游戏', SUB_GAMES);
+                    logger.error('启动子游戏', sub);
+                    logger.error('启动子游戏', SUB_GAMES);
                     SUB_GAMES[sub].start();
 
                 }

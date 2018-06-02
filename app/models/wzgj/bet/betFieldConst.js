@@ -3,7 +3,7 @@ module.exports ={
    UID:'uid',
    PERIOD:'period',
    IDENTIFY:'identify',
-   ORIBETINFO:'oriBetInfo',
+   BETDATA:'betData',
    BETTYPEINFO:'betTypeInfo',
    BETITEMS:'betItems',
    BETCOUNT:'betCount',

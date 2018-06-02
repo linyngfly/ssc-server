@@ -56,7 +56,17 @@ class SSCCmd extends Cmd {
         this._req.unBet = {
             route: 'game.sscHandler.c_unBet',
             msg: {
-                betId:1,
+                id:1,
+            },
+            res: {}
+        };
+
+        this._req.chat = {
+            route: 'game.sscHandler.c_chat',
+            msg: {
+                type: 0, //0 文本 1图片 2语音
+                data: '', //对应类型的自定义内容,
+                tid:-1, //-1 广播，其他则为私聊消息
             },
             res: {}
         };
@@ -67,17 +77,47 @@ class SSCCmd extends Cmd {
 
         this._push.bet = {
             route: 's_bet',
-            msg: {},
+            msg: {
+                data:{},
+                ext:{
+
+                }
+            },
         };
 
         this._push.unBet = {
             route: 's_unBet',
-            msg: {},
+            msg: {
+                data:{},
+                ext:{
+
+                }
+            },
+        };
+
+        this._push.chat = {
+            route: 's_chat',
+            msg: {
+                data:{},
+                ext:{
+                }
+            },
+        };
+
+        this._push.countdown = {
+            route: 's_countdown',
+            msg: {
+                data:{},
+                ext:{
+                }
+            },
         };
 
         this._push.betResult = {
             route: 's_betResult',
-            msg: {},
+            msg: {
+
+            },
         };
     }
 

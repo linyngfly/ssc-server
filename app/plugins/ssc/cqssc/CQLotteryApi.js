@@ -1,8 +1,4 @@
 const moment = require('moment');
-console.log(moment().format('X'));
-console.log(moment().format('x'));
-// isValid();
-// return;
 const urlencode = require('urlencode');
 const cheerio = require('cheerio');
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
@@ -66,7 +62,7 @@ class CQLotteryApi {
     async _getServerTime() {
         let url = `/game/time.aspx?ab=${Math.random()}`;
         let timeData = await httpclient.getData(`${this._host}${url}`);
-        console.log('服务器时间 timeData=', timeData.toString());
+        // console.log('服务器时间 timeData=', timeData.toString());
         let serverTime = moment(timeData.toString());
         let isValid = serverTime.isValid();
         if (!isValid) {
@@ -106,7 +102,7 @@ class CQLotteryApi {
             });
             _items.push(_item);
         });
-        console.info('开奖历史 _items=' + JSON.stringify(_items));
+        // console.info('开奖历史 _items=' + JSON.stringify(_items));
         return _items;
     }
 
@@ -126,7 +122,7 @@ class CQLotteryApi {
         let now = new Date();
         let resp = {period: now.getFullYear().toString().substring(0, 2) + period, numbers: numbers};
         //toddo 校验数据是否有效
-        console.log('最近开奖信息, resp=', resp);
+        // console.log('最近开奖信息, resp=', resp);
         return resp;
     }
 
@@ -145,15 +141,15 @@ class CQLotteryApi {
             period: now.getFullYear().toString().substring(0, 2) + period,
             time: time
         };
-        console.log('下期开奖信息=', resp);
+        // console.log('下期开奖信息=', resp);
         return resp;
     }
 }
 
-setInterval(async ()=>{
-    let test = new CQLotteryApi();
-    console.log(await test.getLotteryInfo());
-}, 5000);
+// setInterval(async ()=>{
+//     let test = new CQLotteryApi();
+//     console.log(await test.getLotteryInfo());
+// }, 5000);
 
 
 module.exports = CQLotteryApi;

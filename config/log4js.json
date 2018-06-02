@@ -27,7 +27,7 @@
   "categories": {
     "default": {
       "appenders": ["file", "console"],
-      "level": "DEBUG"
+      "level": "error"
     }
   },
   "lineDebug": true

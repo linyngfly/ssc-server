@@ -5,6 +5,7 @@ const CQPlayer = require('./CQPlayer');
 const Hall = require('../Hall');
 const config = require('../config');
 const models = require('../../../models');
+const sscCmd = require('../../../cmd/sscCmd');
 const constants = require('../../../consts/constants');
 
 class Cqssc extends Hall {
@@ -15,8 +16,30 @@ class Cqssc extends Hall {
         this._playerMap = new Map();
     }
 
+    _openAward(last){
+
+    }
+
     start() {
+        logger.error('ssc start');
         super.start();
+
+        let self = this;
+
+        this._bonusPool.on(config.LOTTERY_EVENT.TICK_COUNT, (dt)=>{
+            logger.error('开奖倒计时=', dt);
+            self.broadcast(sscCmd.push.countdown.route, {
+                dt: dt,
+            });
+        });
+
+        this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, (lotteryInfo)=>{
+            self._openAward(lotteryInfo.last);
+            self.broadcast(sscCmd.push.countdown.route, {
+                lotteryInfo: lotteryInfo,
+            });
+        });
+
         this._bonusPool.start();
     }
 
@@ -103,7 +126,6 @@ class Cqssc extends Hall {
             return [err];
         }
 
-        //TODO 投注限额
         let player = this._playerMap.get(msg.uid);
         await player.bet({
             period: this._bonusPool.getNextPeriod(),
@@ -111,7 +133,6 @@ class Cqssc extends Hall {
             betData: msg.betData,
             parseRet: parseRet
         });
-
 
     }
 
@@ -130,7 +151,37 @@ class Cqssc extends Hall {
     }
 
     addEvent(player) {
+        let self = this;
+        player.on(sscCmd.push.bet.route, (data) => {
+            self.broadcast(sscCmd.push.bet.route, {
+                data: data,
+                ext: {
+                    nickname: player.account.nickname,
+                }
+            })
+        });
 
+        player.on(sscCmd.push.unBet.route, (data) => {
+            self.broadcast(sscCmd.push.unBet.route, {
+                data: data,
+                ext: {
+                    nickname: player.account.nickname,
+                }
+            })
+        });
+
+        player.on(sscCmd.push.chat.route, (data) => {
+            self.broadcast(sscCmd.push.chat.route, {
+                data: data,
+                ext: {
+                    nickname: player.account.nickname,
+                }
+            })
+        });
+
+        player.on(sscCmd.push.betResult.route, (data) => {
+            player.send(sscCmd.push.betResult.route, data)
+        });
     }
 }
 

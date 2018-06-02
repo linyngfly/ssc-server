@@ -27,9 +27,9 @@ class Hall{
         this._msgChannel.leave(this._msgChannelName, uid, sid);
     }
 
-    broadcast(route, data, channelName, serverType = rpcDefs.serverType.game){
+    broadcast(route, data, serverType = rpcDefs.serverType.game){
         if(this._msgChannel){
-            this._msgChannel.pushMessage(serverType, route, data, channelName);
+            this._msgChannel.pushMessage(serverType, route, data, this._msgChannelName);
         }
     }
 

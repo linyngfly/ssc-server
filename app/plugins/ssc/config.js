@@ -1,5 +1,10 @@
 module.exports = {
 
+    LOTTERY_EVENT:{
+        TICK_COUNT:Symbol('tick_count'),
+        OPEN_AWARD:Symbol('open_award'),
+    },
+
     BET_ADVANCE_CLOSE_TIME:30, //投注提前关闭时间单位秒(s)
     DES_SEPARATOR:'/',
     BET_SEPARATOR:'/',
