@@ -35,10 +35,14 @@ class OpenCaiNetApi {
                 path: '/newly.do?token=t208b2a08fd475e76k&code=%s&rows=%d&format=json'
             }
         ];
+        this._last_get_timestamp = Date.now();
+        this._lotteryInfo = null;
     }
 
     async _getSdkInfo(options) {
+        logger.error('options=', options);
         let sdkData = await httpclient.get(options);
+        logger.error('sdkData=', sdkData.toString());
         sdkData = JSON.parse(sdkData.toString());
         return sdkData;
     }
@@ -47,6 +51,9 @@ class OpenCaiNetApi {
         let idx = opencode.indexOf('+');
         let numbers = opencode.substring(0, idx);
         numbers = numbers.split(',');
+        numbers = numbers.sort(() => {
+            return Math.random() > 0.5 ? -1 : 1;
+        });
         let total = 0;
         for (let i = 0; i < 6; i++) {
             total += numbers[i];
@@ -70,37 +77,53 @@ class OpenCaiNetApi {
     }
 
     async getLotteryInfo(type, rows = 2) {
-        let lotteryInfo = {};
+        // let lotteryInfo = {};
+        if(Date.now() - this._last_get_timestamp < 4000){
+            return this._lotteryInfo;
+        }
+
+        logger.error('getLotteryInfo requrest', type);
         for (let i = 0; i < this._sdkAddress.length; i++) {
             try {
-                this._sdkAddress[i].path = util.format(this._sdkAddress[i].path, type.IDENTIFY, rows);
-                let sdkData = await this._getSdkInfo(this._sdkAddress[i]);
-                lotteryInfo.identify = sdkData.code;
+                // this._sdkAddress[i].path = util.format(this._sdkAddress[i].path, type.IDENTIFY, rows);
+                logger.error('http requrest', type);
+                this._last_get_timestamp = Date.now();
+                let sdkData = await this._getSdkInfo({
+                    host:this._sdkAddress[i].host,
+                    port:this._sdkAddress[i].port,
+                    method:this._sdkAddress[i].method,
+                    path:util.format(this._sdkAddress[i].path, type.IDENTIFY, rows)
+                });
+
+                this._lotteryInfo = this._lotteryInfo || {};
+
+                this._lotteryInfo.identify = sdkData.code;
 
                 let infos = sdkData.data;
 
                 let last_opentime = moment(infos[0].opentime).add(type.INTERVAL, 'minutes');
-                lotteryInfo.next = {
+                this._lotteryInfo.next = {
                     period: Number(infos[0].expect) + 1,
                     opentime: last_opentime.format('YYYY-MM-DD HH:mm:ss')
                 };
 
-                lotteryInfo.last = {
+                this._lotteryInfo.last = {
                     period: Number(infos[0].expect),
                     opentime: infos[0].opentime,
                     numbers: this._convertTo3Ball(infos[0].opencode)
                 };
 
-                lotteryInfo.pre = {
+                this._lotteryInfo.pre = {
                     period: Number(infos[1].expect),
                     opentime: infos[1].opentime,
                     numbers: this._convertTo3Ball(infos[1].opencode)
                 };
 
-                return lotteryInfo;
+                return this._lotteryInfo;
 
             } catch (e) {
                 console.error('OpenCaiNetApi getLotteryInfo err=', e);
+                return;
             }
         }
     }

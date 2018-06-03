@@ -7,12 +7,16 @@ const httpclient = require('../../../net/httpclient');
 class CQLotteryApi {
     constructor() {
         this._host = 'http://buy.cqcp.net';
+        this._last_get_timestamp = Date.now();
+        this._lotteryInfo = null;
     }
 
     async getLotteryInfo(type, rows = 2) {
-        let lotteryInfo = {};
-        lotteryInfo.identify = type.IDENTIFY;
-
+        if(Date.now() - this._last_get_timestamp < 4000){
+            return this._lotteryInfo;
+        }
+        // let lotteryInfo = {};
+        this._last_get_timestamp = Date.now();
         try {
             // let serverTime = await this._getServerTime();
             // if (!serverTime) {
@@ -29,24 +33,27 @@ class CQLotteryApi {
             if (!nextInfo) {
                 return;
             }
-            lotteryInfo.next = {
+
+            this._lotteryInfo = this._lotteryInfo || {};
+            this._lotteryInfo.identify = type.IDENTIFY;
+            this._lotteryInfo.next = {
                 period: Number(nextInfo.period),
                 opentime: nextInfo.time
             };
 
-            lotteryInfo.last = {
+            this._lotteryInfo.last = {
                 period: Number(preInfos[0].period),
                 opentime: preInfos[0].time,
                 numbers: preInfos[0].numbers
             };
 
-            lotteryInfo.pre = {
+            this._lotteryInfo.pre = {
                 period: Number(preInfos[1].period),
                 opentime: preInfos[1].time,
                 numbers: preInfos[1].numbers
             };
 
-            return lotteryInfo;
+            return this._lotteryInfo;
 
         } catch (e) {
             console.error('CQLotteryApi CQLotteryApi err=', e);

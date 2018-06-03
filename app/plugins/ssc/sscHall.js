@@ -20,7 +20,7 @@ class SscHall{
         let self = this;
 
         this._bonusPool.on(config.LOTTERY_EVENT.TICK_COUNT, (dt)=>{
-            logger.error('开奖倒计时=', dt);
+            logger.error('开奖倒计时=', dt, self._msgChannelName);
             self.broadcast(sscCmd.push.countdown.route, {
                 dt: dt,
             });

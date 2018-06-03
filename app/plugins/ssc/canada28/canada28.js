@@ -19,7 +19,7 @@ class Canada28 extends SscHall{
             betParser:new Ssc28BetParser(),
             bonusPool:new BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
-                openCaiType:config.OPEN_CAI_TYPE.CQSSC
+                openCaiType:config.OPEN_CAI_TYPE.CAKENO
             })
         });
     }

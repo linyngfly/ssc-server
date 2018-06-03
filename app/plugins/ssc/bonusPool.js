@@ -13,7 +13,6 @@ class BonusPool extends EventEmitter {
         this._countdown = new Countdown(this.countdownNotify.bind(this));
         this._canRun = true;
         this._lotterInfo = null;
-        this._task_dt_count = 0;
     }
 
     countdownNotify(dt) {
@@ -23,34 +22,31 @@ class BonusPool extends EventEmitter {
 
     //处理业务
     async update() {
-        this._task_dt_count++;
-        if (this._task_dt_count >= 30 || this._lotterInfo == null) {
-            try {
-                let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
-                if(!lotteryInfo){
-                    throw new Error('lotteryInfo is null');
-                }
-
-                if(lotteryInfo.next.period != lotteryInfo.last.period+1 &&  lotteryInfo.last.period != lotteryInfo.pre.period + 2){
-                    throw new Error('lotteryInfo is invalid');
-                }
-
-                logger.error('getLotteryInfo=', lotteryInfo);
-                if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
-                    //TODO 开奖了
-                    this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
-                    let nextTime = moment(lotteryInfo.next.opentime).format('x');
-                    let free = nextTime - moment().format('x');
-                    logger.error('free =', free);
-                    this._countdown.reset(Math.floor(free/1000)*1000);
-                    this._lotterInfo = lotteryInfo;
-                }
-
-                this._task_dt_count = 0;
-            } catch (err) {
-                logger.error('获取开奖数据异常，err=', err);
-                this._task_dt_count = 10;
+        try {
+            let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
+            if(!lotteryInfo){
+                return;
+                // throw new Error('lotteryInfo is null');
             }
+
+            if(lotteryInfo.next.period != lotteryInfo.last.period+1 &&  lotteryInfo.last.period != lotteryInfo.pre.period + 2){
+                // throw new Error('lotteryInfo is invalid');
+                return;
+            }
+
+            // logger.error('getLotteryInfo=', lotteryInfo);
+            if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
+                //TODO 开奖了
+                this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
+                let nextTime = moment(lotteryInfo.next.opentime).format('x');
+                let free = nextTime - moment().format('x');
+                free = Math.min(free, 0);
+                // logger.error('free =', free);
+                this._countdown.reset(Math.floor(free/1000)*1000);
+                this._lotterInfo = lotteryInfo;
+            }
+        } catch (err) {
+            logger.error('获取开奖数据异常，err=', err);
         }
     }
 
