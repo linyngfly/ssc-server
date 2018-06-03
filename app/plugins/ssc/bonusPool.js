@@ -1,15 +1,15 @@
-const CQLotteryApi = require('./CQLotteryApi');
-const Countdown = require('../../../utils/countdown');
 const EventEmitter = require('events').EventEmitter;
-const config = require('../config');
+const Countdown = require('../../utils/countdown');
+const config = require('./config');
 const moment = require('moment');
 
 const TASK_DT = 100;
 
 class BonusPool extends EventEmitter {
-    constructor() {
+    constructor(opts) {
         super();
-        this._cqLotteryApi = new CQLotteryApi();
+        this._lotteryApi = opts.lotteryApi;
+        this._openCaiType = opts.openCaiType;
         this._countdown = new Countdown(this.countdownNotify.bind(this));
         this._canRun = true;
         this._lotterInfo = null;
@@ -26,7 +26,7 @@ class BonusPool extends EventEmitter {
         this._task_dt_count++;
         if (this._task_dt_count >= 30 || this._lotterInfo == null) {
             try {
-                let lotteryInfo = await this._cqLotteryApi.getLotteryInfo();
+                let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._identify);
                 if(!lotteryInfo){
                     throw new Error('lotteryInfo is null');
                 }
@@ -77,15 +77,15 @@ class BonusPool extends EventEmitter {
      * @return {boolean}
      */
     canBetNow() {
-        return true;
+        return this._lotterInfo != null && this._countdown.duration > config.BET_ADVANCE_CLOSE_TIME;
     }
 
     getNextPeriod() {
-        return '2018032323';
+        return this._lotterInfo.next.period;
     }
 
     getIdentify() {
-        return ';';
+        return this._openCaiType.IDENTIFY;
     }
 }
 

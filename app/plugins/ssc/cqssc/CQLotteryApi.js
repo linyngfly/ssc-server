@@ -9,9 +9,9 @@ class CQLotteryApi {
         this._host = 'http://buy.cqcp.net';
     }
 
-    async getLotteryInfo() {
+    async getLotteryInfo(type, rows = 2) {
         let lotteryInfo = {};
-        lotteryInfo.identify = 'cqssc';
+        lotteryInfo.identify = type.IDENTIFY;;
 
         try {
             // let serverTime = await this._getServerTime();
@@ -20,7 +20,7 @@ class CQLotteryApi {
             // }
             // lotteryInfo.serverTime = serverTime;
 
-            let preInfos = await this._getPreInfo();
+            let preInfos = await this._getPreInfo(rows);
             if (!preInfos) {
                 return;
             }

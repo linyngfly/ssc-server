@@ -1,6 +1,6 @@
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 const CQBetParser = require('./CQBetParser');
-const BonusPool = require('./bonusPool');
+const BonusPool = require('../bonusPool');
 const OpenAwardCalc = require('./openAwardCalc');
 const CQPlayer = require('./CQPlayer');
 const Hall = require('../Hall');
@@ -8,12 +8,16 @@ const config = require('../config');
 const models = require('../../../models');
 const sscCmd = require('../../../cmd/sscCmd');
 const constants = require('../../../consts/constants');
+const CQLotteryApi = require('./cqssc/CQLotteryApi');
 
 class Cqssc extends Hall {
     constructor() {
         super({msgChannelName: config.CQSSC.MSG_CHANNEL_NAME});
         this._betParser = new CQBetParser();
-        this._bonusPool = new BonusPool();
+        this._bonusPool = new BonusPool({
+            lotteryApi:new CQLotteryApi(),
+            openCaiType:config.OPEN_CAI_TYPE.CQSSC
+        });
         this._playerMap = new Map();
     }
 

@@ -134,7 +134,4 @@ class OpenAwardCalc {
     }
 }
 
-let openAwardCalc = new OpenAwardCalc([1,3,7,8,2]);
-let openResult = openAwardCalc.calc();
-
 module.exports = OpenAwardCalc;

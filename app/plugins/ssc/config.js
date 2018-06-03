@@ -5,18 +5,22 @@ module.exports = {
         OPEN_AWARD:Symbol('open_award'),
     },
 
-    BET_ADVANCE_CLOSE_TIME:30, //投注提前关闭时间单位秒(s)
+    BET_ADVANCE_CLOSE_TIME:30000, //投注提前关闭时间单位毫秒(ms)
     DES_SEPARATOR:'/',
     BET_SEPARATOR:'/',
-    CHAT_INTERVAL_TIME: 5000, //聊天间隔时间单位(ms)
+    CHAT_INTERVAL_TIME: 5000, //聊天间隔时间单位毫秒(ms)
 
-    OPEN_CAI_NET:{
+    OPEN_CAI_TYPE:{
         BJKL8:{
-            CODE:'bjkl8',
+            IDENTIFY:'bjkl8',
             INTERVAL: 5
         },
         CAKENO:{
-            CODE:'cakeno',
+            IDENTIFY:'cakeno',
+            INTERVAL: 3
+        },
+        CQSSC:{
+            IDENTIFY:'cqssc',
             INTERVAL: 3
         }
     },
