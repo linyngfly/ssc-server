@@ -36,13 +36,6 @@ module.exports = {
         require: true,
         comment: '原始投注数据'
     },
-    betTypeInfo: {
-        def: {},
-        type: "object",
-        tbl: 'bets_log',
-        require: true,
-        comment: '投注类型信息'
-    },
     betItems: {
         def: {},
         type: "object",

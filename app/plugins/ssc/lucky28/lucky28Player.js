@@ -1,6 +1,6 @@
 const SscPlayer = require('../sscPlayer');
 
-class CQPlayer extends SscPlayer {
+class Lucky28Player extends SscPlayer {
     constructor(opts) {
         super(opts);
     }
@@ -12,4 +12,4 @@ class CQPlayer extends SscPlayer {
 
 }
 
-module.exports = CQPlayer;
+module.exports = Lucky28Player;

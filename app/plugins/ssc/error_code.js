@@ -1,5 +1,6 @@
 const ERROR_CODE = require('../../consts/error_code').ERROR_CODE;
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
+const config = require('./config');
 
 const _errorCode = {
     QUERY_LOTTERY_INFO_ERROR: 10000, //查询开奖信息失败
@@ -17,6 +18,7 @@ const _errorCode = {
     BET_NOT_EXIST: 10012, //投注不存在
     BET_CANNOT_CANCEL: 10013, //投注已经无法撤销
     CHAT_TOO_FREQUENT: 10014, //聊天太频繁,稍后再试
+    BET_AMOUNT_TOO_LOW: 10015, //投注金额低于最低要求
 };
 
 for (let item in ERROR_CODE) {
@@ -85,6 +87,10 @@ const _errorObj = {
     CHAT_TOO_FREQUENT: {
         msg: '聊天太频繁,稍后再试',
         code: _errorCode.CHAT_TOO_FREQUENT,
+    },
+    BET_AMOUNT_TOO_LOW: {
+        msg: `投注金额低于最低要求${config.BET_MIN_MONEY}`,
+        code: _errorCode.BET_AMOUNT_TOO_LOW,
     },
 };
 

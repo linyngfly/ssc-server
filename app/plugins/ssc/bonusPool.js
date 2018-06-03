@@ -26,7 +26,7 @@ class BonusPool extends EventEmitter {
         this._task_dt_count++;
         if (this._task_dt_count >= 30 || this._lotterInfo == null) {
             try {
-                let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._identify);
+                let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
                 if(!lotteryInfo){
                     throw new Error('lotteryInfo is null');
                 }

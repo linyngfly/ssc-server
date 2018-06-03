@@ -237,10 +237,10 @@ async function main() {
         password: '123654'
     });
 
-    await client.enterGame('ssc', 'cqssc');
+    await client.enterGame('ssc', 'lucky28');
     console.error(3333);
-    await client.bet('单100');
-    await client.bet('大单龙100');
+    await client.bet('哈大单');
+    // await client.bet('大单龙100');
     console.error(1111);
     await client.unBet(2);
     console.error(2222);

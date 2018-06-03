@@ -11,7 +11,7 @@ class CQLotteryApi {
 
     async getLotteryInfo(type, rows = 2) {
         let lotteryInfo = {};
-        lotteryInfo.identify = type.IDENTIFY;;
+        lotteryInfo.identify = type.IDENTIFY;
 
         try {
             // let serverTime = await this._getServerTime();
