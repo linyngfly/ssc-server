@@ -14,6 +14,8 @@ class ReqHandler {
     _checkParam(route, msg){
         if(!this._checkMap) return;
         let params = this._checkMap.get(route);
+        if(!params) return;
+        
         for(let i=0; i<params.length;params++){
             if(msg[params[i]] == null){
                 throw ERROR_OBJ.PARAM_MISSING;

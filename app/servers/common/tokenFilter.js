@@ -13,7 +13,7 @@ class TokenFilter {
             return next();
         }
         try {
-            msg.uid = await checkToken(msg.token);
+            msg.uid = await checkToken(session.get('token') || msg.token);
         } catch (err) {
             return next(err, {Error:err});
         }

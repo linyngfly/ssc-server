@@ -85,6 +85,7 @@ class GameApp {
         let kvs = {};
         kvs[consts.PLUGINS.MAIN] = msg.mainType;
         kvs[consts.PLUGINS.SUB] = msg.subType;
+        kvs.token = msg.token;
         await omeloUtil.set(session, kvs);
         session.on('closed', this.close.bind(this));
         msg.sid = session.frontendId;

@@ -84,7 +84,7 @@ module.exports = {
         comment: '投注时间'
     },
     state: {
-        def: constants.BET_STATE.BET_WAIT,
+        def: constants.BET_STATE.WAIT,
         type: "number",
         tbl: 'bets_log',
         comment: '0待开奖，1 撤销，2 赢 3输 4返还'

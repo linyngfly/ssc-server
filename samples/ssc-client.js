@@ -10,6 +10,9 @@ class SSCClient{
     constructor(){
         this._player = null;
         this._state = false;
+        this._heartbeat = null;
+        this._heartbeat_fail_count = 0;
+        this._bets = new Map();
         this._client = new OmeloClient();
         this._client.on('io-error', this._sockeError.bind(this));
         this._listen();
@@ -26,6 +29,7 @@ class SSCClient{
 
     onBet(msg){
         console.info('onBet msg=', JSON.stringify(msg));
+        this._bets.set(msg.data.id, msg);
     }
 
     onUnBet(msg){
@@ -37,7 +41,7 @@ class SSCClient{
     }
 
     onCountdown(msg){
-        console.info('onCountdown msg=', JSON.stringify(msg));
+        // console.info('onCountdown msg=', JSON.stringify(msg));
     }
 
     onBetResult(msg){
@@ -86,20 +90,64 @@ class SSCClient{
         }
     }
 
-    async enterGame(mainType, subType) {
-        await this._handshake(GAME_IP, GAME_PORT);
-        const route = "game.sscHandler.c_enter";
-        let resp = await this._request(route, {
-            token: this._player.token,
-            mainType:mainType,
-            subType:subType
-        });
+    async sendHeartbeat() {
+        try {
+            if (this._state) {
+                await this._request('game.sscHandler.c_heartbeat', {});
+                this._heartbeat_fail_count = 0;
+            }
+        } catch (err) {
+            this._heartbeat_fail_count++;
+            // logger.error('sendHeartbeat fail count:', this._heartbeat_fail_count, 'err:', err);
+        }
+    }
 
-        console.info(resp);
+    async enterGame(mainType, subType) {
+        try{
+            await this._handshake(GAME_IP, GAME_PORT);
+            let resp = await this._request('game.sscHandler.c_enter', {
+                token: this._player.token,
+                mainType:mainType,
+                subType:subType
+            });
+
+            this._client.on('disconnect', this._offline.bind(this));
+            // this._heartbeat = setInterval(this.sendHeartbeat.bind(this), 10000);
+            this._state = true;
+            console.info('enterGame resp=', resp);
+        }catch (err) {
+            this._state = false;
+            logger.error('加入游戏失败，err:', err);
+            logger.error('加入游戏失败,自动重连中...');
+            setTimeout(this.enterGame.bind(this), 10000);
+        }
 
     }
 
-    leaveGame() {
+    async leaveGame() {
+        this._state = false;
+        clearInterval(this._heartbeat);
+        let resp = await this._request('game.sscHandler.c_leave', {});
+        console.info('leaveGame resp=', resp);
+    }
+
+    async bet(data){
+        try {
+            let resp = await this._request('game.sscHandler.c_bet', {betData:data});
+            console.info('bet ok resp=', resp);
+        }catch (err) {
+            console.info('bet fail err=', err);
+        }
+
+    }
+
+    async unBet(id){
+        try{
+            let resp = await this._request('game.sscHandler.c_unBet', {id:id});
+            console.info('unBet ok resp=', resp);
+        }catch (err) {
+            console.info('unBet fail err=', err);
+        }
 
     }
 
@@ -190,7 +238,13 @@ async function main() {
     });
 
     await client.enterGame('ssc', 'cqssc');
-
+    console.error(3333);
+    await client.bet('单100');
+    await client.bet('大单龙100');
+    console.error(1111);
+    await client.unBet(2);
+    console.error(2222);
+    // await client.leaveGame();
 }
 
 main();

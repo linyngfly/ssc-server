@@ -15,7 +15,7 @@ class BetHelper {
     }
 
     async exist(uid) {
-        let exist = await redisConnector.hget(genRedisKey.getAccountKey(betFieldConst.ID), uid);
+        let exist = await redisConnector.hget(genRedisKey.getBetKey(betFieldConst.ID), uid);
         if (exist == null) {
             return false;
         }
@@ -74,7 +74,7 @@ class BetHelper {
                 try {
                     let value = Parser.serializeValue(key, fields[key], bet);
                     bet.appendValue(key, value);
-                    cmds.push([cmd, genRedisKey.getAccountKey(key), id, value]);
+                    cmds.push([cmd, genRedisKey.getBetKey(key), id, value]);
                 } catch (e) {
                     e;
                 }
@@ -101,7 +101,7 @@ class BetHelper {
         if (fields.length > 1) {
             let cmds = [];
             for (let i = 0; i < fields.length; i++) {
-                cmds.push(['hget', genRedisKey.getAccountKey(fields[i]), id]);
+                cmds.push(['hget', genRedisKey.getBetKey(fields[i]), id]);
             }
             let docs = await redisConnector.multi(cmds);
             let bet = new Bet(id);
@@ -114,7 +114,7 @@ class BetHelper {
             }
             return bet;
         } else {
-            let doc = await redisConnector.hget(genRedisKey.getAccountKey(fields[0]), id);
+            let doc = await redisConnector.hget(genRedisKey.getBetKey(fields[0]), id);
             let bet = new Bet(id);
             bet.appendValue(fields[0], doc);
             return bet;
@@ -127,7 +127,7 @@ class BetHelper {
         }
         let cmds = [];
         sqlConst.MODEL_FIELDS.forEach(function (item) {
-            cmds.push(['hdel', genRedisKey.getAccountKey(item), id]);
+            cmds.push(['hdel', genRedisKey.getBetKey(item), id]);
         });
         return await redisConnector.multi(cmds);
     }

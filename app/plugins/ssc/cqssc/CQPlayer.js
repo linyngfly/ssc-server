@@ -67,10 +67,9 @@ class CQPlayer extends Player {
         this.account.money = -parseRet.total;
         await this.account.commit();
         if (this.account.money < 0) {
-            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
-        } else {
             this.account.money = parseRet.total;
             await this.account.commit();
+            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
         }
 
         let bet = await models.bet.helper.createBet({

@@ -57,9 +57,9 @@ class OpenAwardCalc {
     _perPosSizeSingleDoubleCalc() {
         for (let i = 0; i < this._numbers.length; ++i) {
             let num = parseInt(this._numbers[i], 10);
-            let size = num <= 4 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.SMALL) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.BIG);
+            let size = num <= 4 ? ((i + 1) + config.BET_SEPARATOR + config.CQSSC.BET_DIC.SMALL) : ((i + 1) + config.BET_SEPARATOR + config.CQSSC.BET_DIC.BIG);
 
-            let sd = num % 2 === 0 ? ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.DOUBLE) : ((i + 1) + config.CQSSC.BET_SEPARATOR + config.CQSSC.BET_DIC.SINGLE);
+            let sd = num % 2 === 0 ? ((i + 1) + config.BET_SEPARATOR + config.CQSSC.BET_DIC.DOUBLE) : ((i + 1) + config.BET_SEPARATOR + config.CQSSC.BET_DIC.SINGLE);
 
             this._openResult.add(size);
             this._openResult.add(sd);
@@ -69,7 +69,7 @@ class OpenAwardCalc {
     //球值
     _perPosValueCalc() {
         for (let i = 0; i < this._numbers.length; ++i) {
-            let val = (i + 1) + config.CQSSC.BET_SEPARATOR + this._numbers[i];
+            let val = (i + 1) + config.BET_SEPARATOR + this._numbers[i];
             this._openResult.add(val);
         }
     }
@@ -77,7 +77,7 @@ class OpenAwardCalc {
     //包数字
     _containValueCalc() {
         for (let i = 0; i < this._numbers.length; ++i) {
-            let val = (i + 1) + config.CQSSC.BET_SEPARATOR + this._numbers[i];
+            let val = (i + 1) + config.BET_SEPARATOR + this._numbers[i];
             this._openResult.add(val);
         }
     }
@@ -85,15 +85,15 @@ class OpenAwardCalc {
     //豹子：连续3球相同
     _pantherCalc() {
         if (this._numbers[0] === this._numbers[1] && this._numbers[1] === this._numbers[2]) {
-            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BET_DIC.BAO);
+            this._openResult.add(config.CQSSC.BET_BSPOS.BEGIN + config.CQSSC.BET_DIC.BAO);
         }
 
         if (this._numbers[1] === this._numbers[2] && this._numbers[2] === this._numbers[3]) {
-            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BET_DIC.BAO);
+            this._openResult.add(config.CQSSC.BET_BSPOS.MID + config.CQSSC.BET_DIC.BAO);
         }
 
         if (this._numbers[2] === this._numbers[3] && this._numbers[3] === this._numbers[4]) {
-            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BET_DIC.BAO);
+            this._openResult.add(config.CQSSC.BET_BSPOS.END + config.CQSSC.BET_DIC.BAO);
         }
     }
 
@@ -121,17 +121,20 @@ class OpenAwardCalc {
 
     _shunZiCalc() {
         if (this.checkShunZi([Number(this._numbers[0]), Number(this._numbers[1]), Number(this._numbers[2])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.BEGIN + config.CQSSC.BET_DIC.SHUN);
+            this._openResult.add(config.CQSSC.BET_BSPOS.BEGIN + config.CQSSC.BET_DIC.SHUN);
         }
 
         if (this.checkShunZi([Number(this._numbers[1]), Number(this._numbers[2]), Number(this._numbers[3])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.MID + config.CQSSC.BET_DIC.SHUN);
+            this._openResult.add(config.CQSSC.BET_BSPOS.MID + config.CQSSC.BET_DIC.SHUN);
         }
 
         if (this.checkShunZi([Number(this._numbers[2]), Number(this._numbers[3]), Number(this._numbers[4])])) {
-            this._openResult.add(config.CQSSC.BetBSPos.END + config.CQSSC.BET_DIC.SHUN);
+            this._openResult.add(config.CQSSC.BET_BSPOS.END + config.CQSSC.BET_DIC.SHUN);
         }
     }
 }
+
+let openAwardCalc = new OpenAwardCalc([1,3,7,8,2]);
+let openResult = openAwardCalc.calc();
 
 module.exports = OpenAwardCalc;

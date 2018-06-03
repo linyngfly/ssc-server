@@ -57,7 +57,7 @@ class Cqssc extends Hall {
         if (!this[route]) {
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
-        this[route](msg, session);
+        await this[route](msg, session);
     }
 
     async rpc(method, msg) {
@@ -121,6 +121,11 @@ class Cqssc extends Hall {
     //         "type": {"code": 3, "desc": "单"}
     //     }]
     // }
+    async c_heartbeat(msg){
+        let player = this._playerMap.get(msg.uid);
+        player.updateActiveTime();
+    }
+
     async c_bet(msg) {
         if (!this._bonusPool.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;

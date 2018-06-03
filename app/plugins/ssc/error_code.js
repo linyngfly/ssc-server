@@ -71,7 +71,7 @@ const _errorObj = {
         code: _errorCode.PLAYER_NOT_IN_HALL,
     },
     ACCOUNT_AMOUNT_NOT_ENOUGH: {
-        msg: '账号余额不足，重新加入',
+        msg: '账号余额不足',
         code: _errorCode.ACCOUNT_AMOUNT_NOT_ENOUGH,
     },
     BET_NOT_EXIST: {
