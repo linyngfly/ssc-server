@@ -38,11 +38,13 @@ class BonusPool extends EventEmitter {
             if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
                 //TODO 开奖了
                 this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
-                let nextTime = moment(lotteryInfo.next.opentime).format('x');
+                let nextTime = moment(lotteryInfo.next.opentime).add('minutes', 5).format('x');
                 let free = nextTime - moment().format('x');
+                logger.error('======================================free =', free);
                 free = Math.max(free, 0);
-                // logger.error('free =', free);
+                logger.error('======================================free =', free);
                 this._countdown.reset(Math.floor(free/1000)*1000);
+                
                 this._lotterInfo = lotteryInfo;
             }
         } catch (err) {

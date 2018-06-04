@@ -28,7 +28,7 @@ class GameApp {
             }else {
                 for(let sub in SUB_GAMES){
                     logger.error('启动子游戏', sub);
-                    logger.error('启动子游戏', SUB_GAMES);
+                    // logger.error('启动子游戏', SUB_GAMES);
                     SUB_GAMES[sub].start();
 
                 }

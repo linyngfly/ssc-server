@@ -10,7 +10,7 @@ ALTER SCHEMA `lottery` DEFAULT COLLATE utf8_unicode_ci;
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `user` (
-	`uid` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
 	`username` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录名',
 	`password` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录密码',
 	`phone` VARCHAR (11) COLLATE utf8_unicode_ci NOT NULL COMMENT '电话',
@@ -36,9 +36,8 @@ IF NOT EXISTS `user` (
 	`updated_at` BIGINT (20) UNSIGNED DEFAULT NULL COMMENT '最后在线时间',
 	`ext` json DEFAULT NULL COMMENT '扩展数据',
 	`state` TINYINT (3) UNSIGNED DEFAULT '0' COMMENT '在线状态',
-	PRIMARY KEY (`uid`),
-	UNIQUE KEY `username_UNIQUE` (`username`),
-	UNIQUE KEY `phone_UNIQUE` (`phone`)
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------
@@ -46,16 +45,14 @@ IF NOT EXISTS `user` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `bank` (
-	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
+	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
 	`bank_address` VARCHAR (128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '开户行地址',
 	`bank_account` VARCHAR (20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '户名',
 	`bank_card` VARCHAR (36) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '银行卡号',
 	`weixin` VARCHAR (255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信',
 	`zhifubao` VARCHAR (255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',
 	`bind_card_at` BIGINT (20) UNSIGNED NOT NULL COMMENT '绑卡时间',
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `uid_UNIQUE` (`uid`)
+	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------
@@ -63,8 +60,8 @@ IF NOT EXISTS `bank` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `bets_log` (
-	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注ID',,
-	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
+	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注ID' ,
+    `uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
 	`period` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
 	`identify` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',
 	`betData` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户输入投注数据',

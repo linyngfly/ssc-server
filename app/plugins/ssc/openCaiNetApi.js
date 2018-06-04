@@ -36,7 +36,6 @@ class OpenCaiNetApi {
             }
         ];
         this._last_get_timestamp = Date.now();
-        this._lotteryInfo = null;
     }
 
     async _getSdkInfo(options) {
@@ -79,7 +78,7 @@ class OpenCaiNetApi {
     async getLotteryInfo(type, rows = 2) {
         // let lotteryInfo = {};
         if(Date.now() - this._last_get_timestamp < 4000){
-            return this._lotteryInfo;
+            return null;
         }
 
         logger.error('getLotteryInfo requrest', type);
@@ -95,31 +94,33 @@ class OpenCaiNetApi {
                     path:util.format(this._sdkAddress[i].path, type.IDENTIFY, rows)
                 });
 
-                this._lotteryInfo = this._lotteryInfo || {};
-
-                this._lotteryInfo.identify = sdkData.code;
+                let lotteryInfo = {};
+                
+                lotteryInfo.identify = sdkData.code;
 
                 let infos = sdkData.data;
 
                 let last_opentime = moment(infos[0].opentime).add(type.INTERVAL, 'minutes');
-                this._lotteryInfo.next = {
+                lotteryInfo.next = {
                     period: Number(infos[0].expect) + 1,
                     opentime: last_opentime.format('YYYY-MM-DD HH:mm:ss')
                 };
 
-                this._lotteryInfo.last = {
+                lotteryInfo.last = {
                     period: Number(infos[0].expect),
                     opentime: infos[0].opentime,
                     numbers: this._convertTo3Ball(infos[0].opencode)
                 };
 
-                this._lotteryInfo.pre = {
+                lotteryInfo.pre = {
                     period: Number(infos[1].expect),
                     opentime: infos[1].opentime,
                     numbers: this._convertTo3Ball(infos[1].opencode)
                 };
 
-                return this._lotteryInfo;
+                logger.error('lotteryInfo=',lotteryInfo);
+
+                return lotteryInfo;
 
             } catch (e) {
                 console.error('OpenCaiNetApi getLotteryInfo err=', e);

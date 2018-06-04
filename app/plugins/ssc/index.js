@@ -13,5 +13,5 @@ function readDirSync(_path){
 }
 
 readDirSync(__dirname);
-console.log(MODULES);
+// console.log(MODULES);
 module.exports = MODULES;

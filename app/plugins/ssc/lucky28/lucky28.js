@@ -4,7 +4,7 @@
  */
 
 const Ssc28BetParser = require('../ssc28BetParser');
-const OpenAwardCalc =require('../cqssc/OpenAwardCalc');
+const OpenAwardCalc =require('../cqssc/openAwardCalc');
 const BonusPool = require('../bonusPool');
 const SscHall = require('../sscHall');
 const config = require('../config');

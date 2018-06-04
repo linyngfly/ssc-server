@@ -11,7 +11,7 @@ function loadPlugins(_path){
     pa.forEach(function(file){
         let info = fs.statSync(_path+"/"+file);
         if(info.isDirectory()){
-            console.log('file=',_path+"/"+file)
+            // console.log('file=',_path+"/"+file)
             PLUGINS[file] = require(`./${file}`);
         }
     });

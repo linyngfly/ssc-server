@@ -22,7 +22,7 @@ class Cqssc extends SscHall {
 
     start() {
         logger.error('CQSSC start');
-        super.start();
+        //super.start();
     }
 
     stop() {
