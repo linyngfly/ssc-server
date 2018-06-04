@@ -26,7 +26,7 @@ class Canada28 extends SscHall{
 
     start(){
         logger.error('CANADA28 start');
-        super.start();
+        // super.start();
     }
 
     stop(){

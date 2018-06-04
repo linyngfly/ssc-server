@@ -40,7 +40,7 @@ class BonusPool extends EventEmitter {
                 this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
                 let nextTime = moment(lotteryInfo.next.opentime).format('x');
                 let free = nextTime - moment().format('x');
-                free = Math.min(free, 0);
+                free = Math.max(free, 0);
                 // logger.error('free =', free);
                 this._countdown.reset(Math.floor(free/1000)*1000);
                 this._lotterInfo = lotteryInfo;
@@ -73,6 +73,7 @@ class BonusPool extends EventEmitter {
      * @return {boolean}
      */
     canBetNow() {
+        return true;
         return this._lotterInfo != null && this._countdown.duration > config.BET_ADVANCE_CLOSE_TIME;
     }
 

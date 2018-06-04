@@ -12,7 +12,7 @@ class Ssc28BetParser {
         this._splitReg = /.{1}/g;
         this._reg1 = /(^[大小单双]+)\/?([1-9][0-9]*)$/i;
         this._reg1_reverse = /(^[1-9][0-9]*)\/?([大小单双]+)$/i;
-        this._reg2 = /^[梭]?哈([大小单双]+)$/i;
+        this._reg2 = /^([梭]?哈)([大小单双]+)$/i;
         this._reg3 = /(^对子)\/?([1-9][0-9]*)$/i;
         this._reg3_reverse = /(^[1-9][0-9]*)\/?(对子)$/i;
         this._reg4 = /(^顺子)\/?([1-9][0-9]*)$/i;
@@ -164,12 +164,12 @@ class Ssc28BetParser {
             betItems: []
         };
 
-        let types = splitData[1].match(this._splitReg);
+        let types = splitData[2].match(this._splitReg);
         for (let i = 0; i < types.length; ++i) {
             let item = {};
             item.result = types[i];
             item.money = -1;
-            item.desc = `${item.result}${config.DES_SEPARATOR}${item.money} `;
+            item.desc = `${splitData[1]}${item.result}${config.DES_SEPARATOR}ALL `;
             parseResult.betItems.push(item);
         }
 
@@ -223,7 +223,7 @@ class Ssc28BetParser {
         let item = {};
         item.result = `${types}`;
         item.money = perMoney;
-        item.desc = `${item.result}${config.DES_SEPARATOR}ALL `;
+        item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney} `;
         parseResult.betItems.push(item);
         parseResult.total += perMoney;
 
