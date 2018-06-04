@@ -53,7 +53,6 @@
 
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 const config = require('../config');
-const CQBetDict = require('./CQBetDict');
 
 class CQBetParser{
     constructor(){
@@ -65,9 +64,6 @@ class CQBetParser{
         this._reg5= /(^[豹顺]+)子?\/([0-9]+)\/([0-9]+)\/([0-9]+)$/i;
         this._reg6 = /(^[前中后])([豹顺])\/?([1-9][0-9]*)$/i;
         this._keyValue =['前','中','后'];
-
-        this._CQBetDict = new CQBetDict();
-        this._CQBetDict.init();
     }
 
     _checkType(betData) {
@@ -115,41 +111,32 @@ class CQBetParser{
         return [type,splitData];
     }
 
+    _checkMoney(money) {
+        if (isNaN(money) || money === 0) {
+            return ERROR_OBJ.BET_AMOUNT_INVALID;
+        }
+    }
+
     _handleSize(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
-
         let perMoney = parseInt(splitData[2],10);
-        if(isNaN(perMoney) || perMoney === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(perMoney);
+        if (err) {
+            return [err];
         }
 
         let types = splitData[1].match(this._splitReg);
         for (let i = 0; i< types.length;++i){
-            let betType = this._CQBetDict.get(types[i]);
-            if(!betType){
-                return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-            }
-
             let item = {};
             item.result = types[i];
             item.money = perMoney;
-            item.type= betType;
+            item.desc= `${item.result}${config.DES_SEPARATOR}${perMoney}`;
             parseResult.betItems.push(item);
-
             parseResult.total+= perMoney;
-
-            if(undefined === parseResult.betTypeInfo[betType.code]){
-                parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-                parseResult.betTypeInfo[betType.code].desc ="";
-            }
-            parseResult.betTypeInfo[betType.code].money += perMoney;
-            parseResult.betTypeInfo[betType.code].type = betType;
-            parseResult.betTypeInfo[betType.code].desc += `${item.result}${config.DES_SEPARATOR}${perMoney} `;
         }
 
         return [null, parseResult];
@@ -158,7 +145,6 @@ class CQBetParser{
     _handlePos(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
@@ -172,34 +158,20 @@ class CQBetParser{
         }
 
         let perMoney = parseInt(splitData[3],10);
-        if(isNaN(perMoney) || perMoney === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(perMoney);
+        if (err) {
+            return [err];
         }
 
         let types = splitData[2].match(this._splitReg);
         for (let j=0;j< ballPos.length;++j){
             for (let i = 0; i< types.length;i++){
-                let betType = this._CQBetDict.get(types[i], ballPos[j]);
-                if(!betType){
-                    return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-                }
-
                 let item = {};
-                item.type = betType;
                 item.result = ballPos[j] + config.BET_SEPARATOR + types[i];
                 item.money = perMoney;
-
+                item.desc= `${item.result}${config.DES_SEPARATOR}${perMoney}`;
                 parseResult.betItems.push(item);
-
                 parseResult.total+= perMoney;
-
-                if(undefined === parseResult.betTypeInfo[betType.code]){
-                    parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-                    parseResult.betTypeInfo[betType.code].desc ="";
-                }
-                parseResult.betTypeInfo[betType.code].money += perMoney;
-                parseResult.betTypeInfo[betType.code].type = betType;
-                parseResult.betTypeInfo[betType.code].desc += `${item.result}${config.DES_SEPARATOR}${perMoney} `;
             }
         }
 
@@ -209,37 +181,24 @@ class CQBetParser{
     _handleNum(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
         let perMoney = parseInt(splitData[2],10);
-        if(isNaN(perMoney) || perMoney === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(perMoney);
+        if (err) {
+            return [err];
         }
 
         let types = splitData[1].match(this._splitReg);
         for (let i = 0; i< types.length;++i){
             for (let j=1;j<=5;j++){
-                let betType = this._CQBetDict.get(types[i], j);
-                if(!betType){
-                    return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-                }
-
                 let tempItem = {};
-                tempItem.type = betType;
                 tempItem.result = j + config.BET_SEPARATOR + types[i];
                 tempItem.money = perMoney;
+                tempItem.desc = `${tempItem.result}${config.DES_SEPARATOR}${perMoney}`;
                 parseResult.betItems.push(tempItem);
-
                 parseResult.total+= perMoney;
-                if(undefined === parseResult.betTypeInfo[betType.code]){
-                    parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-                    parseResult.betTypeInfo[betType.code].desc ="";
-                }
-                parseResult.betTypeInfo[betType.code].money += perMoney;
-                parseResult.betTypeInfo[betType.code].type = betType;
-                parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney} `;
             }
         }
 
@@ -249,37 +208,24 @@ class CQBetParser{
     _handleBS1(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
         let perMoney = parseInt(splitData[2],10);
-        if(isNaN(perMoney) || perMoney === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(perMoney);
+        if (err) {
+            return [err];
         }
 
         let types = splitData[1].match(this._splitReg);
         for (let j=0;j<this._keyValue.length;j++){
             for (let i = 0; i< types.length;++i){
-                let betType = this._CQBetDict.get(this._keyValue[j]+types[i]);
-                if(!betType){
-                    return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-                }
-
                 let tempItem = {};
-                tempItem.type = betType;
                 tempItem.result = this._keyValue[j]+types[i];
                 tempItem.money = perMoney;
+                tempItem.desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney}`;
                 parseResult.betItems.push(tempItem);
-
                 parseResult.total+= perMoney;
-                if(undefined === parseResult.betTypeInfo[betType.code]){
-                    parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-                    parseResult.betTypeInfo[betType.code].desc ="";
-                }
-                parseResult.betTypeInfo[betType.code].money += tempItem.money;
-                parseResult.betTypeInfo[betType.code].type = betType;
-                parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney} `;
             }
         }
 
@@ -289,7 +235,6 @@ class CQBetParser{
     _handleBS2(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
@@ -302,34 +247,21 @@ class CQBetParser{
             return previous + current;
         });
 
-        if(isNaN(sum) || sum === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(sum);
+        if (err) {
+            return [err];
         }
 
         let types = splitData[1].match(this._splitReg);
         for (let j=0;j<this._keyValue.length;j++){
             for (let i = 0; i< types.length;++i){
-                let betType = this._CQBetDict.get(this._keyValue[j]+types[i]);
-                if(!betType){
-                    return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-                }
-
                 let tempItem = {};
-                tempItem.type = betType;
                 tempItem.result = this._keyValue[j]+types[i];
                 tempItem.money = perMoneys[j];
-
+                tempItem.desc = `${tempItem.result}${config.DES_SEPARATOR}${tempItem.money}`;
                 if(tempItem.money === 0) continue;
                 parseResult.betItems.push(tempItem);
-
                 parseResult.total+= tempItem.money;
-                if(undefined === parseResult.betTypeInfo[betType.code]){
-                    parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-                    parseResult.betTypeInfo[betType.code].desc ="";
-                }
-                parseResult.betTypeInfo[betType.code].money += tempItem.money;
-                parseResult.betTypeInfo[betType.code].type = betType;
-                parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${tempItem.money} `;
             }
         }
 
@@ -339,36 +271,24 @@ class CQBetParser{
     _handleBS3(splitData) {
         let parseResult = {
             total:0,
-            betTypeInfo:{},
             betItems:[]
         };
 
         let perMoney = parseInt(splitData[3],10);
-        if(isNaN(perMoney) || perMoney === 0){
-            return [ERROR_OBJ.BET_AMOUNT_INVALID];
+        let err = this._checkMoney(perMoney);
+        if (err) {
+            return [err];
         }
 
         let key = splitData[1];
         let type = splitData[2];
-        let betType = this._CQBetDict.get(key+type);
-        if(!betType){
-            return [ERROR_OBJ.BET_TYPE_NOT_EXIST];
-        }
 
         let tempItem = {};
-        tempItem.type = betType;
         tempItem.result = key + type;
         tempItem.money = perMoney;
+        tempItem.desc = `${tempItem.result}${config.DES_SEPARATOR}${perMoney}`;
         parseResult.betItems.push(tempItem);
-
         parseResult.total+= perMoney;
-        if(undefined === parseResult.betTypeInfo[betType.code]){
-            parseResult.betTypeInfo[betType.code]= {money:0,type:{}};
-            parseResult.betTypeInfo[betType.code].desc ="";
-        }
-        parseResult.betTypeInfo[betType.code].money += tempItem.money;
-        parseResult.betTypeInfo[betType.code].type = betType;
-        parseResult.betTypeInfo[betType.code].desc += `${tempItem.result}${config.DES_SEPARATOR}${perMoney} `;
 
         return [null, parseResult];
     }

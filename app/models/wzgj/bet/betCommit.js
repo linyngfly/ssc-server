@@ -33,12 +33,6 @@ class BetCommit extends Commit {
     get betData() {
         return this._value('betData');
     }
-	set betTypeInfo(value) {
-        this._modify('betTypeInfo', value);
-    }
-    get betTypeInfo() {
-        return this._value('betTypeInfo');
-    }
 	set betItems(value) {
         this._modify('betItems', value);
     }

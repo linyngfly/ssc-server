@@ -71,7 +71,7 @@ class SscPlayer extends Player{
             for (let i = 0; i < parseRet.betItems.length; i++) {
                 let item = parseRet.betItems[i];
                 item.money = money;
-                item.desc = item.desc.replace(/ALL/, money)
+                item.desc = item.desc.replace(/ALL/, money);
             }
             parseRet.total = money * parseRet.betItems.length;
         }
@@ -89,7 +89,6 @@ class SscPlayer extends Player{
             period: period,
             identify: identify,
             betData: betData,
-            betTypeInfo: parseRet.betTypeInfo,
             betItems: parseRet.betItems,
             betCount: parseRet.betItems.length,
             betMoney: parseRet.total,

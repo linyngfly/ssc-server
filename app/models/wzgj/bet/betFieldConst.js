@@ -4,7 +4,6 @@ module.exports ={
    PERIOD:'period',
    IDENTIFY:'identify',
    BETDATA:'betData',
-   BETTYPEINFO:'betTypeInfo',
    BETITEMS:'betItems',
    BETCOUNT:'betCount',
    BETMONEY:'betMoney',

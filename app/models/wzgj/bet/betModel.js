@@ -83,7 +83,7 @@ module.exports = {
         comment: '0待开奖，1 撤销，2 赢 3输 4返还'
     },
 };
-let genCode = false;
+let genCode = true;
 if (genCode) {
     const genCode = require('../../common/genCode');
     const path = require('path');

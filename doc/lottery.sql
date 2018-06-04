@@ -74,7 +74,6 @@ IF NOT EXISTS `bets_log` (
 	`betMoney` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '投注金额',
 	`winMoney` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '收益金额',
 	`betTime` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注时间',
-	`betTypeInfo` json NOT NULL COMMENT '投注类型信息',
 	`betItems` json NOT NULL COMMENT '投注条目',
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;

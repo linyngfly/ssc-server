@@ -150,7 +150,7 @@ class Ssc28BetParser {
             let item = {};
             item.result = types[i];
             item.money = perMoney;
-            item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney} `;
+            item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney}`;
             parseResult.betItems.push(item);
             parseResult.total += perMoney;
         }
@@ -169,7 +169,7 @@ class Ssc28BetParser {
             let item = {};
             item.result = types[i];
             item.money = -1;
-            item.desc = `${splitData[1]}${item.result}${config.DES_SEPARATOR}ALL `;
+            item.desc = `${splitData[1]}${item.result}${config.DES_SEPARATOR}ALL`;
             parseResult.betItems.push(item);
         }
 
@@ -200,7 +200,7 @@ class Ssc28BetParser {
         let item = {};
         item.result = types;
         item.money = perMoney;
-        item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney} `;
+        item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney}`;
         parseResult.betItems.push(item);
         parseResult.total += perMoney;
 
@@ -223,7 +223,7 @@ class Ssc28BetParser {
         let item = {};
         item.result = `${types}`;
         item.money = perMoney;
-        item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney} `;
+        item.desc = `${item.result}${config.DES_SEPARATOR}${perMoney}`;
         parseResult.betItems.push(item);
         parseResult.total += perMoney;
 
