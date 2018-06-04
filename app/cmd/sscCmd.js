@@ -50,7 +50,9 @@ class SSCCmd extends Cmd {
             msg: {
                 betData:'大100'
             },
-            resp: {}
+            resp: {
+                money:100
+            }
         };
 
         this._req.unBet = {
@@ -58,7 +60,9 @@ class SSCCmd extends Cmd {
             msg: {
                 id:1,
             },
-            res: {}
+            res: {
+                money:100
+            }
         };
 
         this._req.chat = {

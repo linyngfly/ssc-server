@@ -10,8 +10,6 @@ class Canada28Player extends SscPlayer {
         return 1;
     }
 
-
-
 }
 
 module.exports = Canada28Player;

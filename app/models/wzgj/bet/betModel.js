@@ -43,6 +43,12 @@ module.exports = {
         require: true,
         comment: '投注条目'
     },
+    multi:{
+        def: 0,
+        type: "number",
+        tbl: 'bets_log',
+        comment: '是否是组合投注,0否，1是'
+    },
     betCount: {
         def: 0,
         type: "number",

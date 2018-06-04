@@ -5,6 +5,7 @@ module.exports ={
    IDENTIFY:'identify',
    BETDATA:'betData',
    BETITEMS:'betItems',
+   MULTI:'multi',
    BETCOUNT:'betCount',
    BETMONEY:'betMoney',
    WINCOUNT:'winCount',

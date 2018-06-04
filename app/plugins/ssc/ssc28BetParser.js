@@ -146,6 +146,11 @@ class Ssc28BetParser {
             return [err];
         }
 
+        let repeats = new Set([types]);
+        if(repeats.size > 0){
+            parseResult.multi = 1;
+        }
+
         for (let i = 0; i < types.length; ++i) {
             let item = {};
             item.result = types[i];
@@ -165,6 +170,12 @@ class Ssc28BetParser {
         };
 
         let types = splitData[2].match(this._splitReg);
+
+        let repeats = new Set([types]);
+        if(repeats.size > 0){
+            parseResult.multi = 1;
+        }
+
         for (let i = 0; i < types.length; ++i) {
             let item = {};
             item.result = types[i];

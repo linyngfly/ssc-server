@@ -22,7 +22,7 @@ class SscPlayer extends Player{
 
     async openAward(period, numbers, openResult) {
         let bets = [];
-        for (let bet of this._betsMap.values()) {
+        for (let [id, bet] of this._betsMap.entries()) {
             if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
@@ -42,13 +42,14 @@ class SscPlayer extends Player{
                 bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
                 bets.push({id: bet.id, state: bet.state, money: incomeMoney});
                 await bet.commit();
+                this._betsMap.delete(id);
             }
         }
 
         if(bets.length == 0){
             return;
         }
-        this._betsMap.clear();
+
         await this.account.commit();
         this.emit(sscCmd.push.betResult.route, {numbers:numbers, bets:bets})
     }
@@ -96,6 +97,7 @@ class SscPlayer extends Player{
         });
         this._betsMap.set(bet.id, bet);
         this.emit(sscCmd.push.bet.route, bet.toJSON());
+        return {money:this.account.money};
     }
 
     async unBet(id) {
@@ -117,6 +119,8 @@ class SscPlayer extends Player{
         this._betsMap.delete(id);
 
         this.emit(sscCmd.push.unBet.route, bet.toJSON());
+
+        return {money:this.account.money};
     }
 
     async chat(msg) {
@@ -127,11 +131,8 @@ class SscPlayer extends Player{
 
         //TODO 发送消息，校验消息格式
         this.emit(sscCmd.push.chat.route, msg);
-        this._last_chat_timestamp = Date.now();
+        this._last_chat_timestamp = now;
     }
-
-
-
 
 }
 

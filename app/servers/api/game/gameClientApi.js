@@ -1,5 +1,6 @@
 
 const GM = require('../../game/controllers/gm');
+const order = require('../../game/controllers/order');
 
 const api_list = {
     gm: {
@@ -8,15 +9,24 @@ const api_list = {
         params: [],
         accountFields: []
     },
+
     myBets:{
         route: '/myBets', //投注历史
         handler: GM.getContactInfo,
         params: [],
         accountFields: []
     },
+
     cash:{
         route: '/cash', //提现请求
-        handler: GM.getContactInfo,
+        handler: order.cash,
+        params: [],
+        accountFields: []
+    },
+
+    recharge:{
+        route: '/recharge', //充值请求
+        handler: order.recharge,
         params: [],
         accountFields: []
     }

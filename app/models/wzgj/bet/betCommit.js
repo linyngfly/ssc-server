@@ -39,6 +39,12 @@ class BetCommit extends Commit {
     get betItems() {
         return this._value('betItems');
     }
+	set multi(value) {
+        this._modify('multi', value);
+    }
+    get multi() {
+        return this._value('multi');
+    }
 	set betCount(value) {
         this._modify('betCount', value);
     }
