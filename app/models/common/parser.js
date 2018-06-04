@@ -35,6 +35,8 @@ class Parser {
             case 'string': {
                 if (typeof value === 'string') {
                     serialVal = value;
+                }else {
+                    serialVal = value.toString();
                 }
             }
                 break;

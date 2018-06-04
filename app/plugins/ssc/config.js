@@ -38,6 +38,17 @@ module.exports = {
             DOT: 6,
             JI: 7,
         },
+        BET_DIC: {
+            BIG: '大',
+            SMALL: '小',
+            SINGLE: '单',
+            DOUBLE: '双',
+            BAO: '豹子',
+            SHUN: '顺子',
+            DUI: '对子',
+            JIDA: '极大',
+            JIXIAO: '极小'
+        },
 
     },
 

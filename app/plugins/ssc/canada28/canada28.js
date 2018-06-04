@@ -4,8 +4,8 @@
  */
 
 const Ssc28BetParser = require('../ssc28BetParser');
-const OpenAwardCalc =require('../cqssc/openAwardCalc');
-const BonusPool = require('../bonusPool');
+const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
+const Canada28BonusPool = require('./canada28BonusPool');
 const SscHall = require('../sscHall');
 const config = require('../config');
 const models = require('../../../models');
@@ -17,7 +17,7 @@ class Canada28 extends SscHall{
         super({
             msgChannelName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser:new Ssc28BetParser(),
-            bonusPool:new BonusPool({
+            bonusPool:new Canada28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
                 openCaiType:config.OPEN_CAI_TYPE.CAKENO
             })
@@ -34,7 +34,7 @@ class Canada28 extends SscHall{
     }
 
     async _openAward(last){
-        let openAwardCalc = new OpenAwardCalc(last.numbers.split(','));
+        let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
         let openResult = openAwardCalc.calc();
         for(let player of this._playerMap.values()){
             await player.openAward(last.period, last.numbers, openResult);

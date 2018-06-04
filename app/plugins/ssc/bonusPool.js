@@ -3,25 +3,6 @@ const Countdown = require('../../utils/countdown');
 const config = require('./config');
 const moment = require('moment');
 
-
-//
-// const schedule = require('node-schedule');
-//
-// let rule = new schedule.RecurrenceRule();
-// rule.minute = [0,5,10,15,20,25];
-// rule.hour = [0,5,10,15,20,25];
-// var j = schedule.scheduleJob(rule, function(){
-//     console.log('The answer to life, the universe, and everything!');
-//     console.log('The answer to life, the universe, and everything!', new Date());
-// });
-// return;
-
-/**
- * 19:00~20:00 系统维护
- * 
- * @type {number}
- */
-
 const TASK_DT = 100;
 
 class BonusPool extends EventEmitter {
@@ -38,9 +19,22 @@ class BonusPool extends EventEmitter {
         this.emit(config.LOTTERY_EVENT.TICK_COUNT, dt/1000);
     }
 
+    _preHandle(){}
+
+    _handleLotteryInfo(lotteryInfo){
+        //TODO 开奖了
+        this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
+        let nextTime = moment(lotteryInfo.next.opentime).format('x');
+        let free = nextTime - moment().format('x');
+        free = Math.max(free, 0);
+        this._countdown.reset(Math.floor(free/1000)*1000);
+
+        this._lotterInfo = lotteryInfo;
+    }
 
     //处理业务
     async update() {
+        this._preHandle();
         try {
             let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
             if(!lotteryInfo){
@@ -55,16 +49,7 @@ class BonusPool extends EventEmitter {
 
             // logger.error('getLotteryInfo=', lotteryInfo);
             if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
-                //TODO 开奖了
-                this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
-                let nextTime = moment(lotteryInfo.next.opentime).add('minutes', 5).format('x');
-                let free = nextTime - moment().format('x');
-                logger.error('======================================free =', free);
-                free = Math.max(free, 0);
-                logger.error('======================================free =', free);
-                this._countdown.reset(Math.floor(free/1000)*1000);
-                
-                this._lotterInfo = lotteryInfo;
+                this._handleLotteryInfo(lotteryInfo);
             }
         } catch (err) {
             logger.error('获取开奖数据异常，err=', err);

@@ -1,11 +1,12 @@
 /**
  * http://www2.opencai.net/apifree/
- * 加拿大卑斯快乐8
+ * 北京快乐8
+ * 9：00 ~ 23：55
  */
 
 const Ssc28BetParser = require('../ssc28BetParser');
-const OpenAwardCalc =require('../cqssc/openAwardCalc');
-const BonusPool = require('../bonusPool');
+const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
+const Lucky28BonusPool = require('./lucky28BonusPool');
 const SscHall = require('../sscHall');
 const config = require('../config');
 const models = require('../../../models');
@@ -17,7 +18,7 @@ class Lucky28 extends SscHall{
         super({
             msgChannelName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new Ssc28BetParser(),
-            bonusPool:new BonusPool({
+            bonusPool:new Lucky28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
             })
@@ -34,7 +35,7 @@ class Lucky28 extends SscHall{
     }
 
     async _openAward(last){
-        let openAwardCalc = new OpenAwardCalc(last.numbers.split(','));
+        let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
         let openResult = openAwardCalc.calc();
         for(let player of this._playerMap.values()){
             await player.openAward(last.period, last.numbers, openResult);
