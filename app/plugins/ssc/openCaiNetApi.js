@@ -50,34 +50,25 @@ class OpenCaiNetApi {
         let idx = opencode.indexOf('+');
         let numbers = opencode.substring(0, idx);
         numbers = numbers.split(',');
-        numbers = numbers.sort(() => {
-            return Math.random() > 0.5 ? -1 : 1;
+        numbers = numbers.sort((a, b) => {
+            return a > b ? 1 : -1;
         });
-        let total = 0;
-        for (let i = 0; i < 6; i++) {
-            total += numbers[i];
-        }
-
         let newNumbers = [];
-        newNumbers.push(total%10);
 
-        total = 0;
-        for (let i = 6; i < 12; i++) {
-            total += numbers[i];
-        }
-        newNumbers.push(total%10);
+        let total = numbers[1] + numbers[4] + numbers[7] + numbers[10] + numbers[13] + numbers[16];
+        newNumbers.push(total % 10);
 
-        total = 0;
-        for (let i = 12; i < 18; i++) {
-            total += numbers[i];
-        }
-        newNumbers.push(total%10);
+        total = numbers[2] + numbers[5] + numbers[8] + numbers[11] + numbers[14] + numbers[17];
+        newNumbers.push(total % 10);
+
+        total = numbers[3] + numbers[6] + numbers[9] + numbers[12] + numbers[15] + numbers[18];
+        newNumbers.push(total % 10);
         return newNumbers.join(',');
     }
 
     async getLotteryInfo(type, rows = 2) {
         // let lotteryInfo = {};
-        if(Date.now() - this._last_get_timestamp < 4000){
+        if (Date.now() - this._last_get_timestamp < 4000) {
             return null;
         }
 
@@ -88,14 +79,14 @@ class OpenCaiNetApi {
                 logger.error('http requrest', type);
                 this._last_get_timestamp = Date.now();
                 let sdkData = await this._getSdkInfo({
-                    host:this._sdkAddress[i].host,
-                    port:this._sdkAddress[i].port,
-                    method:this._sdkAddress[i].method,
-                    path:util.format(this._sdkAddress[i].path, type.IDENTIFY, rows)
+                    host: this._sdkAddress[i].host,
+                    port: this._sdkAddress[i].port,
+                    method: this._sdkAddress[i].method,
+                    path: util.format(this._sdkAddress[i].path, type.IDENTIFY, rows)
                 });
 
                 let lotteryInfo = {};
-                
+
                 lotteryInfo.identify = sdkData.code;
 
                 let infos = sdkData.data;
@@ -118,7 +109,7 @@ class OpenCaiNetApi {
                     numbers: this._convertTo3Ball(infos[1].opencode)
                 };
 
-                logger.error('lotteryInfo=',lotteryInfo);
+                logger.error('lotteryInfo=', lotteryInfo);
 
                 return lotteryInfo;
 
