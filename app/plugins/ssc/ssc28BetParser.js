@@ -7,12 +7,17 @@ const config = require('./config');
  * 极小:0~5, 极大:22~27
  */
 
+// let _reg1 = /(^[大小]?[单双]?)\/?([1-9][0-9]*)$/i;
+// let ret = '单'.match(_reg1);
+// console.log(ret);
+// return;
+
 class Ssc28BetParser {
     constructor() {
         this._splitReg = /.{1}/g;
         this._reg1 = /(^[大小单双]+)\/?([1-9][0-9]*)$/i;
         this._reg1_reverse = /(^[1-9][0-9]*)\/?([大小单双]+)$/i;
-        this._reg2 = /^([梭]?哈)([大小单双]+)$/i;
+        this._reg2 = /^([梭]?哈)([大小单双]{1})([大小单双]{1})$/i;
         this._reg3 = /(^对子)\/?([1-9][0-9]*)$/i;
         this._reg3_reverse = /(^[1-9][0-9]*)\/?(对子)$/i;
         this._reg4 = /(^顺子)\/?([1-9][0-9]*)$/i;
@@ -27,8 +32,8 @@ class Ssc28BetParser {
     _checkType(betData) {
         let type = null;
         let checkResult = {
-            splitData:null,
-            reverse:false
+            splitData: null,
+            reverse: false
         };
 
         for (; ;) {
@@ -92,7 +97,7 @@ class Ssc28BetParser {
 
             checkResult.splitData = betData.match(this._reg6);
             if (checkResult.splitData) {
-                type = config.SSC28.BET_TYPE.DOT;
+                type = config.SSC28.BET_TYPE.NUM;
                 break;
             }
 
@@ -141,14 +146,21 @@ class Ssc28BetParser {
             types = splitData[1].match(this._splitReg);
         }
 
+        if (types.length > 2) {
+            return [ERROR_OBJ.BET_DATA_INVALID];
+        }
+
+        if (types.length == 2 && types[0] == types[1]) {
+            return [ERROR_OBJ.BET_DATA_INVALID];
+        }
+
+        if (types.size > 1) {
+            parseResult.multi = 1;
+        }
+
         let err = this._checkMoney(perMoney);
         if (err) {
             return [err];
-        }
-
-        let repeats = new Set([types]);
-        if(repeats.size > 0){
-            parseResult.multi = 1;
         }
 
         for (let i = 0; i < types.length; ++i) {
@@ -171,8 +183,15 @@ class Ssc28BetParser {
 
         let types = splitData[2].match(this._splitReg);
 
-        let repeats = new Set([types]);
-        if(repeats.size > 0){
+        if (types.length > 2) {
+            return [ERROR_OBJ.BET_DATA_INVALID];
+        }
+
+        if (types.length == 2 && types[0] == types[1]) {
+            return [ERROR_OBJ.BET_DATA_INVALID];
+        }
+
+        if (types.size > 1) {
             parseResult.multi = 1;
         }
 
@@ -200,7 +219,7 @@ class Ssc28BetParser {
             types = splitData[2];
         } else {
             perMoney = parseInt(splitData[2], 10);
-            types = splitData[1]
+            types = splitData[1];
         }
 
         let err = this._checkMoney(perMoney);
@@ -218,7 +237,7 @@ class Ssc28BetParser {
         return [null, parseResult];
     }
 
-    _handleDot(splitData, reverse) {
+    _handleNum(splitData, reverse) {
         let parseResult = {
             total: 0,
             betItems: []
@@ -241,33 +260,45 @@ class Ssc28BetParser {
         return [null, parseResult];
     }
 
-    parse(data){
+    parse(data) {
         let parseRet = null;
+        let bet_limit_dic = null;
         let [type, checkResult] = this._checkType(data);
-        switch (type){
-            case config.SSC28.BET_TYPE.SIZE:{
+        switch (type) {
+            case config.SSC28.BET_TYPE.SIZE: {
                 parseRet = this._handleSize(checkResult.splitData, checkResult.reverse);
+                bet_limit_dic = parseRet.multi == 1 ? config.SSC28.BET_TYPE_LIMIT_DIC.MULTI :
+                    config.SSC28.BET_TYPE_LIMIT_DIC.SIZE;
                 break;
             }
-            case config.SSC28.BET_TYPE.HA_SIZE:{
+            case config.SSC28.BET_TYPE.HA_SIZE: {
                 parseRet = this._handleSuoHa(checkResult.splitData, checkResult.reverse);
+                bet_limit_dic = parseRet.multi == 1 ? config.SSC28.BET_TYPE_LIMIT_DIC.MULTI :
+                    config.SSC28.BET_TYPE_LIMIT_DIC.SIZE;
+                break;
                 break;
             }
             case config.SSC28.BET_TYPE.DUI:
+                bet_limit_dic = bet_limit_dic || config.SSC28.BET_TYPE_LIMIT_DIC.DUI;
             case config.SSC28.BET_TYPE.SHUN:
+                bet_limit_dic = bet_limit_dic || config.SSC28.BET_TYPE_LIMIT_DIC.SHUN;
             case config.SSC28.BET_TYPE.BAO:
-            case config.SSC28.BET_TYPE.JI:{
+                bet_limit_dic = bet_limit_dic || config.SSC28.BET_TYPE_LIMIT_DIC.BAO;
+            case config.SSC28.BET_TYPE.JI: {
+                bet_limit_dic = bet_limit_dic || config.SSC28.BET_TYPE_LIMIT_DIC.JI;
                 parseRet = this._handleDSBJI(checkResult.splitData, checkResult.reverse);
                 break;
             }
-            case config.SSC28.BET_TYPE.DOT:{
-                parseRet = this._handleDot(checkResult.splitData, checkResult.reverse);
+            case config.SSC28.BET_TYPE.NUM: {
+                bet_limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.NUM;
+                parseRet = this._handleNum(checkResult.splitData, checkResult.reverse);
                 break;
             }
             default:
                 parseRet = [ERROR_OBJ.BET_DATA_INVALID];
                 break;
         }
+        parseRet.bet_limit_dic = bet_limit_dic;
         return parseRet;
     }
 

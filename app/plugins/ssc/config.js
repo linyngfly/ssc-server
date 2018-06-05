@@ -36,7 +36,7 @@ module.exports = {
             DUI: 3,
             SHUN: 4,
             BAO: 5,
-            DOT: 6,
+            NUM: 6,
             JI: 7,
         },
         BET_DIC: {
@@ -50,6 +50,19 @@ module.exports = {
             JIDA: '极大',
             JIXIAO: '极小'
         },
+        BET_TYPE_LIMIT_DIC: {
+            ONE_MIN: 'ONE_MIN', //单注最低
+            ONE_MAX: 'ONE_MAX', //单注最高
+            NUM: 'NUM', //单点数字
+            SIZE: 'SIZE', //大小单双
+            MULTI: 'MULTI',//大小单双组合
+            JI: 'JI',//极大小
+            BAO: 'BAO',//豹子
+            DUI: 'DUI',//对子
+            SHUN: 'SHUN',//顺子
+            ALL: 'ALL',//总下注额度限制
+        },
+        BET_TYPE_RATE_DIC: {}
 
     },
 
