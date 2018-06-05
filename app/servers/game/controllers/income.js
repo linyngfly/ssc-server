@@ -1,9 +1,9 @@
 const logicResponse = require('../../common/logicResponse');
 
-class Bets{
-    async myBets(data){
+class Income{
+    async myIncome(data){
         return logicResponse.ask(data);
     }
 }
 
-module.exports = new Bets();
+module.exports = new Income();
