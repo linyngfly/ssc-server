@@ -12,6 +12,7 @@ const config = require('../config');
 const models = require('../../../models');
 const OpenCaiNetApi = require('../openCaiNetApi');
 const Lucky28Player = require('./lucky28Player');
+const Lucky28LimitRate = require('./lucky28LimitRate');
 
 class Lucky28 extends SscHall{
     constructor(){
@@ -21,7 +22,8 @@ class Lucky28 extends SscHall{
             bonusPool:new Lucky28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
-            })
+            }),
+            lucky28LimitRate:new Lucky28LimitRate()
         });
     }
 

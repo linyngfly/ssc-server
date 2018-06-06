@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const clone = require('clone');
+const _ = require('lodash');
 
 let utils = module.exports;
 
@@ -77,23 +77,6 @@ utils.invokeCallback = function (cb) {
     if (!!cb && typeof cb === 'function') {
         cb.apply(null, Array.prototype.slice.call(arguments, 1));
     }
-};
-
-/**
- * clone an object
- */
-utils.clone = function (origin) {
-    if (!origin) {
-        return;
-    }
-
-    var obj = {};
-    for (var f in origin) {
-        if (origin.hasOwnProperty(f)) {
-            obj[f] = origin[f];
-        }
-    }
-    return obj;
 };
 
 utils.size = function (obj) {
@@ -184,8 +167,8 @@ utils.generateSessionToken = function (uid) {
     return uid + '_' + crypto.randomBytes(24).toString('hex');
 };
 
-Object.deepClone = (obj) => {
-    return clone(obj);
+Object.cloneDeep = (obj) => {
+    return _.cloneDeep(obj);
 };
 
 // 格式化时间

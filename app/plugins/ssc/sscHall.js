@@ -39,83 +39,13 @@ const constants = require('../../consts/constants');
 // 十五 用户帐变明细(增加金币日志)
 // 查看每笔账户的资金变化明细。（增加或者减少）
 
-//以每个玩家为单位
-
-let BET_LIMIT_CONFIG = {
-    ONE_MIN: 10,  //单注最低
-    ONE_MAX: 10000, //单注最高
-    NUM: 1000, //单点数字
-    SIZE: 2000, //大小单双
-    MULTI: 20000, //大小单双组合
-    JI: 1000, //极大小
-    BAO: 500, //豹子
-    DUI: 100, //对子
-    SHUN: 200, //顺子
-    ALL: 1000000,//总下注额度限制
-};
-BET_LIMIT_CONFIG;
-
-//赔率数据结构
-let BET_RATE_CONFIG = {
-    SIZE: {
-        BIG: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        SMALL: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        SINGLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        DOUBLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-    },
-    MULTI: {
-        BIG_SINGLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        BIG_DOUBLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        SMALL_SINGLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-        SMALL_DOUBLE: [
-            [[-1, 2000], 1.5],
-            [[2000, 3000], 1.2],
-            [[3000, -1], 1],
-        ],
-    },
-    BAO: 20,
-    DUI: 50,
-    SHUN: 34,
-    JI: 20,
-    NUM: [
-        0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 27
-    ],
-};
-
 
 class SscHall {
     constructor(opts) {
         this._msgChannelName = opts.msgChannelName;
         this._betParser = opts.betParser;
         this._bonusPool = opts.bonusPool;
+        this._lucky28LimitRate = opts.lucky28LimitRate;
         this._playerMap = new Map();
     }
 
@@ -203,18 +133,6 @@ class SscHall {
         }
     }
 
-    // {
-    //     "total": 200,
-    //     "betTypeInfo": {
-    //         "1": {"money": 100, "type": {"code": 1, "desc": "大"}, "desc": "大/100 "},
-    //         "3": {"money": 100, "type": {"code": 3, "desc": "单"}, "desc": "单/100 "}
-    //     },
-    //     "betItems": [{"result": "大", "money": 100, "type": {"code": 1, "desc": "大"}}, {
-    //         "result": "单",
-    //         "money": 100,
-    //         "type": {"code": 3, "desc": "单"}
-    //     }]
-    // }
     async c_heartbeat(msg) {
         let player = this._playerMap.get(msg.uid);
         player.updateActiveTime();
@@ -225,7 +143,7 @@ class SscHall {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
-        let [err, parseRet] = this._betParser.parse(msg.betData);
+        let [err, parseRet] = this._betParser.parse(msg.betData, this._lucky28LimitRate);
         if (err) {
             return [err];
         }
@@ -236,7 +154,8 @@ class SscHall {
             period: this._bonusPool.getNextPeriod(),
             identify: this._bonusPool.getIdentify(),
             betData: msg.betData,
-            parseRet: parseRet
+            parseRet: parseRet,
+            limitRate:this._lucky28LimitRate
         });
 
     }

@@ -10,6 +10,7 @@ class SscPlayer extends Player{
         super(opts);
         this._account = opts.account;
         this._betsMap = new Map();
+        this._betLimitMap = new Map();
         this._last_chat_timestamp = 0;
     }
 
@@ -63,7 +64,7 @@ class SscPlayer extends Player{
         //TODO 投注限额检查
     }
 
-    async bet({period, identify, betData, parseRet}) {
+    async bet({period, identify, betData, parseRet, limitRate}) {
         this.account.money = 0;
         await this.account.commit();
 
@@ -72,9 +73,18 @@ class SscPlayer extends Player{
             for (let i = 0; i < parseRet.betItems.length; i++) {
                 let item = parseRet.betItems[i];
                 item.money = money;
-                item.desc = item.desc.replace(/ALL/, money);
+                item.desc = item.desc.replace(/-1/, money);
             }
             parseRet.total = money * parseRet.betItems.length;
+        }
+
+        let oneBetMoney = parseRet.total/parseRet.betItems.length;
+        let oneMin = limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ONE_MIN);
+        let oneMax = limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ONE_MAX);
+        if(oneBetMoney > oneMax){
+            throw ERROR_OBJ.BET_AMOUNT_TOO_HIGH;
+        }else if(oneBetMoney < oneMin){
+            throw ERROR_OBJ.BET_AMOUNT_TOO_LOW;
         }
 
         this.account.money = -parseRet.total;
