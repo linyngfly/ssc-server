@@ -15,6 +15,10 @@ class BonusPool extends EventEmitter {
         this._lotterInfo = null;
     }
 
+    get lotteryInfo(){
+        return this._lotterInfo;
+    }
+
     countdownNotify(dt) {
         this.emit(config.LOTTERY_EVENT.TICK_COUNT, dt/1000);
     }
@@ -80,7 +84,6 @@ class BonusPool extends EventEmitter {
      * @return {boolean}
      */
     canBetNow() {
-        return true;
         return this._lotterInfo != null && this._countdown.duration > config.BET_ADVANCE_CLOSE_TIME;
     }
 

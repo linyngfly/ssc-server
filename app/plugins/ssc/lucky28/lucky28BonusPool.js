@@ -64,24 +64,6 @@ class Lucky28BonusPool extends BonusPool {
         schedule.cancelJob(this._open_job);
         schedule.cancelJob(this._close_job);
     }
-
-    /**
-     * 投注通道是否关闭
-     * 提前30s封注
-     * @return {boolean}
-     */
-    canBetNow() {
-        return true;
-        return this._lotterInfo != null && this._countdown.duration > config.BET_ADVANCE_CLOSE_TIME;
-    }
-
-    getNextPeriod() {
-        return this._lotterInfo.next.period;
-    }
-
-    getIdentify() {
-        return this._openCaiType.IDENTIFY;
-    }
 }
 
 module.exports = Lucky28BonusPool;

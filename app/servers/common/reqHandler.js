@@ -52,6 +52,10 @@ class ReqHandler {
                         resp = ret;
                     }
                 }
+                
+                if(err){
+                    throw err;
+                }
                 utils.invokeCallback(next, err, resp || {error:ERROR_OBJ.OK});
             }catch (err){
                 utils.invokeCallback(next, null, {error:err});

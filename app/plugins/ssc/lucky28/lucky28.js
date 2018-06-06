@@ -40,7 +40,7 @@ class Lucky28 extends SscHall{
         let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
         let openResult = openAwardCalc.calc();
         for(let player of this._playerMap.values()){
-            await player.openAward(last.period, last.numbers, openResult);
+            await player.openAward(last.period, last.numbers, last.opentime, openResult);
         }
     }
 

@@ -183,6 +183,10 @@ class SscHall {
         player.chat(msg);
     }
 
+    async c_getLotteryInfo(msg){
+        return this._bonusPool.lotteryInfo;
+    }
+
     addEvent(player) {
         let self = this;
         player.on(sscCmd.push.bet.route, (data) => {

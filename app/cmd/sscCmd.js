@@ -84,6 +84,12 @@ class SSCCmd extends Cmd {
             },
             res: {}
         };
+
+        this._req.getLatestLotteryInfo = {
+            route: 'game.sscHandler.c_getLatestLotteryInfo',
+            msg: {},
+            res: {}
+        };
     }
 
     initPush() {
