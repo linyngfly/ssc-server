@@ -158,6 +158,9 @@ app.configure('production|development', 'game', function () {
     SSL && (connectorConfig.ssl = SSL);
     app.set('connectorConfig', connectorConfig);
     app.before(tokenFilter);
+    const sscPlayerFilter = require('./app/servers/game/filter/sscPlayerFilter');
+    sscPlayerFilter.addRoute(sscCmd.request.enter.route);
+    app.before(sscPlayerFilter);
 });
 
 

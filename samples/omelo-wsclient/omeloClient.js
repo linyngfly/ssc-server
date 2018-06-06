@@ -190,7 +190,7 @@ class OmeloClient extends EventEmitter {
         if (gap > this.gapThreshold) {
             this.heartbeatTimeoutId = setTimeout(this.heartbeatTimeoutCb.bind(this), gap);
         } else {
-            logger.error('server heartbeat timeout');
+            console.error('server heartbeat timeout');
             this.emit('heartbeat timeout');
             this.disconnect();
         }

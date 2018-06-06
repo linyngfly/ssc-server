@@ -47,7 +47,7 @@ class GameApp {
         if(this[method]){
             return this[method](msg);
         }
-        await plugins[msg.gameType].rpc(method, msg);
+        return await plugins[msg.gameType].rpc(method, msg);
     }
 
     async request(route, msg, session) {
@@ -56,7 +56,10 @@ class GameApp {
         }
 
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-        await game.request(route, msg, session);
+        if(!game){
+            throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
+        }
+        return await game.request(route, msg, session);
     }
 
     getGame(main, sub){
@@ -69,15 +72,14 @@ class GameApp {
             }
         }
 
-        if(!game){
-            throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
-        }
-
         return game;
     }
 
     async c_enter(msg, session) {
         let game = this.getGame(msg.mainType, msg.subType);
+        if(!game){
+            throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
+        }
 
         await omeloUtil.kick(msg.uid, 'login');
         await omeloUtil.bind(session, msg.uid);
@@ -95,8 +97,10 @@ class GameApp {
 
     async c_leave(msg, session) {
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-        game.leave(msg);
-        await omeloUtil.kick(msg.uid || session.uid, 'logout');
+        if(game){
+            game.leave(msg);
+            await omeloUtil.kick(msg.uid || session.uid, 'logout');
+        }
         logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
     }
 
@@ -104,7 +108,9 @@ class GameApp {
         let uid = session && session.uid;
         if(uid){
             let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-            game.setPlayerState(uid, consts.PLAYER_STATE.OFFLINE);
+            if(game){
+                game.setPlayerState(uid, consts.PLAYER_STATE.OFFLINE);
+            }
             logger.info(`玩家[${uid}],网络连接断开`, reason);
         }else {
             logger.info(`未知玩家,网络连接断开`, reason);

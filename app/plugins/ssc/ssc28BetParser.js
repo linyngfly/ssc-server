@@ -7,40 +7,40 @@ const config = require('./config');
  * 极小:0~5, 极大:22~27
  */
 
-let _reg1 = /(^[大小单双]+)\/?([1-9][0-9]*)$/i;
-let ret = '单100'.match(_reg1);
-console.log(ret);
-let types = ret[1].match(/.{1}/g);
-if (types.length > 2) {
-    console.log('投注无效1');
-    return;
-}
+// let _reg1 = /(^[大小单双]+)\/?([1-9][0-9]*)$/i;
+// let ret = '单100'.match(_reg1);
+// console.log(ret);
+// let types = ret[1].match(/.{1}/g);
+// if (types.length > 2) {
+//     console.log('投注无效1');
+//     return;
+// }
+//
+// if (types.length == 2 && types[0] == types[1]) {
+//     console.log('投注无效2');
+//     return;
+// }
+//
+// if (types.indexOf('单') != -1 && types.indexOf('双') != -1 || types.indexOf('大') != -1 && types.indexOf('小') != -1) {
+//     console.log('投注无效3');
+//     return;
+// }
+//
+// if (types.length > 1) {
+//     console.log('组合投注');
+//     if (config.SSC28.BET_DIC_INDEX[types[0]] > config.SSC28.BET_DIC_INDEX[types[1]]) {
+//         let tmp = types[0];
+//         types[0] = types[1];
+//         types[1] = tmp;
+//     }
+//
+//
+// }
+//
+// console.log(types.join(''));
+// return;
 
-if (types.length == 2 && types[0] == types[1]) {
-    console.log('投注无效2');
-    return;
-}
-
-if (types.indexOf('单') != -1 && types.indexOf('双') != -1 || types.indexOf('大') != -1 && types.indexOf('小') != -1) {
-    console.log('投注无效3');
-    return;
-}
-
-if (types.length > 1) {
-    console.log('组合投注');
-    if (config.SSC28.BET_DIC_INDEX[types[0]] > config.SSC28.BET_DIC_INDEX[types[1]]) {
-        let tmp = types[0];
-        types[0] = types[1];
-        types[1] = tmp;
-    }
-
-
-}
-
-console.log(types.join(''));
-return;
-
-class Ssc28BetParser {
+class SSC28BetParser {
     constructor() {
         this._splitReg = /.{1}/g;
         this._reg1 = /(^[大小单双]+)\/?([1-9][0-9]*)$/i;
@@ -83,54 +83,82 @@ class Ssc28BetParser {
             splitData = betData.match(this._reg3);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.DUI;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg3_reverse);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate, true);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.DUI;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg4);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.SHUN;
+                }
+
                 break;
             }
 
             splitData = betData.match(this._reg4_reverse);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate, true);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.SHUN;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg5);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.BAO;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg5_reverse);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate, true);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.BAO;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg6);
             if (splitData) {
                 parseResult = this._handleNum(splitData, limitRate);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.NUM;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg7);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.JI;
+                }
                 break;
             }
 
             splitData = betData.match(this._reg7_reverse);
             if (splitData) {
                 parseResult = this._handleDSBJI(splitData, limitRate, true);
+                if(!parseResult[0]){
+                    parseResult[1].limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.JI;
+                }
                 break;
             }
 
@@ -230,6 +258,9 @@ class Ssc28BetParser {
                 types[0] = types[1];
                 types[1] = tmp;
             }
+            parseResult.limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.MULTI;
+        }else{
+            parseResult.limit_dic = config.SSC28.BET_TYPE_LIMIT_DIC.SIZE;
         }
 
         let item = {};
@@ -302,9 +333,9 @@ class Ssc28BetParser {
         if (!parseRet) {
             return [ERROR_OBJ.BET_DATA_INVALID]
         }
-        return [null, parseRet];
+        return parseRet;
     }
 
 }
 
-module.exports = Ssc28BetParser;
+module.exports = SSC28BetParser;

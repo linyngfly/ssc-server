@@ -7,7 +7,7 @@ const SscHall = require('../sscHall');
 const config = require('../config');
 const models = require('../../../models');
 const CQLotteryApi = require('./CQLotteryApi');
-
+// const Lucky28LimitRate = require('./lucky28LimitRate');
 class Cqssc extends SscHall {
     constructor() {
         super({
@@ -16,7 +16,8 @@ class Cqssc extends SscHall {
             bonusPool:new BonusPool({
                 lotteryApi:new CQLotteryApi(config.OPEN_CAI_TYPE.CQSSC),
                 openCaiType:config.OPEN_CAI_TYPE.CQSSC
-            })
+            }),
+            // lucky28LimitRate:new Lucky28LimitRate()
         });
     }
 

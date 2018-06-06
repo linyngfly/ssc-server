@@ -98,7 +98,7 @@ class SSCClient{
             }
         } catch (err) {
             this._heartbeat_fail_count++;
-            // logger.error('sendHeartbeat fail count:', this._heartbeat_fail_count, 'err:', err);
+            // console.error('sendHeartbeat fail count:', this._heartbeat_fail_count, 'err:', err);
         }
     }
 
@@ -117,8 +117,8 @@ class SSCClient{
             console.info('enterGame resp=', resp);
         }catch (err) {
             this._state = false;
-            logger.error('加入游戏失败，err:', err);
-            logger.error('加入游戏失败,自动重连中...');
+            console.error('加入游戏失败，err:', err);
+            console.error('加入游戏失败,自动重连中...');
             setTimeout(this.enterGame.bind(this), 10000);
         }
 
@@ -151,15 +151,25 @@ class SSCClient{
 
     }
 
+    async myBets(){
+        try{
+            let resp = await this._request('game.sscHandler.c_myBets', {});
+            console.info('myBets ok resp=', resp);
+        }catch (err) {
+            console.info('myBets fail err=', err);
+        }
+
+    }
+
     /**
      * 网络io错误
      * @param {异常原因} reason
      */
     _sockeError(reason) {
         this._client.removeAllListeners('disconnect');
-        logger.error('网络IO错误,自动重连中...', reason);
+        console.error('网络IO错误,自动重连中...', reason);
         this._state = false;
-        setTimeout(this.joinGame.bind(this), 10000);
+        setTimeout(this.enterGame().bind(this), 10000);
     }
 
     /**
@@ -168,7 +178,7 @@ class SSCClient{
      */
     _offline(reason) {
         this._client.removeAllListeners('disconnect');
-        logger.error('会话断开,自动重连中disconnect...', this._myUID);
+        console.error('会话断开,自动重连中disconnect...');
         this._state = false;
         setTimeout(this.enterGame.bind(this), 10000);
     }
@@ -186,7 +196,7 @@ class SSCClient{
                 log: true
             }, function (err) {
                 if (err) {
-                    logger.error('握手失败:', err);
+                    console.error('握手失败:', err);
                     reject(err);
                 } else {
                     resolve();
@@ -204,7 +214,7 @@ class SSCClient{
         let self = this;
         return new Promise(function (resolve, reject) {
             self._client.request(route, msg, function (resp) {
-                console.info('resp = ',JSON.stringify(resp));
+                // console.info('resp = ',JSON.stringify(resp));
                 if (resp && resp.code === 500) {
                     reject({
                         code: 500,
@@ -239,7 +249,14 @@ async function main() {
 
     await client.enterGame('ssc', 'lucky28');
     console.error(3333);
-    await client.bet('大单100');
+    await client.bet('大100');
+    await client.bet('大双100');
+    await client.bet('小50');
+    await client.bet('小双50');
+    await client.bet('豹子100');
+    await client.bet('对子100');
+
+    await client.myBets();
     // await client.bet('大单龙100');
     console.error(1111);
     await client.unBet(2);

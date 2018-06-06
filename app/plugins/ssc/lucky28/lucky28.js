@@ -4,7 +4,7 @@
  * 9：00 ~ 23：55
  */
 
-const Ssc28BetParser = require('../ssc28BetParser');
+const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
 const Lucky28BonusPool = require('./lucky28BonusPool');
 const SscHall = require('../sscHall');
@@ -18,7 +18,7 @@ class Lucky28 extends SscHall{
     constructor(){
         super({
             msgChannelName: config.LUCKY28.MSG_CHANNEL_NAME,
-            betParser:new Ssc28BetParser(),
+            betParser:new SSC28BetParser(),
             bonusPool:new Lucky28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
@@ -46,7 +46,7 @@ class Lucky28 extends SscHall{
 
     async _createPlayer(uid, sid) {
         let account = await models.account.helper.getAccount(uid);
-        return new Lucky28Player({uid: uid, sid: sid, account: account});
+        return new Lucky28Player({uid: uid, sid: sid, account: account,limitRate:this._lucky28LimitRate});
     }
 
 

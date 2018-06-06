@@ -19,6 +19,8 @@ const _errorCode = {
     CHAT_TOO_FREQUENT: 10014, //聊天太频繁,稍后再试
     BET_AMOUNT_TOO_LOW: 10015, //投注金额低于单注最低限额
     BET_AMOUNT_TOO_HIGH: 10016, //投注金额高于单注最高限额
+    BET_TYPE_OVERLOAD_LIMIT: 10017, //该类型投注金额超过最高限额
+    BET_PERIOD_OVERLOAD_LIMIT: 10018, //本期投注金额超过最高限额
 };
 
 for (let item in ERROR_CODE) {
@@ -95,6 +97,14 @@ const _errorObj = {
     BET_AMOUNT_TOO_HIGH: {
         msg: `投注金额高于单注最高限额`,
         code: _errorCode.BET_AMOUNT_TOO_HIGH,
+    },
+    BET_TYPE_OVERLOAD_LIMIT: {
+        msg: `该类型投注金额超过最高限额`,
+        code: _errorCode.BET_TYPE_OVERLOAD_LIMIT,
+    },
+    BET_PERIOD_OVERLOAD_LIMIT: {
+        msg: `本期投注金额超过最高限额`,
+        code: _errorCode.BET_PERIOD_OVERLOAD_LIMIT,
     },
 };
 

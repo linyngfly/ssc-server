@@ -41,6 +41,16 @@ class SSCCmd extends Cmd {
             msg: {},
             res: {}
         };
+
+        /**
+         * 获取本期投注
+         * @type {{route: string, msg: {}, res: {}}}
+         */
+        this._req.myBets = {
+            route: 'game.sscHandler.c_myBets',
+            msg: {},
+            res: {}
+        };
         /**
          * 玩家投注
          * @type {{route: string, msg: {betData: string}, resp: {}}}

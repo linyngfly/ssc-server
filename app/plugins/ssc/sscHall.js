@@ -38,7 +38,7 @@ const constants = require('../../consts/constants');
 
 // 十五 用户帐变明细(增加金币日志)
 // 查看每笔账户的资金变化明细。（增加或者减少）
-
+//
 
 class SscHall {
     constructor(opts) {
@@ -63,7 +63,7 @@ class SscHall {
 
         this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
             await self._openAward(lotteryInfo.last);
-            self.broadcast(sscCmd.push.countdown.route, {
+            self.broadcast(sscCmd.push.openLottery.route, {
                 lotteryInfo: lotteryInfo,
             });
         });
@@ -83,14 +83,14 @@ class SscHall {
         if (!this[route]) {
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
-        await this[route](msg, session);
+        return await this[route](msg, session);
     }
 
     async rpc(method, msg) {
         if (!this[method]) {
             throw ERROR_OBJ.NOT_SUPPORT_SERVICE;
         }
-        this[method](msg);
+        return this[method](msg);
     }
 
     async enter(msg) {
@@ -110,6 +110,10 @@ class SscHall {
         } else {
             player.state = constants.PLAYER_STATE.OFFLINE;
         }
+    }
+
+    isInGameHall(uid){
+        return this._playerMap.has(uid);
     }
 
     async _createPlayer(uid, sid) {
@@ -136,6 +140,11 @@ class SscHall {
     async c_heartbeat(msg) {
         let player = this._playerMap.get(msg.uid);
         player.updateActiveTime();
+    }
+
+    async c_myBets(msg){
+        let player = this._playerMap.get(msg.uid);
+        return player.myBets();
     }
 
     async c_bet(msg) {

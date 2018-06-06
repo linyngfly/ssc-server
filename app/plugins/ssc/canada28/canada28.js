@@ -3,7 +3,7 @@
  * 加拿大卑斯快乐8
  */
 
-const Ssc28BetParser = require('../ssc28BetParser');
+const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
 const Canada28BonusPool = require('./canada28BonusPool');
 const SscHall = require('../sscHall');
@@ -11,16 +11,18 @@ const config = require('../config');
 const models = require('../../../models');
 const OpenCaiNetApi = require('../openCaiNetApi');
 const Canada28Player = require('./canada28Player');
+// const Lucky28LimitRate = require('../lucky28LimitRate');
 
 class Canada28 extends SscHall{
     constructor(){
         super({
             msgChannelName: config.CANADA28.MSG_CHANNEL_NAME,
-            betParser:new Ssc28BetParser(),
+            betParser:new SSC28BetParser(),
             bonusPool:new Canada28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
                 openCaiType:config.OPEN_CAI_TYPE.CAKENO
-            })
+            }),
+            // lucky28LimitRate:new Lucky28LimitRate()
         });
     }
 

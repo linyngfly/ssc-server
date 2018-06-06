@@ -322,6 +322,8 @@ const _errorCode = {
     RM_WEAPON_LEVEL_LIMIT: 7120, // 倍率低于配位赛最低要求
     PHONE_CODE_INVALID: 7121, // 手机验证码无效
     NOT_SUPPORT_GAME_TYPE: 7122, // 不支持此游戏类型
+    PLAYER_NOT_JOIN_HALL: 7123, // 玩家还未加入游戏大厅
+    PLAYER_NOT_IN_GAME: 7124, // 玩家还不在游戏中，请先加入游戏
 
 };
 
@@ -1536,6 +1538,14 @@ const _errorObj = {
     NOT_SUPPORT_GAME_TYPE: {
         msg: '不支持此游戏类型',
         code: _errorCode.NOT_SUPPORT_GAME_TYPE,
+    },
+    PLAYER_NOT_JOIN_HALL: {
+        msg: '玩家还未加入游戏大厅',
+        code: _errorCode.PLAYER_NOT_JOIN_HALL,
+    },
+    PLAYER_NOT_IN_GAME: {
+        msg: '玩家还不在游戏中，请先加入游戏',
+        code: _errorCode.PLAYER_NOT_IN_GAME,
     },
 
 };

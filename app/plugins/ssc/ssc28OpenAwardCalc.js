@@ -38,8 +38,8 @@ class Ssc28OpenAwardCalc {
 
     //球大小单双 0-4 小 5-9 大
     _valueCalc() {
-        for (let i = 0; i < 28; ++i) {
-            this._openResult.add(i);
+        for (let i = 0; i < this._numbers.length; ++i) {
+            this._openResult.add(this._numbers[i]);
         }
     }
 
