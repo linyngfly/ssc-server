@@ -15,7 +15,7 @@ class TokenFilter {
         try {
             msg.uid = await checkToken(session.get('token') || msg.token);
         } catch (err) {
-            return next(err, {Error:err});
+            return next(err, {error:err});
         }
         next();
     }
