@@ -1,4 +1,5 @@
 const parser = require('./parser');
+const models = require('../index');
 
 class Commit {
     constructor() {
@@ -113,6 +114,9 @@ class Commit {
     getId(){
     }
 
+    getDataSyncId(){
+    }
+
     async commit() {
         let fields = this.__update;
 
@@ -121,6 +125,7 @@ class Commit {
         }
 
         let cmds = [];
+        let sync_fields = [];
         let syncIndexs = {}, index = 0;
         for(let i=0;i<fields.length;i++){
             let key = fields[i];
@@ -130,6 +135,7 @@ class Commit {
                 let v = parser.serializeValue(tk, key[1], this);
                 if (v != null) {
                     cmds.push([cmd, this.getKey(tk), this.getId(), v]);
+                    sync_fields.push(tk);
                     if(inc){
                         syncIndexs[index] = tk;
                     }
@@ -152,7 +158,18 @@ class Commit {
         for(let index in syncIndexs){
             this._sync(syncIndexs[index], ret[index]);
         }
+
+        this._sync_data(sync_fields);
         return ret;
+    }
+
+    async _sync_data(fields){
+        let syncIds = this.getDataSyncId();
+        if(syncIds){
+            await redisConnector.sadd(`${syncIds.DELTA_UID_FIELDS}:${this.getId()}`, fields);
+            await redisConnector.sadd(syncIds.DELTA_UIDS, this.getId());
+        }
+
     }
 }
 

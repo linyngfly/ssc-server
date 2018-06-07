@@ -302,8 +302,9 @@ async function main() {
 
     await client.enterGame('ssc', 'lucky28');
     console.error(3333);
-    await client.bet('大10000');
+    await client.bet('大100');
     await client.bet('大双100');
+    await client.bet('大单100');
     await client.bet('小50');
     await client.bet('小双50');
     await client.bet('豹子大10000');

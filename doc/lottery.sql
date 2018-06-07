@@ -10,31 +10,31 @@ ALTER SCHEMA `lottery` DEFAULT COLLATE utf8_unicode_ci;
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `tbl_user` (
-	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
-	`username` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录名',
-	`password` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录密码',
-	`phone` VARCHAR (11) COLLATE utf8_unicode_ci NOT NULL COMMENT '电话',
-	`nickname` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '角色名称',
-	`openid` VARCHAR (11) COLLATE utf8_unicode_ci NOT NULL COMMENT '渠道标识',
-	`email` VARCHAR (50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '邮箱',
-	`from_ip` VARCHAR (25) COLLATE utf8_unicode_ci NOT NULL COMMENT '登录来源',
-	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
-	`inviter` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '邀请人',
-	`active` TINYINT (3) UNSIGNED DEFAULT '0' COMMENT '是否激活',
-	`forbid_talk` TINYINT (3) UNSIGNED DEFAULT '0' COMMENT '玩家禁言',
-	`friends` json DEFAULT NULL COMMENT '朋友列表',
-	`role` SMALLINT (6) UNSIGNED NOT NULL COMMENT '0:玩家,1:一级代理商,2:二级代理商,3:体验用户',
-	`figure_url` SMALLINT (6) UNSIGNED DEFAULT '1' COMMENT '头像id(1~6)',
-	`test` SMALLINT (6) UNSIGNED DEFAULT '1' COMMENT '封号标识（<0封号）',
-	`rank_name` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '荣誉称号',
-	`money` DECIMAL (20, 2) DEFAULT 0 COMMENT '账户金额',
-	`level` SMALLINT (6) UNSIGNED DEFAULT 1 COMMENT '等级(1~10)',
-	`experience` SMALLINT (11) UNSIGNED DEFAULT 0 COMMENT '经验值',
-	`login_count` SMALLINT (6) UNSIGNED DEFAULT 0 COMMENT '登录次数',
-	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后在线时间',
-	`ext` json DEFAULT NULL COMMENT '扩展数据',
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `username_UNIQUE` (`username`)
+  `id` bigint(20) unsigned NOT NULL COMMENT '用户ID',
+  `username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '登录名',
+  `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '登录密码',
+  `phone` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '电话',
+  `nickname` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色名称',
+  `openid` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '渠道标识',
+  `email` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '邮箱',
+  `from_ip` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '登录来源',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
+  `inviter` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '邀请人',
+  `active` tinyint(3) unsigned DEFAULT '0' COMMENT '是否激活',
+  `forbid_talk` tinyint(3) unsigned DEFAULT '0' COMMENT '玩家禁言',
+  `friends` json DEFAULT NULL COMMENT '朋友列表',
+  `role` smallint(6) unsigned DEFAULT NULL COMMENT '0:玩家,1:一级代理商,2:二级代理商,3:体验用户',
+  `figure_url` smallint(6) unsigned DEFAULT '1' COMMENT '头像id(1~6)',
+  `test` smallint(6) unsigned DEFAULT '1' COMMENT '封号标识（<0封号）',
+  `rank_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '荣誉称号',
+  `money` decimal(20,2) DEFAULT '0.00' COMMENT '账户金额',
+  `level` smallint(6) unsigned DEFAULT '1' COMMENT '等级(1~10)',
+  `experience` smallint(11) unsigned DEFAULT '0' COMMENT '经验值',
+  `login_count` smallint(6) unsigned DEFAULT '0' COMMENT '登录次数',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后在线时间',
+  `ext` json DEFAULT NULL COMMENT '扩展数据',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_UNIQUE` (`username`) USING BTREE
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------
@@ -42,15 +42,16 @@ IF NOT EXISTS `tbl_user` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `tbl_bank` (
-	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
-	`bank_address` VARCHAR (128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '开户行地址',
-	`bank_account` VARCHAR (20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '户名',
-	`bank_card` VARCHAR (36) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '银行卡号',
-	`weixin` VARCHAR (255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信',
-	`zhifubao` VARCHAR (255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',
-	`pin_code` VARCHAR (50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码',
-	`bind_card_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '绑卡时间',
-	PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL COMMENT '用户ID',
+  `bank_address` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '开户行地址',
+  `bank_account` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '户名',
+  `bank_card` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '银行卡号',
+  `weixin` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信',
+  `zhifubao` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',
+  `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码',
+  `bind_card_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '绑卡时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bank_UNIQUE` (`bank_card`,`weixin`,`zhifubao`) USING BTREE
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------

@@ -1,5 +1,6 @@
 const AccountCommit = require('./accountCommit');
 const genRedisKey = require('../genRedisKey');
+const constants = require('../constants');
 const accountModel = require('./accountModel');
 
 class Account extends AccountCommit{
@@ -14,6 +15,10 @@ class Account extends AccountCommit{
 
     getId(){
         return this._id;
+    }
+
+    getDataSyncId(){
+        return {DELTA_UIDS:constants.DATA_SYNC_DELTA_UIDS, DELTA_UID_FIELDS:constants.DATA_SYNC_DELTA_UID_FIELDS};
     }
 
     getFieldDef(field){
