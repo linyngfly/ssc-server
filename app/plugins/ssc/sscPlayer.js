@@ -23,7 +23,7 @@ class SscPlayer extends Player {
     async openAward(period, numbers, opentime, openResult) {
         let bets = [];
         for (let bet of this._betsMap.values()) {
-            if (true || bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
+            if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
