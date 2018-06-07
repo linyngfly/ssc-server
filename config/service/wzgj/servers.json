@@ -15,6 +15,12 @@
       "auto-restart": false,
       "args": " --inspect=172.18.66.197:13501"
     }],
+    "r2mSync": [{
+      "id": "r2mSync",
+      "host": "172.18.66.197",
+      "port": 3901,
+      "args": " --inspect=172.18.66.197:13901"
+    }],
     "game": [{
       "id": "game-1-1",
       "host": "172.18.66.197",
