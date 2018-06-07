@@ -11,7 +11,7 @@ const CQLotteryApi = require('./CQLotteryApi');
 class Cqssc extends SscHall {
     constructor() {
         super({
-            msgChannelName: config.CQSSC.MSG_CHANNEL_NAME,
+            hallName: config.CQSSC.MSG_CHANNEL_NAME,
             betParser:new CQBetParser(),
             bonusPool:new BonusPool({
                 lotteryApi:new CQLotteryApi(config.OPEN_CAI_TYPE.CQSSC),

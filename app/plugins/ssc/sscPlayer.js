@@ -22,7 +22,7 @@ class SscPlayer extends Player{
 
     async openAward(period, numbers, opentime, openResult) {
         let bets = [];
-        for (let [id, bet] of this._betsMap.entries()) {
+        for (let bet of this._betsMap.values()) {
             if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
@@ -40,7 +40,8 @@ class SscPlayer extends Player{
 
                 let incomeMoney = Number((bet.winMoney - bet.betMoney).toFixed(2));
                 bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
-                bets.push({id: bet.id, state: bet.state, money: incomeMoney, period:period, numbers:numbers, opentime:opentime, openResult:Array.from(openResult)});
+                bets.push({id: bet.id, state: bet.state, money: incomeMoney, period:period, numbers:numbers,
+                    opentime:opentime, openResult:Array.from(openResult)});
                 await bet.commit();
             }
         }

@@ -17,7 +17,7 @@ const Lucky28LimitRate = require('./lucky28LimitRate');
 class Lucky28 extends SscHall{
     constructor(){
         super({
-            msgChannelName: config.LUCKY28.MSG_CHANNEL_NAME,
+            hallName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
             bonusPool:new Lucky28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
@@ -42,6 +42,7 @@ class Lucky28 extends SscHall{
         for(let player of this._playerMap.values()){
             await player.openAward(last.period, last.numbers, last.opentime, openResult);
         }
+        return openResult;
     }
 
     async _createPlayer(uid, sid) {

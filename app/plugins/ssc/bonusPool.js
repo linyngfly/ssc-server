@@ -32,8 +32,6 @@ class BonusPool extends EventEmitter {
         let free = nextTime - moment().format('x');
         free = Math.max(free, 0);
         this._countdown.reset(Math.floor(free/1000)*1000);
-
-        this._lotterInfo = lotteryInfo;
     }
 
     //处理业务
@@ -53,8 +51,11 @@ class BonusPool extends EventEmitter {
 
             // logger.error('getLotteryInfo=', lotteryInfo);
             // if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
-            if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
+
+            this._lotterInfo = this._lotterInfo || lotteryInfo;
+            if (this._lotterInfo.next.period == lotteryInfo.last.period) {
                 this._handleLotteryInfo(lotteryInfo);
+                this._lotterInfo = lotteryInfo;
             }
         } catch (err) {
             logger.error('获取开奖数据异常，err=', err);

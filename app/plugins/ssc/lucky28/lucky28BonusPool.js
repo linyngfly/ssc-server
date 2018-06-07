@@ -38,7 +38,6 @@ class Lucky28BonusPool extends BonusPool {
         free = Math.max(free, 0);
         this._countdown.reset(Math.floor(free / 1000) * 1000);
 
-        this._lotterInfo = lotteryInfo;
     }
 
     start() {

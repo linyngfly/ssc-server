@@ -20,13 +20,16 @@ module.exports = {
     BET_ID_COUNTER: `${PREFIX}counter:betId`,
 
     //最近聊天纪录
-    CHAT_LATEST_HISTORY: `${PREFIX}:chat:history`,
+    CHAT_LATEST_HISTORY: `${PREFIX}:history:%s:chat_latest_set`,
 
-    //最近投注信息
-    BET_LATEST_HISTORY: `${PREFIX}:bet:history`,
+    //最近全服投注信息
+    BET_LATEST_HISTORY: `${PREFIX}:history:%s:bet_latest_set`,
+
+    //最近个人投注信息
+    BET_PRIVATE_LATEST_HISTORY: `${PREFIX}:history:%s:bet_private_latest_set`,
 
     //最近开奖记录
-    LOTTERY_LATEST_HISTORY: `${PREFIX}:lottery:history`,
+    LOTTERY_LATEST_HISTORY: `${PREFIX}:history:%s:lottery_latest_set`,
 
     //角色定义
     ROLE: {

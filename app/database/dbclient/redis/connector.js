@@ -418,6 +418,82 @@ class Connector {
         });
     }
 
+    async lpush(key, value) {
+        let self = this;
+        value = this._getDBWriteValue(value);
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.lpush(key, value, function (err, result) {
+                if (err) {
+                    logger.error('redis lpush err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    async lset(key, index, value) {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.lset(key, index, value, function (err, result) {
+                if (err) {
+                    logger.error('redis lset err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    async lrange(key, start, stop) {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.lrange(key, start, stop, function (err, result) {
+                if (err) {
+                    logger.error('redis lrange err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    async llen(key) {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.llen(key, function (err, result) {
+                if (err) {
+                    logger.error('redis llen err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    async ltrim(key,start,stop) {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.ltrim(key, start,stop, function (err, result) {
+                if (err) {
+                    logger.error('redis llen err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
     async multi(cmds) {
         let self = this;
         return new Promise(function (resolve, reject) {

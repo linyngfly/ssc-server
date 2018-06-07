@@ -43,11 +43,11 @@ class SSCCmd extends Cmd {
         };
 
         /**
-         * 获取本期投注
+         * 获取大厅最近投注信息
          * @type {{route: string, msg: {}, res: {}}}
          */
-        this._req.myBets = {
-            route: 'game.sscHandler.c_myBets',
+        this._req.getBets = {
+            route: 'game.sscHandler.c_getBets',
             msg: {},
             res: {}
         };
@@ -85,8 +85,23 @@ class SSCCmd extends Cmd {
             res: {}
         };
 
-        this._req.getLatestLotteryInfo = {
-            route: 'game.sscHandler.c_getLatestLotteryInfo',
+        /**
+         * 获取大厅最近聊天信息
+         * @type {{route: string, msg: {}, res: {}}}
+         */
+        this._req.getChats = {
+            route: 'game.sscHandler.c_getChats',
+            msg: {
+            },
+            res: {}
+        };
+
+        /**
+         * 获取大厅最近开奖信息
+         * @type {{route: string, msg: {}, res: {}}}
+         */
+        this._req.getLotterys = {
+            route: 'game.sscHandler.c_getLotterys',
             msg: {},
             res: {}
         };

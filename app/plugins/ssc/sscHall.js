@@ -5,6 +5,9 @@ const config = require('./config');
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const sscCmd = require('../../cmd/sscCmd');
 const constants = require('../../consts/constants');
+const models = require('../../models');
+const util = require('util');
+const logBuilder = require('../../utils/logSync/logBuilder');
 
 // 回水规则
 // a下注11期 （0-24：00）
@@ -42,7 +45,7 @@ const constants = require('../../consts/constants');
 
 class SscHall {
     constructor(opts) {
-        this._msgChannelName = opts.msgChannelName;
+        this._hallName = opts.hallName;
         this._betParser = opts.betParser;
         this._bonusPool = opts.bonusPool;
         this._lucky28LimitRate = opts.lucky28LimitRate;
@@ -55,14 +58,22 @@ class SscHall {
         let self = this;
 
         this._bonusPool.on(config.LOTTERY_EVENT.TICK_COUNT, (dt) => {
-            logger.error('开奖倒计时=', dt, self._msgChannelName);
+            logger.error('开奖倒计时=', dt, self._hallName);
             self.broadcast(sscCmd.push.countdown.route, {
                 dt: dt,
             });
         });
 
         this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
-            await self._openAward(lotteryInfo.last);
+            let last = lotteryInfo.last;
+            let openResult = await self._openAward(last);
+            logBuilder.addLottery({
+                period: last.period,
+                identify: lotteryInfo.identify,
+                numbers: last.numbers,
+                time: last.opentime,
+                openResult: openResult
+            });
             self.broadcast(sscCmd.push.openLottery.route, {
                 lotteryInfo: lotteryInfo,
             });
@@ -112,7 +123,7 @@ class SscHall {
         }
     }
 
-    isInGameHall(uid){
+    isInGameHall(uid) {
         return this._playerMap.has(uid);
     }
 
@@ -142,7 +153,7 @@ class SscHall {
         player.updateActiveTime();
     }
 
-    async c_myBets(msg){
+    async c_myBets(msg) {
         let player = this._playerMap.get(msg.uid);
         return player.myBets();
     }
@@ -164,7 +175,7 @@ class SscHall {
             identify: this._bonusPool.getIdentify(),
             betData: msg.betData,
             parseRet: parseRet,
-            limitRate:this._lucky28LimitRate
+            limitRate: this._lucky28LimitRate
         });
 
     }
@@ -178,60 +189,75 @@ class SscHall {
         return await player.unBet(msg.id);
     }
 
+    async c_getBets(msg){
+        redisConnector.lrange()
+    }
+
     async c_chat(msg) {
         let player = this._playerMap.get(msg.uid);
         player.chat(msg);
     }
 
-    async c_getLotteryInfo(msg){
-        return this._bonusPool.lotteryInfo;
+    async c_getChats(msg){
+
+    }
+
+    async c_getLotterys(msg) {
+
     }
 
     addEvent(player) {
         let self = this;
         player.on(sscCmd.push.bet.route, (data) => {
-            self.broadcast(sscCmd.push.bet.route, {
+            let betData = {
                 data: data,
                 ext: {
                     nickname: player.account.nickname,
                 }
-            });
+            };
+            self.broadcast(sscCmd.push.bet.route, betData);
+            redisConnector.lpush(util.format(models.constants.BET_LATEST_HISTORY, self._hallName), betData);
         });
 
         player.on(sscCmd.push.unBet.route, (data) => {
-            self.broadcast(sscCmd.push.unBet.route, {
+            let unBetData = {
                 data: data,
                 ext: {
                     nickname: player.account.nickname,
                 }
-            });
+            };
+            self.broadcast(sscCmd.push.unBet.route, unBetData);
+            redisConnector.lpush(util.format(models.constants.BET_LATEST_HISTORY, self._hallName), unBetData);
         });
 
         player.on(sscCmd.push.chat.route, (data) => {
-            self.broadcast(sscCmd.push.chat.route, {
+            let chatData = {
                 data: data,
                 ext: {
                     nickname: player.account.nickname,
                 }
-            });
+            };
+
+            self.broadcast(sscCmd.push.chat.route, chatData);
+            redisConnector.lpush(util.format(models.constants.CHAT_LATEST_HISTORY, self._hallName), chatData);
         });
 
         player.on(sscCmd.push.betResult.route, (data) => {
-            player.send(sscCmd.push.betResult.route, data);
+            redisConnector.player.send(sscCmd.push.betResult.route, data);
         });
     }
 
     addMsgChannel({uid, sid}) {
-        this._msgChannel.add(this._msgChannelName, uid, sid);
+        this._msgChannel.add(this._hallName, uid, sid);
     }
 
     leaveMsgChannel({uid, sid}) {
-        this._msgChannel.leave(this._msgChannelName, uid, sid);
+        this._msgChannel.leave(this._hallName, uid, sid);
     }
 
     broadcast(route, data, serverType = rpcDefs.serverType.game) {
         if (this._msgChannel) {
-            this._msgChannel.pushMessage(serverType, route, data, this._msgChannelName);
+            this._msgChannel.pushMessage(serverType, route, data, this._hallName);
         }
     }
 

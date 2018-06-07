@@ -16,7 +16,7 @@ const Canada28Player = require('./canada28Player');
 class Canada28 extends SscHall{
     constructor(){
         super({
-            msgChannelName: config.CANADA28.MSG_CHANNEL_NAME,
+            hallName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
             bonusPool:new Canada28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
