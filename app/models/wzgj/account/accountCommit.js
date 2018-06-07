@@ -15,23 +15,11 @@ class AccountCommit extends Commit {
     get username() {
         return this._value('username');
     }
-	set openid(value) {
-        this._modify('openid', value);
-    }
-    get openid() {
-        return this._value('openid');
-    }
 	set password(value) {
         this._modify('password', value);
     }
     get password() {
         return this._value('password');
-    }
-	set nickname(value) {
-        this._modify('nickname', value);
-    }
-    get nickname() {
-        return this._value('nickname');
     }
 	set phone(value) {
         this._modify('phone', value);
@@ -39,17 +27,29 @@ class AccountCommit extends Commit {
     get phone() {
         return this._value('phone');
     }
+	set nickname(value) {
+        this._modify('nickname', value);
+    }
+    get nickname() {
+        return this._value('nickname');
+    }
+	set openid(value) {
+        this._modify('openid', value);
+    }
+    get openid() {
+        return this._value('openid');
+    }
 	set email(value) {
         this._modify('email', value);
     }
     get email() {
         return this._value('email');
     }
-	set from(value) {
-        this._modify('from', value);
+	set from_ip(value) {
+        this._modify('from_ip', value);
     }
-    get from() {
-        return this._value('from');
+    get from_ip() {
+        return this._value('from_ip');
     }
 	set created_at(value) {
         this._modify('created_at', value);
@@ -62,6 +62,12 @@ class AccountCommit extends Commit {
     }
     get inviter() {
         return this._value('inviter');
+    }
+	set token(value) {
+        this._modify('token', value);
+    }
+    get token() {
+        return this._value('token');
     }
 	set active(value) {
         this._modify('active', value);
@@ -93,17 +99,17 @@ class AccountCommit extends Commit {
     get figure_url() {
         return this._value('figure_url');
     }
+	set test(value) {
+        this._modify('test', value);
+    }
+    get test() {
+        return this._value('test');
+    }
 	set rank_name(value) {
         this._modify('rank_name', value);
     }
     get rank_name() {
         return this._value('rank_name');
-    }
-	set pin_code(value) {
-        this._modify('pin_code', value);
-    }
-    get pin_code() {
-        return this._value('pin_code');
     }
 	set money(value) {
         this._modify('money', value);
@@ -134,18 +140,6 @@ class AccountCommit extends Commit {
     }
     get updated_at() {
         return this._value('updated_at');
-    }
-	set token(value) {
-        this._modify('token', value);
-    }
-    get token() {
-        return this._value('token');
-    }
-	set test(value) {
-        this._modify('test', value);
-    }
-    get test() {
-        return this._value('test');
     }
 	set ext(value) {
         this._modify('ext', value);
@@ -182,6 +176,12 @@ class AccountCommit extends Commit {
     }
     get zhifubao() {
         return this._value('zhifubao');
+    }
+	set pin_code(value) {
+        this._modify('pin_code', value);
+    }
+    get pin_code() {
+        return this._value('pin_code');
     }
 	set bind_card_at(value) {
         this._modify('bind_card_at', value);

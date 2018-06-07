@@ -131,11 +131,11 @@ class AccountHelper {
     }
 
     async getMysqlAccount(uid, fields = []){
-        return this._mysqlHelper.getTableRow(uid, fields);
+        return await this._mysqlHelper.getTableRow(uid, fields);
     }
 
     async setMysqlAccount(players){
-        this._mysqlHelper.setTableRow(players);
+        return await this._mysqlHelper.setTableRow(players);
     }
 }
 

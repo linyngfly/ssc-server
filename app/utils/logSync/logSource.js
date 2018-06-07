@@ -49,7 +49,14 @@ class LogSource{
         let fields = logTableDef.TABLE[type].field;
         for(let i = 0; i< fields.length; ++i){
             if(data[fields[i]] !== undefined && data[fields[i]] !== null){
-                temp.push(data[fields[i]]);
+                let value = data[fields[i]];
+                if(value instanceof Set){
+                    value = Array.from(value);
+                }
+                if(typeof value == 'object'){
+                    value = JSON.stringify(value);
+                }
+                temp.push(value);
             }else {
                 return [];
             }

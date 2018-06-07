@@ -32,7 +32,13 @@ class MysqlHelper {
                 if (sqlKey.length < 2) {
                     continue;
                 }
+                if(sqlKey.indexOf('id') == -1){
+                    sqlKey.push('id');
+                    sqlValue.push(row.id);
+                }
                 let sql = this._sqlObj2sqlCmd(table, sqlKey);
+                logger.error('sql=', sql);
+                logger.error('sqlValue=', sqlValue);
                 sqlCmds.push({
                     sql: sql,
                     params: sqlValue
@@ -77,7 +83,7 @@ class MysqlHelper {
 
         let sql = this._genSqlQueryCmd(sqlTableFields);
         let rows = await mysqlConnector.query(sql, [uid]);
-        if(rows && rows[0]){
+        if (rows && rows[0]) {
             return this._sqlObj2Obj(rows);
         }
     }
@@ -109,13 +115,13 @@ class MysqlHelper {
         return sql;
     }
 
-    _sqlObj2sqlCmd(sqlObj) {
-        let sql = "INSERT INTO " + table + " (";
+    _sqlObj2sqlCmd(table, sqlObj) {
+        let sql = "INSERT INTO " + '`' + table + "`" + " (";
         for (let i in sqlObj) {
             if (i == 0) {
-                sql += sqlObj[i];
+                sql += "`" + sqlObj[i] + "`";
             } else {
-                sql += "," + sqlObj[i];
+                sql += "," + "`" + sqlObj[i] + "`";
             }
         }
         sql += ") VALUES(";
@@ -131,10 +137,10 @@ class MysqlHelper {
         let k = 0;
         for (let i in sqlObj) {
             if (k == 0 && sqlObj[i] != sqlConst.PRI_KEY) {
-                sql += sqlObj[i] + "=VALUES(" + sqlObj[i] + ")";
+                sql += "`" + sqlObj[i] + "`" + "=VALUES(" + "`" + sqlObj[i] + "`" + ")";
                 k++;
             } else if (k > 0 && sqlObj[i] != sqlConst.PRI_KEY) {
-                sql += "," + sqlObj[i] + "=VALUES(" + sqlObj[i] + ")";
+                sql += "," + "`" + sqlObj[i] + "`" + "=VALUES(" + "`" + sqlObj[i] + "`" + ")";
             }
         }
         return sql;

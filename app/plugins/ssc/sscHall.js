@@ -9,6 +9,7 @@ const models = require('../../models');
 const util = require('util');
 const logBuilder = require('../../utils/logSync/logBuilder');
 
+
 // 回水规则
 // a下注11期 （0-24：00）
 //  b 组合比例占下单总数15%
@@ -257,7 +258,7 @@ class SscHall {
         });
 
         player.on(sscCmd.push.betResult.route, (data) => {
-            redisConnector.player.send(sscCmd.push.betResult.route, data);
+            player.send(sscCmd.push.betResult.route, data);
         });
     }
 

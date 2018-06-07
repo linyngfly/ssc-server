@@ -14,7 +14,7 @@ module.exports = {
     },
 
     /**
-     * 玩家游戏数据实时同步到mysql
+     * 玩家数据同步
      */
     accountSync: {
         enable: true,

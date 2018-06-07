@@ -1,6 +1,7 @@
 const moment = require('moment');
 const crypto = require('crypto');
 const Token = require('../../../../utils/token');
+const models = require('../../../../models');
 const session = require('../../../../utils/imports').session;
 
 class User {
@@ -44,6 +45,7 @@ class User {
         player.updated_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         player.login_count = 1;
         await player.commit();
+        redisConnector.sadd(models.constants.DATA_SYNC_FULL_UIDS, player.uid);
     }
 }
 

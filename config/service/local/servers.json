@@ -13,12 +13,11 @@
       "publicHost": "127.0.0.1",
       "args": " --inspect=127.0.0.1:13101"
     }],
-    "lottery": [{
-      "id": "lottery",
+    "r2mSync": [{
+      "id": "r2mSync",
       "host": "127.0.0.1",
-      "port": 3201,
-      "publicHost": "127.0.0.1",
-      "args": " --inspect=127.0.0.1:13201"
+      "port": 3901,
+      "args": " --inspect=127.0.0.1:13901"
     }],
     "game": [{
       "id": "game-1-1",

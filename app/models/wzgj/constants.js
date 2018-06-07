@@ -13,6 +13,10 @@ module.exports = {
         API: `${PREFIX}switch:api`, //api开关
     },
 
+    DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,
+    DATA_SYNC_DELTA_UIDS: `${PREFIX}sync:delta_uids`,
+    DATA_SYNC_DELTA_UID_FIELDS: `${PREFIX}sync:delta_uid_fields`,
+
     //UID计数器
     UID_COUNTER: `${PREFIX}counter:uid`,
 
@@ -35,7 +39,7 @@ module.exports = {
     ROLE: {
         PLAYER: 0, //玩家
         AGENT1: 1, //一级代理商
-        AGENT1: 2, //二级代理商
+        AGENT2: 2, //二级代理商
         TEST: 3, //体验用户
     },
 

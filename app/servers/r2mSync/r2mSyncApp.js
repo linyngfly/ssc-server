@@ -35,9 +35,9 @@ class R2mSyncApp {
 
     _addTask() {
         let accountSync = new AccountSync(taskConf.accountSync);
-        let accountKick = new AccountKick(taskConf.accountKick);
+        // let accountKick = new AccountKick(taskConf.accountKick);
         taskPool.addTask('userSync', accountSync);
-        taskPool.addTask('userKick', accountKick);
+        // taskPool.addTask('userKick', accountKick);
     }
 }
 

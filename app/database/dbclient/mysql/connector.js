@@ -129,7 +129,7 @@ class Connector {
 
                 });
             });
-        });
+        }.bind(this));
     }
 
     _query(sql, args, cb) {
