@@ -1,10 +1,10 @@
-const sqlConst = require('../wzgj/account/sqlConst');
 const moment = require('moment');
 const ERROR_OBJ = require('../../consts/error_code').ERROR_OBJ;
 
 class MysqlHelper {
-    constructor(models) {
+    constructor(models, sqlConst) {
         this._models = models;
+        this._sqlConst = sqlConst;
     }
 
     async setTableRow(rows) {
@@ -15,7 +15,7 @@ class MysqlHelper {
         for (let i = 0; i < rows.length; i++) {
             let row = rows[i];
             let sqlRow = this._obj2SqlObj(row);
-            let tables = sqlConst.TABLES;
+            let tables = this._sqlConst.TABLES;
             for (let i = 0; i < tables.length; i++) {
                 let table = tables[i];
                 let sqlKey = [];
@@ -60,7 +60,7 @@ class MysqlHelper {
 
         let sqlTableFields = {};
         if (null == fields || fields.length == 0) {
-            fields = sqlConst.MODEL_FIELDS;
+            fields = this._sqlConst.MODEL_FIELDS;
         }
 
         for (let i in fields) {
@@ -102,15 +102,15 @@ class MysqlHelper {
                 }
             }
         }
-        sql += `FROM '${sqlConst.PRI_TABLE}' ${sqlConst.PRI_TABLE} `;
+        sql += `FROM '${this._sqlConst.PRI_TABLE}' ${this._sqlConst.PRI_TABLE} `;
 
         for (let table in sqlTableFields) {
-            if (table != sqlConst.PRI_TABLE) {
-                sql += `LEFT JOIN '${table}' ${table} ON ${sqlConst.PRI_TABLE}.${sqlConst.PRI_KEY}=${table}.${sqlConst.PRI_KEY} `;
+            if (table != this._sqlConst.PRI_TABLE) {
+                sql += `LEFT JOIN '${table}' ${table} ON ${this._sqlConst.PRI_TABLE}.${this._sqlConst.PRI_KEY}=${table}.${this._sqlConst.PRI_KEY} `;
             }
         }
 
-        sql += `WHERE ${sqlConst.PRI_TABLE}.${sqlConst.PRI_KEY}=? `;
+        sql += `WHERE ${this._sqlConst.PRI_TABLE}.${this._sqlConst.PRI_KEY}=? `;
 
         return sql;
     }
@@ -136,10 +136,10 @@ class MysqlHelper {
 
         let k = 0;
         for (let i in sqlObj) {
-            if (k == 0 && sqlObj[i] != sqlConst.PRI_KEY) {
+            if (k == 0 && sqlObj[i] != this._sqlConst.PRI_KEY) {
                 sql += "`" + sqlObj[i] + "`" + "=VALUES(" + "`" + sqlObj[i] + "`" + ")";
                 k++;
-            } else if (k > 0 && sqlObj[i] != sqlConst.PRI_KEY) {
+            } else if (k > 0 && sqlObj[i] != this._sqlConst.PRI_KEY) {
                 sql += "," + "`" + sqlObj[i] + "`" + "=VALUES(" + "`" + sqlObj[i] + "`" + ")";
             }
         }

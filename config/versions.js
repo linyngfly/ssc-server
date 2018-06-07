@@ -13,7 +13,7 @@ CDN_DOMAIN[GAMEPLAY.WZGJ] = "vncdn1.secureswiftcontent.com";
 
 module.exports = {
     //配置游戏发行版本
-    DEVELOPMENT: false,  //发布时修改为false
+    DEVELOPMENT: true,  //发布时修改为false
     PUB: GAMEPLAY.WZGJ,  //设置发布版本类型
     SSL: false, //是否启动SSL
 

@@ -11,7 +11,7 @@ const _ = require('lodash');
 
 class BetHelper {
     constructor(){
-        this._mysqlHelper = new MysqlHelper(betModel);
+        this._mysqlHelper = new MysqlHelper(betModel, sqlConst);
     }
 
     async exist(uid) {
@@ -132,12 +132,12 @@ class BetHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlBet(id, fields = []){
+    async getBet2Mysql(id, fields = []){
         return this._mysqlHelper.getTableRow(id, fields);
     }
 
-    async setMysqlBet(players){
-        this._mysqlHelper.setTableRow(players);
+    async setBet2Mysql(bets){
+        this._mysqlHelper.setTableRow(bets);
     }
 }
 

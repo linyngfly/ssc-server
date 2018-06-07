@@ -49,11 +49,12 @@ class BonusPool extends EventEmitter {
                 return;
             }
 
+
             // logger.error('getLotteryInfo=', lotteryInfo);
             // if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
 
             // this._lotterInfo = this._lotterInfo || lotteryInfo;
-            if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
+            if (true || !this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
                 this._handleLotteryInfo(lotteryInfo);
                 this._lotterInfo = lotteryInfo;
             }

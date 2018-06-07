@@ -16,11 +16,11 @@ class AccountSync extends Task {
      * @private
      */
     _exeTask(cb) {
-        logger.info('---玩家数据同步开始');
+        logger.info('玩家Account数据同步开始');
         this._syncFullData(function () {
             this._syncDeltaData(function () {
                 utils.invokeCallback(cb, null);
-                logger.info('----玩家数据同步完成');
+                logger.info('玩家Account数据同步完成');
             });
         }.bind(this));
     }
@@ -39,7 +39,7 @@ class AccountSync extends Task {
     async _toMysql(uid, fields) {
         let account = await models.account.helper.getAccount(uid, fields);
         if (account) {
-            await models.account.helper.setMysqlAccount(account);
+            await models.account.helper.setAccount2Mysql(account);
         }
     }
 

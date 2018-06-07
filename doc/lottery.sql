@@ -105,13 +105,14 @@ IF NOT EXISTS `tbl_bets` (
 	`period` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '期数',
 	`identify` VARCHAR (20) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',
 	`betData` VARCHAR (50) COLLATE utf8_unicode_ci NOT NULL COMMENT '用户输入投注数据',
-	`state` SMALLINT (6) UNSIGNED NOT NULL COMMENT '0待开奖，1 撤销，2 赢 3输',
+	`betItems` json NOT NULL COMMENT '投注条目',
+	`multi` SMALLINT (6) UNSIGNED NOT NULL COMMENT '是否是组合投注,0否，1是',
 	`betCount` SMALLINT (6) UNSIGNED NOT NULL COMMENT '投注数',
-	`winCount` SMALLINT (6) UNSIGNED NOT NULL COMMENT '投赢注数',
 	`betMoney` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '投注金额',
+	`winCount` SMALLINT (6) UNSIGNED NOT NULL COMMENT '投赢注数',
 	`winMoney` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '收益金额',
 	`betTime` TIMESTAMP NOT NULL COMMENT '投注时间',
-	`betItems` json NOT NULL COMMENT '投注条目',
+	`state` SMALLINT (6) UNSIGNED NOT NULL COMMENT '0待开奖，1 撤销，2 赢 3输',
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

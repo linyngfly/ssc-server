@@ -123,11 +123,11 @@ class PlayerHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlAccount(uid, fields = []){
+    async getAccount2Mysql(uid, fields = []){
         return this._mysqlHelper.getTableRow(uid, fields);
     }
 
-    async setMysqlAccount(players){
+    async setAccount2Mysql(players){
         this._mysqlHelper.setTableRow(players);
     }
 }

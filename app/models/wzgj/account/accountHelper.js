@@ -11,7 +11,7 @@ const _ = require('lodash');
 
 class AccountHelper {
     constructor(){
-        this._mysqlHelper = new MysqlHelper(accountModel);
+        this._mysqlHelper = new MysqlHelper(accountModel, sqlConst);
     }
     async exist(uid) {
         let exist = await redisConnector.hget(genRedisKey.getAccountKey(accountFieldConst.USERNAME), uid);
@@ -130,11 +130,11 @@ class AccountHelper {
         return await redisConnector.multi(cmds);
     }
 
-    async getMysqlAccount(uid, fields = []){
+    async getAccount2Mysql(uid, fields = []){
         return await this._mysqlHelper.getTableRow(uid, fields);
     }
 
-    async setMysqlAccount(players){
+    async setAccount2Mysql(players){
         return await this._mysqlHelper.setTableRow(players);
     }
 }

@@ -5,8 +5,8 @@ const moment = require('moment');
 const sscCmd = require('../../cmd/sscCmd');
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 
-class SscPlayer extends Player{
-    constructor(opts){
+class SscPlayer extends Player {
+    constructor(opts) {
         super(opts);
         this._limitRate = opts.limitRate;
         this._account = opts.account;
@@ -23,7 +23,7 @@ class SscPlayer extends Player{
     async openAward(period, numbers, opentime, openResult) {
         let bets = [];
         for (let bet of this._betsMap.values()) {
-            if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
+            if (true || bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
@@ -40,13 +40,16 @@ class SscPlayer extends Player{
 
                 let incomeMoney = Number((bet.winMoney - bet.betMoney).toFixed(2));
                 bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
-                bets.push({id: bet.id, state: bet.state, money: incomeMoney, period:period, numbers:numbers,
-                    opentime:opentime, openResult:Array.from(openResult)});
+                bets.push({
+                    id: bet.id, state: bet.state, money: incomeMoney, period: period, numbers: numbers,
+                    opentime: opentime, openResult: Array.from(openResult)
+                });
                 await bet.commit();
+                redisConnector.sadd(models.constants.DATA_SYNC_BE_IDS, bet.id);
             }
         }
 
-        if(bets.length == 0){
+        if (bets.length == 0) {
             return;
         }
 
@@ -54,7 +57,7 @@ class SscPlayer extends Player{
         this._betLimitMap.clear();
         this._betRateMap.clear();
         await this.account.commit();
-        this.emit(sscCmd.push.betResult.route, {numbers:numbers, bets:bets})
+        this.emit(sscCmd.push.betResult.route, {numbers: numbers, bets: bets})
     }
 
     isBet() {
@@ -66,9 +69,9 @@ class SscPlayer extends Player{
         //TODO 投注限额检查
     }
 
-    myBets(){
+    myBets() {
         let bets = [];
-        for(let bet of this._betsMap.values()){
+        for (let bet of this._betsMap.values()) {
             bets.push[bet.toJSON()];
         }
         return bets;
@@ -79,7 +82,7 @@ class SscPlayer extends Player{
         this.account.money = 0;
         await this.account.commit();
 
-        if(parseRet.total == -1) {
+        if (parseRet.total == -1) {
             let money = Math.floor(this.account.money / parseRet.betItems.length);
             for (let i = 0; i < parseRet.betItems.length; i++) {
                 let item = parseRet.betItems[i];
@@ -89,29 +92,29 @@ class SscPlayer extends Player{
             parseRet.total = money * parseRet.betItems.length;
         }
 
-        let oneBetMoney = parseRet.total/parseRet.betItems.length;
+        let oneBetMoney = parseRet.total / parseRet.betItems.length;
         let oneMin = this._limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ONE_MIN);
         let oneMax = this._limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ONE_MAX);
-        if(oneBetMoney > oneMax){
+        if (oneBetMoney > oneMax) {
             throw ERROR_OBJ.BET_AMOUNT_TOO_HIGH;
-        }else if(oneBetMoney < oneMin){
+        } else if (oneBetMoney < oneMin) {
             throw ERROR_OBJ.BET_AMOUNT_TOO_LOW;
         }
 
         let allTypeMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
         allTypeMoney += parseRet.total;
         let maxAllTypeLimitMoney = this._limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
-        if(allTypeMoney > maxAllTypeLimitMoney){
+        if (allTypeMoney > maxAllTypeLimitMoney) {
             throw ERROR_OBJ.BET_PERIOD_OVERLOAD_LIMIT;
         }
 
-        if(!parseRet.limit_dic){
-            logger.error('parseRet.limit_dic=',parseRet.limit_dic);
+        if (!parseRet.limit_dic) {
+            logger.error('parseRet.limit_dic=', parseRet.limit_dic);
         }
         let totalLimitMoney = this._betLimitMap.get(parseRet.limit_dic) || 0;
         totalLimitMoney += parseRet.total;
         let maxLimitMoney = this._limitRate.getLimit(parseRet.limit_dic);
-        if(totalLimitMoney > maxLimitMoney){
+        if (totalLimitMoney > maxLimitMoney) {
             throw ERROR_OBJ.BET_TYPE_OVERLOAD_LIMIT;
         }
 
@@ -129,6 +132,7 @@ class SscPlayer extends Player{
             identify: identify,
             betData: betData,
             betItems: parseRet.betItems,
+            multi: config.SSC28.BET_TYPE_LIMIT_DIC == bet.limit_dic ? 1 : 0,
             betCount: parseRet.betItems.length,
             betMoney: parseRet.total,
             betTime: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -136,13 +140,13 @@ class SscPlayer extends Player{
         bet.limit_dic = parseRet.limit_dic;
         bet.rate_dic = parseRet.rate_dic;
         this._betsMap.set(bet.id, bet);
-        this._betLimitMap.set(bet.limit_dic,totalLimitMoney);
-        this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL,totalLimitMoney);
+        this._betLimitMap.set(bet.limit_dic, totalLimitMoney);
+        this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, totalLimitMoney);
         let rateMoney = this._betRateMap.get(bet.rate_dic) || 0;
         rateMoney += parseRet.total;
         this._betRateMap.set(bet.rate_dic, rateMoney);
         this.emit(sscCmd.push.bet.route, bet.toJSON());
-        return {money:this.account.money};
+        return {money: this.account.money};
     }
 
     async unBet(id) {
@@ -165,7 +169,7 @@ class SscPlayer extends Player{
 
         this.emit(sscCmd.push.unBet.route, bet.toJSON());
 
-        return {money:this.account.money};
+        return {money: this.account.money};
     }
 
     async chat(msg) {

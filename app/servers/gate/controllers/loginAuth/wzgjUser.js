@@ -26,7 +26,7 @@ class WZGJUser extends User {
     }
 
     async _queryAccount(uid) {
-        let mysqlPlayer = await models.account.helper.getMysqlAccount(uid);
+        let mysqlPlayer = await models.account.helper.getAccount2Mysql(uid);
         return await models.account.helper.createAccount(uid, mysqlPlayer);
     }
 

@@ -2,10 +2,10 @@ const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
 
-const GATE_HOST = 'http://39.108.166.240:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "39.108.166.240";
-// const GAME_IP = "127.0.0.1";
+// const GATE_HOST = 'http://39.108.166.240:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "39.108.166.240";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient{
