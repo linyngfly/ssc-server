@@ -151,15 +151,66 @@ class SSCClient{
 
     }
 
-    async myBets(){
+    async senChat(data){
         try{
-            let resp = await this._request('game.sscHandler.c_myBets', {});
-            console.info('myBets ok resp=', resp);
+            let resp = await this._request('game.sscHandler.c_chat', data);
+            console.info('senChat ok resp=', resp);
         }catch (err) {
-            console.info('myBets fail err=', err);
+            console.info('senChat fail err=', err);
         }
 
     }
+
+    // async myBets(){
+    //     try{
+    //         let resp = await this._request('game.sscHandler.c_myBets', {});
+    //         console.info('myBets ok resp=', resp);
+    //     }catch (err) {
+    //         console.info('myBets fail err=', err);
+    //     }
+    //
+    // }
+
+    //TODO NEW 获取最近聊天记录
+    async getChats(){
+        try{
+            let resp = await this._request('game.sscHandler.c_getChats', {
+                skip:0,
+                limit:10
+            });
+            console.info('getChats ok resp=', resp);
+        }catch (err) {
+            console.info('getChats fail err=', err);
+        }
+
+    }
+    //TODO NEW 获取最近的投注记录
+    async getBets(){
+        try{
+            let resp = await this._request('game.sscHandler.c_getBets', {
+                skip:0,
+                limit:10
+            });
+            console.info('getBets ok resp=', resp);
+        }catch (err) {
+            console.info('getBets fail err=', err);
+        }
+
+    }
+    //TODO NEW 获取最近几期的开奖记录
+    async getLotterys(){
+        try{
+            let resp = await this._request('game.sscHandler.c_getLotterys', {
+                skip:0,
+                limit:10
+            });
+            console.info('getLotterys ok resp=', resp);
+        }catch (err) {
+            console.info('getLotterys fail err=', err);
+        }
+
+    }
+
 
     /**
      * 网络io错误
@@ -235,12 +286,12 @@ class SSCClient{
 
 async function main() {
     let client = new SSCClient();
-    // await client.register({
-    //     username: '18602432393',
-    //     password: '123654',
-    //     code: '1243',
-    //     nickname: '咸鱼也有梦',
-    // });
+    await client.register({
+        username: '18602432393',
+        password: '123654',
+        code: '1243',
+        nickname: '咸鱼也有梦',
+    });
 
     await client.login({
         username:'18602432393',
@@ -256,11 +307,33 @@ async function main() {
     await client.bet('豹子大10000');
     await client.bet('对子100');
 
-    await client.myBets();
+    await client.senChat({
+        type:0,
+        content:'大家来投豹子好吗',
+        tid: -1
+    });
+
+    await client.senChat({
+        type:1,
+        content:'1',
+        tid: -1
+    });
+
+    await client.senChat({
+        type:2,
+        content:'http://www.baidu.com',
+        tid: -1
+    });
+
+    await client.getBets();
+    await client.getChats();
+    await client.getLotterys();
+
+    // await client.myBets();
     // await client.bet('大单龙100');
-    console.error(1111);
-    await client.unBet(2);
-    console.error(2222);
+    // console.error(1111);
+    // await client.unBet(2);
+    // console.error(2222);
     // await client.leaveGame();
 }
 

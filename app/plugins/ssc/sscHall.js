@@ -67,13 +67,17 @@ class SscHall {
         this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
             let last = lotteryInfo.last;
             let openResult = await self._openAward(last);
-            logBuilder.addLottery({
+
+            let lotteryData = {
                 period: last.period,
                 identify: lotteryInfo.identify,
                 numbers: last.numbers,
                 time: last.opentime,
                 openResult: openResult
-            });
+            };
+
+            logBuilder.addLottery(lotteryData);
+            redisConnector.lpush(util.format(models.constants.LOTTERY_LATEST_HISTORY, self._hallName), lotteryData);
             self.broadcast(sscCmd.push.openLottery.route, {
                 lotteryInfo: lotteryInfo,
             });
@@ -189,21 +193,31 @@ class SscHall {
         return await player.unBet(msg.id);
     }
 
-    async c_getBets(msg){
-        redisConnector.lrange()
+    async c_getBets(msg) {
+        let start = msg.skip || 0;
+        let stop = start + (msg.limit || 20);
+        return await redisConnector.lrange(util.format(models.constants.BET_LATEST_HISTORY, this._hallName), start, stop);
     }
 
     async c_chat(msg) {
         let player = this._playerMap.get(msg.uid);
-        player.chat(msg);
+        return await player.chat({
+            type: msg.type,
+            content: msg.content,
+            tid: msg.tid
+        });
     }
 
-    async c_getChats(msg){
-
+    async c_getChats(msg) {
+        let start = msg.skip || 0;
+        let stop = start + (msg.limit || 20);
+        return await redisConnector.lrange(util.format(models.constants.CHAT_LATEST_HISTORY, this._hallName), start, stop);
     }
 
     async c_getLotterys(msg) {
-
+        let start = msg.skip || 0;
+        let stop = start + (msg.limit || 20);
+        return await redisConnector.lrange(util.format(models.constants.LOTTERY_LATEST_HISTORY, this._hallName), start, stop);
     }
 
     addEvent(player) {

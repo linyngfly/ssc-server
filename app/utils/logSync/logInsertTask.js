@@ -2,8 +2,6 @@ const Task = require('../task/task');
 const mysqlLogInsert = require('./mysqlLogInsert');
 const redisLogInsert = require('./redisLogInsert');
 const LogSource = require('./logSource');
-const consts = require('../../database/consts/consts');
-const errorCode = require('../task').errorCode;
 const utils = require('../utils');
 
 /**
@@ -20,22 +18,22 @@ class LogInsertTask extends Task{
      * 设置log存储数据库类型
      * @param value
      */
-    setDBtype(value){
-        if(consts.DBType.checkValid(value)){
-            switch (value){
-                case consts.DBType.MYSQL:
-                    this.dbInsert = mysqlLogInsert;
-                    break;
-                case consts.DBType.REDIS:
-                    this.dbInsert = redisLogInsert;
-                    break;
-                case consts.DBType.MONGO:
-                default:
-                    return errorCode.NOT_SUPPORT;
-            }
-        }
-        return errorCode.OK;
-    }
+    // setDBtype(value){
+    //     if(consts.DBType.checkValid(value)){
+    //         switch (value){
+    //             case consts.DBType.MYSQL:
+    //                 this.dbInsert = mysqlLogInsert;
+    //                 break;
+    //             case consts.DBType.REDIS:
+    //                 this.dbInsert = redisLogInsert;
+    //                 break;
+    //             case consts.DBType.MONGO:
+    //             default:
+    //                 return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     pushData(type, data){
         return this.logSource.add(type, data);

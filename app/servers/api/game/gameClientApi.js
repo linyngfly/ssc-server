@@ -5,7 +5,6 @@ const player = require('../../game/controllers/player');
 const bank = require('../../game/controllers/bank');
 const bets = require('../../game/controllers/bets');
 
-
 const api_list = {
     gm: {
         route: '/getGMContactInfo', //获取GM联系方式

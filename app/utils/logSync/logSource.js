@@ -1,5 +1,4 @@
 const logTableDef = require('./logTableDef');
-const errorCode = require('../task').errorCode;
 
 class LogSource{
     constructor(){
@@ -15,17 +14,19 @@ class LogSource{
      */
     add(type, data){
         if(this._checkLogType(type)){
-            return errorCode.TYPE_ERROR;
+            logger.error('日志类型不支持');
+            return false;
         }
 
         let dataArr = this._checkData(type, data);
         if(dataArr.length === 0){
-            return errorCode.DATA_INVALID;
+            logger.error('日志类数据格式非法');
+            return false;
         }
 
         this._datas[type].push(dataArr);
 
-        return errorCode.OK;
+        return true;
     }
 
     /**

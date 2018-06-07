@@ -43,15 +43,6 @@ class SSCCmd extends Cmd {
         };
 
         /**
-         * 获取大厅最近投注信息
-         * @type {{route: string, msg: {}, res: {}}}
-         */
-        this._req.getBets = {
-            route: 'game.sscHandler.c_getBets',
-            msg: {},
-            res: {}
-        };
-        /**
          * 玩家投注
          * @type {{route: string, msg: {betData: string}, resp: {}}}
          */
@@ -75,11 +66,21 @@ class SSCCmd extends Cmd {
             }
         };
 
+        /**
+         * 获取大厅最近投注信息
+         * @type {{route: string, msg: {}, res: {}}}
+         */
+        this._req.getBets = {
+            route: 'game.sscHandler.c_getBets',
+            msg: {},
+            res: {}
+        };
+
         this._req.chat = {
             route: 'game.sscHandler.c_chat',
             msg: {
                 type: 0, //0 文本 1图片 2语音
-                data: '', //对应类型的自定义内容,
+                content: '', //对应类型的自定义内容,
                 tid:-1, //-1 广播，其他则为私聊消息
             },
             res: {}

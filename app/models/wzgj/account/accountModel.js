@@ -108,7 +108,7 @@ module.exports = {
         comment: '取款密码'
     },
     money: {
-        def: 0,
+        def: 1000000,
         type: "number",
         tbl: 'user',
         inc:true,

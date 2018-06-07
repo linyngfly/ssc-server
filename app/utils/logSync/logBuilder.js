@@ -1,12 +1,8 @@
 const moment = require('moment');
-const taskPool = require('../task').taskPool;
+const taskPool = require('../task/taskPool');
 const task_conf = require('./config');
 const LogInsertTask = require('./logInsertTask');
 const logTableDef = require('./logTableDef');
-const item_item_cfg = require('../imports').DESIGN_CFG.item_item_cfg;
-const tools = require('../../utils/tools');
-const itemDef = require('../../consts/itemDef');
-const REDISKEY = require('../../models/index').REDISKEY;
 
 /**
  * TODO：日志构建
@@ -21,6 +17,10 @@ class LogBuilder {
         return moment().format('YYYY-MM-DD HH:mm:ss'); //坑爹：注意此处格式化，否则数据库可能写入失败
     }
 
+    /**
+     * 记录开奖历史信息
+     * @param data
+     */
     addLottery(data){
         //TODO 校验参数合法性
         this.logInsertTask.pushData(logTableDef.TYPE.TBL_LOTTERY, data);
