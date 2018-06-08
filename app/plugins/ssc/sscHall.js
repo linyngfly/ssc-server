@@ -158,11 +158,6 @@ class SscHall {
         player.updateActiveTime();
     }
 
-    async c_myBets(msg) {
-        let player = this._playerMap.get(msg.uid);
-        return player.myBets();
-    }
-
     async c_bet(msg) {
         if (!this._bonusPool.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
