@@ -77,7 +77,7 @@ class SscHall {
                 openResult: openResult
             };
 
-            logBuilder.addLottery(lotteryData);
+            logBuilder.addLotteryLog(lotteryData);
             redisConnector.lpush(util.format(models.constants.LOTTERY_LATEST_HISTORY, self._hallName), lotteryData);
             self.broadcast(sscCmd.push.openLottery.route, {
                 lotteryInfo: lotteryInfo,

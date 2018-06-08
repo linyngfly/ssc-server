@@ -16,7 +16,7 @@ module.exports = {
     DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,
     DATA_SYNC_DELTA_UIDS: `${PREFIX}sync:delta_uids`,
     DATA_SYNC_DELTA_UID_FIELDS: `${PREFIX}sync:delta_uid_fields`,
-    DATA_SYNC_BE_IDS:`${PREFIX}sync:bet_ids`,
+    DATA_SYNC_BE_IDS: `${PREFIX}sync:bet_ids`,
 
     //UID计数器
     UID_COUNTER: `${PREFIX}counter:uid`,
@@ -61,4 +61,11 @@ module.exports = {
         WIN: 2, //赢
         LOSE: 3, //输
     },
+
+    GAME_SCENE: {
+        BET: 1, //投注
+        LOTTERY: 2, //开奖
+        EXCHANGE: 3, //兑换
+        TURNTABLE: 4, //转盘抽奖
+    }
 };

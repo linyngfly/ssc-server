@@ -121,13 +121,13 @@ IF NOT EXISTS `tbl_bets` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `tbl_money_log` (
-	`id` BIGINT (20) UNSIGNED NOT NULL COMMENT 'ID',
-	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
-	`gain` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '获得',
-	`cost` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '花费',
-	`total` DECIMAL (20, 2) UNSIGNED NOT NULL COMMENT '账户总额',
-	`created_at` TIMESTAMP NOT NULL COMMENT '时间',
-	`scene` SMALLINT (6) UNSIGNED NOT NULL COMMENT '场景',
-	PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
+  `gain` decimal(20,2) unsigned NOT NULL COMMENT '获得',
+  `cost` decimal(20,2) unsigned NOT NULL COMMENT '花费',
+  `total` decimal(20,2) unsigned NOT NULL COMMENT '账户总额',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
+  `scene` smallint(6) unsigned NOT NULL COMMENT '场景',
+  PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

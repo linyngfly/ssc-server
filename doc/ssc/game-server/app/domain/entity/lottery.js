@@ -105,7 +105,7 @@ Lottery.prototype.publishParseResult = function (parseResult) {
                 cb();
             }
             else {
-                self.daoLottery.addLottery(self.identify, self.lastLottery.period, self.lastLottery.numbers,
+                self.daoLottery.addLotteryLog(self.identify, self.lastLottery.period, self.lastLottery.numbers,
                     Date.parse(self.lastLottery.opentime), parseResult,
                     function (err, result) {
                         if (!err && !!result) {

@@ -21,9 +21,21 @@ class LogBuilder {
      * 记录开奖历史信息
      * @param data
      */
-    addLottery(data){
+    addLotteryLog(data){
         //TODO 校验参数合法性
         this.logInsertTask.pushData(logTableDef.TYPE.TBL_LOTTERY, data);
+    }
+
+    addMoneyLog(data){
+        //TODO 校验参数合法性
+        data.created_at = this._genNow();
+        data.gain = data.gain || 0;
+        data.cost = data.cost || 0;
+        if(data.gain == 0 && data.cost == 0){
+            return;
+        }
+
+        this.logInsertTask.pushData(logTableDef.TYPE.TBL_MONEY_LOG, data);
     }
 
 }

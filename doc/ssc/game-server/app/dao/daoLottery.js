@@ -10,7 +10,7 @@ var DaoLottery = function () {
 
 };
 
-DaoLottery.prototype.addLottery = function (identify, period, numbers, openTime, parseResult, cb) {
+DaoLottery.prototype.addLotteryLog = function (identify, period, numbers, openTime, parseResult, cb) {
     var sql = 'insert into Lottery (period,identify,numbers,openTime, parseResult) values(?,?,?,?,?)';
     var args = [period, identify, numbers, openTime, JSON.stringify(parseResult)];
     var self = this;

@@ -4,6 +4,7 @@ const models = require('../../models');
 const moment = require('moment');
 const sscCmd = require('../../cmd/sscCmd');
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
+const logBuilder = require('../../utils/logSync/logBuilder');
 
 class SscPlayer extends Player {
     constructor(opts) {
@@ -45,6 +46,15 @@ class SscPlayer extends Player {
                     opentime: opentime, openResult: Array.from(openResult)
                 });
                 await bet.commit();
+
+                logBuilder.addMoneyLog({
+                    uid:this.uid,
+                    gain:bet.winMoney,
+                    total:this.account.money,
+                    scene:models.constants.GAME_SCENE.LOTTERY
+                });
+
+
                 redisConnector.sadd(models.constants.DATA_SYNC_BE_IDS, bet.id);
             }
         }
@@ -108,22 +118,11 @@ class SscPlayer extends Player {
             throw ERROR_OBJ.BET_PERIOD_OVERLOAD_LIMIT;
         }
 
-        if (!parseRet.limit_dic) {
-            logger.error('parseRet.limit_dic=', parseRet.limit_dic);
-        }
         let totalLimitMoney = this._betLimitMap.get(parseRet.limit_dic) || 0;
         totalLimitMoney += parseRet.total;
         let maxLimitMoney = this._limitRate.getLimit(parseRet.limit_dic);
         if (totalLimitMoney > maxLimitMoney) {
             throw ERROR_OBJ.BET_TYPE_OVERLOAD_LIMIT;
-        }
-
-        this.account.money = -parseRet.total;
-        await this.account.commit();
-        if (this.account.money < 0) {
-            this.account.money = parseRet.total;
-            await this.account.commit();
-            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
         }
 
         let bet = await models.bet.helper.createBet({
@@ -139,6 +138,22 @@ class SscPlayer extends Player {
         });
         bet.limit_dic = parseRet.limit_dic;
         bet.rate_dic = parseRet.rate_dic;
+
+        this.account.money = -parseRet.total;
+        await this.account.commit();
+        if (this.account.money < 0) {
+            this.account.money = parseRet.total;
+            await this.account.commit();
+            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
+        }
+
+        logBuilder.addMoneyLog({
+            uid:this.uid,
+            cost:parseRet.total,
+            total:this.account.money,
+            scene:models.constants.GAME_SCENE.BET
+        });
+
         this._betsMap.set(bet.id, bet);
         this._betLimitMap.set(bet.limit_dic, totalLimitMoney);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, totalLimitMoney);
@@ -164,6 +179,13 @@ class SscPlayer extends Player {
 
         await bet.commit();
         await this.account.commit();
+
+        logBuilder.addMoneyLog({
+            uid:this.uid,
+            gain:bet.betMoney,
+            total:this.account.money,
+            scene:models.constants.GAME_SCENE.BET
+        });
 
         this._betsMap.delete(id);
 
