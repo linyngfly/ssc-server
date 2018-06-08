@@ -67,6 +67,16 @@ class SSCCmd extends Cmd {
         };
 
         /**
+         * 获取下期投注数据
+         * @type {{route: string, msg: {}, res: {}}}
+         */
+        this._req.myBetOrder = {
+            route: 'game.sscHandler.c_myBetOrder',
+            msg: {},
+            res: {}
+        };
+
+        /**
          * 获取大厅最近投注信息
          * @type {{route: string, msg: {}, res: {}}}
          */

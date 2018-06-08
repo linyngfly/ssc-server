@@ -4,6 +4,7 @@ const order = require('../../game/controllers/order');
 const player = require('../../game/controllers/player');
 const bank = require('../../game/controllers/bank');
 const bets = require('../../game/controllers/bets');
+const turntable = require('../../game/controllers/turntable');
 
 const api_list = {
     gm: {
@@ -44,6 +45,13 @@ const api_list = {
     recharge:{
         route: '/recharge', //充值请求
         handler: order.recharge,
+        params: [],
+        accountFields: []
+    },
+
+    turntable_draw:{
+        route: '/turntable_draw', //转盘抽奖
+        handler: turntable.turntable_draw,
         params: [],
         accountFields: []
     }

@@ -35,9 +35,12 @@ class Player extends EventEmitter{
         return {
             sid:this._sid,
             uid:this._uid
-        }
+        };
     }
 
+    isOnline(){
+        return this._state == constants.PLAYER_STATE.ONLINE;
+    }
     send(route, msg){
         messageService.send(route, msg, {uid: this._uid, sid: this._sid});
     }

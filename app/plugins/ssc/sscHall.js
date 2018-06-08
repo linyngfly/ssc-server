@@ -31,7 +31,7 @@ const logBuilder = require('../../utils/logSync/logBuilder');
 // 每天下注 达到10期  可以抽奖
 // 每人每天限一次
 //
-// 抽奖的逻辑：4种奖金额度，加一种没中奖提示   奖金额度  5.88   8.88   16.88   18.88
+// 抽奖的逻辑：4种奖金额度，加一种没中奖提示   奖金额度 0  5.88   8.88   16.88   18.88
 //
 // 每天由后台设置奖金总额。奖池的金额=设置奖金的额度-已经抽奖金额
 //
@@ -187,6 +187,11 @@ class SscHall {
 
         let player = this._playerMap.get(msg.uid);
         return await player.unBet(msg.id);
+    }
+
+    async c_myBetOrder(msg){
+        let player = this._playerMap.get(msg.uid);
+        return await player.myBetOrder();
     }
 
     async c_getBets(msg) {

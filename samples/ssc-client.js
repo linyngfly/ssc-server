@@ -1,10 +1,12 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GATE_HOST = 'http://39.108.166.240:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "39.108.166.240";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://39.108.166.240:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const GATE_HOST = 'http://39.108.166.240:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "39.108.166.240";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient{
@@ -86,6 +88,20 @@ class SSCClient{
             console.log(resp.error);
         } else {
             console.log('login ok');
+            console.log(resp.data);
+            this._player = resp.data;
+        }
+    }
+
+    async getDraw(data){
+        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/turntable_draw');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getDraw err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getDraw ok');
             console.log(resp.data);
             this._player = resp.data;
         }
@@ -211,7 +227,16 @@ class SSCClient{
         }
 
     }
-
+    //
+    async myBetOrder(){
+        try{
+            let resp = await this._request('game.sscHandler.c_myBetOrder', {
+            });
+            console.info('c_myBetOrder ok resp=', resp);
+        }catch (err) {
+            console.info('c_myBetOrder fail err=', err);
+        }
+    }
 
     /**
      * 网络io错误
@@ -294,6 +319,9 @@ async function main() {
     //     nickname: '咸鱼也有梦',
     // });
 
+    // await client.getDraw({});
+    // return;
+
     await client.login({
         username:'18602432393',
         password: '123654'
@@ -308,6 +336,8 @@ async function main() {
     await client.bet('小双50');
     await client.bet('豹子10000');
     await client.bet('对子100');
+
+
 
     await client.senChat({
         type:0,
@@ -330,6 +360,8 @@ async function main() {
     await client.getBets();
     await client.getChats();
     await client.getLotterys();
+
+    await client.myBetOrder();
 
     // await client.myBets();
     // await client.bet('大单龙100');

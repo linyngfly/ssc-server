@@ -79,10 +79,10 @@ class SscPlayer extends Player {
         //TODO 投注限额检查
     }
 
-    myBets() {
+    myBetOrder() {
         let bets = [];
         for (let bet of this._betsMap.values()) {
-            bets.push[bet.toJSON()];
+            bets.push(bet.toJSON());
         }
         return bets;
     }

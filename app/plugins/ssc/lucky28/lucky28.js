@@ -41,6 +41,9 @@ class Lucky28 extends SscHall{
         let openResult = openAwardCalc.calc();
         for(let player of this._playerMap.values()){
             await player.openAward(last.period, last.numbers, last.opentime, openResult);
+            if(player.canRemove()){
+                this._playerMap.delete(player.uid);
+            }
         }
         return openResult;
     }
@@ -49,7 +52,6 @@ class Lucky28 extends SscHall{
         let account = await models.account.helper.getAccount(uid);
         return new Lucky28Player({uid: uid, sid: sid, account: account,limitRate:this._lucky28LimitRate});
     }
-
 
 }
 

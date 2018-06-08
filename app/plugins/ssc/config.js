@@ -298,5 +298,15 @@ module.exports = {
                 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 27
             ],
         },
+    },
+    TURNTABLE:{
+        AWARD:[
+            {rate:0.6, money:0},
+            {rate:0.15, money:5.88},
+            {rate:0.12, money:8.88},
+            {rate:0.09, money:16.88},
+            {rate:0.04, money:18.88},
+        ],
+        TOTAL:20000,
     }
 };
