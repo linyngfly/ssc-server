@@ -5,7 +5,6 @@ const utils = require('../../utils/utils');
 class Turntable {
     constructor() {
         this._balance = 0;
-        this._getCount = 0;
         this._startTime = moment();
     }
 

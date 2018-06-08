@@ -20,6 +20,7 @@ class HttpTokenFilter {
             }else {
                 throw ERROR_OBJ.PARAM_MISSING;
             }
+            await next();
         } catch (err) {
             logger.info(ctx.url, '会话TOKEN无效，请重新登录', err);
             ctx.body = answer.httpResponse(err, ctx.request.body.aes, true);

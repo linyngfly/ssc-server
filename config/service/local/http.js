@@ -105,12 +105,12 @@ module.exports = {
             http: {
                 host: getServerCfg('game', 'game-1-1').host,
                 publicHost: getServerCfg('game', 'game-1-1').publicHost,
-                port: 3602
+                port: 4002
             },
             https: {
                 host: getServerCfg('game', 'game-1-1').host,
                 publicHost: getServerCfg('game', 'game-1-1').publicHost,
-                port: 3604,
+                port: 4004,
                 keyFile: SSL_CERT.KEY,
                 certFile: SSL_CERT.CERT
             }

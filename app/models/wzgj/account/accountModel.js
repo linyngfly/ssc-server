@@ -114,7 +114,7 @@ module.exports = {
     },
     money: {
         def: 1000000,
-        type: "number",
+        type: "float",
         tbl: 'tbl_user',
         inc:true,
         comment: '账户金额'

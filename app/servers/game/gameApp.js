@@ -21,16 +21,15 @@ class GameApp {
         }
 
         for(let mainType in plugins){
-            let SUB_GAMES = plugins[mainType];
-            if(!SUB_GAMES){
+            let modules = plugins[mainType];
+            if(!modules){
                 plugins[mainType].start();
                 logger.error('启动主游戏', mainType);
             }else {
-                for(let sub in SUB_GAMES){
+                for(let sub in modules.SUB_GAMES){
                     logger.error('启动子游戏', sub);
                     // logger.error('启动子游戏', SUB_GAMES);
-                    SUB_GAMES[sub].start();
-
+                    modules.SUB_GAMES[sub].start();
                 }
             }
         }

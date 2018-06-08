@@ -307,6 +307,6 @@ module.exports = {
             {rate:0.09, money:16.88},
             {rate:0.04, money:18.88},
         ],
-        TOTAL:20000,
+        TOTAL:10000,
     }
 };

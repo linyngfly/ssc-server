@@ -157,6 +157,9 @@ app.configure('production|development', 'game', function () {
     };
     SSL && (connectorConfig.ssl = SSL);
     app.set('connectorConfig', connectorConfig);
+
+    omeloHttpPlugin.filter(httpTokenFilter);
+
     app.before(tokenFilter);
     const sscPlayerFilter = require('./app/servers/game/filter/sscPlayerFilter');
     sscPlayerFilter.addRoute(sscCmd.request.enter.route);
