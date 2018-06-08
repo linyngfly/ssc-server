@@ -101,7 +101,7 @@ class SscPlayer extends Player {
             throw ERROR_OBJ.BET_AMOUNT_TOO_LOW;
         }
 
-        let allTypeMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
+        let allTypeMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL) || 0;
         allTypeMoney += parseRet.total;
         let maxAllTypeLimitMoney = this._limitRate.getLimit(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
         if (allTypeMoney > maxAllTypeLimitMoney) {
@@ -132,7 +132,7 @@ class SscPlayer extends Player {
             identify: identify,
             betData: betData,
             betItems: parseRet.betItems,
-            multi: config.SSC28.BET_TYPE_LIMIT_DIC == bet.limit_dic ? 1 : 0,
+            multi: config.SSC28.BET_TYPE_LIMIT_DIC.MULTI == parseRet.limit_dic ? 1 : 0,
             betCount: parseRet.betItems.length,
             betMoney: parseRet.total,
             betTime: moment().format('YYYY-MM-DD HH:mm:ss')

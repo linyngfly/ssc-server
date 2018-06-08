@@ -1,7 +1,6 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-
 // const GATE_HOST = 'http://39.108.166.240:3002';
 const GATE_HOST = 'http://127.0.0.1:3002';
 // const GAME_IP = "39.108.166.240";
@@ -288,12 +287,12 @@ class SSCClient{
 
 async function main() {
     let client = new SSCClient();
-    await client.register({
-        username: '18602432393',
-        password: '123654',
-        code: '1243',
-        nickname: '咸鱼也有梦',
-    });
+    // await client.register({
+    //     username: '18602432393',
+    //     password: '123654',
+    //     code: '1243',
+    //     nickname: '咸鱼也有梦',
+    // });
 
     await client.login({
         username:'18602432393',
@@ -302,13 +301,13 @@ async function main() {
 
     await client.enterGame('ssc', 'lucky28');
     console.error(3333);
-    await client.bet('大100');
+    // await client.bet('大100');
     await client.bet('大双100');
     await client.bet('大单100');
-    await client.bet('小50');
-    await client.bet('小双50');
-    await client.bet('豹子大10000');
-    await client.bet('对子100');
+    // await client.bet('小50');
+    // await client.bet('小双50');
+    // await client.bet('豹子大10000');
+    // await client.bet('对子100');
 
     await client.senChat({
         type:0,

@@ -51,7 +51,7 @@ class Lucky28BonusPool extends BonusPool {
         }.bind(this));
 
         let close_rule = new schedule.RecurrenceRule();
-        close_rule.minute = 55;
+        close_rule.minute = 56;
         close_rule.hour = 23;
         this._close_job = schedule.scheduleJob(open_rule, function () {
             this._state = 3;

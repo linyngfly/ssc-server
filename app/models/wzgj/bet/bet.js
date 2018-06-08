@@ -21,7 +21,7 @@ class Bet extends BetCommit{
     }
 
     getKey(field){
-        return genRedisKey.getAccountKey(field);
+        return genRedisKey.getBetKey(field);
     }
 
     static serialize(uid, data){
