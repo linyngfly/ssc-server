@@ -39,14 +39,10 @@ const logBuilder = require('../../utils/logSync/logBuilder');
 //
 // 后台统计每条抽奖的明细和明天发出去的总额。
 
-
-// 十五 用户帐变明细(增加金币日志)
-// 查看每笔账户的资金变化明细。（增加或者减少）
-//
-
 class SscHall {
     constructor(opts) {
         this._hallName = opts.hallName;
+        this._gameIdentify = opts.gameIdentify;
         this._betParser = opts.betParser;
         this._bonusPool = opts.bonusPool;
         this._lucky28LimitRate = opts.lucky28LimitRate;
@@ -71,7 +67,7 @@ class SscHall {
 
             let lotteryData = {
                 period: last.period,
-                identify: lotteryInfo.identify,
+                identify: this._gameIdentify,
                 numbers: last.numbers,
                 time: last.opentime,
                 openResult: openResult
@@ -132,8 +128,7 @@ class SscHall {
         return this._playerMap.has(uid);
     }
 
-    async _createPlayer(uid, sid) {
-    }
+    async _createPlayer(uid, sid) {}
 
     _addPlayer(player) {
         this.addEvent(player);
@@ -172,7 +167,7 @@ class SscHall {
 
         return await player.bet({
             period: this._bonusPool.getNextPeriod(),
-            identify: this._bonusPool.getIdentify(),
+            identify: this._gameIdentify,
             betData: msg.betData,
             parseRet: parseRet,
             limitRate: this._lucky28LimitRate
@@ -189,9 +184,34 @@ class SscHall {
         return await player.unBet(msg.id);
     }
 
-    async c_myBetOrder(msg){
+    async c_myBetOrder(msg) {
         let player = this._playerMap.get(msg.uid);
         return await player.myBetOrder();
+    }
+
+    async c_myBetResult(msg) {
+        msg.skip = msg.skip || 0;
+        msg.limit = msg.limit || 10;
+
+        let bets = [];
+        let sql = `SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and a.identify=b.identify WHERE a.identify=? and a.uid=? LIMIT ?,?`;
+        let rows = await mysqlConnector.query(sql, ['lucky28', msg.uid, msg.skip, msg.limit]);
+        if (rows && rows.length > 0) {
+            for (let i = 0; i < rows.length; i++) {
+                let item = rows[i];
+                bets.push({
+                    id: item.id,
+                    state: item.state,
+                    money: item.winMoney - item.betMoney,
+                    period: item.period,
+                    numbers: item.numbers,
+                    opentime: item.opentime,
+                    openResult: item.openResult
+                });
+            }
+        }
+
+        return bets;
     }
 
     async c_getBets(msg) {
@@ -262,11 +282,17 @@ class SscHall {
         });
     }
 
-    addMsgChannel({uid, sid}) {
+    addMsgChannel({
+        uid,
+        sid
+    }) {
         this._msgChannel.add(this._hallName, uid, sid);
     }
 
-    leaveMsgChannel({uid, sid}) {
+    leaveMsgChannel({
+        uid,
+        sid
+    }) {
         this._msgChannel.leave(this._hallName, uid, sid);
     }
 
@@ -288,8 +314,7 @@ class SscHall {
     //     }
     // }
 
-    async _openAward(last) {
-    }
+    async _openAward(last) {}
 
 
 }

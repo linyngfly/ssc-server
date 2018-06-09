@@ -76,6 +76,12 @@ class SSCCmd extends Cmd {
             res: {}
         };
 
+        this._req.myBetResult = {
+            route: 'game.sscHandler.c_myBetResult',
+            msg: {},
+            res: {}
+        };
+
         /**
          * 获取大厅最近投注信息
          * @type {{route: string, msg: {}, res: {}}}

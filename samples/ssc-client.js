@@ -183,15 +183,15 @@ class SSCClient{
 
     }
 
-    // async myBets(){
-    //     try{
-    //         let resp = await this._request('game.sscHandler.c_myBets', {});
-    //         console.info('myBets ok resp=', resp);
-    //     }catch (err) {
-    //         console.info('myBets fail err=', err);
-    //     }
-    //
-    // }
+    async myBetResult(data){
+        try{
+            let resp = await this._request('game.sscHandler.c_myBetResult', data);
+            console.info('myBetResult ok resp=', resp);
+        }catch (err) {
+            console.info('myBetResult fail err=', err);
+        }
+
+    }
 
 
     async getChats(){
@@ -331,10 +331,16 @@ async function main() {
         password: '123654'
     });
 
-    await client.getDraw({token:client._player.token, mainType:'ssc'});
-    return;
+    // return;
 
     await client.enterGame('ssc', 'lucky28');
+
+    await client.myBetResult({
+        skip:0,
+        limit:20,
+    });
+
+    return;
     console.error(3333);
     await client.bet('大100');
     await client.bet('大双100');
@@ -344,7 +350,7 @@ async function main() {
     await client.bet('豹子10000');
     await client.bet('对子100');
 
-
+    await client.getDraw({token:client._player.token, mainType:'ssc'});
 
     await client.senChat({
         type:0,

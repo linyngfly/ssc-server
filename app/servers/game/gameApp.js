@@ -65,7 +65,7 @@ class GameApp {
         let game = null;
         if (main) {
             if(sub){
-                game = plugins[main] && plugins[main][sub];
+                game = plugins[main] && plugins[main].SUB_GAMES && plugins[main].SUB_GAMES[sub];
             }else {
                 game = plugins[main];
             }

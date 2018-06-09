@@ -168,6 +168,7 @@ module.exports = {
 
     },
     CANADA28: {
+        GAME_IDENTIFY:'canada28',
         MSG_CHANNEL_NAME: 'CANADA28_HALL',
         //投注限制配置
         BET_LIMIT_CONFIG:{
@@ -234,6 +235,7 @@ module.exports = {
         },
     },
     LUCKY28: {
+        GAME_IDENTIFY:'lucky28',
         MSG_CHANNEL_NAME: 'LUCKY28_HALL',
         //投注限制配置
         BET_LIMIT_CONFIG:{

@@ -16,6 +16,7 @@ const Canada28Player = require('./canada28Player');
 class Canada28 extends SscHall{
     constructor(){
         super({
+            gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
             bonusPool:new Canada28BonusPool({

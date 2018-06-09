@@ -17,6 +17,7 @@ const Lucky28LimitRate = require('./lucky28LimitRate');
 class Lucky28 extends SscHall{
     constructor(){
         super({
+            gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
             bonusPool:new Lucky28BonusPool({

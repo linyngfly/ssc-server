@@ -92,10 +92,6 @@ class BonusPool extends EventEmitter {
     getNextPeriod() {
         return this._lotterInfo.next.period;
     }
-
-    getIdentify() {
-        return this._openCaiType.IDENTIFY;
-    }
 }
 
 module.exports = BonusPool;
