@@ -1,14 +1,43 @@
 const config = require('./config');
-const moment = require('moment');
 const utils = require('../../utils/utils');
+const models = require('../../models');
+const logBuilder = require('../../utils/logSync/logBuilder');
+
 
 class Turntable {
-    constructor() {
-        this._balance = 0;
-        this._startTime = moment();
+
+    async getDraw(data) {
+        let resp = {
+            award:0,
+        };
+
+        await redisConnector.set(models.constants.TURNTABLE_BONUS_POOL_BALANCE, 10000000);
+        let balance = await redisConnector.get(models.constants.TURNTABLE_BONUS_POOL_BALANCE);
+        if(balance <=0){
+            return resp;
+        }
+
+        let money = this._randomGetAward(config.TURNTABLE.AWARD);
+        if(money && money > 0){
+            await redisConnector.incrbyfloat(models.constants.TURNTABLE_BONUS_POOL_BALANCE, -money);
+            data.account.money = money;
+            await data.account.commit();
+
+            logBuilder.addMoneyLog({
+                uid:data.uid,
+                gain:money,
+                total:data.account.money,
+                scene:models.constants.GAME_SCENE.TURNTABLE
+            });
+
+            resp.award = money;
+            resp.money = data.account.money;
+        }
+
+        return resp;
     }
 
-    randomGetAward(awardList) {
+    _randomGetAward(awardList) {
         if (!awardList || awardList.length == 0) {
             return null;
         }
@@ -37,42 +66,7 @@ class Turntable {
         return awardList[awardIndex].money;
     }
 
-    // lottery() {
-    //
-    // }
 
-    getDraw() {
-        // this._getCount ++;
-
-        //时间片数
-        // let startTime = moment();
-        // startTime.hour(0);
-        // startTime.minute(0);
-        let startTime = Number(this._startTime.format('x'));
-
-        let endTime = moment();
-        endTime.hour(23);
-        endTime.minute(59);
-        endTime = Number(endTime.format('x'));
-
-        let now = Number(moment().format('x'));
-        let deltaTime = Math.floor(Number((endTime - startTime)/config.TURNTABLE.TOTAL));
-
-        let releaseTime = startTime + Math.floor(this._balance)*deltaTime + utils.random_int(0, deltaTime);
-
-        let money = this.randomGetAward(config.TURNTABLE.AWARD);
-
-        // console.log(now, releaseTime);
-
-        if(now < releaseTime){
-            // console.log('中奖时间片段未到');
-            return 0;
-        }
-
-        this._balance += money;
-
-        return money;
-    }
 }
 
 // let tt = new Turntable();

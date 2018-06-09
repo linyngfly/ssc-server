@@ -1,5 +1,4 @@
 const parser = require('./parser');
-const models = require('../index');
 
 class Commit {
     constructor() {
@@ -18,6 +17,8 @@ class Commit {
         return false;
     }
 
+
+
     /**
      * 字段最小值修正
      * @param {key} key
@@ -25,7 +26,11 @@ class Commit {
      */
     _minRevise(key, value) {
         let typeInfo = this.getFieldDef(key);
-        if (typeInfo && typeInfo.type == 'number') {
+        if (!typeInfo) {
+            return value;
+        }
+
+        if (typeInfo.type == 'number') {
             let _value = Number(value);
             if (Number.isNaN(_value)) {
                 logger.error('玩家非法数值写入, 禁止写入');
@@ -40,7 +45,17 @@ class Commit {
                 }
             }
             return _value;
+        } else if (typeInfo.type == 'float' && typeInfo.precision) {
+            let _value = Number(value);
+            if (Number.isNaN(_value)) {
+                logger.error('玩家非法数值写入, 禁止写入');
+                return null;
+            }
+
+            _value = parser.changeFloatDecimal(_value, typeInfo.precision);
+            return Number(_value);
         }
+
         return value;
     }
 
@@ -61,11 +76,15 @@ class Commit {
         return this[`_${key}`];
     }
 
-    _sync(key, value){
+    _sync(key, value) {
+        value = this._minRevise(key, value);
+        if (null == value) {
+            return;
+        }
         this[`_${key}`] = value;
     }
 
-    getFieldDef(field){
+    getFieldDef(field) {
     }
 
     getCmd(key) {
@@ -108,13 +127,13 @@ class Commit {
         return jsonData;
     }
 
-    getKey(field){
+    getKey(field) {
     }
 
-    getId(){
+    getId() {
     }
 
-    getDataSyncId(){
+    getDataSyncId() {
     }
 
     async commit() {
@@ -127,16 +146,16 @@ class Commit {
         let cmds = [];
         let sync_fields = [];
         let syncIndexs = {}, index = 0;
-        for(let i=0;i<fields.length;i++){
+        for (let i = 0; i < fields.length; i++) {
             let key = fields[i];
             let tk = key[0];
-            let [cmd,inc] = this.getCmd(tk) || [];
+            let [cmd, inc] = this.getCmd(tk) || [];
             if (cmd) {
                 let v = parser.serializeValue(tk, key[1], this);
                 if (v != null) {
                     cmds.push([cmd, this.getKey(tk), this.getId(), v]);
                     sync_fields.push(tk);
-                    if(inc){
+                    if (inc) {
                         syncIndexs[index] = tk;
                     }
                     ++index;
@@ -146,16 +165,16 @@ class Commit {
 
         this.__update = [];
 
-        if(cmds.length == 0){
+        if (cmds.length == 0) {
             return;
         }
 
-        let ret =  await redisConnector.multi(cmds);
-        if(!ret){
+        let ret = await redisConnector.multi(cmds);
+        if (!ret) {
             return;
         }
 
-        for(let index in syncIndexs){
+        for (let index in syncIndexs) {
             this._sync(syncIndexs[index], ret[index]);
         }
 
@@ -163,9 +182,9 @@ class Commit {
         return ret;
     }
 
-    async _sync_data(fields){
+    async _sync_data(fields) {
         let syncIds = this.getDataSyncId();
-        if(syncIds){
+        if (syncIds) {
             await redisConnector.sadd(`${syncIds.DELTA_UID_FIELDS}:${this.getId()}`, fields);
             await redisConnector.sadd(syncIds.DELTA_UIDS, this.getId());
         }

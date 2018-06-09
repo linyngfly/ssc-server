@@ -214,6 +214,29 @@ class Connector {
         });
     }
 
+    async incrbyfloat (key, inc) {
+        if (key == null || inc == null) {
+            return;
+        }
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.incrbyfloat(key, inc, function (err, result) {
+                if (err) {
+                    logger.error('redis hget err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    if (!result) {
+                        resolve(null);
+                        return;
+                    }
+
+                    resolve(result);
+                }
+            });
+        });
+    }
+
     async hget(key, member) {
         if (key == null || member == null) {
             return;

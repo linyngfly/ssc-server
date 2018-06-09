@@ -93,6 +93,11 @@ class SSCClient{
         }
     }
 
+    /**
+     * 转盘抽奖   TODO NEW
+     * @param data
+     * @returns {Promise<void>}
+     */
     async getDraw(data){
         //http://39.108.166.240:4002/game/clientApi/turntable_draw
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/turntable_draw');
@@ -188,7 +193,7 @@ class SSCClient{
     //
     // }
 
-    //TODO NEW 获取最近聊天记录
+
     async getChats(){
         try{
             let resp = await this._request('game.sscHandler.c_getChats', {
@@ -201,7 +206,7 @@ class SSCClient{
         }
 
     }
-    //TODO NEW 获取最近的投注记录
+
     async getBets(){
         try{
             let resp = await this._request('game.sscHandler.c_getBets', {
@@ -214,7 +219,7 @@ class SSCClient{
         }
 
     }
-    //TODO NEW 获取最近几期的开奖记录
+
     async getLotterys(){
         try{
             let resp = await this._request('game.sscHandler.c_getLotterys', {

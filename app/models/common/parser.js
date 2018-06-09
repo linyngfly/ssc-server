@@ -2,6 +2,21 @@ const moment = require('moment');
 const _ = require('lodash');
 
 class Parser {
+
+    changeFloatDecimal(x, precision) {
+        let base = Math.pow(10, precision);
+        let f_x = Math.floor(x * base) / base;
+        let s_x = f_x.toString();
+        let pos_decimal = s_x.indexOf('.');
+        if (pos_decimal < 0) {
+            pos_decimal = s_x.length;
+            s_x += '.';
+        }
+        while (s_x.length <= pos_decimal + precision) {
+            s_x += '0';
+        }
+        return Number(s_x);
+    }
     /**
      * 序列化对象为redis value
      * @param key
@@ -26,6 +41,9 @@ class Parser {
 
         switch (typeInfo.type) {
             case 'float':
+                if(typeInfo.precision){
+                    value = this.changeFloatDecimal(value, typeInfo.precision);
+                }
             case 'number': {
                 if (!Number.isNaN(Number(value))) {
                     serialVal = value.toString();
@@ -89,6 +107,9 @@ class Parser {
         let serialVal = null;
         switch (typeInfo.type) {
             case 'float':
+                if(typeInfo.precision){
+                    value = this.changeFloatDecimal(value, typeInfo.precision);
+                }
             case 'number': {
                 if (!isNaN(Number(value))) {
                     serialVal = Number(value);

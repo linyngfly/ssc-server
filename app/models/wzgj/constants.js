@@ -36,6 +36,9 @@ module.exports = {
     //最近开奖记录
     LOTTERY_LATEST_HISTORY: `${PREFIX}history:%s:lottery_latest_list`,
 
+    //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
+    TURNTABLE_BONUS_POOL_BALANCE:`${PREFIX}turntable:bonus_pool:balance`,
+
     //角色定义
     ROLE: {
         PLAYER: 0, //玩家
