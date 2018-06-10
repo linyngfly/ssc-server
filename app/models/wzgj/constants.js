@@ -13,6 +13,13 @@ module.exports = {
         API: `${PREFIX}switch:api`, //api开关
     },
 
+    CONFIG:{
+        BET_LIMIT:`${PREFIX}config:%s:bet_limit`, //投注限制
+        BET_RATE:`${PREFIX}config:%s:bet_rate`, //投注赔率
+        TURNTABLE_BONUS_POOL:`${PREFIX}config:%s:turntable_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
+        TURNTABLE_AWARD:`${PREFIX}config:%s:turntable_award`,  //转盘奖金比例配置
+    },
+
     DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,
     DATA_SYNC_DELTA_UIDS: `${PREFIX}sync:delta_uids`,
     DATA_SYNC_DELTA_UID_FIELDS: `${PREFIX}sync:delta_uid_fields`,
@@ -35,9 +42,6 @@ module.exports = {
 
     //最近开奖记录
     LOTTERY_LATEST_HISTORY: `${PREFIX}history:%s:lottery_latest_list`,
-
-    //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
-    TURNTABLE_BONUS_POOL_BALANCE:`${PREFIX}turntable:bonus_pool:balance`,
 
     //角色定义
     ROLE: {

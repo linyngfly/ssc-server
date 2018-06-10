@@ -16,6 +16,6 @@ function readDirSync(_path){
 }
 
 readDirSync(__dirname);
-MODULES.HALL.turntable = require('./turntable');
-// console.log(MODULES);
+MODULES.SUB_GAMES.HALL = require('./hall');
+
 module.exports = MODULES;

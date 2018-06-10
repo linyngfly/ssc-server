@@ -331,8 +331,6 @@ async function main() {
         password: '123654'
     });
 
-    // return;
-
     await client.enterGame('ssc', 'lucky28');
 
     await client.myBetResult({
@@ -340,8 +338,6 @@ async function main() {
         limit:20,
     });
 
-    return;
-    console.error(3333);
     await client.bet('大100');
     await client.bet('大双100');
     await client.bet('大单100');
@@ -350,7 +346,7 @@ async function main() {
     await client.bet('豹子10000');
     await client.bet('对子100');
 
-    await client.getDraw({token:client._player.token, mainType:'ssc'});
+    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
 
     await client.senChat({
         type:0,

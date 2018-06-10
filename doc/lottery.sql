@@ -51,7 +51,9 @@ IF NOT EXISTS `tbl_bank` (
   `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码',
   `bind_card_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '绑卡时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `bank_UNIQUE` (`bank_card`,`weixin`,`zhifubao`) USING BTREE
+  UNIQUE KEY `bank_card_UNIQUE` (`bank_card`) USING BTREE,
+  UNIQUE KEY `weixin_UNIQUE` (`weixin`) USING BTREE,
+  UNIQUE KEY `zhifubao_UNIQUE` (`zhifubao`) USING BTREE
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------
@@ -59,9 +61,12 @@ IF NOT EXISTS `tbl_bank` (
 # ------------------------------------------------------------
 CREATE TABLE
 IF NOT EXISTS `tbl_config` (
-	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`info` json NOT NULL COMMENT '配置信息',
-	PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `identify` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT '游戏标志',
+  `type` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT '配置类型',
+  `info` json NOT NULL COMMENT '配置信息',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `config_UNIQUE` (`identify`,`type`) USING BTREE
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------

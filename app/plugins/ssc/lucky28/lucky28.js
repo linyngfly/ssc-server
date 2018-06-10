@@ -7,14 +7,14 @@
 const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
 const Lucky28BonusPool = require('./lucky28BonusPool');
-const SscHall = require('../sscHall');
+const SSC = require('../ssc');
 const config = require('../config');
 const models = require('../../../models');
 const OpenCaiNetApi = require('../openCaiNetApi');
 const Lucky28Player = require('./lucky28Player');
 const Lucky28LimitRate = require('./lucky28LimitRate');
 
-class Lucky28 extends SscHall{
+class Lucky28 extends SSC{
     constructor(){
         super({
             gameIdentify:config.LUCKY28.GAME_IDENTIFY,
@@ -28,9 +28,9 @@ class Lucky28 extends SscHall{
         });
     }
 
-    start(){
+    async start(){
         logger.error('CANADA28 start');
-        super.start();
+        await super.start();
     }
 
     stop(){

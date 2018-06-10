@@ -23,20 +23,34 @@ class GameApp {
         for(let mainType in plugins){
             let modules = plugins[mainType];
             if(!modules){
-                plugins[mainType].start();
+                await plugins[mainType].start();
                 logger.error('启动主游戏', mainType);
             }else {
                 for(let sub in modules.SUB_GAMES){
                     logger.error('启动子游戏', sub);
                     // logger.error('启动子游戏', SUB_GAMES);
-                    modules.SUB_GAMES[sub].start();
+                    await modules.SUB_GAMES[sub].start();
                 }
             }
         }
         logger.info('游戏服务启动成功');
     }
 
-    stop() {
+    async stop() {
+        for(let mainType in plugins){
+            let modules = plugins[mainType];
+            if(!modules){
+                await plugins[mainType].stop();
+                logger.error('启动主游戏', mainType);
+            }else {
+                for(let sub in modules.SUB_GAMES){
+                    logger.error('启动子游戏', sub);
+                    // logger.error('启动子游戏', SUB_GAMES);
+                    await modules.SUB_GAMES[sub].stop();
+                }
+            }
+        }
+
         redisConnector.stop();
         mysqlConnector.stop();
         logger.info('游戏服务关闭');

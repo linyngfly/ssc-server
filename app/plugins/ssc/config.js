@@ -27,10 +27,18 @@ module.exports = {
         }
     },
 
+    CONFIG_TYPE:{
+        BET_LIMIT:'bet_limit',
+        BET_RATE:'bet_rate',
+        TURNTABLE_BONUS_POOL:'turntable_bonus_pool',
+        TURNTABLE_AWARD:'turntable_award',
+    },
 
     SSC28: {
         BET_LIMIT_CONFIG_ID:1,
         BET_RATE_CONFIG_ID:2,
+        TURNTABLE_BONUS_POOL_ID:3,
+
         BET_TYPE: {
             UNKNOWN: 0,
             SIZE: 1,
@@ -167,6 +175,7 @@ module.exports = {
         }
 
     },
+
     CANADA28: {
         GAME_IDENTIFY:'canada28',
         MSG_CHANNEL_NAME: 'CANADA28_HALL',
@@ -302,6 +311,8 @@ module.exports = {
         },
     },
     TURNTABLE:{
+        GAME_IDENTIFY:'turntable',
+
         AWARD:[
             {rate:0.6, money:0},
             {rate:0.15, money:5.88},

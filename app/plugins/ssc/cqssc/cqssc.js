@@ -3,12 +3,12 @@ const CQBetParser = require('./CQBetParser');
 const BonusPool = require('../bonusPool');
 const OpenAwardCalc = require('./openAwardCalc');
 const CQPlayer = require('./CQPlayer');
-const SscHall = require('../sscHall');
+const SSC = require('../ssc');
 const config = require('../config');
 const models = require('../../../models');
 const CQLotteryApi = require('./CQLotteryApi');
 // const Lucky28LimitRate = require('./lucky28LimitRate');
-class Cqssc extends SscHall {
+class Cqssc extends SSC {
     constructor() {
         super({
             hallName: config.CQSSC.MSG_CHANNEL_NAME,
