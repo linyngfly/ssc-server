@@ -9,8 +9,8 @@ const GATE_HOST = 'http://127.0.0.1:3002';
 const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
-class SSCClient{
-    constructor(){
+class SSCClient {
+    constructor() {
         this._player = null;
         this._state = false;
         this._heartbeat = null;
@@ -21,7 +21,7 @@ class SSCClient{
         this._listen();
     }
 
-    _listen(){
+    _listen() {
         this._client.on('s_bet', this.onBet.bind(this));
         this._client.on('s_unBet', this.onUnBet.bind(this));
         this._client.on('s_chat', this.onChat.bind(this));
@@ -30,28 +30,28 @@ class SSCClient{
         this._client.on('s_openLottery', this.onOpenLottery.bind(this));
     }
 
-    onBet(msg){
+    onBet(msg) {
         console.info('onBet msg=', JSON.stringify(msg));
         this._bets.set(msg.data.id, msg);
     }
 
-    onUnBet(msg){
+    onUnBet(msg) {
         console.info('onUnBet msg=', JSON.stringify(msg));
     }
 
-    onChat(msg){
+    onChat(msg) {
         console.info('onChat msg=', JSON.stringify(msg));
     }
 
-    onCountdown(msg){
+    onCountdown(msg) {
         // console.info('onCountdown msg=', JSON.stringify(msg));
     }
 
-    onBetResult(msg){
+    onBetResult(msg) {
         console.info('onBetResult msg=', JSON.stringify(msg));
     }
 
-    onOpenLottery(msg){
+    onOpenLottery(msg) {
         console.info('onOpenLottery msg=', JSON.stringify(msg));
     }
 
@@ -60,7 +60,7 @@ class SSCClient{
      * @param data
      * @returns {Promise<void>}
      */
-    async register(data){
+    async register(data) {
 
         let resp = await httpclient.postData(data, GATE_HOST + '/gate/clientApi/register');
         resp = JSON.parse(resp);
@@ -98,7 +98,7 @@ class SSCClient{
      * @param data
      * @returns {Promise<void>}
      */
-    async getDraw(data){
+    async getDraw(data) {
         //http://39.108.166.240:4002/game/clientApi/turntable_draw
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/turntable_draw');
         resp = JSON.parse(resp);
@@ -109,6 +109,45 @@ class SSCClient{
             console.log('getDraw ok');
             console.log(resp.data);
             this._player = resp.data;
+        }
+    }
+
+    async recharge(data) {
+        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/recharge');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('recharge err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('recharge ok');
+            console.log(resp.data);
+        }
+    }
+
+    async cash(data) {
+        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/cash');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('cash err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('cash ok');
+            console.log(resp.data);
+        }
+    }
+
+    async setOrderState(data) {
+        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setOrderState');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('cash err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('cash ok');
+            console.log(resp.data);
         }
     }
 
@@ -125,19 +164,19 @@ class SSCClient{
     }
 
     async enterGame(mainType, subType) {
-        try{
+        try {
             await this._handshake(GAME_IP, GAME_PORT);
             let resp = await this._request('game.sscHandler.c_enter', {
                 token: this._player.token,
-                mainType:mainType,
-                subType:subType
+                mainType: mainType,
+                subType: subType
             });
 
             this._client.on('disconnect', this._offline.bind(this));
             // this._heartbeat = setInterval(this.sendHeartbeat.bind(this), 10000);
             this._state = true;
             console.info('enterGame resp=', resp);
-        }catch (err) {
+        } catch (err) {
             this._state = false;
             console.error('加入游戏失败，err:', err);
             console.error('加入游戏失败,自动重连中...');
@@ -153,92 +192,92 @@ class SSCClient{
         console.info('leaveGame resp=', resp);
     }
 
-    async bet(data){
+    async bet(data) {
         try {
-            let resp = await this._request('game.sscHandler.c_bet', {betData:data});
+            let resp = await this._request('game.sscHandler.c_bet', {betData: data});
             console.info('bet ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('bet fail err=', err);
         }
 
     }
 
-    async unBet(id){
-        try{
-            let resp = await this._request('game.sscHandler.c_unBet', {id:id});
+    async unBet(id) {
+        try {
+            let resp = await this._request('game.sscHandler.c_unBet', {id: id});
             console.info('unBet ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('unBet fail err=', err);
         }
 
     }
 
-    async senChat(data){
-        try{
+    async senChat(data) {
+        try {
             let resp = await this._request('game.sscHandler.c_chat', data);
             console.info('senChat ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('senChat fail err=', err);
         }
 
     }
 
-    async myBetResult(data){
-        try{
+    async myBetResult(data) {
+        try {
             let resp = await this._request('game.sscHandler.c_myBetResult', data);
             console.info('myBetResult ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('myBetResult fail err=', err);
         }
 
     }
 
 
-    async getChats(){
-        try{
+    async getChats() {
+        try {
             let resp = await this._request('game.sscHandler.c_getChats', {
-                skip:0,
-                limit:10
+                skip: 0,
+                limit: 10
             });
             console.info('getChats ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('getChats fail err=', err);
         }
 
     }
 
-    async getBets(){
-        try{
+    async getBets() {
+        try {
             let resp = await this._request('game.sscHandler.c_getBets', {
-                skip:0,
-                limit:10
+                skip: 0,
+                limit: 10
             });
             console.info('getBets ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('getBets fail err=', err);
         }
 
     }
 
-    async getLotterys(){
-        try{
+    async getLotterys() {
+        try {
             let resp = await this._request('game.sscHandler.c_getLotterys', {
-                skip:0,
-                limit:10
+                skip: 0,
+                limit: 10
             });
             console.info('getLotterys ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('getLotterys fail err=', err);
         }
 
     }
+
     //
-    async myBetOrder(){
-        try{
-            let resp = await this._request('game.sscHandler.c_myBetOrder', {
-            });
+    async myBetOrder() {
+        try {
+            let resp = await this._request('game.sscHandler.c_myBetOrder', {});
             console.info('c_myBetOrder ok resp=', resp);
-        }catch (err) {
+        } catch (err) {
             console.info('c_myBetOrder fail err=', err);
         }
     }
@@ -264,6 +303,7 @@ class SSCClient{
         this._state = false;
         setTimeout(this.enterGame.bind(this), 10000);
     }
+
     /**
      * websocket握手
      * @param {ip地址} host
@@ -307,7 +347,7 @@ class SSCClient{
 
                 if (resp.error && resp.error.code != 200) {
                     reject(resp);
-                }else {
+                } else {
                     resolve(resp);
                 }
             });
@@ -325,17 +365,30 @@ async function main() {
     // });
 
 
-
     await client.login({
-        username:'18602432393',
+        username: '18602432393',
         password: '123654'
     });
+
+    // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+    // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
+    // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
+    await client.setOrderState({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '4f4a45b44e480d3b4ba80ea61a9b9ec6b0dbed1794f2d1f5642489c79f7c19ce',
+        state: 2,
+        operator: 'admin',
+        id: 1
+    });
+
+    return;
 
     await client.enterGame('ssc', 'lucky28');
 
     await client.myBetResult({
-        skip:0,
-        limit:20,
+        skip: 0,
+        limit: 20,
     });
 
     await client.bet('大100');
@@ -346,23 +399,22 @@ async function main() {
     await client.bet('豹子10000');
     await client.bet('对子100');
 
-    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
 
     await client.senChat({
-        type:0,
-        content:'大家来投豹子好吗',
+        type: 0,
+        content: '大家来投豹子好吗',
         tid: -1
     });
 
     await client.senChat({
-        type:1,
-        content:'1',
+        type: 1,
+        content: '1',
         tid: -1
     });
 
     await client.senChat({
-        type:2,
-        content:'http://www.baidu.com',
+        type: 2,
+        content: 'http://www.baidu.com',
         tid: -1
     });
 

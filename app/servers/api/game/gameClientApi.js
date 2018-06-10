@@ -49,12 +49,21 @@ const api_list = {
         accountFields: []
     },
 
+    setOrderState:{
+        route: '/setOrderState', //转盘抽奖
+        handler: order.setOrderState,
+        params: [],
+        accountFields: []
+    },
+
     turntable_draw:{
         route: '/turntable_draw', //转盘抽奖
         handler: turntable.turntable_draw,
         params: [],
         accountFields: []
-    }
+    },
+
+
 };
 
 module.exports = {

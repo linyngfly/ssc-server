@@ -158,6 +158,7 @@ app.configure('production|development', 'game', function () {
     SSL && (connectorConfig.ssl = SSL);
     app.set('connectorConfig', connectorConfig);
 
+    httpTokenFilter.addIgnoreRoute('setOrderState');
     omeloHttpPlugin.filter(httpTokenFilter);
 
     app.before(tokenFilter);

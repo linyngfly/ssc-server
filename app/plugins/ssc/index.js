@@ -2,7 +2,6 @@ const fs = require('fs');
 
 const MODULES = {
     SUB_GAMES:{},
-    HALL:{},
 };
 
 function readDirSync(_path){
@@ -16,6 +15,6 @@ function readDirSync(_path){
 }
 
 readDirSync(__dirname);
-MODULES.SUB_GAMES.HALL = require('./hall');
+MODULES.SUB_GAMES.hall = require('./hall');
 
 module.exports = MODULES;
