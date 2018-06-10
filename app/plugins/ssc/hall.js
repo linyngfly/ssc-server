@@ -16,6 +16,7 @@ class Hall{
 
     async cash(data){
 
+
     }
 }
 
