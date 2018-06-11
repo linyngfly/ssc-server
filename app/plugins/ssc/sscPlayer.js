@@ -195,6 +195,10 @@ class SscPlayer extends Player {
     }
 
     async chat(msg) {
+        if(this.account.forbid_talk == 1){
+            throw ERROR_OBJ.CHAT_TOO_FREQUENT;
+        }
+
         let now = Date.now();
         if (now - this._last_chat_timestamp < config.CHAT_INTERVAL_TIME) {
             throw ERROR_OBJ.CHAT_TOO_FREQUENT;

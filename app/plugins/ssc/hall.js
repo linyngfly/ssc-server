@@ -1,15 +1,17 @@
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const models = require('../../models');
 const Token = require('../../utils/token');
-
+const config = require('./config');
+const EventEmitter = require('events').EventEmitter;
 // ip:116.31.100.75
 // ip:119.63.35.75
 // :22
 // root
 // Y/w@YnFw9QtT#J#smV
 
-class Hall {
+class Hall extends EventEmitter{
     constructor(){
+        super();
         this._adminToken = null;
     }
 
@@ -122,6 +124,21 @@ class Hall {
             }
         }
         await data.account.commit();
+    }
+
+    async setPlayerInfoByGM(data){
+        let account = models.account.helper.getAccount(data.uid);
+        let fields = data.fields;
+        for(let key in fields){
+            let typeInfo = models.account.modelDefine[key];
+            if(typeInfo && typeInfo.gmModify == true){
+                account[key] = fields[key];
+            }else {
+                throw ERROR_OBJ.PLAYER_FIELD_CANNOT_MODIFY;
+            }
+        }
+        await account.commit();
+        this.emit(config.HALL_PLAYER_EVENT, {uid:data.uid, fields:fields});
     }
 }
 

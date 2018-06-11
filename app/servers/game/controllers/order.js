@@ -11,11 +11,6 @@ class Order{
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
         return logicResponse.ask(game.cash(data));
     }
-
-    async setOrderState(data){
-        let game = omelo.app.entry.getGame(data.mainType, data.subType);
-        return logicResponse.ask(game.setOrderState(data));
-    }
 }
 
 module.exports = new Order();

@@ -5,6 +5,8 @@ module.exports = {
         OPEN_AWARD: Symbol('open_award'),
     },
 
+    HALL_PLAYER_EVENT:Symbol('hall_player_event'),
+
     BET_ADVANCE_CLOSE_TIME: 30000, //投注提前关闭时间单位毫秒(ms)
     DES_SEPARATOR: '/',
     BET_SEPARATOR: '/',

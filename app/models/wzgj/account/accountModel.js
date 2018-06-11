@@ -81,6 +81,7 @@ module.exports = {
         def: 0,
         type: "number",
         tbl: 'tbl_user',
+        gmModify:true,
         comment: '玩家禁言'
     },
     friends: {
@@ -93,6 +94,7 @@ module.exports = {
         def: constants.ROLE.PLAYER,
         type: "number",
         tbl: 'tbl_user',
+        gmModify:true,
         comment: '0:玩家,1:一级代理商,2:二级代理商,3:体验用户'
     },
     figure_url: {
@@ -106,7 +108,8 @@ module.exports = {
         def: 1,
         type: "number",
         tbl: 'tbl_user',
-        comment: '封号标识（<0封号）'
+        gmModify:true,
+        comment: '封号标识（-1:封号）'
     },
     rank_name: {
         def: '',

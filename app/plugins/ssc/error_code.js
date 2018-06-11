@@ -22,6 +22,7 @@ const _errorCode = {
     BET_TYPE_OVERLOAD_LIMIT: 10017, //该类型投注金额超过最高限额
     BET_PERIOD_OVERLOAD_LIMIT: 10018, //本期投注金额超过最高限额
     PLAYER_FIELD_CANNOT_MODIFY: 10019, //该玩家字段只读
+    PLAYER_FORBID_TALK: 10020, //你已被禁言
 };
 
 for (let item in ERROR_CODE) {
@@ -112,6 +113,11 @@ const _errorObj = {
         msg: `该玩家字段只读`,
         code: _errorCode.PLAYER_FIELD_CANNOT_MODIFY,
     },
+    PLAYER_FORBID_TALK: {
+        msg: `你已被禁言`,
+        code: _errorCode.PLAYER_FORBID_TALK,
+    },
+
 };
 
 for (let item in ERROR_OBJ) {

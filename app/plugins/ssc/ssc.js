@@ -7,6 +7,7 @@ const sscCmd = require('../../cmd/sscCmd');
 const constants = require('../../consts/constants');
 const models = require('../../models');
 const util = require('util');
+const hall = require('./hall');
 const logBuilder = require('../../utils/logSync/logBuilder');
 
 
@@ -80,6 +81,16 @@ class SSC {
                 lotteryInfo: lotteryInfo,
             });
         });
+
+        hall.on(config.HALL_PLAYER_EVENT, function (event) {
+            let player = this._playerMap.get(event.uid);
+            if (player) {
+                let fields = event.fields;
+                for(let key in fields){
+                    player.account[key] = fields[key];
+                }
+            }
+        }.bind(this));
 
         this._bonusPool.start();
     }
