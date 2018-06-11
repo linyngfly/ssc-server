@@ -21,6 +21,7 @@ const _errorCode = {
     BET_AMOUNT_TOO_HIGH: 10016, //投注金额高于单注最高限额
     BET_TYPE_OVERLOAD_LIMIT: 10017, //该类型投注金额超过最高限额
     BET_PERIOD_OVERLOAD_LIMIT: 10018, //本期投注金额超过最高限额
+    PLAYER_FIELD_CANNOT_MODIFY: 10019, //该玩家字段只读
 };
 
 for (let item in ERROR_CODE) {
@@ -105,6 +106,11 @@ const _errorObj = {
     BET_PERIOD_OVERLOAD_LIMIT: {
         msg: `本期投注金额超过最高限额`,
         code: _errorCode.BET_PERIOD_OVERLOAD_LIMIT,
+    },
+
+    PLAYER_FIELD_CANNOT_MODIFY: {
+        msg: `该玩家字段只读`,
+        code: _errorCode.PLAYER_FIELD_CANNOT_MODIFY,
     },
 };
 

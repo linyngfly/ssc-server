@@ -1,12 +1,12 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://39.108.166.240:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const GATE_HOST = 'http://39.108.166.240:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "39.108.166.240";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://39.108.166.240:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const GATE_HOST = 'http://39.108.166.240:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "39.108.166.240";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -99,7 +99,7 @@ class SSCClient {
      * @returns {Promise<void>}
      */
     async getDraw(data) {
-        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/turntable_draw');
         resp = JSON.parse(resp);
         if (resp.error) {
@@ -108,12 +108,11 @@ class SSCClient {
         } else {
             console.log('getDraw ok');
             console.log(resp.data);
-            this._player = resp.data;
         }
     }
 
     async recharge(data) {
-        //http://39.108.166.240:4002/game/clientApi/turntable_draw
+
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/recharge');
         resp = JSON.parse(resp);
         if (resp.error) {
@@ -126,7 +125,6 @@ class SSCClient {
     }
 
     async cash(data) {
-        //http://39.108.166.240:4002/game/clientApi/turntable_draw
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/cash');
         resp = JSON.parse(resp);
         if (resp.error) {
@@ -139,7 +137,6 @@ class SSCClient {
     }
 
     async setOrderState(data) {
-        //http://39.108.166.240:4002/game/clientApi/turntable_draw
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setOrderState');
         resp = JSON.parse(resp);
         if (resp.error) {
@@ -147,6 +144,30 @@ class SSCClient {
             console.log(resp.error);
         } else {
             console.log('cash ok');
+            console.log(resp.data);
+        }
+    }
+
+    async getGMContactInfo(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getGMContactInfo');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getGMContactInfo err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getGMContactInfo ok');
+            console.log(resp.data);
+        }
+    }
+
+    async setPlayerInfo(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setPlayerInfo');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('setPlayerInfo err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('setPlayerInfo ok');
             console.log(resp.data);
         }
     }
@@ -357,22 +378,35 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-    // await client.register({
-    //     username: '18602432393',
-    //     password: '123654',
-    //     code: '1243',
-    //     nickname: '咸鱼也有梦',
-    // });
-
+//     await client.register({
+//         username: '18602432393',
+//         password: '123654',
+//         code: '1243',
+//         nickname: '咸鱼也有梦',
+//     });
+// return;
 
     await client.login({
         username: '18602432393',
         password: '123654'
     });
+// return
+    //TODO NEW 转盘抽奖
+    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+    //TODO NEW 充值
+    await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
+    //TODO NEW 提现
+    await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
+    //TODO NEW GM联系信息
+    await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
 
-    // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
-    // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
-    // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
+    //TODO NEW 修改玩家信息
+    await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
+        nickname:'起个新名字试试', //修改昵称
+        figure_url:'2', //修改头像
+    }});
+
+    //TODO NEW php后台调用，确认或者撤销订单
     await client.setOrderState({
         mainType: 'ssc',
         subType: 'hall',
@@ -382,10 +416,9 @@ async function main() {
         id: 1
     });
 
-    return;
-
     await client.enterGame('ssc', 'lucky28');
 
+    //TODO NEW 获取投个人注历史
     await client.myBetResult({
         skip: 0,
         limit: 20,

@@ -1,7 +1,7 @@
 const config = require('../config');
 const utils = require('../../../utils/utils');
 const util = require('util');
-const models = require('../../../models/index');
+const models = require('../../../models');
 const logBuilder = require('../../../utils/logSync/logBuilder');
 
 

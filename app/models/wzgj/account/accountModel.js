@@ -32,6 +32,7 @@ module.exports = {
         def: '',
         type: "string",
         tbl: 'tbl_user',
+        modify:true,
         comment: '昵称'
     },
     openid: {
@@ -98,6 +99,7 @@ module.exports = {
         def: constants.IMG_ID.IMD1,
         type: "string",
         tbl: 'tbl_user',
+        modify:true,
         comment: '头像id(1~6)'
     },
     test: {

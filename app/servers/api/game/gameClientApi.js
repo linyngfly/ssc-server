@@ -9,7 +9,7 @@ const turntable = require('../../game/controllers/turntable');
 const api_list = {
     gm: {
         route: '/getGMContactInfo', //获取GM联系方式
-        handler: GM.getContactInfo,
+        handler: GM.getGMContactInfo,
         params: [],
         accountFields: []
     },
@@ -23,7 +23,7 @@ const api_list = {
 
     setPlayerInfo:{
         route: '/setPlayerInfo', //修改玩家信息（目前只能修改昵称，头像）
-        handler: player.set,
+        handler: player.setPlayerInfo,
         params: [],
         accountFields: []
     },

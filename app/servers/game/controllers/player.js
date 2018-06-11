@@ -1,17 +1,12 @@
 const logicResponse = require('../../common/logicResponse');
+const omelo = require('omelo');
 
-class Player{
-    _setNickname(){
-
-    }
-
-    _setHeadImg(){
-
-    }
-
-    async set(data){
-        return logicResponse.ask(data);
+async function setPlayerInfo(data){
+    let game = omelo.app.entry.getGame(data.mainType, data.subType);
+    if(game){
+        let result = await game.setPlayerInfo(data);
+        return logicResponse.ask(result);
     }
 }
 
-module.exports = new Player();
+module.exports.setPlayerInfo = setPlayerInfo;
