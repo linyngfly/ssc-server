@@ -20,7 +20,7 @@ class Lucky28 extends SSC{
             gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
-            bonusPool:new Lucky28Lottery({
+            lottery:new Lucky28Lottery({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
             }),

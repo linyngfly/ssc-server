@@ -9,7 +9,7 @@ const models = require('../../models');
 const util = require('util');
 const hall = require('./hall');
 const logBuilder = require('../../utils/logSync/logBuilder');
-
+const schedule = require('node-schedule');
 
 // 回水规则
 // a下注11期 （0-24：00）
@@ -45,7 +45,7 @@ class SSC {
         this._hallName = opts.hallName;
         this._gameIdentify = opts.gameIdentify;
         this._betParser = opts.betParser;
-        this._bonusPool = opts.bonusPool;
+        this._lottery = opts.lottery;
         this._betLimitRate = opts.betLimitRate;
         this._playerMap = new Map();
     }
@@ -56,14 +56,14 @@ class SSC {
 
         let self = this;
 
-        this._bonusPool.on(config.LOTTERY_EVENT.TICK_COUNT, (dt) => {
+        this._lottery.on(config.LOTTERY_EVENT.TICK_COUNT, (dt) => {
             logger.error('开奖倒计时=', dt, self._hallName);
             self.broadcast(sscCmd.push.countdown.route, {
                 dt: dt,
             });
         });
 
-        this._bonusPool.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
+        this._lottery.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
             let last = lotteryInfo.last;
             let openResult = await self._openAward(last);
 
@@ -92,11 +92,11 @@ class SSC {
             }
         }.bind(this));
 
-        this._bonusPool.start();
+        this._lottery.start();
     }
 
     stop() {
-        this._bonusPool.stop();
+        this._lottery.stop();
         if (this._msgChannel) {
             this._msgChannel.destroy();
             this._msgChannel = null;
@@ -166,7 +166,7 @@ class SSC {
     }
 
     async c_bet(msg) {
-        if (!this._bonusPool.canBetNow()) {
+        if (!this._lottery.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
@@ -178,7 +178,7 @@ class SSC {
         let player = this._playerMap.get(msg.uid);
 
         return await player.bet({
-            period: this._bonusPool.getNextPeriod(),
+            period: this._lottery.getNextPeriod(),
             identify: this._gameIdentify,
             betData: msg.betData,
             parseRet: parseRet,
@@ -188,7 +188,7 @@ class SSC {
     }
 
     async c_unBet(msg) {
-        if (!this._bonusPool.canBetNow()) {
+        if (!this._lottery.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
