@@ -1,4 +1,22 @@
 module.exports = {
+    TASK:{
+        /**
+         * 配置每日重置
+         */
+        CONFIG_DAILY_RESET: {
+            enable: true,
+            time: '0,0,0,*,*,*', //每天0点
+        },
+        INCOME_DAILY_CALC:{
+            enable: true,
+            time: '0,0,0,*,*,*', //每天0点
+        },
+        ACCOUNT_DAILY_RESET:{
+            enable: true,
+            time: '0,0,0,*,*,*', //每天0点
+        }
+
+    },
 
     LOTTERY_EVENT: {
         TICK_COUNT: Symbol('tick_count'),

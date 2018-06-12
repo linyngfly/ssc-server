@@ -9,7 +9,11 @@ function readDirSync(_path){
     pa.forEach(function(file){
         let info = fs.statSync(_path+"/"+file);
         if(info.isDirectory()){
-            MODULES.SUB_GAMES[file] = require(`./${file}`);
+            try{
+                MODULES.SUB_GAMES[file] = require(`./${file}`);
+            }catch(err){
+                err;
+            }
         }
     });
 }

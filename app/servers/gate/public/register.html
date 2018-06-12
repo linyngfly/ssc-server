@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link type="text/css" rel="stylesheet" href="./css/base.css" media="all">
+<link type="text/css" rel="stylesheet" href="./css/common.css" media="all">
+
+<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+<![endif]-->
+<title>王者国际手机注册</title>
+</head>
+<body>
+	<div class="container pr oh">
+		<img src="./images/bg.png" class="bg">
+		<header class="header pr oh">
+			<div class="title"></div>
+		</header>
+		<section class="main pr oh">
+			<ul class="registWrap oh">
+				<li>
+					<div class="valicodewrap">
+						<div class="ipbg icphone">
+							<input type="text" value="" class="input" name="phone" id="phone" placeholder="请输入手机号"/>
+						</div>
+						<div class="getvc">发送验证码</div>
+					</div>
+				</li>
+				<li>
+					<div class="ipbg icvali">
+						<input type="text" value="" class="input" name="valicode" id="valicode" placeholder="请输入验证码"/>
+					</div>
+				</li>
+				<li>
+					<div class="ipbg icpass">
+						<input type="password" value="" class="input" name="password" id="password" placeholder="请输入密码"/>
+					</div>
+				</li>
+				<li>	
+					<div class="ipbg icpass">
+						<input type="password" value="" class="input" name="repassword" id="repassword" placeholder="请再次输入密码"/>
+						<input type="hidden" value="{$inviter?:0}" class="input" name="inviter" id="inviter"  placeholder="邀请码"/>
+					</div>
+				</li>
+			</ul><!--registWrap end-->
+			<div class="submit oh">
+				<input type="submit" value="" class="subBtn" />
+			</div>
+			<div class="download oh">
+				<a href="javascript:void(0)" class="downBtn">下载游戏</a>
+			</div>
+		</section><!--main end-->
+	</div><!--container end-->
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="./js/getVerifyCode.js"></script>
+<script src="./js/layer/layer.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	function getUrlParam(key){
+		// 获取参数
+		var url = window.location.search;
+		// 正则筛选地址栏
+		var reg = new RegExp("(^|&)"+ key +"=([^&]*)(&|$)");
+		// 匹配目标参数
+		var result = url.substr(1).match(reg);
+		//返回参数值
+		return result ? decodeURIComponent(result[2]) : null;
+	}
+	var inviter=getUrlParam('inviter');
+	
+	$(".subBtn").click(function(){
+		var exreg=/^1[3|4|5|7|8][0-9]\d{8}$/;//手机号码的格式
+		var phone=$("#phone").val();//手机号码
+		var vc=$("#valicode").val();//验证码
+		var pass=$("#password").val();//密码
+		var repass=$("#repassword").val();//再次的密码
+		//var inviter=$("#inviter").val();//
+		if(phone==""){
+			layer.msg('请输入手机号');
+			$("#phone").focus();
+			return false;
+		}
+		if(!(exreg.test(phone))){
+			layer.msg('请输入正确的手机号');
+			$("#phone").focus();
+			return false;
+		}
+		if(vc==""){
+			layer.msg('请输入验证码');
+			$("#valicode").focus();
+			return false;
+		}
+		if(vc.length < 4){
+			layer.msg('验证码不能小于4位');
+			$("#valicode").focus();
+			return false;
+		}
+		if(pass==""){
+			layer.msg('请输入密码');
+			$("#password").focus();
+			return false;
+		}
+		if(repass==""){
+			layer.msg('请再次确认密码');
+			$("#repassword").focus();
+			return false;
+		}
+		if(pass!=repass){
+			layer.msg('两次输入密码不一致');
+			$("#repassword").focus();
+			return false;
+		}
+		//layer.msg("正在注册。。。")
+		  var datas={'username':phone,'code':vc,'password':pass,'inviter':inviter};			
+		$.ajax({
+            type: 'post',
+            url: 'http://wzgj.xyzrt.cn:3002/gate/clientApi/register',
+            async: false,
+            data: datas,
+            dataType:'json',
+            success: function (msg) {	   
+             	alert(msg['info']);
+               },
+            error: function (msg) {
+            	layer.msg("出错了");
+            }
+        }); 
+		
+	});
+	
+});
+</script>
+<script type="text/javascript">
+	$(function (){
+		$(".getvc").on("click",getVerifyCode({			
+			callBack: function (){		
+				sendMsg();				
+			},
+			time: 60,
+			getCurrentTime: function (time){
+					
+			},
+			isPhone: true,
+			getPhone: function (){
+				return $("#phone").val();
+			},
+			phoneCallBack: function (){
+				layer.msg('请输入正确的手机号');
+				$("#phone").focus();
+			},
+			timeIsUpText: "重新获取",
+			timeRunnigText: "秒后重发",
+			unabledClass: "msgs"
+		})
+		);
+		
+		 function sendMsg(){
+			var phone=$('#phone').val();			
+			  var datas={'phone':phone};			
+				$.ajax({
+	             type: 'post',
+	             url: '/test/sendmsg',
+	             async: false,
+	             data: datas,
+	             dataType:'json',
+	             success: function (msg) {	              
+	            	 layer.msg(msg);	             
+                 },
+	          
+	         }); 
+		} 
+	});
+	
+	
+</script>
+</html>

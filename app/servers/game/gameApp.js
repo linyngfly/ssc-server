@@ -29,7 +29,7 @@ class GameApp {
                 for(let sub in modules.SUB_GAMES){
                     logger.error('启动子游戏', sub);
                     // logger.error('启动子游戏', SUB_GAMES);
-                    await modules.SUB_GAMES[sub].start();
+                    modules.SUB_GAMES[sub].start && await modules.SUB_GAMES[sub].start();
                 }
             }
         }
@@ -46,7 +46,7 @@ class GameApp {
                 for(let sub in modules.SUB_GAMES){
                     logger.error('启动子游戏', sub);
                     // logger.error('启动子游戏', SUB_GAMES);
-                    await modules.SUB_GAMES[sub].stop();
+                    modules.SUB_GAMES[sub] && await modules.SUB_GAMES[sub].stop();
                 }
             }
         }

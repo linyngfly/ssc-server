@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	font-family:"microsoft yahei";
+}
+*:focus {
+	outline: 0;
+}
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,code,form,fieldset,legend,button,input,textarea{
+	padding:0px; 
+	margin:0px; 
+	border:none;
+}
+h1,h2,h3,h4,h5,h6{
+	font-weight:normal;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{
+	display:block;
+}
+body {
+	font: normal Georgia,Arial, Helvetica, sans-serif;
+	background:#FFFFFF;
+	color:#FFFFFF;
+}
+img{
+	width:100%;
+	height:auto;
+    vertical-align:middle;
+    border: none;
+	box-sizing:border-box;
+	interpolation-mode:bicubic;
+}
+li{
+	list-style:none;	
+}
+a,a:link{
+	text-decoration:none;
+}
+a:active,a:hover,a:visited{
+	text-decoration:none;
+}
+i,em{
+	font-style:normal;	
+}
+.pr{
+   position:relative; 
+}
+.pa{
+    position:absolute;
+}
+.fl{
+    float:left;
+}
+.fr{
+    float:right;	
+}
+.oh{
+	overflow:hidden;
+}
+html{
+	-webkit-text-size-adjust:100%; 
+	-ms-text-size-adjust:100%;
+}
+
+/*--------------------------------------------------------------------*/
+@media screen and (max-width : 360px) {	
+body{
+	font-size:11px;
+}
+}
+@media screen and (min-width : 360px) and (max-width : 480px) {
+body{
+	font-size:12px;
+}
+}
+@media screen and (min-width : 480px) and (max-width : 640px) {
+body{
+	font-size:15px;
+}
+}
+@media screen and (min-width : 640px) and (max-width : 720px){
+body{
+	font-size:18px;
+}
+}
+@media screen and (min-width : 720px){
+body{
+	font-size:22px;
+}	
+}
