@@ -1,6 +1,6 @@
 
 const CQBetParser = require('./CQBetParser');
-const BonusPool = require('../bonusPool');
+const Lottery = require('../lottery');
 const OpenAwardCalc = require('./openAwardCalc');
 const CQPlayer = require('./CQPlayer');
 const SSC = require('../ssc');
@@ -13,7 +13,7 @@ class Cqssc extends SSC {
         super({
             hallName: config.CQSSC.MSG_CHANNEL_NAME,
             betParser:new CQBetParser(),
-            bonusPool:new BonusPool({
+            lottery:new Lottery({
                 lotteryApi:new CQLotteryApi(config.OPEN_CAI_TYPE.CQSSC),
                 openCaiType:config.OPEN_CAI_TYPE.CQSSC
             }),

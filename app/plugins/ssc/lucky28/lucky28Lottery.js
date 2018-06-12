@@ -1,4 +1,4 @@
-const BonusPool = require('../bonusPool');
+const Lottery = require('../lottery');
 const moment = require('moment');
 const schedule = require('node-schedule');
 const config = require('../config');
@@ -11,7 +11,7 @@ const config = require('../config');
  */
 
 
-class Lucky28BonusPool extends BonusPool {
+class Lucky28Lottery extends Lottery {
     constructor(opts) {
         super(opts);
         this._close_job = null;
@@ -65,4 +65,4 @@ class Lucky28BonusPool extends BonusPool {
     }
 }
 
-module.exports = Lucky28BonusPool;
+module.exports = Lucky28Lottery;

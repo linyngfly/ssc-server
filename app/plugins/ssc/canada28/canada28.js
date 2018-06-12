@@ -19,7 +19,7 @@ class Canada28 extends SSC{
             gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
-            bonusPool:new Canada28BonusPool({
+            lottery:new Canada28BonusPool({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
                 openCaiType:config.OPEN_CAI_TYPE.CAKENO
             }),

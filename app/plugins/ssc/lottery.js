@@ -5,7 +5,7 @@ const moment = require('moment');
 
 const TASK_DT = 100;
 
-class BonusPool extends EventEmitter {
+class Lottery extends EventEmitter {
     constructor(opts) {
         super();
         this._lotteryApi = opts.lotteryApi;
@@ -49,11 +49,6 @@ class BonusPool extends EventEmitter {
                 return;
             }
 
-
-            // logger.error('getLotteryInfo=', lotteryInfo);
-            // if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
-
-            // this._lotterInfo = this._lotterInfo || lotteryInfo;
             if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
                 this._handleLotteryInfo(lotteryInfo);
                 this._lotterInfo = lotteryInfo;
@@ -93,5 +88,4 @@ class BonusPool extends EventEmitter {
         return this._lotterInfo.next.period;
     }
 }
-
-module.exports = BonusPool;
+module.exports = Lottery;
