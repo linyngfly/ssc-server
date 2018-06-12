@@ -204,6 +204,8 @@ class SscPlayer extends Player {
             throw ERROR_OBJ.CHAT_TOO_FREQUENT;
         }
 
+        msg.time = moment().format('YYYY-MM-DD HH:mm:ss');
+
         //TODO 发送消息，校验消息格式
         this.emit(sscCmd.push.chat.route, msg);
         this._last_chat_timestamp = now;

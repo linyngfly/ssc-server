@@ -15,13 +15,7 @@ class Hall extends EventEmitter{
         this._adminToken = null;
     }
 
-    async _updateAdminToken(){
-        //刷新admin_token
-        this._adminToken = Token.create(8888, Date.now(), '123456789');
-        await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
-            'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
-            ['ssc', 'admin_token', JSON.stringify({token:this._adminToken})]);
-
+    async loadConfig(){
         //初始化GM联系信息
         let rows = mysqlConnector.query('SELECT * FROM `tbl_config` WHERE identify=? AND type=?',
             ['ssc', 'gm']);
@@ -32,7 +26,16 @@ class Hall extends EventEmitter{
         }
     }
 
+    async _updateAdminToken(){
+        //刷新admin_token
+        this._adminToken = Token.create(8888, Date.now(), '123456789');
+        await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
+            'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
+            ['ssc', 'admin_token', JSON.stringify({token:this._adminToken})]);
+    }
+
     async start() {
+        await this.loadConfig();
         await this._updateAdminToken();
         logger.error('Hall start');
     }

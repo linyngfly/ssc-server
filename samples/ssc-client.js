@@ -386,6 +386,8 @@ async function main() {
 //     });
 // return;
 
+    console.time('111');
+
     await client.login({
         username: '18602432393',
         password: '123654'
@@ -456,7 +458,7 @@ async function main() {
     await client.getLotterys();
 
     await client.myBetOrder();
-
+    console.timeEnd('111');
     // await client.myBets();
     // await client.bet('大单龙100');
     // console.error(1111);
