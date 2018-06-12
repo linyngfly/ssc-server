@@ -111,6 +111,16 @@ module.exports = {
         gmModify:true,
         comment: '封号标识（-1:封号）'
     },
+    new_user_draw: {
+        def: 1,
+        type: "number",
+        comment: '新用户抽奖次数'
+    },
+    daily_draw:{
+        def: 0,
+        type: "number",
+        comment: '每日抽奖（投注期数大于10）'
+    },
     rank_name: {
         def: '',
         type: "string",

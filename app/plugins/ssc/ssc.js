@@ -46,13 +46,13 @@ class SSC {
         this._gameIdentify = opts.gameIdentify;
         this._betParser = opts.betParser;
         this._bonusPool = opts.bonusPool;
-        this._lucky28LimitRate = opts.lucky28LimitRate;
+        this._betLimitRate = opts.betLimitRate;
         this._playerMap = new Map();
     }
 
     async start() {
         this._msgChannel = omelo.app.get('globalChannelService');
-        await this._lucky28LimitRate.loadConfig();
+        await this._betLimitRate.loadConfig();
 
         let self = this;
 
@@ -170,7 +170,7 @@ class SSC {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
 
-        let [err, parseRet] = this._betParser.parse(msg.betData, this._lucky28LimitRate);
+        let [err, parseRet] = this._betParser.parse(msg.betData, this._betLimitRate);
         if (err) {
             return [err];
         }
@@ -182,7 +182,7 @@ class SSC {
             identify: this._gameIdentify,
             betData: msg.betData,
             parseRet: parseRet,
-            limitRate: this._lucky28LimitRate
+            limitRate: this._betLimitRate
         });
 
     }

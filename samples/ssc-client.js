@@ -381,7 +381,7 @@ async function main() {
 //     await client.register({
 //         username: '18602432393',
 //         password: '123654',
-//         code: '1243',
+    //         code: '1243',
 //         nickname: '咸鱼也有梦',
 //     });
 // return;

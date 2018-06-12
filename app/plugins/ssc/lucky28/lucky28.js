@@ -6,7 +6,7 @@
 
 const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
-const Lucky28BonusPool = require('./lucky28BonusPool');
+const Lucky28Lottery = require('./lucky28Lottery');
 const SSC = require('../ssc');
 const config = require('../config');
 const models = require('../../../models');
@@ -20,16 +20,16 @@ class Lucky28 extends SSC{
             gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
-            bonusPool:new Lucky28BonusPool({
+            bonusPool:new Lucky28Lottery({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
             }),
-            lucky28LimitRate:new Lucky28LimitRate()
+            betLimitRate:new Lucky28LimitRate()
         });
     }
 
     async start(){
-        logger.error('CANADA28 start');
+        logger.error('Lucky28 start');
         await super.start();
     }
 
@@ -51,7 +51,7 @@ class Lucky28 extends SSC{
 
     async _createPlayer(uid, sid) {
         let account = await models.account.helper.getAccount(uid);
-        return new Lucky28Player({uid: uid, sid: sid, account: account,limitRate:this._lucky28LimitRate});
+        return new Lucky28Player({uid: uid, sid: sid, account: account,limitRate:this._betLimitRate});
     }
 
 }
