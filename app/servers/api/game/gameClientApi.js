@@ -7,9 +7,23 @@ const bets = require('../../game/controllers/bets');
 const turntable = require('../../game/controllers/turntable');
 
 const api_list = {
-    gm: {
+    getGMContactInfo: {
         route: '/getGMContactInfo', //获取GM联系方式
         handler: GM.getGMContactInfo,
+        params: [],
+        accountFields: []
+    },
+
+    setPlayerInfoByGM:{
+        route: '/setPlayerInfoByGM', //修改玩家信息（目前只能修改昵称，头像）
+        handler: GM.setPlayerInfo,
+        params: [],
+        accountFields: []
+    },
+
+    setOrderState:{
+        route: '/setOrderState', //转盘抽奖
+        handler: GM.setOrderState,
         params: [],
         accountFields: []
     },
