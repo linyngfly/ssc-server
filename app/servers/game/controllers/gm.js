@@ -10,7 +10,7 @@ class GM {
 
     async setOrderState(data){
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
-        return logicResponse.ask(game.setOrderState(data));
+        return logicResponse.ask(await game.setOrderState(data));
     }
 
     async setPlayerInfo(data){
