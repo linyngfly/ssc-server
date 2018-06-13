@@ -325,6 +325,7 @@ const _errorCode = {
     PLAYER_NOT_JOIN_HALL: 7123, // 玩家还未加入游戏大厅
     PLAYER_NOT_IN_GAME: 7124, // 玩家还不在游戏中，请先加入游戏
 
+
 };
 
 const _errorObj = {

@@ -52,6 +52,19 @@ class WZGJUser extends User {
         }
     }
 
+    async _checkInviter(uid){
+        try{
+            let account = await models.account.helper.getAccount(uid, models.account.fieldConst.ROLE);
+            if(account.role == 0){
+                return false;
+            }
+        }catch (e) {
+            return false;
+        }
+
+        return true;
+    }
+
     async register(data) {
         //TODO 手机校验
         this._checkPhoneCode(data.username, data.code);
@@ -69,6 +82,10 @@ class WZGJUser extends User {
         accountData.updated_at = at;
         accountData.openid = openid;
         accountData.from_ip = data.ip;
+
+        if(data.inviter != null && this._checkInviter(data.inviter)){
+            accountData.inviter = data.inviter;
+        }
 
         let account = await models.account.helper.createAccount(accountData);
         await redisConnector.hset(models.constants.MAP_OPENID_UID, openid, account.uid);

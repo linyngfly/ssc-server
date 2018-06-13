@@ -23,7 +23,7 @@ IF NOT EXISTS `tbl_user` (
   `active` tinyint(3) unsigned DEFAULT '0' COMMENT '是否激活',
   `forbid_talk` tinyint(3) unsigned DEFAULT '0' COMMENT '玩家禁言',
   `friends` json DEFAULT NULL COMMENT '朋友列表',
-  `role` smallint(6) unsigned DEFAULT NULL COMMENT '0:玩家,1:一级代理商,2:二级代理商,3:体验用户',
+  `role` smallint(6) unsigned DEFAULT NULL COMMENT '0:玩家,1:拉手',
   `figure_url` smallint(6) unsigned DEFAULT '1' COMMENT '头像id(1~6)',
   `test` smallint(6) unsigned DEFAULT '1' COMMENT '封号标识（<0封号）',
   `rank_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '荣誉称号',
@@ -78,7 +78,7 @@ IF NOT EXISTS `tbl_lottery` (
 	`time` TIMESTAMP NOT NULL COMMENT '开奖时间',
 	`openResult` json NOT NULL COMMENT '开奖结果',
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `period_UNIQUE` (`period`)
+    UNIQUE KEY `period_UNIQUE` (`period`,`identify`) USING BTREE
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------
