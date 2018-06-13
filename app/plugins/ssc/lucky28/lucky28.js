@@ -29,8 +29,8 @@ class Lucky28 extends SSC{
     }
 
     async start(){
-        logger.error('Lucky28 start');
         await super.start();
+        logger.error('Lucky28 start');
     }
 
     stop(){

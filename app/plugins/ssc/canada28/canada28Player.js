@@ -5,9 +5,10 @@ class Canada28Player extends SscPlayer {
         super(opts);
     }
 
-    //获取投注的赔率
-    _getBetRate(type) {
-        return 1;
+    canRemove(){
+        if(!this.isBet() && !this.isOnline()){
+            return true;
+        }
     }
 
 }

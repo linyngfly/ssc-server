@@ -1,25 +1,25 @@
 const config = require('../config');
 const util = require('util');
 const models = require('../../../models');
-class Lucky28LimitRate{
+class Canada28LimitRate{
     constructor(){
-        this._limitConfig = config.LUCKY28.BET_LIMIT_CONFIG;
-        this._rateConfig = config.LUCKY28.BET_RATE_CONFIG;
+        this._limitConfig = config.CANADA28.BET_LIMIT_CONFIG;
+        this._rateConfig = config.CANADA28.BET_RATE_CONFIG;
 
-        this._bet_limit_key = util.format(models.constants.CONFIG.BET_LIMIT, config.LUCKY28.GAME_IDENTIFY);
-        this._bet_rate_key = util.format(models.constants.CONFIG.BET_RATE, config.LUCKY28.GAME_IDENTIFY);
+        this._bet_limit_key = util.format(models.constants.CONFIG.BET_LIMIT, config.CANADA28.GAME_IDENTIFY);
+        this._bet_rate_key = util.format(models.constants.CONFIG.BET_RATE, config.CANADA28.GAME_IDENTIFY);
     }
 
     async _loaBetLimit(){
         let bet_limit = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
-            [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_LIMIT]);
+            [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_LIMIT]);
         if(rows && rows[0]){
             bet_limit = JSON.parse(rows[0].info);
         }else {
-            bet_limit = config.LUCKY28.BET_LIMIT_CONFIG;
+            bet_limit = config.CANADA28.BET_LIMIT_CONFIG;
             await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
-                [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_LIMIT, JSON.stringify(bet_limit)]);
+                [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_LIMIT, JSON.stringify(bet_limit)]);
         }
 
         await redisConnector.set(this._bet_limit_key, bet_limit);
@@ -29,13 +29,13 @@ class Lucky28LimitRate{
     async _loaBetRate(){
         let bet_rate = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
-            [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_RATE]);
+            [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_RATE]);
         if(rows && rows[0]){
             bet_rate = JSON.parse(rows[0].info);
         }else {
-            bet_rate = config.LUCKY28.BET_RATE_CONFIG;
+            bet_rate = config.CANADA28.BET_RATE_CONFIG;
             await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
-                [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_RATE, JSON.stringify(bet_rate)]);
+                [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_RATE, JSON.stringify(bet_rate)]);
         }
         await redisConnector.set(this._bet_rate_key, bet_rate);
         this._rateConfig = bet_rate;
@@ -89,4 +89,4 @@ class Lucky28LimitRate{
     }
 }
 
-module.exports = Lucky28LimitRate;
+module.exports = Canada28LimitRate;

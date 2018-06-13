@@ -4,14 +4,14 @@ const schedule = require('node-schedule');
 const config = require('../config');
 
 /**
- * 加拿大8
- * 19：00 ~ 20：00 维护
+ * 北京快乐8
+ * 9：00 ~ 23：55
  *
  * @type {number}
  */
 
 
-class Canada28BonusPool extends Lottery {
+class Canada28Lottery extends Lottery {
     constructor(opts) {
         super(opts);
         this._close_job = null;
@@ -21,7 +21,7 @@ class Canada28BonusPool extends Lottery {
 
     _preHandle() {
         if (this._state == 1) {
-            this._countdown.reset(this._openCaiType.INTERVAL * 60 * 1000 - 5000);
+            this._countdown.reset(this._openCaiType.INTERVAL * 60 * 1000 - 10000);
             this._state = 2;
         }
     }
@@ -32,13 +32,12 @@ class Canada28BonusPool extends Lottery {
 
         let nextTime = moment(lotteryInfo.next.opentime).format('x');
         if(this._state == 3){
-            nextTime = moment(lotteryInfo.next.opentime).add('hours', 1).format('x');
+            nextTime = moment(lotteryInfo.next.opentime).add('hours', 9).format('x');
         }
         let free = nextTime - moment().format('x');
         free = Math.max(free, 0);
         this._countdown.reset(Math.floor(free / 1000) * 1000);
 
-        this._lotterInfo = lotteryInfo;
     }
 
     start() {
@@ -46,14 +45,14 @@ class Canada28BonusPool extends Lottery {
 
         let open_rule = new schedule.RecurrenceRule();
         open_rule.minute = 0;
-        open_rule.hour = 20;
+        open_rule.hour = 9;
         this._open_job = schedule.scheduleJob(open_rule, function () {
             this._state = 1;
         }.bind(this));
 
         let close_rule = new schedule.RecurrenceRule();
-        close_rule.minute = 0;
-        close_rule.hour = 19;
+        close_rule.minute = 56;
+        close_rule.hour = 23;
         this._close_job = schedule.scheduleJob(open_rule, function () {
             this._state = 3;
         }.bind(this));
@@ -64,24 +63,6 @@ class Canada28BonusPool extends Lottery {
         schedule.cancelJob(this._open_job);
         schedule.cancelJob(this._close_job);
     }
-
-    /**
-     * 投注通道是否关闭
-     * 提前30s封注
-     * @return {boolean}
-     */
-    canBetNow() {
-        return true;
-        return this._lotterInfo != null && this._countdown.duration > config.BET_ADVANCE_CLOSE_TIME;
-    }
-
-    getNextPeriod() {
-        return this._lotterInfo.next.period;
-    }
-
-    getIdentify() {
-        return this._openCaiType.IDENTIFY;
-    }
 }
 
-module.exports = Canada28BonusPool;
+module.exports = Canada28Lottery;
