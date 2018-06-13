@@ -152,10 +152,10 @@ class SSCClient {
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setOrderState');
         resp = JSON.parse(resp);
         if (resp.error) {
-            console.log('cash err=' + JSON.stringify(resp.error));
+            console.log('setOrderState err=' + JSON.stringify(resp.error));
             console.log(resp.error);
         } else {
-            console.log('cash ok');
+            console.log('setOrderState ok');
             console.log(resp.data);
         }
     }
@@ -418,30 +418,32 @@ async function main() {
     });
 // return
     //TODO NEW 转盘抽奖
-    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
-
-    //TODO NEW 充值
-    await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
-    //TODO NEW 提现
-    await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
-    //TODO NEW GM联系信息
-    await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
-
-    //TODO NEW 修改玩家信息
-    await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
-        nickname:'起个新名字试试', //修改昵称
-        figure_url:'2', //修改头像
-    }});
+    // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+    //
+    // //TODO NEW 充值
+    // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
+    // //TODO NEW 提现
+    // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
+    // //TODO NEW GM联系信息
+    // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
+    //
+    // //TODO NEW 修改玩家信息
+    // await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
+    //     nickname:'起个新名字试试', //修改昵称
+    //     figure_url:'2', //修改头像
+    // }});
 
     //TODO NEW php后台调用，确认或者撤销订单
     await client.setOrderState({
         mainType: 'ssc',
         subType: 'hall',
-        token: '4f4a45b44e480d3b4ba80ea61a9b9ec6b0dbed1794f2d1f5642489c79f7c19ce',
-        state: 2,
+        token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
+        state: 3,
         operator: 'admin',
-        id: 1
+        id: 2
     });
+
+    return;
 
     await client.enterGame('ssc', 'canada28');
     // await client.enterGame('ssc', 'lucky28');

@@ -83,6 +83,10 @@ class AccountHelper {
     }
 
     async getAccount(uid, fields) {
+        if(typeof fields == 'string'){
+            fields = [fields];
+        }
+
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;
         }

@@ -595,7 +595,7 @@ const _errorObj = {
     },
     TOKEN_INVALID: {
         code: _errorCode.TOKEN_INVALID,
-        msg: i18n.TOKEN_INVALID[lan]
+        msg: 'Token无效'
     },
     DB_ERR: {
         code: _errorCode.DB_ERR,

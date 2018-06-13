@@ -103,15 +103,20 @@ class Hall extends EventEmitter{
         }
 
         let order = rows[0];
+
+        if(order.state != 1){
+            return;
+        }
+
         let account = await models.account.helper.getAccount(order.uid, models.account.fieldConst.MONEY);
         if(data.state == 2){ //确认
             if(order.type == 1){ //充值
-                account.money = order.num;
+                account.money = order.money;
                 await account.commit();
             }
         }else if(data.state == 3){
             if(order.type == 2){ //提现
-                account.money = order.num;
+                account.money = order.money;
                 await account.commit();
             }
         }
