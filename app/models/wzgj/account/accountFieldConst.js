@@ -16,6 +16,8 @@ module.exports ={
    ROLE:'role',
    FIGURE_URL:'figure_url',
    TEST:'test',
+   NEW_USER_DRAW:'new_user_draw',
+   DAILY_DRAW:'daily_draw',
    RANK_NAME:'rank_name',
    MONEY:'money',
    LEVEL:'level',

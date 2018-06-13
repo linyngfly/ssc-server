@@ -37,6 +37,11 @@ class Turntable {
             award: 0,
         };
 
+        let balance = await redisConnector.get(this._bonus_pool_key);
+        if (balance <= 0) {
+            return resp;
+        }
+
         let account = data.account;
         if(account.new_user_draw == 1){
             account.new_user_draw = 0;
@@ -48,11 +53,6 @@ class Turntable {
             }else{
                 throw ERROR_OBJ.TURNTABLE_DRAW_CONDITION;
             }
-        }
-
-        let balance = await redisConnector.get(this._bonus_pool_key);
-        if (balance <= 0) {
-            return resp;
         }
 
         let money = this._randomGetAward(this._award);
@@ -83,12 +83,12 @@ class Turntable {
         let periodCount = 0;
         let cur = new Date();
         cur = cur.zeroTime();
-        let rows = await mysqlConnector.query('SELECT COUNT(*) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=?', [uid, cur.format()]);
+        let rows = await mysqlConnector.query('SELECT COUNT(distinct period) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=?', [uid, cur.format()]);
         if(rows && rows[0]){
             periodCount = rows[0].periodCount;
         }
 
-        logger.error(`玩家${uid}今日抽奖次数${periodCount}`);
+        logger.error(`玩家${uid}投注期数${periodCount}`);
         return periodCount;
     }
 

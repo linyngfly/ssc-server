@@ -403,22 +403,22 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
 //     await client.register({
-//         username: '18602432396',
+//         username: '18612432396',
 //         password: '123654',
 //             code: '1243',
-//         nickname: '咸鱼也有梦3',
+//         nickname: '咸鱼也有梦11',
 //     });
 // return;
 
     console.time('111');
 
     await client.login({
-        username: '18602432396',
+        username: '18612432396',
         password: '123654'
     });
 // return
     //TODO NEW 转盘抽奖
-    // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
     //
     // //TODO NEW 充值
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
@@ -434,14 +434,14 @@ async function main() {
     // }});
 
     //TODO NEW php后台调用，确认或者撤销订单
-    await client.setOrderState({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
-        state: 3,
-        operator: 'admin',
-        id: 2
-    });
+    // await client.setOrderState({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
+    //     state: 3,
+    //     operator: 'admin',
+    //     id: 2
+    // });
 
     return;
 

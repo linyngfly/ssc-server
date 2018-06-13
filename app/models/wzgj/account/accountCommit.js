@@ -105,6 +105,18 @@ class AccountCommit extends Commit {
     get test() {
         return this._value('test');
     }
+	set new_user_draw(value) {
+        this._modify('new_user_draw', value);
+    }
+    get new_user_draw() {
+        return this._value('new_user_draw');
+    }
+	set daily_draw(value) {
+        this._modify('daily_draw', value);
+    }
+    get daily_draw() {
+        return this._value('daily_draw');
+    }
 	set rank_name(value) {
         this._modify('rank_name', value);
     }
