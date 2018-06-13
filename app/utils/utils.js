@@ -5,15 +5,15 @@ let utils = module.exports;
 
 // 返回当前的时间戳，单位是秒
 utils.timestamp = function timestamp() {
-    var date = new Date();
-    var time = Date.parse(date); // 1970到现在过去的毫秒数
+    let date = new Date();
+    let time = Date.parse(date); // 1970到现在过去的毫秒数
     time = time / 1000;
     return time;
 };
 
 // 时间戳是秒，Date是毫秒
 utils.timestamp2date = function timestamp2date(time) {
-    var date = new Date();
+    let date = new Date();
     date.setTime(time * 1000); //
 
     return [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()];
@@ -21,54 +21,58 @@ utils.timestamp2date = function timestamp2date(time) {
 
 // "2017-06-28 18:00:00"
 utils.date2timestamp = function date2timestamp(strtime) {
-    var date = new Date(strtime.replace(/-/g, '/'));
-    var time = Date.parse(date);
+    let date = new Date(strtime.replace(/-/g, '/'));
+    let time = Date.parse(date);
     return (time / 1000);
 };
 
 // 今天00:00:00的时间戳
 utils.timestamp_today = function timestamp_today() {
-    var date = new Date();
+    let date = new Date();
     date.setHours(0);
     date.setMinutes(0);
     date.setSeconds(0);
 
-    var time = Date.parse(date); // 1970到现在过去的毫秒数
+    let time = Date.parse(date); // 1970到现在过去的毫秒数
     time = time / 1000;
     return time;
 };
 
+/**
+ * 获取昨日0点时间戳
+ * @returns {number}
+ */
 utils.timestamp_yesterday = function timestamp_yesterday() {
-    var time = utils.timestamp_today();
+    let time = utils.timestamp_today();
     return (time - 24 * 60 * 60);
 };
 
 utils.base64_encode = function base64_encode(content) {
-    var buf = new Buffer(content);
-    var base64 = buf.toString("base64");
+    let buf = new Buffer(content);
+    let base64 = buf.toString("base64");
 
     return base64;
 };
 
 utils.base64_decode = function base64_decode(base64_str) {
-    var buf = new Buffer(base64_str, "base64");
+    let buf = new Buffer(base64_str, "base64");
     return buf;
 };
 
 utils.md5 = function md5(data) {
-    var md5 = crypto.createHash("md5");
+    let md5 = crypto.createHash("md5");
     md5.update(data);
     return md5.digest('hex');
 };
 
 utils.sha1 = function sha1(data) {
-    var sha1 = crypto.createHash("sha1");
+    let sha1 = crypto.createHash("sha1");
     sha1.update(data);
     return sha1.digest('hex');
 };
 
-// control variable of func "myPrint"
-var isPrintFlag = false;
+// control letiable of func "myPrint"
+let isPrintFlag = false;
 
 /**
  * Check and invoke callback function
@@ -84,8 +88,8 @@ utils.size = function (obj) {
         return 0;
     }
 
-    var size = 0;
-    for (var f in obj) {
+    let size = 0;
+    for (let f in obj) {
         if (obj.hasOwnProperty(f)) {
             size++;
         }
@@ -96,13 +100,13 @@ utils.size = function (obj) {
 
 // print the file name and the line number ~ begin
 function getStack() {
-    var orig = Error.prepareStackTrace;
+    let orig = Error.prepareStackTrace;
     Error.prepareStackTrace = function (_, stack) {
         return stack;
     };
-    var err = new Error();
+    let err = new Error();
     Error.captureStackTrace(err, arguments.callee);
-    var stack = err.stack;
+    let stack = err.stack;
     Error.prepareStackTrace = orig;
     return stack;
 }
@@ -117,13 +121,13 @@ function getLineNumber(stack) {
 
 utils.myPrint = function () {
     if (isPrintFlag) {
-        var len = arguments.length;
+        let len = arguments.length;
         if (len <= 0) {
             return;
         }
-        var stack = getStack();
-        var aimStr = '\'' + getFileName(stack) + '\' @' + getLineNumber(stack) + ' :\n';
-        for (var i = 0; i < len; ++i) {
+        let stack = getStack();
+        let aimStr = '\'' + getFileName(stack) + '\' @' + getLineNumber(stack) + ' :\n';
+        for (let i = 0; i < len; ++i) {
             aimStr += arguments[i] + ' ';
         }
         logger.info('\n' + aimStr);
@@ -133,29 +137,29 @@ utils.myPrint = function () {
 
 
 utils.random_string = function (len) {
-    var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
 
-    var maxPos = $chars.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
+    let maxPos = $chars.length;
+    let str = '';
+    for (let i = 0; i < len; i++) {
         str += $chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return str;
 };
 
 utils.random_int_str = function (len) {
-    var $chars = '0123456789';
+    let $chars = '0123456789';
 
-    var maxPos = $chars.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
+    let maxPos = $chars.length;
+    let str = '';
+    for (let i = 0; i < len; i++) {
         str += $chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return str;
 };
 
 utils.random_int = function (begin, end) {
-    var num = begin + Math.random() * (end - begin + 1);
+    let num = begin + Math.random() * (end - begin + 1);
     num = Math.floor(num);
     if (num > end) {
         num = end;
@@ -239,7 +243,7 @@ Date.prototype.getStamp = function () {
 
 // 设置当天的时间,支持小数,比如setFloatTime(10.5, 0, 0)即为设置为10点半
 Date.prototype.setFloatTime = function (hour, minute, second) {
-    var totalMinutes = Math.ceil(hour * 3600 + minute * 60 + second);
+    let totalMinutes = Math.ceil(hour * 3600 + minute * 60 + second);
     hour = Math.floor(totalMinutes / 3600);
     totalMinutes = totalMinutes % 3600;
     minute = Math.floor(totalMinutes / 60);
@@ -260,7 +264,7 @@ Date.prototype.zeroTime = function () {
  * 周一0点
  */
 Date.prototype.zeroWeek = function () {
-    var weekDay = this.getDay();
+    let weekDay = this.getDay();
     if (weekDay == 0) {
         weekDay = 7;
     }

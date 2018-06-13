@@ -13,11 +13,11 @@ module.exports = {
         API: `${PREFIX}switch:api`, //api开关
     },
 
-    CONFIG:{
-        BET_LIMIT:`${PREFIX}config:%s:bet_limit`, //投注限制
-        BET_RATE:`${PREFIX}config:%s:bet_rate`, //投注赔率
-        TURNTABLE_BONUS_POOL:`${PREFIX}config:%s:turntable_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
-        TURNTABLE_AWARD:`${PREFIX}config:%s:turntable_award`,  //转盘奖金比例配置
+    CONFIG: {
+        BET_LIMIT: `${PREFIX}config:%s:bet_limit`, //投注限制
+        BET_RATE: `${PREFIX}config:%s:bet_rate`, //投注赔率
+        TURNTABLE_BONUS_POOL: `${PREFIX}config:%s:turntable_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
+        TURNTABLE_AWARD: `${PREFIX}config:%s:turntable_award`,  //转盘奖金比例配置
     },
 
     DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,
@@ -46,9 +46,7 @@ module.exports = {
     //角色定义
     ROLE: {
         PLAYER: 0, //玩家
-        AGENT1: 1, //一级代理商
-        AGENT2: 2, //二级代理商
-        TEST: 3, //体验用户
+        AGENT: 1, //拉手
     },
 
     //头像id(1~6)
@@ -74,7 +72,7 @@ module.exports = {
         LOTTERY: 2, //开奖
         EXCHANGE: 3, //兑换
         TURNTABLE: 4, //转盘抽奖
-        INCOME:5, //玩家反水
-        AGENT_INCOME:6, //上下级反水
+        INCOME: 5, //玩家反水
+        AGENT_INCOME: 6, //上下级反水
     }
 };
