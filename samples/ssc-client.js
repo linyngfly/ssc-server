@@ -3,6 +3,8 @@ const OmeloClient = require('./omelo-wsclient/omeloClient');
 
 // const GAME_HOST = 'http://39.108.166.240:4002';
 const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://39.108.166.240:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
 // const GATE_HOST = 'http://39.108.166.240:3002';
 const GATE_HOST = 'http://127.0.0.1:3002';
 // const GAME_IP = "39.108.166.240";
@@ -300,6 +302,18 @@ class SSCClient {
             console.info('c_myBetOrder ok resp=', resp);
         } catch (err) {
             console.info('c_myBetOrder fail err=', err);
+        }
+    }
+
+    async uploadAudo(){
+        let resp = await httpclient.postData(data, AUDIO_HOST + '/resource/clientApi/uploadAudio');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('uploadAudo err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('uploadAudo ok');
+            console.log(resp.data);
         }
     }
 
