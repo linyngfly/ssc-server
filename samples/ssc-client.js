@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://39.108.166.240:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://39.108.166.240:3102';
-const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://39.108.166.240:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "39.108.166.240";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://39.108.166.240:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const AUDIO_HOST = 'http://39.108.166.240:3102';
+// const AUDIO_HOST = 'http://127.0.0.1:3102';
+const GATE_HOST = 'http://39.108.166.240:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "39.108.166.240";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -46,7 +46,7 @@ class SSCClient {
     }
 
     onCountdown(msg) {
-        // console.info('onCountdown msg=', JSON.stringify(msg));
+        console.info('onCountdown msg=', JSON.stringify(msg));
     }
 
     onBetResult(msg) {
@@ -403,12 +403,13 @@ async function main() {
     console.time('111');
 
     await client.login({
-        username: '18602432393',
+        username: '18602432396',
         password: '123654'
     });
 // return
     //TODO NEW 转盘抽奖
     await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+
     //TODO NEW 充值
     await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
     //TODO NEW 提现
@@ -432,8 +433,8 @@ async function main() {
         id: 1
     });
 
-    // await client.enterGame('ssc', 'canada28');
-    await client.enterGame('ssc', 'lucky28');
+    await client.enterGame('ssc', 'canada28');
+    // await client.enterGame('ssc', 'lucky28');
 
     //TODO NEW 获取投个人注历史
     await client.myBetResult({
