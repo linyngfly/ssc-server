@@ -74,5 +74,7 @@ module.exports = {
         LOTTERY: 2, //开奖
         EXCHANGE: 3, //兑换
         TURNTABLE: 4, //转盘抽奖
+        INCOME:5, //玩家反水
+        AGENT_INCOME:6, //上下级反水
     }
 };

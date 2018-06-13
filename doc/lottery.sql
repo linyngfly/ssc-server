@@ -133,3 +133,36 @@ IF NOT EXISTS `tbl_money_log` (
   PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
+# ------------------------------------------------------------
+# Dump of table tbl_player_income(玩家投注反水信息)
+# ------------------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS `tbl_player_income` (
+	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
+	`betMoney` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注金额',
+	`incomeMoney` BIGINT (20) NOT NULL COMMENT '盈亏金额',
+	`defectionRate` FLOAT (6, 2) NOT NULL COMMENT '反水比例',
+	`defectionMoney` DECIMAL (20, 2) NOT NULL COMMENT '反水金額',
+	`winRate` FLOAT (6, 2) NOT NULL COMMENT '胜率',
+	`incomeTime` BIGINT (20) UNSIGNED NOT NULL COMMENT '反水日期',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
+# ------------------------------------------------------------
+# Dump of table tbl_agent_income(代理投注反水信息)
+# ------------------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS `tbl_agent_income` (
+	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uid` BIGINT (20) UNSIGNED NOT NULL COMMENT '用户ID',
+	`betMoney` BIGINT (20) UNSIGNED NOT NULL COMMENT '投注金额',
+	`incomeMoney` BIGINT (20) NOT NULL COMMENT '盈亏金额',
+	`rebateRate` FLOAT (6, 2) NOT NULL COMMENT '分成比例',
+	`rebateMoney` DECIMAL (20, 2) NOT NULL COMMENT '分成金额',
+	`upperRebateRate` FLOAT (6, 2) NOT NULL COMMENT '上级分成比例',
+	`upperRebateMoney` DECIMAL (20, 2) NOT NULL COMMENT '上级分成金额',
+	`incomeTime` BIGINT (20) UNSIGNED NOT NULL COMMENT '分成日期',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
