@@ -1,12 +1,12 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://39.108.166.240:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const GATE_HOST = 'http://39.108.166.240:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "39.108.166.240";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://39.108.166.240:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const GATE_HOST = 'http://39.108.166.240:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "39.108.166.240";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -379,17 +379,17 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
 //     await client.register({
-//         username: '18602432393',
+//         username: '18602432394',
 //         password: '123654',
-    //         code: '1243',
-//         nickname: '咸鱼也有梦',
+//             code: '1243',
+//         nickname: '咸鱼也有梦1',
 //     });
 // return;
 
     console.time('111');
 
     await client.login({
-        username: '18602432393',
+        username: '18602432394',
         password: '123654'
     });
 // return
@@ -418,6 +418,7 @@ async function main() {
         id: 1
     });
 
+    // await client.enterGame('ssc', 'canada28');
     await client.enterGame('ssc', 'lucky28');
 
     //TODO NEW 获取投个人注历史

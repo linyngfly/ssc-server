@@ -58,7 +58,7 @@ class SSC {
         let self = this;
 
         this._lottery.on(config.LOTTERY_EVENT.TICK_COUNT, (dt) => {
-            logger.error('开奖倒计时=', dt, self._hallName);
+            logger.error(this._gameIdentify + ' 开奖倒计时=', dt, self._hallName);
             self.broadcast(sscCmd.push.countdown.route, {
                 dt: dt,
             });
