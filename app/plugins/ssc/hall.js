@@ -2,6 +2,7 @@ const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const models = require('../../models');
 const Token = require('../../utils/token');
 const config = require('./config');
+const schedule = require('node-schedule');
 const EventEmitter = require('events').EventEmitter;
 // ip:116.31.100.75
 // ip:119.63.35.75
@@ -13,6 +14,7 @@ class Hall extends EventEmitter{
     constructor(){
         super();
         this._adminToken = null;
+        this._schedule = null;
     }
 
     async loadConfig(){
@@ -37,10 +39,21 @@ class Hall extends EventEmitter{
     async start() {
         await this.loadConfig();
         await this._updateAdminToken();
+
+        let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
+        let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
+        this._schedule = schedule.scheduleJob(cron_time, async function () {
+            await this._updateAdminToken();
+        }.bind(this));
+
         logger.error('Hall start');
     }
 
     async stop() {
+        if (this._schedule) {
+            this._schedule.cancel();
+            this._schedule = null;
+        }
         logger.error('Hall stop');
     }
 

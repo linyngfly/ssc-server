@@ -48,6 +48,7 @@ class SSC {
         this._lottery = opts.lottery;
         this._betLimitRate = opts.betLimitRate;
         this._playerMap = new Map();
+        this._schedule = null;
     }
 
     async start() {
@@ -93,6 +94,12 @@ class SSC {
         }.bind(this));
 
         this._lottery.start();
+
+        let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
+        let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
+        this._schedule = schedule.scheduleJob(cron_time, async function () {
+            await this._betLimitRate.resetConfig();
+        }.bind(this));
     }
 
     stop() {
@@ -100,6 +107,11 @@ class SSC {
         if (this._msgChannel) {
             this._msgChannel.destroy();
             this._msgChannel = null;
+        }
+
+        if (this._schedule) {
+            this._schedule.cancel();
+            this._schedule = null;
         }
     }
 
