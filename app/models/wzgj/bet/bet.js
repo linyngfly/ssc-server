@@ -8,10 +8,6 @@ class Bet extends BetCommit{
         this._id = id;
     }
 
-    get uid() {
-        return Number(this._id);
-    }
-
     getId(){
         return this._id;
     }

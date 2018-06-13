@@ -392,18 +392,18 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-    await client.register({
-        username: '18602432396',
-        password: '123654',
-            code: '1243',
-        nickname: '咸鱼也有梦3',
-    });
-return;
+//     await client.register({
+//         username: '18602432396',
+//         password: '123654',
+//             code: '1243',
+//         nickname: '咸鱼也有梦3',
+//     });
+// return;
 
     console.time('111');
 
     await client.login({
-        username: '18602432394',
+        username: '18602432393',
         password: '123654'
     });
 // return
@@ -446,7 +446,7 @@ return;
     await client.bet('大单100');
     await client.bet('小50');
     await client.bet('小双50');
-    await client.bet('豹子10000');
+    await client.bet('豹子100');
     await client.bet('对子100');
 
 
