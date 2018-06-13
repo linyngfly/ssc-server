@@ -3,15 +3,7 @@ const util = require('util');
 const config = require('./config');
 const httpclient = require('../../net/httpclient');
 
-/**
- * 北京快乐8
- * 开奖20位数字：04,06,09,10,15,20,26,31,33,34,40,45,54,65,69,74,75,76,77,79
- *              07,12,13,14,19,26,32,34,36,37,42,45,51,55,59,64,68,69,71,72+02
- * 按大小排列
- * 1~6位相加和值末位数作为幸运28第一个数字
- * 7~12 第二个数字
- * 13~18第三个数字
- */
+
 
 
 /**
@@ -46,7 +38,64 @@ class OpenCaiNetApi {
         return sdkData;
     }
 
-    _convertTo3Ball(opencode) {
+    _convertTo3Ball(identify, opencode) {
+        let result = null;
+        switch (identify){
+            case config.OPEN_CAI_TYPE.BJKL8.IDENTIFY:
+                result = this._lucky28ConvertTo3Ball(opencode);
+                break;
+            case config.OPEN_CAI_TYPE.CAKENO.IDENTIFY:
+                result = this._canada28ConvertTo3Ball(opencode);
+                break;
+            default:
+                result = opencode;
+                break;
+        }
+
+        return result;
+    }
+
+    /**
+     * 北京快乐8 转 幸运28
+     * 开奖20位数字：04,06,09,10,15,20,26,31,33,34,40,45,54,65,69,74,75,76,77,79
+     *              07,12,13,14,19,26,32,34,36,37,42,45,51,55,59,64,68,69,71,72+02
+     * 按大小排列
+     * 1~6位相加和值末位数作为幸运28第一个数字
+     * 7~12 第二个数字
+     * 13~18第三个数字
+     */
+
+    _lucky28ConvertTo3Ball(opencode) {
+        let idx = opencode.indexOf('+');
+        let numbers = opencode.substring(0, idx);
+        numbers = numbers.split(',');
+        numbers = numbers.sort((a, b) => {
+            return a > b ? 1 : -1;
+        });
+        let newNumbers = [];
+
+        let total = 0;
+        for(let i=0; i<6; i++){
+            total += numbers[i];
+        }
+        newNumbers.push(total % 10);
+        total = 0;
+
+        for(let i=6; i<12; i++){
+            total += numbers[i];
+        }
+        newNumbers.push(total % 10);
+        total = 0;
+
+        for(let i=12; i<18; i++){
+            total += numbers[i];
+        }
+
+        newNumbers.push(total % 10);
+        return newNumbers.join(',');
+    }
+
+    _canada28ConvertTo3Ball(opencode) {
         let idx = opencode.indexOf('+');
         let numbers = opencode.substring(0, idx);
         numbers = numbers.split(',');
@@ -101,13 +150,13 @@ class OpenCaiNetApi {
                 lotteryInfo.last = {
                     period: Number(infos[0].expect),
                     opentime: infos[0].opentime,
-                    numbers: this._convertTo3Ball(infos[0].opencode)
+                    numbers: this._convertTo3Ball(type.IDENTIFY, infos[0].opencode)
                 };
 
                 lotteryInfo.pre = {
                     period: Number(infos[1].expect),
                     opentime: infos[1].opentime,
-                    numbers: this._convertTo3Ball(infos[1].opencode)
+                    numbers: this._convertTo3Ball(type.IDENTIFY, infos[1].opencode)
                 };
 
                 logger.error('lotteryInfo=', lotteryInfo);
