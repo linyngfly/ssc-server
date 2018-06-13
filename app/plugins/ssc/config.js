@@ -341,5 +341,7 @@ module.exports = {
             {rate:0.04, money:18.88},
         ],
         TOTAL:10000,
+
+        DRAW_CONDITION: 10,
     }
 };

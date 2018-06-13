@@ -23,6 +23,8 @@ const _errorCode = {
     BET_PERIOD_OVERLOAD_LIMIT: 10018, //本期投注金额超过最高限额
     PLAYER_FIELD_CANNOT_MODIFY: 10019, //该玩家字段只读
     PLAYER_FORBID_TALK: 10020, //你已被禁言
+    TURNTABLE_DRAW_COUNT_ZERO: 10021, //今日抽奖已经用完
+    TURNTABLE_DRAW_CONDITION: 10022, //今日抽奖条件未达成，继续投注
 };
 
 for (let item in ERROR_CODE) {
@@ -116,6 +118,14 @@ const _errorObj = {
     PLAYER_FORBID_TALK: {
         msg: `你已被禁言`,
         code: _errorCode.PLAYER_FORBID_TALK,
+    },
+    TURNTABLE_DRAW_COUNT_ZERO: {
+        msg: `今日抽奖已经用完`,
+        code: _errorCode.TURNTABLE_DRAW_COUNT_ZERO,
+    },
+    TURNTABLE_DRAW_CONDITION: {
+        msg: `今日抽奖条件未达成，继续投注`,
+        code: _errorCode.TURNTABLE_DRAW_CONDITION,
     },
 
 };

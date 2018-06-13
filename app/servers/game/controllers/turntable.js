@@ -12,3 +12,11 @@ async function turntable_draw(data) {
         return logicResponse.ask(result);
     }
 }
+
+async function getDrawState(data) {
+    let game = omelo.app.entry.getGame(data.mainType, data.subType);
+    if(game){
+        let result = await game.getDrawState(data);
+        return logicResponse.ask(result);
+    }
+}
