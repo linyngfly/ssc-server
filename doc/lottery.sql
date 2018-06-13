@@ -50,10 +50,7 @@ IF NOT EXISTS `tbl_bank` (
   `zhifubao` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',
   `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码',
   `bind_card_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '绑卡时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `bank_card_UNIQUE` (`bank_card`) USING BTREE,
-  UNIQUE KEY `weixin_UNIQUE` (`weixin`) USING BTREE,
-  UNIQUE KEY `zhifubao_UNIQUE` (`zhifubao`) USING BTREE
+  PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 # ------------------------------------------------------------

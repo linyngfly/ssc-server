@@ -378,13 +378,13 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-//     await client.register({
-//         username: '18602432394',
-//         password: '123654',
-//             code: '1243',
-//         nickname: '咸鱼也有梦1',
-//     });
-// return;
+    await client.register({
+        username: '18602432396',
+        password: '123654',
+            code: '1243',
+        nickname: '咸鱼也有梦3',
+    });
+return;
 
     console.time('111');
 
