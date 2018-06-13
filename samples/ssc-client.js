@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://39.108.166.240:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const AUDIO_HOST = 'http://39.108.166.240:3102';
-// const AUDIO_HOST = 'http://127.0.0.1:3102';
-const GATE_HOST = 'http://39.108.166.240:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "39.108.166.240";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://39.108.166.240:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://39.108.166.240:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
+// const GATE_HOST = 'http://39.108.166.240:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "39.108.166.240";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -24,12 +24,22 @@ class SSCClient {
     }
 
     _listen() {
+        this._client.on('s_enter', this.onEnter.bind(this));
+        this._client.on('s_leave', this.onLeave.bind(this));
         this._client.on('s_bet', this.onBet.bind(this));
         this._client.on('s_unBet', this.onUnBet.bind(this));
         this._client.on('s_chat', this.onChat.bind(this));
         this._client.on('s_countdown', this.onCountdown.bind(this));
         this._client.on('s_betResult', this.onBetResult.bind(this));
         this._client.on('s_openLottery', this.onOpenLottery.bind(this));
+    }
+
+    onEnter(msg) {
+        console.info('onEnter msg=', JSON.stringify(msg));
+    }
+
+    onLeave(msg) {
+        console.info('onLeave msg=', JSON.stringify(msg));
     }
 
     onBet(msg) {

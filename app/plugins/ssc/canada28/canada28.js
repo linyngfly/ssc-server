@@ -16,7 +16,7 @@ const Canada28LimitRate = require('./canada28LimitRate');
 class Canada28 extends SSC {
     constructor() {
         super({
-            gameIdentify: config.LUCKY28.GAME_IDENTIFY,
+            gameIdentify: config.CANADA28.GAME_IDENTIFY,
             hallName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser: new SSC28BetParser(),
             lottery: new Canada28Lottery({
@@ -40,13 +40,17 @@ class Canada28 extends SSC {
         let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
         let openResult = openAwardCalc.calc();
         for (let player of this._playerMap.values()) {
-            await player.openAward(last.period, last.numbers, openResult);
+            await player.openAward(last.period, last.numbers, last.opentime, openResult);
+            if(player.canRemove()){
+                this._playerMap.delete(player.uid);
+            }
         }
+        return openResult;
     }
 
     async _createPlayer(uid, sid) {
         let account = await models.account.helper.getAccount(uid);
-        return new Canada28Player({uid: uid, sid: sid, account: account});
+        return new Canada28Player({uid: uid, sid: sid, account: account, limitRate:this._betLimitRate});
     }
 
 

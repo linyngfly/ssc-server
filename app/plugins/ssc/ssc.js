@@ -87,7 +87,7 @@ class SSC {
             let player = this._playerMap.get(event.uid);
             if (player) {
                 let fields = event.fields;
-                for(let key in fields){
+                for (let key in fields) {
                     player.account[key] = fields[key];
                 }
             }
@@ -130,29 +130,35 @@ class SSC {
     }
 
     async enter(msg) {
+        logger.error('玩家加入游戏', this._gameIdentify);
         let player = this._playerMap.get(msg.uid);
         if (player) {
-            player.state = constants.PLAYER_STATE.ONLINE;
+            this._updatePlayerState(player, constants.PLAYER_STATE.ONLINE);
             return;
         }
         player = await this._createPlayer(msg.uid, msg.sid);
         this._addPlayer(player);
+
+        this.broadcast(sscCmd.push.enter.route, {nickname: player.account.nickname});
     }
 
     leave(msg) {
+        logger.error('玩家加入游戏', this._gameIdentify);
         let player = this._playerMap.get(msg.uid);
         if (!player.isBet()) {
             this._delPlayer(player);
         } else {
-            player.state = constants.PLAYER_STATE.OFFLINE;
+            this._updatePlayerState(player, constants.PLAYER_STATE.OFFLINE);
         }
+        this.broadcast(sscCmd.push.leave.route, {nickname: player.account.nickname});
     }
 
     isInGameHall(uid) {
         return this._playerMap.has(uid);
     }
 
-    async _createPlayer(uid, sid) {}
+    async _createPlayer(uid, sid) {
+    }
 
     _addPlayer(player) {
         this.addEvent(player);
@@ -165,10 +171,19 @@ class SSC {
         this._playerMap.delete(player.uid);
     }
 
+    _updatePlayerState(player, state) {
+        player.state = state;
+        if (state == constants.PLAYER_STATE.OFFLINE) {
+            this.leaveMsgChannel(player.msgId);
+        } else if (state == constants.PLAYER_STATE.ONLINE) {
+            this.addMsgChannel(player.msgId);
+        }
+    }
+
     setPlayerState(uid, state) {
         let player = this._playerMap.get(uid);
         if (player) {
-            player.state = state;
+            this._updatePlayerState(player, state);
         }
     }
 
@@ -220,9 +235,9 @@ class SSC {
         let bets = [];
         let sql = `SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and a.identify=b.identify WHERE a.identify=? and a.uid=? LIMIT ?,?`;
         let rows = await mysqlConnector.query(sql, [this._gameIdentify, msg.uid, msg.skip, msg.limit]);
-        logger.error('c_myBetResult sql=',sql);
-        logger.error('c_myBetResult rows=',rows);
-        logger.error('c_myBetResult values=',[this._gameIdentify, msg.uid, msg.skip, msg.limit]);
+        logger.error('c_myBetResult sql=', sql);
+        logger.error('c_myBetResult rows=', rows);
+        logger.error('c_myBetResult values=', [this._gameIdentify, msg.uid, msg.skip, msg.limit]);
         if (rows && rows.length > 0) {
             for (let i = 0; i < rows.length; i++) {
                 let item = rows[i];
@@ -310,16 +325,16 @@ class SSC {
     }
 
     addMsgChannel({
-        uid,
-        sid
-    }) {
+                      uid,
+                      sid
+                  }) {
         this._msgChannel.add(this._hallName, uid, sid);
     }
 
     leaveMsgChannel({
-        uid,
-        sid
-    }) {
+                        uid,
+                        sid
+                    }) {
         this._msgChannel.leave(this._hallName, uid, sid);
     }
 
@@ -341,7 +356,8 @@ class SSC {
     //     }
     // }
 
-    async _openAward(last) {}
+    async _openAward(last) {
+    }
 
 
 }

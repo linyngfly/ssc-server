@@ -127,6 +127,20 @@ class SSCCmd extends Cmd {
     initPush() {
         super.initPush();
 
+        this._push.enter = {
+            route: 's_enter',
+            msg: {
+                nickname:'咸鱼也有梦'
+            },
+        };
+
+        this._push.leave = {
+            route: 's_leave',
+            msg: {
+                nickname:'咸鱼也有梦'
+            },
+        };
+
         this._push.bet = {
             route: 's_bet',
             msg: {
