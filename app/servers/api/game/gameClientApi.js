@@ -21,8 +21,22 @@ const api_list = {
     },
 
     setOrderState: {
-        route: '/setOrderState', //转盘抽奖
+        route: '/setOrderState', //修改订单状态
         handler: GM.setOrderState,
+        params: [],
+        accountFields: []
+    },
+
+    getBroadcast: {
+        route: '/getBroadcast', //获取系统公告
+        handler: GM.getBroadcast,
+        params: [],
+        accountFields: []
+    },
+
+    setBroadcast: {
+        route: '/getBroadcast', //后台设置系统公告
+        handler: GM.setBroadcast,
         params: [],
         accountFields: []
     },
@@ -72,7 +86,8 @@ const api_list = {
         handler: turntable.getDrawState,
         params: [],
         accountFields: []
-    }
+    },
+
 };
 
 module.exports = {

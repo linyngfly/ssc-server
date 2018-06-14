@@ -170,6 +170,13 @@ class SSCCmd extends Cmd {
             },
         };
 
+        this._push.broadcast = {
+            route: 's_broadcast',
+            msg: {
+                content:'欢迎你的加入，谢谢'
+            },
+        };
+
         this._push.countdown = {
             route: 's_countdown',
             msg: {

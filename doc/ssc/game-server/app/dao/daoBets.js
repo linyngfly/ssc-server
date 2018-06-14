@@ -369,7 +369,8 @@ DaoBets.prototype.refund = function (period,cb){
 
 // 获取玩家一天的投注反水基准数据
 DaoBets.prototype.getPlayerBetBaseInfo = function (playerId, beginTime, endTime, cb) {
-    var sql = 'select sum(betMoney) as dayBetMoney, sum(winMoney) as dayWinMoney,sum(betCount) as dayBetCount, sum(winCount) as dayWinCount from Bets where betTime >= ? and betTime <= ? and uid=? and state in(?,?,?)';
+    var sql = 'select sum(betMoney) as dayBetMoney, sum(winMoney) as dayWinMoney,sum(betCount) as dayBetCount, sum(winCount) as dayWinCount ' +
+        'from Bets where betTime >= ? and betTime <= ? and uid=? and state in(?,?,?)';
     var args = [beginTime, endTime, playerId,this.consts.BetState.BET_WIN,this.consts.BetState.BET_LOSE,this.consts.BetState.BET_BACK];
     var self = this;
     pomelo.app.get('dbclient').query(sql, args, function (err, res) {

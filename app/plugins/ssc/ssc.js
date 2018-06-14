@@ -83,7 +83,7 @@ class SSC {
             });
         });
 
-        hall.on(config.HALL_PLAYER_EVENT, function (event) {
+        hall.on(config.HALL_EVENT.PLAYER_CHANGE, function (event) {
             let player = this._playerMap.get(event.uid);
             if (player) {
                 let fields = event.fields;
@@ -233,21 +233,21 @@ class SSC {
         msg.limit = msg.limit || 10;
 
         let bets = [];
-        let sql = `SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and a.identify=b.identify WHERE a.identify=? and a.uid=? LIMIT ?,?`;
+        let sql = 'SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and ' +
+            'a.identify=b.identify WHERE a.identify=? and a.uid=? LIMIT ?,?';
         let rows = await mysqlConnector.query(sql, [this._gameIdentify, msg.uid, msg.skip, msg.limit]);
-        logger.error('c_myBetResult sql=', sql);
-        logger.error('c_myBetResult rows=', rows);
-        logger.error('c_myBetResult values=', [this._gameIdentify, msg.uid, msg.skip, msg.limit]);
         if (rows && rows.length > 0) {
             for (let i = 0; i < rows.length; i++) {
                 let item = rows[i];
                 bets.push({
                     id: item.id,
                     state: item.state,
+                    betMoney: item.betMoney,
                     money: item.winMoney,
+                    betItems: item.betItems,
                     period: item.period,
                     numbers: item.numbers,
-                    opentime: item.opentime,
+                    opentime: item.time,
                     openResult: item.openResult
                 });
             }

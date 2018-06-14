@@ -23,7 +23,11 @@ module.exports = {
         OPEN_AWARD: Symbol('open_award'),
     },
 
-    HALL_PLAYER_EVENT:Symbol('hall_player_event'),
+    HALL_EVENT:{
+        PLAYER_CHANGE:Symbol('hall_event_player_change'),
+        BROADCAST:Symbol('hall_event_broadcast'),
+    },
+
 
     BET_ADVANCE_CLOSE_TIME: 30000, //投注提前关闭时间单位毫秒(ms)
     DES_SEPARATOR: '/',

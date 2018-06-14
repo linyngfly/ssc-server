@@ -159,7 +159,15 @@ class Hall extends EventEmitter{
             }
         }
         await account.commit();
-        this.emit(config.HALL_PLAYER_EVENT, {uid:data.uid, fields:fields});
+        this.emit(config.HALL_EVENT.PLAYER_CHANGE, {uid:data.uid, fields:fields});
+    }
+
+    async getBroadcast(data){
+
+    }
+
+    async setBroadcast(data){
+        this.emit(config.HALL_EVENT.BROADCAST, data);
     }
 }
 
