@@ -148,6 +148,31 @@ class SSCClient {
         }
     }
 
+    async getBankLog(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getBankLog');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getBankLog err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getBankLog ok');
+            console.log(resp.data);
+        }
+    }
+
+
+    async bindPayInfo(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/bindPayInfo');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('bindPayInfo err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('bindPayInfo ok');
+            console.log(resp.data);
+        }
+    }
+
     async setOrderState(data) {
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setOrderState');
         resp = JSON.parse(resp);
@@ -417,14 +442,20 @@ async function main() {
         password: '123654'
     });
 // return
-    //TODO NEW 转盘抽奖
-    await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
-    //
-    // //TODO NEW 充值
+
+    // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
+
+    //TODO NEW 获取账单信息
+    await client.getBankLog({token:client._player.token, mainType:'ssc', subType:'hall', skip:0, limit:5});
+    //绑定支付信息
+
+    //1:支付宝，1：微信，2：银行卡
+    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:'linyngfly@126.com'});
+
+return;
+
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
-    // //TODO NEW 提现
     // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
-    // //TODO NEW GM联系信息
     // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //
     // //TODO NEW 修改玩家信息

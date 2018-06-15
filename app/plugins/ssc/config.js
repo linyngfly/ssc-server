@@ -1,5 +1,5 @@
 module.exports = {
-    TASK:{
+    TASK: {
         /**
          * 配置每日重置
          */
@@ -7,25 +7,39 @@ module.exports = {
             enable: true,
             time: '0,0,0,*,*,*', //每天0点
         },
-        INCOME_DAILY_CALC:{
+        INCOME_DAILY_CALC: {
             enable: true,
             time: '0,0,0,*,*,*', //每天0点
         },
-        ACCOUNT_DAILY_RESET:{
+        ACCOUNT_DAILY_RESET: {
             enable: true,
             time: '0,0,0,*,*,*', //每天0点
         }
 
     },
 
+    //1:支付宝，1：微信，2：银行卡
+    BANK_TYPE:{
+        ALIPAY:1,
+        WECHAT:2,
+        UNION_PAY:3,
+    },
+
+    BANK_FIELD:{
+        '1':'alipay',
+        '2':'wechat',
+        '3':'union_pay',
+    },
+
+
     LOTTERY_EVENT: {
         TICK_COUNT: Symbol('tick_count'),
         OPEN_AWARD: Symbol('open_award'),
     },
 
-    HALL_EVENT:{
-        PLAYER_CHANGE:Symbol('hall_event_player_change'),
-        BROADCAST:Symbol('hall_event_broadcast'),
+    HALL_EVENT: {
+        PLAYER_CHANGE: Symbol('hall_event_player_change'),
+        BROADCAST: Symbol('hall_event_broadcast'),
     },
 
 
@@ -51,17 +65,17 @@ module.exports = {
         }
     },
 
-    CONFIG_TYPE:{
-        BET_LIMIT:'bet_limit',
-        BET_RATE:'bet_rate',
-        TURNTABLE_BONUS_POOL:'turntable_bonus_pool',
-        TURNTABLE_AWARD:'turntable_award',
+    CONFIG_TYPE: {
+        BET_LIMIT: 'bet_limit',
+        BET_RATE: 'bet_rate',
+        TURNTABLE_BONUS_POOL: 'turntable_bonus_pool',
+        TURNTABLE_AWARD: 'turntable_award',
     },
 
     SSC28: {
-        BET_LIMIT_CONFIG_ID:1,
-        BET_RATE_CONFIG_ID:2,
-        TURNTABLE_BONUS_POOL_ID:3,
+        BET_LIMIT_CONFIG_ID: 1,
+        BET_RATE_CONFIG_ID: 2,
+        TURNTABLE_BONUS_POOL_ID: 3,
 
         BET_TYPE: {
             UNKNOWN: 0,
@@ -98,72 +112,72 @@ module.exports = {
             ALL: 'ALL',//总下注额度限制
         },
         BET_TYPE_RATE_DIC: {
-            BIG:'BIG',
-            SMALL:'SMALL',
-            SINGLE:'SINGLE',
-            DOUBLE:'DOUBLE',
-            BIG_SINGLE:'BIG_SINGLE',
-            BIG_DOUBLE:'BIG_DOUBLE',
-            SMALL_SINGLE:'SMALL_SINGLE',
-            SMALL_DOUBLE:'SMALL_DOUBLE',
-            BAO:'BAO',
-            DUI:'DUI',
-            SMALL_SINGLE:'SMALL_SINGLE',
-            SHUN:'SHUN',
-            JI:'JI',
-            NUM:'NUM',
+            BIG: 'BIG',
+            SMALL: 'SMALL',
+            SINGLE: 'SINGLE',
+            DOUBLE: 'DOUBLE',
+            BIG_SINGLE: 'BIG_SINGLE',
+            BIG_DOUBLE: 'BIG_DOUBLE',
+            SMALL_SINGLE: 'SMALL_SINGLE',
+            SMALL_DOUBLE: 'SMALL_DOUBLE',
+            BAO: 'BAO',
+            DUI: 'DUI',
+            SMALL_SINGLE: 'SMALL_SINGLE',
+            SHUN: 'SHUN',
+            JI: 'JI',
+            NUM: 'NUM',
         },
 
-        BET_DIC_INDEX:{
-            '大':0,
-            '小':1,
-            '单':2,
-            '双':3,
+        BET_DIC_INDEX: {
+            '大': 0,
+            '小': 1,
+            '单': 2,
+            '双': 3,
         },
 
-        BET_TYPE_DIC_LINK:{
-            '大':'BIG',
-            '小':'SMALL',
-            '单':'SINGLE',
-            '双':'DOUBLE',
-            '大单':'BIG_SINGLE',
-            '大双':'BIG_DOUBLE',
-            '小单':'SMALL_SINGLE',
-            '小双':'SMALL_DOUBLE',
-            '豹子':'BAO',
-            '对子':'DUI',
-            '小单':'SMALL_SINGLE',
-            '顺子':'SHUN',
-            '极大':'JI',
-            '极小':'JI',
-            '0':'NUM',
-            '1':'NUM',
-            '2':'NUM',
-            '3':'NUM',
-            '4':'NUM',
-            '5':'NUM',
-            '6':'NUM',
-            '7':'NUM',
-            '8':'NUM',
-            '9':'NUM',
-            '10':'NUM',
-            '11':'NUM',
-            '12':'NUM',
-            '13':'NUM',
-            '14':'NUM',
-            '15':'NUM',
-            '16':'NUM',
-            '17':'NUM',
-            '18':'NUM',
-            '19':'NUM',
-            '20':'NUM',
-            '21':'NUM',
-            '22':'NUM',
-            '23':'NUM',
-            '24':'NUM',
-            '25':'NUM',
-            '26':'NUM',
-            '27':'NUM',
+        BET_TYPE_DIC_LINK: {
+            '大': 'BIG',
+            '小': 'SMALL',
+            '单': 'SINGLE',
+            '双': 'DOUBLE',
+            '大单': 'BIG_SINGLE',
+            '大双': 'BIG_DOUBLE',
+            '小单': 'SMALL_SINGLE',
+            '小双': 'SMALL_DOUBLE',
+            '豹子': 'BAO',
+            '对子': 'DUI',
+            '小单': 'SMALL_SINGLE',
+            '顺子': 'SHUN',
+            '极大': 'JI',
+            '极小': 'JI',
+            '0': 'NUM',
+            '1': 'NUM',
+            '2': 'NUM',
+            '3': 'NUM',
+            '4': 'NUM',
+            '5': 'NUM',
+            '6': 'NUM',
+            '7': 'NUM',
+            '8': 'NUM',
+            '9': 'NUM',
+            '10': 'NUM',
+            '11': 'NUM',
+            '12': 'NUM',
+            '13': 'NUM',
+            '14': 'NUM',
+            '15': 'NUM',
+            '16': 'NUM',
+            '17': 'NUM',
+            '18': 'NUM',
+            '19': 'NUM',
+            '20': 'NUM',
+            '21': 'NUM',
+            '22': 'NUM',
+            '23': 'NUM',
+            '24': 'NUM',
+            '25': 'NUM',
+            '26': 'NUM',
+            '27': 'NUM',
         }
 
     },
@@ -201,10 +215,10 @@ module.exports = {
     },
 
     CANADA28: {
-        GAME_IDENTIFY:'canada28',
+        GAME_IDENTIFY: 'canada28',
         MSG_CHANNEL_NAME: 'CANADA28_HALL',
         //投注限制配置
-        BET_LIMIT_CONFIG:{
+        BET_LIMIT_CONFIG: {
             ONE_MIN: 10,  //单注最低
             ONE_MAX: 10000, //单注最高
             NUM: 1000, //单点数字
@@ -217,7 +231,7 @@ module.exports = {
             ALL: 1000000,//总下注额度限制
         },
         //赔率配置
-        BET_RATE_CONFIG:{
+        BET_RATE_CONFIG: {
             BIG: [
                 [[-1, 2000], 1.5],
                 [[2000, 3000], 1.2],
@@ -263,15 +277,15 @@ module.exports = {
             SHUN: 80,
             JI: 20,
             NUM: [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
         },
     },
     LUCKY28: {
-        GAME_IDENTIFY:'lucky28',
+        GAME_IDENTIFY: 'lucky28',
         MSG_CHANNEL_NAME: 'LUCKY28_HALL',
         //投注限制配置
-        BET_LIMIT_CONFIG:{
+        BET_LIMIT_CONFIG: {
             ONE_MIN: 10,  //单注最低
             ONE_MAX: 10000, //单注最高
             NUM: 1000, //单点数字
@@ -284,7 +298,7 @@ module.exports = {
             ALL: 1000000,//总下注额度限制
         },
         //赔率配置
-        BET_RATE_CONFIG:{
+        BET_RATE_CONFIG: {
             BIG: [
                 [[-1, 2000], 1.5],
                 [[2000, 3000], 1.2],
@@ -330,38 +344,38 @@ module.exports = {
             SHUN: 80,
             JI: 20,
             NUM: [
-                0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 27
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
         },
     },
-    TURNTABLE:{
-        GAME_IDENTIFY:'turntable',
+    TURNTABLE: {
+        GAME_IDENTIFY: 'turntable',
 
-        AWARD:[
-            {rate:0.6, money:0},
-            {rate:0.15, money:5.88},
-            {rate:0.12, money:8.88},
-            {rate:0.09, money:16.88},
-            {rate:0.04, money:18.88},
+        AWARD: [
+            {rate: 0.6, money: 0},
+            {rate: 0.15, money: 5.88},
+            {rate: 0.12, money: 8.88},
+            {rate: 0.09, money: 16.88},
+            {rate: 0.04, money: 18.88},
         ],
-        TOTAL:10000,
+        TOTAL: 10000,
 
         DRAW_CONDITION: 10,
     },
     //反水相关配置
-    INCOME:{
-        PLAYER:{ //按天反水
+    INCOME: {
+        PLAYER: { //按天反水
             PERIOD_COUNT: 11,
-            MULTI_RATE:0.15,
-            RANGE:[
+            MULTI_RATE: 0.15,
+            RANGE: [
                 [[500, 999], 0.08],
                 [[1000, 9999], 0.1],
                 [[10000, 49999], 0.12],
                 [[50000, -1], 0.15],
             ]
         },
-        AGENT:{ //按周分成
-            RANGE:[
+        AGENT: { //按周分成
+            RANGE: [
                 [[5000, 9999], 0.1],
                 [[10000, 99999], 0.15],
                 [[100000, 499999], 0.2],

@@ -1,21 +1,18 @@
 const logicResponse = require('../../common/logicResponse');
+const omelo = require('omelo');
 
 class Bank{
 
-    _bindWechat(){
-
+    async bindPayInfo(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = await game.bindPayInfo(data);
+        return logicResponse.ask(result);
     }
 
-    _bindAlipay(){
-
-    }
-
-    _bindCard(){
-
-    }
-
-    async bind(data){
-        return logicResponse.ask(data);
+    async getBankLog(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = await game.getBankLog(data);
+        return logicResponse.ask(result);
     }
 }
 

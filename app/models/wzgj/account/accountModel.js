@@ -168,31 +168,19 @@ module.exports = {
         comment: '扩展数据'
     },
 
-    bank_address: {
-        def: '',
-        type: "string",
-        tbl: 'tbl_bank',
-        comment: '开户行地址'
-    },
-    bank_account: {
-        def: '',
-        type: "string",
-        tbl: 'tbl_bank',
-        comment: '户名'
-    },
-    bank_card: {
-        def: '',
-        type: "string",
+    union_pay: {
+        def: {},
+        type: "object",
         tbl: 'tbl_bank',
         comment: '银行卡号'
     },
-    weixin: {
+    wechat: {
         def: '',
         type: "string",
         tbl: 'tbl_bank',
         comment: '微信'
     },
-    zhifubao: {
+    alipay: {
         def: '',
         type: "string",
         tbl: 'tbl_bank',
@@ -204,11 +192,11 @@ module.exports = {
         tbl: 'tbl_bank',
         comment: '取款密码'
     },
-    bind_card_at: {
+    updated_at: {
         def: '1970-01-02 00:00:00',
         type: "timestamp",
         tbl: 'tbl_bank',
-        comment: '绑卡时间'
+        comment: '最后更新时间'
     }
 };
 let genCode = false;

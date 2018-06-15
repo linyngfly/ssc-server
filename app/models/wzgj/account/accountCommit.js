@@ -159,47 +159,29 @@ class AccountCommit extends Commit {
     get ext() {
         return this._value('ext');
     }
-	set bank_address(value) {
-        this._modify('bank_address', value);
+	set union_pay(value) {
+        this._modify('union_pay', value);
     }
-    get bank_address() {
-        return this._value('bank_address');
+    get union_pay() {
+        return this._value('union_pay');
     }
-	set bank_account(value) {
-        this._modify('bank_account', value);
+	set wechat(value) {
+        this._modify('wechat', value);
     }
-    get bank_account() {
-        return this._value('bank_account');
+    get wechat() {
+        return this._value('wechat');
     }
-	set bank_card(value) {
-        this._modify('bank_card', value);
+	set alipay(value) {
+        this._modify('alipay', value);
     }
-    get bank_card() {
-        return this._value('bank_card');
-    }
-	set weixin(value) {
-        this._modify('weixin', value);
-    }
-    get weixin() {
-        return this._value('weixin');
-    }
-	set zhifubao(value) {
-        this._modify('zhifubao', value);
-    }
-    get zhifubao() {
-        return this._value('zhifubao');
+    get alipay() {
+        return this._value('alipay');
     }
 	set pin_code(value) {
         this._modify('pin_code', value);
     }
     get pin_code() {
         return this._value('pin_code');
-    }
-	set bind_card_at(value) {
-        this._modify('bind_card_at', value);
-    }
-    get bind_card_at() {
-        return this._value('bind_card_at');
     }
 }
 module.exports = AccountCommit;

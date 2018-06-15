@@ -55,9 +55,16 @@ const api_list = {
         accountFields: []
     },
 
-    bindBankInfo: {
-        route: '/bindBankInfo', //绑定银行账户信息
-        handler: bank.bind,
+    bindPayInfo: {
+        route: '/bindPayInfo', //绑定银行账户信息
+        handler: bank.bindPayInfo,
+        params: [],
+        accountFields: []
+    },
+
+    getBankLog: {
+        route: '/getBankLog', //获取金币变化日志
+        handler: bank.getBankLog,
         params: [],
         accountFields: []
     },

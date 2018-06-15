@@ -91,6 +91,21 @@ class Hall extends EventEmitter{
 
     }
 
+    async getBankLog(data){
+        let skip = data.skip || 0;
+        let limit = data.limit || 20;
+        let rows = await mysqlConnector.query('SELECT * FROM tbl_money_log WHERE uid=? ORDER BY created_at DESC LIMIT ?,?',
+            [data.uid, skip, limit]);
+
+        return rows || [];
+    }
+
+    async bindPayInfo(data){
+        let account = data.account;
+        account[config.BANK_FIELD[data.type]] = data.info;
+        await account.commit();
+    }
+
     async setOrderState(data){
         if(data.token !== this._adminToken){
             throw ERROR_OBJ.TOKEN_INVALID;
