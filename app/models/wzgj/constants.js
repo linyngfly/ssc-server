@@ -68,11 +68,14 @@ module.exports = {
     },
 
     GAME_SCENE: {
-        BET: 1, //投注
-        LOTTERY: 2, //开奖
-        EXCHANGE: 3, //兑换
+        BET: 1, //下注
+        UNBET: 2, //撤销
+        LOTTERY: 3, //开奖
         TURNTABLE: 4, //转盘抽奖
-        INCOME: 5, //玩家反水
-        AGENT_INCOME: 6, //上下级反水
+        RECHARGE: 5, //充值
+        CASH: 6, //提现
+        CASH_CANCEL: 7, //提现撤销
+        INCOME: 8, //玩家反水
+        AGENT_INCOME: 9, //上下级反水
     }
 };

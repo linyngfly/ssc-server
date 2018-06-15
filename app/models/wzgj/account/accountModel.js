@@ -175,14 +175,14 @@ module.exports = {
         comment: '银行卡号'
     },
     wechat: {
-        def: '',
-        type: "string",
+        def: {},
+        type: "object",
         tbl: 'tbl_bank',
         comment: '微信'
     },
     alipay: {
-        def: '',
-        type: "string",
+        def: {},
+        type: "object",
         tbl: 'tbl_bank',
         comment: '支付宝'
     },
@@ -191,15 +191,9 @@ module.exports = {
         type: "string",
         tbl: 'tbl_bank',
         comment: '取款密码'
-    },
-    updated_at: {
-        def: '1970-01-02 00:00:00',
-        type: "timestamp",
-        tbl: 'tbl_bank',
-        comment: '最后更新时间'
     }
 };
-let genCode = false;
+let genCode = true;
 if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');

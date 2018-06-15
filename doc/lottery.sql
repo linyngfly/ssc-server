@@ -44,10 +44,9 @@ CREATE TABLE
 IF NOT EXISTS `tbl_bank` (
   `id` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `union_pay` json DEFAULT NULL COMMENT '银行卡号',
-  `wechat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信',
-  `alipay` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '支付宝',
-  `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码',
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '绑卡时间',
+  `wechat` json DEFAULT NULL COMMENT '微信',
+  `alipay` json DEFAULT NULL COMMENT '支付宝',
+  `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码'
   PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

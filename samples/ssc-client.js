@@ -450,7 +450,7 @@ async function main() {
     //绑定支付信息
 
     //1:支付宝，1：微信，2：银行卡
-    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:'linyngfly@126.com'});
+    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'linyngfly@126.com',name:'林洋'}});
 
 return;
 

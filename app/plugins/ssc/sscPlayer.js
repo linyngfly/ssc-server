@@ -184,7 +184,7 @@ class SscPlayer extends Player {
             uid:this.uid,
             gain:bet.betMoney,
             total:this.account.money,
-            scene:models.constants.GAME_SCENE.BET
+            scene:models.constants.GAME_SCENE.UNBET
         });
 
         this._betsMap.delete(id);

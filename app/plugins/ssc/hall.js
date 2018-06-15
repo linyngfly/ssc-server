@@ -3,6 +3,7 @@ const models = require('../../models');
 const Token = require('../../utils/token');
 const config = require('./config');
 const schedule = require('node-schedule');
+const logBuilder = require('../../utils/logSync/logBuilder');
 const EventEmitter = require('events').EventEmitter;
 // ip:116.31.100.75
 // ip:119.63.35.75
@@ -76,6 +77,14 @@ class Hall extends EventEmitter{
         let account = data.account;
         account.money = -money;
         await account.commit();
+
+        logBuilder.addMoneyLog({
+            uid:account.uid,
+            cost:money,
+            total:account.money,
+            scene:models.constants.GAME_SCENE.CASH
+        });
+
         if (account.money < 0) {
             account.money = money;
             await account.commit();
@@ -127,11 +136,25 @@ class Hall extends EventEmitter{
         if(data.state == 2){ //确认
             if(order.type == 1){ //充值
                 account.money = order.money;
+
+                logBuilder.addMoneyLog({
+                    uid:account.uid,
+                    gain:order.money,
+                    total:account.money,
+                    scene:models.constants.GAME_SCENE.RECHARGE
+                });
+
                 await account.commit();
             }
         }else if(data.state == 3){
             if(order.type == 2){ //提现
                 account.money = order.money;
+                logBuilder.addMoneyLog({
+                    uid:order.uid,
+                    gain:order.money,
+                    total:account.money,
+                    scene:models.constants.GAME_SCENE.CASH_CANCEL
+                });
                 await account.commit();
             }
         }
