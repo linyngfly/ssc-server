@@ -10,7 +10,7 @@ class Lucky28LimitRate{
         this._bet_rate_key = util.format(models.constants.CONFIG.BET_RATE, config.LUCKY28.GAME_IDENTIFY);
     }
 
-    async _loaBetLimit(){
+    async _loadBetLimit(){
         let bet_limit = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
             [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_LIMIT]);
@@ -26,7 +26,7 @@ class Lucky28LimitRate{
         this._limitConfig = bet_limit;
     }
 
-    async _loaBetRate(){
+    async _loadBetRate(){
         let bet_rate = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
             [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.BET_RATE]);
@@ -45,12 +45,12 @@ class Lucky28LimitRate{
         try{
             let bet_limit = await redisConnector.get(this._bet_limit_key);
             if(null == bet_limit){
-                await this._loaBetLimit();
+                await this._loadBetLimit();
             }
 
             let bet_rate = await redisConnector.get(this._bet_rate_key);
             if(null == bet_rate){
-                await this._loaBetRate();
+                await this._loadBetRate();
             }
         }catch (err) {
             logger.error(`加载幸运28投注限制/赔率配置失败 err=`,err);
@@ -59,10 +59,10 @@ class Lucky28LimitRate{
 
     async resetConfig(){
         await redisConnector.del(this._bet_limit_key);
-        await this._loaBetLimit(this._bet_limit_key);
+        await this._loadBetLimit();
 
         await redisConnector.del(this._bet_rate_key);
-        await this._loaBetRate(this._bet_rate_key);
+        await this._loadBetRate();
     }
 
     getLimit(dic, sub){

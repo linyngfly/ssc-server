@@ -2,7 +2,6 @@ const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const models = require('../../models');
 const Token = require('../../utils/token');
 const config = require('./config');
-const Income = require('./income');
 const schedule = require('node-schedule');
 const logBuilder = require('../../utils/logSync/logBuilder');
 const EventEmitter = require('events').EventEmitter;
@@ -17,7 +16,6 @@ class Hall extends EventEmitter{
         super();
         this._adminToken = null;
         this._schedule = null;
-        this._income = null;
     }
 
     async loadConfig(){
@@ -42,8 +40,7 @@ class Hall extends EventEmitter{
     async start() {
         await this.loadConfig();
         await this._updateAdminToken();
-        this._income = new Income();
-        await this._income.start();
+
 
         let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
@@ -59,8 +56,7 @@ class Hall extends EventEmitter{
             this._schedule.cancel();
             this._schedule = null;
         }
-
-        await this._income.stop();
+        
         logger.error('Hall stop');
     }
 

@@ -18,6 +18,7 @@ module.exports = {
         BET_RATE: `${PREFIX}config:%s:bet_rate`, //投注赔率
         TURNTABLE_BONUS_POOL: `${PREFIX}config:%s:turntable_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
         TURNTABLE_AWARD: `${PREFIX}config:%s:turntable_award`,  //转盘奖金比例配置
+        INCOME: `${PREFIX}config:%s:income`,  //反水配置
     },
 
     DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,

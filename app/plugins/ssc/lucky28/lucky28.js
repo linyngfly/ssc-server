@@ -13,6 +13,7 @@ const models = require('../../../models');
 const OpenCaiNetApi = require('../openCaiNetApi');
 const Lucky28Player = require('./lucky28Player');
 const Lucky28LimitRate = require('./lucky28LimitRate');
+const Lucky28Income = require('./lucky28Income');
 
 class Lucky28 extends SSC{
     constructor(){
@@ -26,15 +27,18 @@ class Lucky28 extends SSC{
             }),
             betLimitRate:new Lucky28LimitRate()
         });
+        this._income = new Lucky28Income();
     }
 
     async start(){
         await super.start();
+        await this._income.start();
         logger.error('Lucky28 start');
     }
 
-    stop(){
+    async stop(){
         super.stop();
+        await this._income.stop();
     }
 
     async _openAward(last){

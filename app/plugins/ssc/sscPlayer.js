@@ -67,7 +67,7 @@ class SscPlayer extends Player {
         this._betLimitMap.clear();
         this._betRateMap.clear();
         await this.account.commit();
-        this.emit(sscCmd.push.betResult.route, {numbers: numbers, bets: bets})
+        this.emit(sscCmd.push.betResult.route, {numbers: numbers, bets: bets});
     }
 
     isBet() {

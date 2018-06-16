@@ -1,18 +1,24 @@
-const models = require('../../models');
-const utils = require('../../utils/utils');
-const logBuilder = require('../../utils/logSync/logBuilder');
-const config = require('./config');
+const models = require('../../../models/index');
+const utils = require('../../../utils/utils');
+const logBuilder = require('../../../utils/logSync/logBuilder');
+const config = require('../config');
 const schedule = require('node-schedule');
+const util = require('util');
 
-class Income {
+class Canada28Income {
     constructor() {
         this._schedule = null;
+        this._income_key = util.format(models.constants.CONFIG.INCOME, config.CANADA28.GAME_IDENTIFY);
+        this._income_cfg = config.CANADA28.INCOME;
+
     }
 
     async start() {
+        await this._loadConfig();
         let _time = config.TASK.INCOME_DAILY_CALC.time.split(',');
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
         this._schedule = schedule.scheduleJob(cron_time, async function () {
+            await this._resetConfig();
             await this._calcPlayerIncome();
             await this._calcAgentIncome();
         }.bind(this));
@@ -23,6 +29,38 @@ class Income {
             this._schedule.cancel();
             this._schedule = null;
         }
+    }
+
+    async _loadIncome(){
+        let income_cfg = null;
+        let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
+            [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME]);
+        if(rows && rows[0]){
+            income_cfg = JSON.parse(rows[0].info);
+        }else {
+            income_cfg = config.CANADA28.INCOME;
+            await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
+                [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME, JSON.stringify(income_cfg)]);
+        }
+        await redisConnector.set(this._income_key, income_cfg);
+        this._income_cfg = income_cfg;
+    }
+
+    async _loadConfig(){
+        try{
+            let income_cfg = await redisConnector.get(this._income_key);
+            if(null == income_cfg){
+                await this._loadIncome();
+            }
+
+        }catch (err) {
+            logger.error(`加载幸运28投注限制/赔率配置失败 err=`,err);
+        }
+    }
+
+    async _resetConfig(){
+        await redisConnector.del(this._income_key);
+        await this._loadIncome();
     }
 
     /**
@@ -60,7 +98,7 @@ class Income {
                     }
 
                     let identify = dayBetInfo.identify;
-                    let incomeConfig = this._getPlayerConfig(identify);
+                    let incomeConfig = this._income_cfg.PLAYER;
                     let period_count = dayBetInfo.periodCount;
                     let multi_rate = Number((dayBetInfo.multiCount / dayBetInfo.dayBetCount).toFixed(2));
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
@@ -152,7 +190,7 @@ class Income {
                     }
 
                     let identify = dayBetInfo.identify;
-                    let incomeConfig = this._getAgentConfig(identify);
+                    let incomeConfig = this._income_cfg.AGENT;
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
@@ -191,35 +229,6 @@ class Income {
         }
     }
 
-    _getPlayerConfig(identify) {
-        let cfg = null;
-        switch (identify) {
-            case config.LUCKY28.GAME_IDENTIFY:
-                cfg = config.LUCKY28.INCOME.PLAYER;
-                break;
-            case config.CANADA28.GAME_IDENTIFY:
-                cfg = config.CANADA28.INCOME.PLAYER;
-                break;
-        }
-
-        return cfg;
-    }
-
-    _getAgentConfig(identify) {
-        let cfg = null;
-        switch (identify) {
-            case config.LUCKY28.GAME_IDENTIFY:
-                cfg = config.LUCKY28.INCOME.AGENT;
-                break;
-            case config.CANADA28.GAME_IDENTIFY:
-                cfg = config.CANADA28.INCOME.AGENT;
-                break;
-        }
-
-        return cfg;
-    }
-
-
 }
 
-module.exports = Income;
+module.exports = Canada28Income;

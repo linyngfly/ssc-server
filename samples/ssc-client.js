@@ -438,19 +438,19 @@ async function main() {
     console.time('111');
 
     await client.login({
-        username: '18612432395',
+        username: '18612432396',
         password: '123654'
     });
 // return
 
     // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
-
-    //TODO NEW 获取账单信息
-    await client.getBankLog({token:client._player.token, mainType:'ssc', subType:'hall', skip:0, limit:5});
-    //绑定支付信息
-
-    //1:支付宝，1：微信，2：银行卡
-    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'linyngfly@126.com',name:'林洋'}});
+    //
+    // //TODO NEW 获取账单信息
+    // await client.getBankLog({token:client._player.token, mainType:'ssc', subType:'hall', skip:0, limit:5});
+    // //绑定支付信息
+    //
+    // //1:支付宝，1：微信，2：银行卡
+    // await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'linyngfly@126.com',name:'林洋'}});
 
 // return;
 
@@ -465,35 +465,35 @@ async function main() {
     // }});
 
     //TODO NEW php后台调用，确认或者撤销订单
-    await client.setOrderState({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
-        state: 3,
-        operator: 'admin',
-        id: 2
-    });
+    // await client.setOrderState({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
+    //     state: 3,
+    //     operator: 'admin',
+    //     id: 2
+    // });
 
     // return;
 
-    // await client.enterGame('ssc', 'canada28');
-    await client.enterGame('ssc', 'lucky28');
+    await client.enterGame('ssc', 'canada28');
+    // await client.enterGame('ssc', 'lucky28');
+    //
+    // //TODO NEW 获取投个人注历史
+    // await client.myBetResult({
+    //     skip: 0,
+    //     limit: 20,
+    // });
 
-    //TODO NEW 获取投个人注历史
-    await client.myBetResult({
-        skip: 0,
-        limit: 20,
-    });
-
-    await client.bet('1.100');
-    await client.bet('2.100');
-    await client.bet('3.100');
+    await client.bet('11.100');
+    await client.bet('12.100');
+    await client.bet('13.100');
     await client.bet('4.100');
     await client.bet('5.100');
-    await client.bet('6.100');
+    await client.bet('16.100');
     await client.bet('7.100');
     await client.bet('8.100');
-    await client.bet('9.100');
+    await client.bet('19.100');
     await client.bet('10.100');
     await client.bet('12.100');
     await client.bet('16.100');
@@ -506,29 +506,29 @@ async function main() {
     // await client.bet('对子100');
 
 
-    await client.senChat({
-        type: 0,
-        content: '大家来投豹子好吗',
-        tid: -1
-    });
-
-    await client.senChat({
-        type: 1,
-        content: '1',
-        tid: -1
-    });
-
-    await client.senChat({
-        type: 2,
-        content: 'http://www.baidu.com',
-        tid: -1
-    });
-
-    await client.getBets();
-    await client.getChats();
-    await client.getLotterys();
-
-    await client.myBetOrder();
+    // await client.senChat({
+    //     type: 0,
+    //     content: '大家来投豹子好吗',
+    //     tid: -1
+    // });
+    //
+    // await client.senChat({
+    //     type: 1,
+    //     content: '1',
+    //     tid: -1
+    // });
+    //
+    // await client.senChat({
+    //     type: 2,
+    //     content: 'http://www.baidu.com',
+    //     tid: -1
+    // });
+    //
+    // await client.getBets();
+    // await client.getChats();
+    // await client.getLotterys();
+    //
+    // await client.myBetOrder();
     console.timeEnd('111');
     // await client.myBets();
     // await client.bet('大单龙100');

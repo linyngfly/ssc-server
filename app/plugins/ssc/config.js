@@ -71,6 +71,7 @@ module.exports = {
         BET_RATE: 'bet_rate',
         TURNTABLE_BONUS_POOL: 'turntable_bonus_pool',
         TURNTABLE_AWARD: 'turntable_award',
+        INCOME:'income'
     },
 
     SSC28: {
