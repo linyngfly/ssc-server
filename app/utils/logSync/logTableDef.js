@@ -1,19 +1,31 @@
+const TBL_ID = {
+    TBL_LOTTERY: 1,
+    TBL_MONEY_LOG: 2,
+    TBL_PLAYER_INCOME: 3,
+    TBL_AGENT_INCOME: 4,
+};
+
+const TBL_DEF = {};
+TBL_DEF[TBL_ID.TBL_LOTTERY] = {
+    name: 'tbl_lottery',
+    field: ['period', 'identify', 'numbers', 'time', 'openResult'],
+};
+TBL_DEF[TBL_ID.TBL_MONEY_LOG] = {
+    name: 'tbl_money_log',
+    field: ['uid', 'gain', 'cost', 'total', 'created_at', 'scene'],
+};
+TBL_DEF[TBL_ID.TBL_PLAYER_INCOME] = {
+    name: 'tbl_player_income',
+    field: ['uid', 'identify', 'betMoney', 'incomeMoney', 'defectionRate',
+        'defectionMoney', 'winRate', 'periodCount', 'multiRate', 'incomeTime'],
+};
+TBL_DEF[TBL_ID.TBL_AGENT_INCOME] = {
+    name: 'tbl_agent_income',
+    field: ['uid', 'identify', 'betMoney', 'incomeMoney', 'rebateRate',
+        'rebateMoney', 'incomeTime'],
+};
+
 module.exports = {
-
-    TYPE: {
-        TBL_LOTTERY: 1,
-        TBL_MONEY_LOG: 2,
-    },
-
-    TABLE: {
-        1: {
-            name: 'tbl_lottery',
-            field: ['period', 'identify', 'numbers', 'time', 'openResult'],
-        },
-        2:{
-            name: 'tbl_money_log',
-            field: ['uid', 'gain', 'cost', 'total','created_at', 'scene'],
-        }
-    }
-
+    TYPE: TBL_ID,
+    TABLE: TBL_DEF
 };

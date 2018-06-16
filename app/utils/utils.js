@@ -32,9 +32,8 @@ utils.timestamp_today = function timestamp_today() {
     date.setHours(0);
     date.setMinutes(0);
     date.setSeconds(0);
-
-    let time = Date.parse(date); // 1970到现在过去的毫秒数
-    time = time / 1000;
+    date.setMilliseconds(0);
+    let time = Date.parse(date);
     return time;
 };
 
@@ -44,7 +43,7 @@ utils.timestamp_today = function timestamp_today() {
  */
 utils.timestamp_yesterday = function timestamp_yesterday() {
     let time = utils.timestamp_today();
-    return (time - 24 * 60 * 60);
+    return (time - 24 * 60 * 60 * 1000);
 };
 
 utils.base64_encode = function base64_encode(content) {

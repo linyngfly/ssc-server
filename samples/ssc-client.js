@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://39.108.166.240:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const AUDIO_HOST = 'http://39.108.166.240:3102';
-// const AUDIO_HOST = 'http://127.0.0.1:3102';
-const GATE_HOST = 'http://39.108.166.240:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "39.108.166.240";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://39.108.166.240:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://39.108.166.240:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
+// const GATE_HOST = 'http://39.108.166.240:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "39.108.166.240";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -428,17 +428,17 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
 //     await client.register({
-//         username: '18612432396',
+//         username: '18612432395',
 //         password: '123654',
 //             code: '1243',
 //         nickname: '咸鱼也有梦11',
 //     });
 // return;
 //
-//     console.time('111');
+    console.time('111');
 
     await client.login({
-        username: '18612432396',
+        username: '18612432392',
         password: '123654'
     });
 // return
@@ -452,7 +452,7 @@ async function main() {
     //1:支付宝，1：微信，2：银行卡
     await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'linyngfly@126.com',name:'林洋'}});
 
-return;
+// return;
 
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
     // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
@@ -476,9 +476,9 @@ return;
 
     // return;
 
-    await client.enterGame('ssc', 'canada28');
-    // await client.enterGame('ssc', 'lucky28');
-return;
+    // await client.enterGame('ssc', 'canada28');
+    await client.enterGame('ssc', 'lucky28');
+
     //TODO NEW 获取投个人注历史
     await client.myBetResult({
         skip: 0,
