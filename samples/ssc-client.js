@@ -438,7 +438,7 @@ async function main() {
     console.time('111');
 
     await client.login({
-        username: '18612432392',
+        username: '18612432395',
         password: '123654'
     });
 // return
@@ -485,13 +485,25 @@ async function main() {
         limit: 20,
     });
 
-    await client.bet('大100');
-    await client.bet('大双100');
-    await client.bet('大单100');
-    await client.bet('小50');
-    await client.bet('小双50');
-    await client.bet('豹子100');
-    await client.bet('对子100');
+    await client.bet('1.100');
+    await client.bet('2.100');
+    await client.bet('3.100');
+    await client.bet('4.100');
+    await client.bet('5.100');
+    await client.bet('6.100');
+    await client.bet('7.100');
+    await client.bet('8.100');
+    await client.bet('9.100');
+    await client.bet('10.100');
+    await client.bet('12.100');
+    await client.bet('16.100');
+    await client.bet('27.100');
+    // await client.bet('大双100');
+    // await client.bet('大单100');
+    // await client.bet('小50');
+    // await client.bet('小双50');
+    // await client.bet('豹子100');
+    // await client.bet('对子100');
 
 
     await client.senChat({

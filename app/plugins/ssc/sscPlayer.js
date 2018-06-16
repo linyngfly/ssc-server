@@ -48,10 +48,10 @@ class SscPlayer extends Player {
                 await bet.commit();
 
                 logBuilder.addMoneyLog({
-                    uid:this.uid,
-                    gain:bet.winMoney,
-                    total:this.account.money,
-                    scene:models.constants.GAME_SCENE.LOTTERY
+                    uid: this.uid,
+                    gain: bet.winMoney,
+                    total: this.account.money,
+                    scene: models.constants.GAME_SCENE.LOTTERY
                 });
 
 
@@ -87,6 +87,13 @@ class SscPlayer extends Player {
         return bets;
     }
 
+    _getLimitKey(dic, num){
+        if(dic == config.SSC28.BET_TYPE_LIMIT_DIC.NUM){
+            return dic+num;
+        }
+        return dic;
+    }
+
     async bet({period, identify, betData, parseRet}) {
         logger.error('bet=', betData, parseRet);
         this.account.money = 0;
@@ -118,9 +125,10 @@ class SscPlayer extends Player {
             throw ERROR_OBJ.BET_PERIOD_OVERLOAD_LIMIT;
         }
 
-        let totalLimitMoney = this._betLimitMap.get(parseRet.limit_dic) || 0;
+        let limitKey = this._getLimitKey(parseRet.limit_dic, parseRet.betItems[0].result);
+        let totalLimitMoney = this._betLimitMap.get(limitKey) || 0;
         totalLimitMoney += parseRet.total;
-        let maxLimitMoney = this._limitRate.getLimit(parseRet.limit_dic);
+        let maxLimitMoney = this._limitRate.getLimit(parseRet.limit_dic, parseRet.betItems[0].result);
         if (totalLimitMoney > maxLimitMoney) {
             throw ERROR_OBJ.BET_TYPE_OVERLOAD_LIMIT;
         }
@@ -148,14 +156,14 @@ class SscPlayer extends Player {
         }
 
         logBuilder.addMoneyLog({
-            uid:this.uid,
-            cost:parseRet.total,
-            total:this.account.money,
-            scene:models.constants.GAME_SCENE.BET
+            uid: this.uid,
+            cost: parseRet.total,
+            total: this.account.money,
+            scene: models.constants.GAME_SCENE.BET
         });
 
         this._betsMap.set(bet.id, bet);
-        this._betLimitMap.set(bet.limit_dic, totalLimitMoney);
+        this._betLimitMap.set(limitKey, totalLimitMoney);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, totalLimitMoney);
         let rateMoney = this._betRateMap.get(bet.rate_dic) || 0;
         rateMoney += parseRet.total;
@@ -181,11 +189,19 @@ class SscPlayer extends Player {
         await this.account.commit();
 
         logBuilder.addMoneyLog({
-            uid:this.uid,
-            gain:bet.betMoney,
-            total:this.account.money,
-            scene:models.constants.GAME_SCENE.UNBET
+            uid: this.uid,
+            gain: bet.betMoney,
+            total: this.account.money,
+            scene: models.constants.GAME_SCENE.UNBET
         });
+
+        let limitKey = this._getLimitKey(bet.limit_dic, bet.betItems[0].result);
+
+        let typeLimitMoney = this._betLimitMap.get(limitKey);
+        this._betLimitMap.set(limitKey, typeLimitMoney - bet.betMoney);
+
+        let allTypeLimitMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
+        this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, allTypeLimitMoney - bet.betMoney);
 
         this._betsMap.delete(id);
 
@@ -195,7 +211,7 @@ class SscPlayer extends Player {
     }
 
     async chat(msg) {
-        if(this.account.forbid_talk == 1){
+        if (this.account.forbid_talk == 1) {
             throw ERROR_OBJ.CHAT_TOO_FREQUENT;
         }
 

@@ -65,8 +65,13 @@ class Canada28LimitRate{
         await this._loaBetRate(this._bet_rate_key);
     }
 
-    getLimit(dic){
-        return this._limitConfig[dic];
+    getLimit(dic, sub){
+        let cfg = this._limitConfig[dic];
+        if(cfg instanceof Array){
+            return cfg[sub];
+        }else {
+            return cfg;
+        }
     }
 
     getRateDic(dic){
