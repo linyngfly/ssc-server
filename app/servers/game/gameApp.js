@@ -27,8 +27,8 @@ class GameApp {
                 logger.error('启动主游戏', mainType);
             }else {
                 for(let sub in modules.SUB_GAMES){
-                    logger.error('启动子游戏', sub);
-                    // logger.error('启动子游戏', SUB_GAMES);
+                    logger.info('启动子游戏', sub);
+                    // logger.error('启动子游戏', modules.SUB_GAMES);
                     modules.SUB_GAMES[sub].start && await modules.SUB_GAMES[sub].start();
                 }
             }

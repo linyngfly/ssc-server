@@ -1,7 +1,7 @@
-const models = require('../../models');
-const utils = require('../../utils/utils');
-const logBuilder = require('../../utils/logSync/logBuilder');
-const config = require('./config');
+const models = require('../../../models');
+const utils = require('../../../utils/utils');
+const logBuilder = require('../../../utils/logSync/logBuilder');
+const config = require('../config');
 const schedule = require('node-schedule');
 const util = require('util');
 

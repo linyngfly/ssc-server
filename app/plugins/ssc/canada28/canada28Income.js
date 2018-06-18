@@ -1,4 +1,4 @@
-const models = require('../../../models/index');
+const models = require('../../../models');
 const utils = require('../../../utils/utils');
 const logBuilder = require('../../../utils/logSync/logBuilder');
 const config = require('../config');
