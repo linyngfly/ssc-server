@@ -135,6 +135,9 @@ class Lucky28Income {
                     dayIncomeInfo.defectionMoney = defectionMoney;
                     dayIncomeInfo.defectionRate = defectionRate;
                     logBuilder.addLog(logBuilder.tbl_id.TBL_PLAYER_INCOME, dayIncomeInfo);
+                    let account = await models.account.helper.getAccount(uid, models.account.fieldConst.MONEY);
+                    account.money = defectionMoney;
+                    await account.commit();
                 }
             } catch (err) {
                 err;
@@ -222,6 +225,9 @@ class Lucky28Income {
                     dayIncomeInfo.rebateMoney = rebateMoney;
                     dayIncomeInfo.rebateRate = rebateRate;
                     logBuilder.addLog(logBuilder.tbl_id.TBL_AGENT_INCOME, dayIncomeInfo);
+                    let account = await models.account.helper.getAccount(uid, models.account.fieldConst.MONEY);
+                    account.money = rebateMoney;
+                    await account.commit();
                 }
             } catch (err) {
                 err;
