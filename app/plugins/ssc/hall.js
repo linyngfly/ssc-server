@@ -111,6 +111,24 @@ class Hall extends EventEmitter{
         return rows || [];
     }
 
+    async getMyDefection(data){
+        let skip = data.skip || 0;
+        let limit = data.limit || 20;
+        let rows = await mysqlConnector.query('SELECT * FROM tbl_player_income WHERE uid=? ORDER BY created_at DESC LIMIT ?,?',
+            [data.uid, skip, limit]);
+
+        return rows || [];
+    }
+
+    async getMyRebate(data){
+        let skip = data.skip || 0;
+        let limit = data.limit || 20;
+        let rows = await mysqlConnector.query('SELECT * FROM tbl_agent_income WHERE uid=? ORDER BY created_at DESC LIMIT ?,?',
+            [data.uid, skip, limit]);
+
+        return rows || [];
+    }
+
     async bindPayInfo(data){
         let account = data.account;
         account[config.BANK_FIELD[data.type]] = data.info;

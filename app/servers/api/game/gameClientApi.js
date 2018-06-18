@@ -69,6 +69,20 @@ const api_list = {
         accountFields: []
     },
 
+    getMyDefection: {
+        route: '/getMyDefection', //获取玩家反水信息
+        handler: bank.getMyDefection,
+        params: [],
+        accountFields: []
+    },
+
+    getMyRebate: {
+        route: '/getMyRebate', //获取拉手分成信息
+        handler: bank.getMyRebate,
+        params: [],
+        accountFields: []
+    },
+
     cash: {
         route: '/cash', //提现请求
         handler: order.cash,
@@ -88,12 +102,7 @@ const api_list = {
         params: [],
         accountFields: []
     },
-    getDrawState: {
-        route: '/getDrawState', //获取抽奖状态，0:无抽奖机会，1:可以抽奖
-        handler: turntable.getDrawState,
-        params: [],
-        accountFields: []
-    },
+
 
 };
 
