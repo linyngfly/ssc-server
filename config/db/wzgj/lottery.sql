@@ -46,7 +46,7 @@ IF NOT EXISTS `tbl_bank` (
   `union_pay` json DEFAULT NULL COMMENT '银行卡号',
   `wechat` json DEFAULT NULL COMMENT '微信',
   `alipay` json DEFAULT NULL COMMENT '支付宝',
-  `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '取款密码'
+  `pin_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '取款密码',
   PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

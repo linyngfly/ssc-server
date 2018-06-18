@@ -2,35 +2,36 @@
   "development": {
     "gate": [{
       "id": "gate",
-      "host": "172.18.66.197",
+      "host": "116.31.100.75",
       "port": 3001,
+      "publicHost": "119.63.35.75",
       "auto-restart": false,
-      "args": " --inspect=172.18.66.197:13001"
+      "args": " --inspect=116.31.100.75:13001"
     }],
     "resource": [{
       "id": "resource",
-      "host": "172.18.66.197",
+      "host": "116.31.100.75",
       "port": 3501,
-      "publicHost": "39.108.166.240",
+      "publicHost": "119.63.35.75",
       "auto-restart": false,
-      "args": " --inspect=172.18.66.197:13501"
+      "args": " --inspect=116.31.100.75:13501"
     }],
     "r2mSync": [{
       "id": "r2mSync",
-      "host": "172.18.66.197",
+      "host": "116.31.100.75",
       "port": 3901,
-      "args": " --inspect=172.18.66.197:13901"
+      "args": " --inspect=116.31.100.75:13901"
     }],
     "game": [{
       "id": "game-1-1",
-      "host": "172.18.66.197",
+      "host": "116.31.100.75",
       "port": 4001,
-      "clientHost": "39.108.166.240",
+      "clientHost": "119.63.35.75",
       "clientPort": 4003,
-      "publicHost": "39.108.166.240",
+      "publicHost": "119.63.35.75",
       "frontend": true,
       "auto-restart": false,
-      "args": " --inspect=172.18.66.197:14001",
+      "args": " --inspect=116.31.100.75:14001",
       "maxLoad": 250
     }]
   },
