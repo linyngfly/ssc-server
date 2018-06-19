@@ -99,7 +99,7 @@ class Canada28Income {
 
                     let identify = dayBetInfo.identify;
                     let incomeConfig = this._income_cfg.PLAYER;
-                    let period_count = dayBetInfo.periodCount;
+                    let period_count = Number(dayBetInfo.periodCount);
                     let multi_rate = Number((dayBetInfo.multiCount / dayBetInfo.dayBetCount).toFixed(2));
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
@@ -125,7 +125,7 @@ class Canada28Income {
                             let section = item[0];
                             if (section[0] == -1 && num < section[1] || num >= section[0] && num < section[1]
                                 || section[1] == -1 && num >= section[0]) {
-                                defectionRate = item[1];
+                                defectionRate = Number(item[1]);
                                 defectionMoney = defectionRate * num;
                                 break;
                             }
@@ -215,7 +215,7 @@ class Canada28Income {
                             let section = item[0];
                             if (section[0] == -1 && num < section[1] || num >= section[0] && num < section[1]
                                 || section[1] == -1 && num >= section[0]) {
-                                rebateRate = item[1];
+                                rebateRate = Number(item[1]);
                                 rebateMoney = rebateRate * num;
                                 break;
                             }

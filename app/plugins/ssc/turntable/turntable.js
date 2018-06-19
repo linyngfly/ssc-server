@@ -85,7 +85,7 @@ class Turntable {
         cur = cur.zeroTime();
         let rows = await mysqlConnector.query('SELECT COUNT(distinct period) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=?', [uid, cur.format()]);
         if(rows && rows[0]){
-            periodCount = rows[0].periodCount;
+            periodCount = Number(rows[0].periodCount);
         }
 
         logger.error(`玩家${uid}投注期数${periodCount}`);
@@ -96,7 +96,7 @@ class Turntable {
         let balance = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?', [config.TURNTABLE.GAME_IDENTIFY, config.CONFIG_TYPE.TURNTABLE_BONUS_POOL]);
         if (rows && rows[0]) {
-            balance = JSON.parse(rows[0].info).total;
+            balance = Number(JSON.parse(rows[0].info).total);
         } else {
             balance = config.TURNTABLE.TOTAL;
             await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
@@ -172,7 +172,7 @@ class Turntable {
             }
         }
 
-        return awardList[awardIndex].money;
+        return Number(awardList[awardIndex].money);
     }
 
 }

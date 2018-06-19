@@ -10,7 +10,7 @@ class GateEntry{
     }
     async getGate(data, ctx){
         let enable = ctx.protocol == 'https' ? true : false;
-        let resource = httpCfg.resource[0];
+        let resource = httpCfg.gate[0];
         let gateInfo = {
             protocol : ctx.protocol,
             address: enable ?  resource.https.publicHost:

@@ -22,6 +22,7 @@
         "omelo-nickname": "^1.0.4",
         "omelo-scale-plugin": "^0.0.2",
         "omelo-status-plugin": "^0.0.3",
+        "qrcode": "^1.2.0",
         "soap": "^0.24.0",
         "underscore": "^1.8.3",
         "urlencode": "^1.1.0"

@@ -68,9 +68,9 @@ class Lucky28LimitRate{
     getLimit(dic, sub){
         let cfg = this._limitConfig[dic];
         if(cfg instanceof Array){
-            return cfg[sub];
+            return Number(cfg[sub]);
         }else {
-            return cfg;
+            return Number(cfg);
         }
     }
 
@@ -88,7 +88,7 @@ class Lucky28LimitRate{
                 }
 
                 let range = item[0];
-                let r = item[1];
+                let r = Number(item[1]);
                 if(range[0] == -1 && num < range[1] || num >= range[0] && num < range[1]
                     || range[1] == -1 && num >= range[0]){
                     return r;

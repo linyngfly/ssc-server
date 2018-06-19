@@ -1,5 +1,6 @@
 const innerUserAuth = require('../../gate/controllers/innerUserAuth');
 const queryServices = require('../../gate/controllers/queryServices');
+const share = require('../../gate/controllers/share');
 const httpUtil = require('../../../utils/httpUtil');
 
 const api_list = {
@@ -55,6 +56,20 @@ const api_list = {
         params: [],
         accountFields: null
     },
+
+    share_gen_url: {
+        route: '/share_gen_url', //生成分享地址
+        handler: share.share_gen_url,
+        params: [],
+        accountFields: null
+    },
+
+    share_open_url:{
+        route: '/share_gen_url', //生成分享地址
+        handler: share.share_open_url,
+        params: [],
+        accountFields: null
+    }
 };
 
 
