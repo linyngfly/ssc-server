@@ -123,6 +123,17 @@ class AccountHelper {
         }
     }
 
+    async delAccountField(fields){
+        if(typeof fields == 'string'){
+            fields = [fields];
+        }
+
+        let cmds = [];
+        for(let i=0;i<fields.length;i++){
+            cmds.push(['del', genRedisKey.getAccountKey(fields[i])]);
+        }
+        return await redisConnector.multi(cmds);
+    }
     async delAccount(uid) {
         if (uid == null) {
             throw ERROR_OBJ.PARAM_MISSING;

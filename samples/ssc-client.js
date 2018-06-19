@@ -497,7 +497,7 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
     await client.register({
-        username: '18612432382',
+        username: '18612432383',
         password: '123654',
             code: '1243',
         nickname: '咸鱼也有梦11',
@@ -524,8 +524,8 @@ return;
     await client.setInitMoney({
         mainType: 'ssc',
         subType: 'hall',
-        token: '9be0bcbe4cbd4e6d9f634360146658f1ac676fdff10b802475b003ee8f2f8d69',
-        money: 50000
+        token: '482fc4b8d97f7040896974a1a462f27eafee831152508cd13105c39626eb23b0',
+        money: 30000
     });
     return;
     await client.getMyDefection({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});

@@ -22,6 +22,7 @@ class Hall extends EventEmitter{
 
     async _updateDailyReset(){
         await this._updateAdminToken();
+        await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
     }
 
     async loadConfig(){
