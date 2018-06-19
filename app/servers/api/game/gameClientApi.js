@@ -35,8 +35,15 @@ const api_list = {
     },
 
     setBroadcast: {
-        route: '/getBroadcast', //后台设置系统公告
+        route: '/setBroadcast', //后台设置系统公告
         handler: GM.setBroadcast,
+        params: [],
+        accountFields: []
+    },
+
+    setInitMoney: {
+        route: '/setInitMoney', //后台设置系统公告
+        handler: GM.setInitMoney,
         params: [],
         accountFields: []
     },

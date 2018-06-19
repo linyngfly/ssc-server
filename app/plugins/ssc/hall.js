@@ -1,6 +1,7 @@
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const models = require('../../models');
 const Token = require('../../utils/token');
+const eventType = require('../../consts/eventType');
 const config = require('./config');
 const schedule = require('node-schedule');
 const logBuilder = require('../../utils/logSync/logBuilder');
@@ -15,16 +16,12 @@ class Hall extends EventEmitter{
     constructor(){
         super();
         this._adminToken = null;
-        this._broadcast = config.BROADCAST;
+        this._broadcast = {content:config.BROADCAST};
         this._schedule = null;
     }
 
-    async update(){
-        let rows = mysqlConnector.query('SELECT * FROM `tbl_config` WHERE identify=? AND type=?',
-            ['ssc', 'broadcast']);
-        if(rows && rows[0]){
-            this._broadcast = JSON.parse(rows[0].info);
-        }
+    async _updateDailyReset(){
+        await this._updateAdminToken();
     }
 
     async loadConfig(){
@@ -63,7 +60,7 @@ class Hall extends EventEmitter{
         let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
         this._schedule = schedule.scheduleJob(cron_time, async function () {
-            await this._updateAdminToken();
+            await this._updateDailyReset();
         }.bind(this));
 
         logger.error('Hall start');
@@ -243,8 +240,32 @@ class Hall extends EventEmitter{
     }
 
     async setBroadcast(data){
-        this._broadcast = data;
-        this.emit(config.HALL_EVENT.BROADCAST, data);
+        if(data.token !== this._adminToken){
+            throw ERROR_OBJ.TOKEN_INVALID;
+        }
+
+        this._broadcast = {content:data.content};
+        await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
+            'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
+            ['ssc', 'broadcast', JSON.stringify(this._broadcast)]);
+        this.emit(config.HALL_EVENT.BROADCAST, this._broadcast);
+    }
+
+    async setInitMoney(data){
+        if(data.token !== this._adminToken){
+            throw ERROR_OBJ.TOKEN_INVALID;
+        }
+
+        let money = Number(data.money);
+        if(Number.isNaN(money)){
+            throw ERROR_OBJ.PARAM_MISSING;
+        }
+
+        await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
+            'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
+            ['ssc', 'init_money', JSON.stringify({money:money})]);
+
+        redisConnector.pub(eventType.PLAYER_EVENT_INIT_MONEY, {money:money});
     }
 }
 

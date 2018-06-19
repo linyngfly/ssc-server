@@ -8,11 +8,12 @@ module.exports = async function (token) {
         throw ERROR_OBJ.PARAM_MISSING;
     }
 
-    let {uid,timestamp} = Token.parse(token, session.secret);
-    if(!uid){
+    let ret = Token.parse(token, session.secret);
+    if(!ret){
         throw ERROR_OBJ.TOKEN_INVALID;
     }
 
+    let {uid,timestamp} = ret;
     if(session.expire != -1){
         if(Date.now() - timestamp > session.expire){
             throw ERROR_OBJ.TOKEN_INVALID;

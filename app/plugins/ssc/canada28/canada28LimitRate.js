@@ -83,7 +83,7 @@ class Canada28LimitRate{
         if(rate instanceof Array){
             for(let i=0;i<rate.length;i++){
                 let item = rate[0];
-                if(item instanceof Array){
+                if(!(item instanceof Array)){
                     return item;
                 }
                 

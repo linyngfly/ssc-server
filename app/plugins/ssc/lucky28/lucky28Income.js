@@ -69,9 +69,11 @@ class Lucky28Income {
      */
     async _calcPlayerIncome() {
         let yesterday_zero = utils.timestamp_yesterday();
+        yesterday_zero += 1000* 60*60*24;
         yesterday_zero = new Date(yesterday_zero);
 
         let today_zero = utils.timestamp_today();
+        today_zero += 1000* 60*60*24;
         today_zero = new Date(today_zero);
 
         let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0 AND updated_at>=?',

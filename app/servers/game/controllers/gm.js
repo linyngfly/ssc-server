@@ -30,6 +30,12 @@ class GM {
         let result = await game.setBroadcast(data);
         return logicResponse.ask(result);
     }
+
+    async setInitMoney(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = await game.setInitMoney(data);
+        return logicResponse.ask(result);
+    }
 }
 
 module.exports = new GM();

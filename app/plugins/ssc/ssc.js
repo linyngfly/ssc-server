@@ -93,6 +93,10 @@ class SSC {
             }
         }.bind(this));
 
+        hall.on(config.HALL_EVENT.BROADCAST, function (broadcast_content) {
+            self.broadcast(sscCmd.push.broadcast.route, broadcast_content);
+        }.bind(this));
+
         this._lottery.start();
 
         let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
@@ -324,17 +328,11 @@ class SSC {
         });
     }
 
-    addMsgChannel({
-                      uid,
-                      sid
-                  }) {
+    addMsgChannel({uid, sid}) {
         this._msgChannel.add(this._hallName, uid, sid);
     }
 
-    leaveMsgChannel({
-                        uid,
-                        sid
-                    }) {
+    leaveMsgChannel({uid, sid}) {
         this._msgChannel.leave(this._hallName, uid, sid);
     }
 

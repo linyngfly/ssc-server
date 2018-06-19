@@ -1,13 +1,13 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://39.108.166.240:4002';
+// const GAME_HOST = 'http://116.31.100.75:4002';
 const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://39.108.166.240:3102';
+// const AUDIO_HOST = 'http://116.31.100.75:3102';
 const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://39.108.166.240:3002';
+// const GATE_HOST = 'http://116.31.100.75:3002';
 const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "39.108.166.240";
+// const GAME_IP = "116.31.100.75";
 const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
@@ -32,6 +32,7 @@ class SSCClient {
         this._client.on('s_countdown', this.onCountdown.bind(this));
         this._client.on('s_betResult', this.onBetResult.bind(this));
         this._client.on('s_openLottery', this.onOpenLottery.bind(this));
+        this._client.on('s_broadcast', this.onBroadcast.bind(this));
     }
 
     onEnter(msg) {
@@ -65,6 +66,10 @@ class SSCClient {
 
     onOpenLottery(msg) {
         console.info('onOpenLottery msg=', JSON.stringify(msg));
+    }
+
+    onBroadcast(msg) {
+        console.info('onBroadcast msg=', JSON.stringify(msg));
     }
 
     /**
@@ -160,6 +165,70 @@ class SSCClient {
         }
     }
 
+    //TODO NEW 获取系统公告
+    async getBroadcast(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getBroadcast');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getBroadcast err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getBroadcast ok');
+            console.log(resp.data);
+        }
+    }
+
+
+    //TODO NEW 后台设置系统公告
+    async setBroadcast(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setBroadcast');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('setBroadcast err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('setBroadcast ok');
+            console.log(resp.data);
+        }
+    }
+
+    async setInitMoney(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setInitMoney');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('setInitMoney err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('setInitMoney ok');
+            console.log(resp.data);
+        }
+    }
+
+    //TODO NEW 获取反水记录
+    async getMyDefection(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getMyDefection');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getMyDefection err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getMyDefection ok');
+            console.log(resp.data);
+        }
+    }
+
+    //TODO NEW 获取拉手分成
+    async getMyRebate(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getMyRebate');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getMyRebate err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getMyRebate ok');
+            console.log(resp.data);
+        }
+    }
 
     async bindPayInfo(data) {
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/bindPayInfo');
@@ -340,7 +409,7 @@ class SSCClient {
         }
     }
 
-    async uploadAudo(){
+    async uploadAudo() {
         let resp = await httpclient.postData({}, AUDIO_HOST + '/resource/clientApi/uploadAudio');
         resp = JSON.parse(resp);
         if (resp.error) {
@@ -427,20 +496,40 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-//     await client.register({
-//         username: '18612432395',
-//         password: '123654',
-//             code: '1243',
-//         nickname: '咸鱼也有梦11',
-//     });
-// return;
+    await client.register({
+        username: '18612432382',
+        password: '123654',
+            code: '1243',
+        nickname: '咸鱼也有梦11',
+    });
+return;
 //
     console.time('111');
 
     await client.login({
-        username: '18612432396',
+        username: '18612432395',
         password: '123654'
     });
+
+
+   // await client.getBroadcast({token: client._player.token, mainType: 'ssc', subType: 'hall'});
+    //后台GM调用
+    // await client.setBroadcast({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: '9be0bcbe4cbd4e6d9f634360146658f1ac676fdff10b802475b003ee8f2f8d69',
+    //     content: '大家来投注吧！！！'
+    // });
+
+    await client.setInitMoney({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '9be0bcbe4cbd4e6d9f634360146658f1ac676fdff10b802475b003ee8f2f8d69',
+        money: 50000
+    });
+    return;
+    await client.getMyDefection({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
+    await client.getMyRebate({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
 // return
 
     // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
@@ -476,8 +565,8 @@ async function main() {
 
     // return;
 
-    await client.enterGame('ssc', 'canada28');
-    // await client.enterGame('ssc', 'lucky28');
+    // await client.enterGame('ssc', 'canada28');
+    await client.enterGame('ssc', 'lucky28');
     //
     // //TODO NEW 获取投个人注历史
     // await client.myBetResult({
