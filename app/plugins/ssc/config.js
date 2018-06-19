@@ -19,6 +19,8 @@ module.exports = {
 
     },
 
+    BROADCAST:'高回报，低投入，欢迎玩耍',
+
     //1:支付宝，1：微信，2：银行卡
     BANK_TYPE: {
         ALIPAY: 1,

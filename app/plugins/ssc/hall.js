@@ -15,7 +15,16 @@ class Hall extends EventEmitter{
     constructor(){
         super();
         this._adminToken = null;
+        this._broadcast = config.BROADCAST;
         this._schedule = null;
+    }
+
+    async update(){
+        let rows = mysqlConnector.query('SELECT * FROM `tbl_config` WHERE identify=? AND type=?',
+            ['ssc', 'broadcast']);
+        if(rows && rows[0]){
+            this._broadcast = JSON.parse(rows[0].info);
+        }
     }
 
     async loadConfig(){
@@ -26,6 +35,16 @@ class Hall extends EventEmitter{
             await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
                 'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
                 ['ssc', 'gm', JSON.stringify({wechat:'kefu001',QQ:'13380323'})]);
+        }
+
+        rows = mysqlConnector.query('SELECT * FROM `tbl_config` WHERE identify=? AND type=?',
+            ['ssc', 'broadcast']);
+        if(!rows || !rows[0]){
+            await mysqlConnector.query('INSERT INTO `tbl_config` (`identify`, `type`, `info`) ' +
+                'VALUES(?,?,?) ON DUPLICATE KEY UPDATE identify=VALUES(identify), type=VALUES(type), info=VALUES(info)',
+                ['ssc', 'broadcast', JSON.stringify({content:'高回报，低投入，欢迎玩耍'})]);
+        }else {
+            this._broadcast = JSON.parse(rows[0].info);
         }
     }
 
@@ -40,7 +59,6 @@ class Hall extends EventEmitter{
     async start() {
         await this.loadConfig();
         await this._updateAdminToken();
-
 
         let _time = config.TASK.CONFIG_DAILY_RESET.time.split(',');
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
@@ -221,10 +239,11 @@ class Hall extends EventEmitter{
     }
 
     async getBroadcast(data){
-
+        return this._broadcast;
     }
 
     async setBroadcast(data){
+        this._broadcast = data;
         this.emit(config.HALL_EVENT.BROADCAST, data);
     }
 }
