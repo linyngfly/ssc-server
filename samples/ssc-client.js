@@ -204,6 +204,18 @@ class SSCClient {
         }
     }
 
+    async setPlayerInfoByGM(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/setPlayerInfoByGM');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('setPlayerInfoByGM err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('setPlayerInfoByGM ok');
+            console.log(resp.data);
+        }
+    }
+
     //TODO NEW 获取反水记录
     async getMyDefection(data) {
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getMyDefection');
@@ -561,10 +573,10 @@ return;
     // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //
     // //TODO NEW 修改玩家信息
-    // await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
-    //     nickname:'起个新名字试试', //修改昵称
-    //     figure_url:'2', //修改头像
-    // }});
+    await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
+        nickname:'起个新名字试试', //修改昵称
+        figure_url:'2', //修改头像
+    }});
 
     //TODO NEW php后台调用，确认或者撤销订单
     // await client.setOrderState({
