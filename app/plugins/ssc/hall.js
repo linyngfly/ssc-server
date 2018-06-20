@@ -261,7 +261,7 @@ class Hall extends EventEmitter{
             throw ERROR_OBJ.TOKEN_INVALID;
         }
 
-        let account = models.account.helper.getAccount(data.id);
+        let account = await models.account.helper.getAccount(data.id);
         let fields = data.fields;
         for(let key in fields){
             let typeInfo = models.account.modelDefine[key];
