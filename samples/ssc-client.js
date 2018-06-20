@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://116.31.100.75:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://116.31.100.75:3102';
-const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://116.31.100.75:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "116.31.100.75";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://116.31.100.75:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const AUDIO_HOST = 'http://116.31.100.75:3102';
+// const AUDIO_HOST = 'http://127.0.0.1:3102';
+const GATE_HOST = 'http://116.31.100.75:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "116.31.100.75";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -540,17 +540,17 @@ async function main() {
     //     money: 30000
     // });
 
-    await client.setPlayerInfoByGM({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: 'a6b17e61d3d08c34d062037073d65144dfdf6bfc611286bfd6e91388b0c6eb9b',
-        id: 1,
-        fields:{  //修改所有或者其中一个值
-            role:1,
-            forbid_talk:1,
-            test:1,
-        }
-    });
+    // await client.setPlayerInfoByGM({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: 'a6b17e61d3d08c34d062037073d65144dfdf6bfc611286bfd6e91388b0c6eb9b',
+    //     id: 1,
+    //     fields:{  //修改所有或者其中一个值
+    //         role:1,
+    //         forbid_talk:1,
+    //         test:1,
+    //     }
+    // });
 
     //TODO NEW php后台调用，确认或者撤销订单
     // await client.setOrderState({
@@ -591,12 +591,12 @@ async function main() {
     // await client.enterGame('ssc', 'canada28');
     await client.enterGame('ssc', 'lucky28');
     // //TODO NEW 获取投个人注历史
-    await client.myBetResult({
-        skip: 20,
-        limit: 10,
-    });
-
-    return;
+    // await client.myBetResult({
+    //     skip: 20,
+    //     limit: 10,
+    // });
+    //
+    // return;
 
 
     await client.bet('11.100');
