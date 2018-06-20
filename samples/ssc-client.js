@@ -527,7 +527,20 @@ return;
         token: '482fc4b8d97f7040896974a1a462f27eafee831152508cd13105c39626eb23b0',
         money: 30000
     });
+
+    await client.setPlayerInfoByGM({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '482fc4b8d97f7040896974a1a462f27eafee831152508cd13105c39626eb23b0',
+        id: 1,
+        fields:{  //修改所有或者其中一个值
+            role:1,
+            forbid_talk:1,
+            test:1,
+        }
+    });
     return;
+
     await client.getMyDefection({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
     await client.getMyRebate({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
 // return

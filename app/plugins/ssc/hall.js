@@ -3,6 +3,7 @@ const models = require('../../models');
 const Token = require('../../utils/token');
 const eventType = require('../../consts/eventType');
 const config = require('./config');
+const SSC28Income = require('./ssc28Income');
 const schedule = require('node-schedule');
 const logBuilder = require('../../utils/logSync/logBuilder');
 const EventEmitter = require('events').EventEmitter;
@@ -18,6 +19,7 @@ class Hall extends EventEmitter{
         this._adminToken = null;
         this._broadcast = {content:config.BROADCAST};
         this._schedule = null;
+        this._ssc28Income = new SSC28Income();
     }
 
     async _updateDailyReset(){
@@ -63,7 +65,7 @@ class Hall extends EventEmitter{
         this._schedule = schedule.scheduleJob(cron_time, async function () {
             await this._updateDailyReset();
         }.bind(this));
-
+        await this._ssc28Income.start();
         logger.error('Hall start');
     }
 
@@ -72,7 +74,7 @@ class Hall extends EventEmitter{
             this._schedule.cancel();
             this._schedule = null;
         }
-        
+        await this._ssc28Income.stop();
         logger.error('Hall stop');
     }
 
@@ -221,21 +223,6 @@ class Hall extends EventEmitter{
         await data.account.commit();
     }
 
-    async setPlayerInfoByGM(data){
-        let account = models.account.helper.getAccount(data.uid);
-        let fields = data.fields;
-        for(let key in fields){
-            let typeInfo = models.account.modelDefine[key];
-            if(typeInfo && typeInfo.gmModify == true){
-                account[key] = fields[key];
-            }else {
-                throw ERROR_OBJ.PLAYER_FIELD_CANNOT_MODIFY;
-            }
-        }
-        await account.commit();
-        this.emit(config.HALL_EVENT.PLAYER_CHANGE, {uid:data.uid, fields:fields});
-    }
-
     async getBroadcast(data){
         return this._broadcast;
     }
@@ -267,6 +254,25 @@ class Hall extends EventEmitter{
             ['ssc', 'init_money', JSON.stringify({money:money})]);
 
         redisConnector.pub(eventType.PLAYER_EVENT_INIT_MONEY, {money:money});
+    }
+
+    async setPlayerInfoByGM(data){
+        if(data.token !== this._adminToken){
+            throw ERROR_OBJ.TOKEN_INVALID;
+        }
+
+        let account = models.account.helper.getAccount(data.id);
+        let fields = data.fields;
+        for(let key in fields){
+            let typeInfo = models.account.modelDefine[key];
+            if(typeInfo && (typeInfo.gmModify == true || typeInfo.modify == true)){
+                account[key] = fields[key];
+            }else {
+                throw ERROR_OBJ.PLAYER_FIELD_CANNOT_MODIFY;
+            }
+        }
+        await account.commit();
+        this.emit(config.HALL_EVENT.PLAYER_CHANGE, {uid:data.id, fields:fields});
     }
 }
 

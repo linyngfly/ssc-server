@@ -17,7 +17,7 @@ TBL_DEF[TBL_ID.TBL_MONEY_LOG] = {
 TBL_DEF[TBL_ID.TBL_PLAYER_INCOME] = {
     name: 'tbl_player_income',
     field: ['uid', 'identify', 'betMoney', 'incomeMoney', 'defectionRate',
-        'defectionMoney', 'winRate', 'periodCount', 'multiRate', 'incomeTime'],
+        'defectionMoney', 'winRate', 'periodCount', 'multiRate','satisfy', 'incomeTime'],
 };
 TBL_DEF[TBL_ID.TBL_AGENT_INCOME] = {
     name: 'tbl_agent_income',

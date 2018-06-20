@@ -1,15 +1,20 @@
-const models = require('../../../models');
-const utils = require('../../../utils/utils');
-const logBuilder = require('../../../utils/logSync/logBuilder');
-const config = require('../config');
+const models = require('../../models/index');
+const utils = require('../../utils/utils');
+const logBuilder = require('../../utils/logSync/logBuilder');
+const config = require('./config');
 const schedule = require('node-schedule');
 const util = require('util');
 
-class Canada28Income {
+class SSC28Income {
     constructor() {
         this._schedule = null;
-        this._income_key = util.format(models.constants.CONFIG.INCOME, config.CANADA28.GAME_IDENTIFY);
-        this._income_cfg = config.CANADA28.INCOME;
+        this._income_key = {};
+        this._income_key[config.LUCKY28.GAME_IDENTIFY] = util.format(models.constants.CONFIG.INCOME, config.LUCKY28.GAME_IDENTIFY);
+        this._income_key[config.CANADA28.GAME_IDENTIFY] = util.format(models.constants.CONFIG.INCOME, config.CANADA28.GAME_IDENTIFY);
+
+        this._income_cfg = {};
+        this._income_cfg[config.LUCKY28.GAME_IDENTIFY] = config.LUCKY28.INCOME;
+        this._income_cfg[config.CANADA28.GAME_IDENTIFY] = config.CANADA28.INCOME;
 
     }
 
@@ -34,6 +39,19 @@ class Canada28Income {
     async _loadIncome(){
         let income_cfg = null;
         let rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
+            [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME]);
+        if(rows && rows[0]){
+            income_cfg = JSON.parse(rows[0].info);
+        }else {
+            income_cfg = config.LUCKY28.INCOME;
+            await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
+                [config.LUCKY28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME, JSON.stringify(income_cfg)]);
+        }
+        await redisConnector.set(this._income_key[config.LUCKY28.GAME_IDENTIFY], income_cfg);
+        this._income_cfg[config.LUCKY28.GAME_IDENTIFY] = income_cfg;
+
+
+        rows = await mysqlConnector.query('SELECT * FROM tbl_config WHERE identify=? AND type=?',
             [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME]);
         if(rows && rows[0]){
             income_cfg = JSON.parse(rows[0].info);
@@ -42,15 +60,24 @@ class Canada28Income {
             await mysqlConnector.insert(`INSERT INTO tbl_config (identify, type, info) VALUES (?,?,?)`,
                 [config.CANADA28.GAME_IDENTIFY, config.CONFIG_TYPE.INCOME, JSON.stringify(income_cfg)]);
         }
-        await redisConnector.set(this._income_key, income_cfg);
-        this._income_cfg = income_cfg;
+        await redisConnector.set(this._income_key[config.CANADA28.GAME_IDENTIFY], income_cfg);
+        this._income_cfg[config.CANADA28.GAME_IDENTIFY] = income_cfg;
     }
 
     async _loadConfig(){
         try{
-            let income_cfg = await redisConnector.get(this._income_key);
+            let income_cfg = await redisConnector.get(this._income_key[config.LUCKY28.GAME_IDENTIFY]);
             if(null == income_cfg){
                 await this._loadIncome();
+            }else {
+                this._income_cfg[config.LUCKY28.GAME_IDENTIFY] = income_cfg;
+            }
+
+            income_cfg = await redisConnector.get(this._income_key[config.CANADA28.GAME_IDENTIFY]);
+            if(null == income_cfg){
+                await this._loadIncome();
+            }else {
+                this._income_cfg[config.CANADA28.GAME_IDENTIFY] = income_cfg;
             }
 
         }catch (err) {
@@ -59,8 +86,17 @@ class Canada28Income {
     }
 
     async _resetConfig(){
-        await redisConnector.del(this._income_key);
+        await redisConnector.del(this._income_key[config.LUCKY28.GAME_IDENTIFY]);
+        await redisConnector.del(this._income_key[config.CANADA28.GAME_IDENTIFY]);
         await this._loadIncome();
+    }
+
+    _getPlayerIncomCfg(identify){
+        return this._income_cfg[identify].PLAYER;
+    }
+
+    _getAgentIncomCfg(identify){
+        return this._income_cfg[identify].AGENT;
     }
 
     /**
@@ -69,9 +105,11 @@ class Canada28Income {
      */
     async _calcPlayerIncome() {
         let yesterday_zero = utils.timestamp_yesterday();
+        // yesterday_zero += 1000* 60*60*24;
         yesterday_zero = new Date(yesterday_zero);
 
         let today_zero = utils.timestamp_today();
+        // today_zero += 1000* 60*60*24;
         today_zero = new Date(today_zero);
 
         let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0 AND updated_at>=?',
@@ -93,14 +131,10 @@ class Canada28Income {
 
                 for (let j = 0, len = dayBetInfos.length; j < len; ++j) {
                     let dayBetInfo = dayBetInfos[j];
-                    if (dayBetInfo.dayBetCount == 0) {
-                        continue;
-                    }
-
                     let identify = dayBetInfo.identify;
-                    let incomeConfig = this._income_cfg.PLAYER;
+                    let incomeConfig = this._getPlayerIncomCfg(identify);
                     let period_count = Number(dayBetInfo.periodCount);
-                    let multi_rate = Number((dayBetInfo.multiCount / dayBetInfo.dayBetCount).toFixed(2));
+                    let multi_rate = Number(((dayBetInfo.multiCount / Math.max(dayBetInfo.dayBetCount, 1))*100).toFixed(2));
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
@@ -109,15 +143,16 @@ class Canada28Income {
                         incomeMoney: incomeMoney,
                         defectionMoney: 0,
                         defectionRate: 0,
-                        winRate: Number(((dayBetInfo.dayWinCount / dayBetInfo.dayBetCount) * 100).toFixed(2)),
+                        winRate: Number(((dayBetInfo.dayWinCount / Math.max(dayBetInfo.dayBetCount, 1)) * 100).toFixed(2)),
                         periodCount: dayBetInfo.periodCount,
                         multiRate: multi_rate,
+                        satisfy:period_count >= incomeConfig.PERIOD_COUNT && multi_rate >= incomeConfig.MULTI_RATE,
                         incomeTime: yesterday_zero.format()
                     };
 
                     let defectionRate = 0;
                     let defectionMoney = 0;
-                    if (period_count >= incomeConfig.PERIOD_COUNT && multi_rate >= incomeConfig.MULTI_RATE && incomeMoney < 0) {
+                    if (dayIncomeInfo.satisfy && incomeMoney < 0) {
                         let range = incomeConfig.RANGE;
                         let num = Math.abs(incomeMoney);
                         for (let k = 0, len = range.length; k < len; ++k) {
@@ -188,12 +223,9 @@ class Canada28Income {
 
                 for (let j = 0, len = dayBetInfos.length; j < len; ++j) {
                     let dayBetInfo = dayBetInfos[j];
-                    if (dayBetInfo.dayBetMoney == 0) {
-                        continue;
-                    }
 
                     let identify = dayBetInfo.identify;
-                    let incomeConfig = this._income_cfg.AGENT;
+                    let incomeConfig = this._getAgentIncomCfg(identify);
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
@@ -237,4 +269,4 @@ class Canada28Income {
 
 }
 
-module.exports = Canada28Income;
+module.exports = SSC28Income;

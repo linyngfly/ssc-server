@@ -145,7 +145,8 @@ IF NOT EXISTS `tbl_player_income` (
 	`winRate` FLOAT (6, 2) NOT NULL COMMENT '胜率',
 	`periodCount` BIGINT (20) NOT NULL COMMENT '投注期数',
 	`multiRate` FLOAT (6, 2) NOT NULL COMMENT '组合投注占比',
-	`incomeTime` TIMESTAMP NOT NULL  COMMENT '反水日期',
+	`incomeTime` TIMESTAMP NOT NULL COMMENT '反水日期',
+	`satisfy` TINYINT NOT NULL DEFAULT 0 COMMENT '是否达成回水条件',
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;

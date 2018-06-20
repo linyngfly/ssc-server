@@ -14,16 +14,16 @@ const api_list = {
     },
 
     setPlayerInfoByGM: {
-        route: '/setPlayerInfoByGM', //修改玩家信息（目前只能修改昵称，头像）
+        route: '/setPlayerInfoByGM', //GM修改玩家信息
         handler: GM.setPlayerInfo,
-        params: [],
+        params: ['mainType', 'subType', 'token', 'id', 'fields'],
         accountFields: []
     },
 
     setOrderState: {
         route: '/setOrderState', //修改订单状态
         handler: GM.setOrderState,
-        params: [],
+        params: ['mainType', 'subType', 'token', 'uid', 'state', 'operator', 'id'],
         accountFields: []
     },
 
@@ -37,14 +37,14 @@ const api_list = {
     setBroadcast: {
         route: '/setBroadcast', //后台设置系统公告
         handler: GM.setBroadcast,
-        params: [],
+        params: ['mainType', 'subType', 'token', 'content'],
         accountFields: []
     },
 
     setInitMoney: {
         route: '/setInitMoney', //后台设置系统公告
         handler: GM.setInitMoney,
-        params: [],
+        params: ['mainType', 'subType', 'token', 'money'],
         accountFields: []
     },
 

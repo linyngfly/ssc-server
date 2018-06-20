@@ -12,7 +12,6 @@ const models = require('../../../models');
 const OpenCaiNetApi = require('../openCaiNetApi');
 const Canada28Player = require('./canada28Player');
 const Canada28LimitRate = require('./canada28LimitRate');
-const Canada28Income = require('./canada28Income');
 
 class Canada28 extends SSC {
     constructor() {
@@ -26,18 +25,15 @@ class Canada28 extends SSC {
             }),
             betLimitRate: new Canada28LimitRate()
         });
-        this._income = new Canada28Income();
     }
 
     async start() {
         await super.start();
-        await this._income.start();
         logger.error('Canada28 start');
     }
 
     async stop() {
         super.stop();
-        await this._income.stop();
     }
 
     async _openAward(last) {
