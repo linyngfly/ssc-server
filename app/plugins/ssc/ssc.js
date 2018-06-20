@@ -239,17 +239,15 @@ class SSC {
         msg.limit = msg.limit || 10;
 
         let bets = [];
-        let sql = 'SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and ' +
-            'a.identify=b.identify WHERE a.identify=? and a.uid=? LIMIT ?,?';
+        let sql = 'SELECT * FROM tbl_bets AS a LEFT JOIN tbl_lottery AS b on a.period=b.period and a.identify=b.identify WHERE a.identify=? and a.uid=? ORDER BY a.betTime DESC LIMIT ?,?';
         let rows = await mysqlConnector.query(sql, [this._gameIdentify, msg.uid, msg.skip, msg.limit]);
         if (rows && rows.length > 0) {
             for (let i = 0; i < rows.length; i++) {
                 let item = rows[i];
                 bets.push({
-                    id: item.id,
                     state: item.state,
                     betMoney: item.betMoney,
-                    money: item.winMoney,
+                    winMoney: item.winMoney,
                     betItems: item.betItems,
                     period: item.period,
                     numbers: item.numbers,
@@ -356,8 +354,7 @@ class SSC {
     //     }
     // }
 
-    async _openAward(last) {
-    }
+    async _openAward(last) {}
 
 
 }
