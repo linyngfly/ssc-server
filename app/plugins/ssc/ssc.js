@@ -83,13 +83,14 @@ class SSC {
             });
         });
 
-        hall.on(config.HALL_EVENT.PLAYER_CHANGE, function (event) {
+        hall.on(config.HALL_EVENT.PLAYER_CHANGE, async function (event) {
             let player = this._playerMap.get(event.uid);
             if (player) {
                 let fields = event.fields;
                 for (let key in fields) {
                     player.account[key] = fields[key];
                 }
+                await player.account.commit();
             }
         }.bind(this));
 
@@ -146,11 +147,11 @@ class SSC {
         this.broadcast(sscCmd.push.enter.route, {nickname: player.account.nickname});
     }
 
-    leave(msg) {
+    async leave(msg) {
         logger.error('玩家加入游戏', this._gameIdentify);
         let player = this._playerMap.get(msg.uid);
         if (!player.isBet()) {
-            this._delPlayer(player);
+            await this._delPlayer(player);
         } else {
             this._updatePlayerState(player, constants.PLAYER_STATE.OFFLINE);
         }
@@ -170,7 +171,8 @@ class SSC {
         this._playerMap.set(player.uid, player);
     }
 
-    _delPlayer(player) {
+    async _delPlayer(player) {
+        await player.account.commit();
         this.leaveMsgChannel(player.msgId);
         this._playerMap.delete(player.uid);
     }

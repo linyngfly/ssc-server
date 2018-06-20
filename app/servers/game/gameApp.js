@@ -111,7 +111,7 @@ class GameApp {
     async c_leave(msg, session) {
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
         if(game){
-            game.leave(msg);
+            await game.leave(msg);
             await omeloUtil.kick(msg.uid || session.uid, 'logout');
         }
         logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
