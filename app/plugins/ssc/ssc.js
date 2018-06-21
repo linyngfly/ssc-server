@@ -40,6 +40,9 @@ const schedule = require('node-schedule');
 //
 // 后台统计每条抽奖的明细和明天发出去的总额。
 
+// 查的申请 回的申请记录，查的批准记录，回的批准记录（需要后台配合）下注记录，退款记录等 
+// 插入公告的内容在消息种。
+
 class SSC {
     constructor(opts) {
         this._hallName = opts.hallName;
@@ -58,7 +61,7 @@ class SSC {
         let self = this;
 
         this._lottery.on(config.LOTTERY_EVENT.TICK_COUNT, (dt) => {
-            logger.error(this._gameIdentify + ' 开奖倒计时=', dt, self._hallName);
+            // logger.error(this._gameIdentify + ' 开奖倒计时=', dt, self._hallName);
             self.broadcast(sscCmd.push.countdown.route, {
                 dt: dt,
             });
@@ -95,6 +98,19 @@ class SSC {
 
         hall.on(config.HALL_EVENT.BROADCAST, function (broadcast_content) {
             self.broadcast(sscCmd.push.broadcast.route, broadcast_content);
+        }.bind(this));
+
+        hall.on(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, function (data) {
+            if(Number.isNaN(Number(data.publisher))){
+                self.broadcast(sscCmd.push.sysMessage.route, data);
+            }else{
+                //个人系统消息
+                let player = this._playerMap.get(event.uid);
+                if (player) {
+                    player.send(sscCmd.push.privateSysMessage.route, {money:player.account.money});
+                }
+            }
+
         }.bind(this));
 
         this._lottery.start();

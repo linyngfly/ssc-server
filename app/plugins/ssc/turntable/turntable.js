@@ -4,6 +4,7 @@ const util = require('util');
 const models = require('../../../models');
 const logBuilder = require('../../../utils/logSync/logBuilder');
 const schedule = require('node-schedule');
+const moment = require('moment');
 const ERROR_OBJ = require('../error_code').ERROR_OBJ;
 
 class Turntable {
@@ -43,17 +44,18 @@ class Turntable {
         }
 
         let account = data.account;
-        if(account.new_user_draw == 1){
-            account.new_user_draw = 0;
-        }else if(account.daily_draw != -1 && this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
-            account.daily_draw = -1;
-        }else {
-            if(account.daily_draw == -1){
-                throw ERROR_OBJ.TURNTABLE_DRAW_COUNT_ZERO;
-            }else{
-                throw ERROR_OBJ.TURNTABLE_DRAW_CONDITION;
-            }
-        }
+        //TODO 测试放开
+        // if(account.new_user_draw == 1){
+        //     account.new_user_draw = 0;
+        // }else if(account.daily_draw != -1 && this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
+        //     account.daily_draw = -1;
+        // }else {
+        //     if(account.daily_draw == -1){
+        //         throw ERROR_OBJ.TURNTABLE_DRAW_COUNT_ZERO;
+        //     }else{
+        //         throw ERROR_OBJ.TURNTABLE_DRAW_CONDITION;
+        //     }
+        // }
 
         let money = this._randomGetAward(this._award);
         if (money && money > 0) {
@@ -67,6 +69,13 @@ class Turntable {
                 total: data.account.money,
                 scene: models.constants.GAME_SCENE.TURNTABLE
             });
+
+            let sysInfo = {
+                publisher: +data.uid,
+                content: `转盘抽奖获得金豆${money}`,
+                created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+            };
+            logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
 
             resp.award = money;
             resp.money = data.account.money;

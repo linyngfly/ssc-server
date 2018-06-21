@@ -27,6 +27,13 @@ const api_list = {
         accountFields: []
     },
 
+    publishSysMessage: {
+        route: '/publishSysMessage', //修改订单状态
+        handler: GM.publishSysMessage,
+        params: ['mainType', 'subType', 'token', 'publisher', 'content'],
+        accountFields: []
+    },
+
     getBroadcast: {
         route: '/getBroadcast', //获取系统公告
         handler: GM.getBroadcast,
@@ -45,6 +52,13 @@ const api_list = {
         route: '/setInitMoney', //后台设置系统公告
         handler: GM.setInitMoney,
         params: ['mainType', 'subType', 'token', 'money'],
+        accountFields: []
+    },
+
+    getSysMessage: {
+        route: '/getSysMessage', //获取系统消息
+        handler: GM.getSysMessage,
+        params: [],
         accountFields: []
     },
 

@@ -13,6 +13,11 @@ class GM {
         return logicResponse.ask(await game.setOrderState(data));
     }
 
+    async publishSysMessage(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        return logicResponse.ask(await game.publishSysMessage(data));
+    }
+
     async setPlayerInfo(data){
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
         let result = await game.setPlayerInfoByGM(data);
@@ -34,6 +39,11 @@ class GM {
     async setInitMoney(data){
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
         let result = await game.setInitMoney(data);
+        return logicResponse.ask(result);
+    }
+    async getSysMessage(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = await game.getSysMessage(data);
         return logicResponse.ask(result);
     }
 }

@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://116.31.100.75:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const AUDIO_HOST = 'http://116.31.100.75:3102';
-// const AUDIO_HOST = 'http://127.0.0.1:3102';
-const GATE_HOST = 'http://116.31.100.75:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "116.31.100.75";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://116.31.100.75:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://116.31.100.75:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
+// const GATE_HOST = 'http://116.31.100.75:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "116.31.100.75";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -33,6 +33,7 @@ class SSCClient {
         this._client.on('s_betResult', this.onBetResult.bind(this));
         this._client.on('s_openLottery', this.onOpenLottery.bind(this));
         this._client.on('s_broadcast', this.onBroadcast.bind(this));
+        this._client.on('s_sysMessage', this.onSysMessage.bind(this));
     }
 
     onEnter(msg) {
@@ -70,6 +71,9 @@ class SSCClient {
 
     onBroadcast(msg) {
         console.info('onBroadcast msg=', JSON.stringify(msg));
+    }
+    onSysMessage(msg) {
+        console.info('onSysMessage msg=', JSON.stringify(msg));
     }
 
     /**
@@ -188,6 +192,29 @@ class SSCClient {
             console.log(resp.error);
         } else {
             console.log('setBroadcast ok');
+            console.log(resp.data);
+        }
+    }
+
+    async publishSysMessage(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/publishSysMessage');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('publishSysMessage err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('publishSysMessage ok');
+            console.log(resp.data);
+        }
+    }
+    async getSysMessage(data) {
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getSysMessage');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getSysMessage err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getSysMessage ok');
             console.log(resp.data);
         }
     }
@@ -333,7 +360,9 @@ class SSCClient {
 
     async bet(data) {
         try {
-            let resp = await this._request('game.sscHandler.c_bet', {betData: data});
+            let resp = await this._request('game.sscHandler.c_bet', {
+                betData: data
+            });
             console.info('bet ok resp=', resp);
         } catch (err) {
             console.info('bet fail err=', err);
@@ -343,7 +372,9 @@ class SSCClient {
 
     async unBet(id) {
         try {
-            let resp = await this._request('game.sscHandler.c_unBet', {id: id});
+            let resp = await this._request('game.sscHandler.c_unBet', {
+                id: id
+            });
             console.info('unBet ok resp=', resp);
         } catch (err) {
             console.info('unBet fail err=', err);
@@ -508,14 +539,14 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-//     await client.register({
-//         username: '18612432383',
-//         password: '123654',
-//             code: '1243',
-//         nickname: '咸鱼也有梦11',
-//     });
-// return;
-//
+    //     await client.register({
+    //         username: '18612432383',
+    //         password: '123654',
+    //             code: '1243',
+    //         nickname: '咸鱼也有梦11',
+    //     });
+    // return;
+    //
     console.time('111');
 
     await client.login({
@@ -523,8 +554,26 @@ async function main() {
         password: '123654'
     });
 
+    //发布系统消息 PHP 调用
+    // await client.publishSysMessage({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: 'f497f98ec3d66d8418e6e06b161c2251a0d721d6c50abf2a1fbba2f8840463a7',
+    //     content: '开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！开业大酬宾喽 大酬aaaa宾喽 afdafad 2！！！',
+    //     publisher: 'admin'
+    // });
 
-   // await client.getBroadcast({token: client._player.token, mainType: 'ssc', subType: 'hall'});
+    // //获取系统消息 客户端 调用
+    // await client.getSysMessage({
+    //     token: client._player.token,
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     skip: 0,
+    //     limit: 5
+    // });
+
+
+    // await client.getBroadcast({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //后台GM调用
     // await client.setBroadcast({
     //     mainType: 'ssc',
@@ -573,19 +622,19 @@ async function main() {
     // //绑定支付信息
     //
     // //1:支付宝，1：微信，2：银行卡
-    // await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'linyngfly@126.com',name:'林洋'}});
+    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'11linyngfly@126.com',name:'林洋'}});
 
-// return;
+
 
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
     // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
     // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //
     // //TODO NEW 修改玩家信息
-    await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
-        nickname:'起个新名字试试', //修改昵称
-        figure_url:'2', //修改头像
-    }});
+    // await client.setPlayerInfo({token: client._player.token, mainType: 'ssc', subType: 'hall', fields:{
+    //     nickname:'起个新名字试试', //修改昵称
+    //     figure_url:'2', //修改头像
+    // }});
 
 
     // await client.enterGame('ssc', 'canada28');
@@ -598,6 +647,14 @@ async function main() {
     //
     // return;
 
+    await client.publishSysMessage({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '1965042899f70763cbfab073852f59a64a2887631d3ac90249df848e33404e00',
+        content: '开业大酬宾喽 22222222222 ！！！',
+        publisher: 'admin'
+    });
+    // return;
 
     await client.bet('11.100');
     await client.bet('12.100');
@@ -655,4 +712,3 @@ async function main() {
 }
 
 main();
-

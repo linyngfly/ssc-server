@@ -45,6 +45,7 @@ module.exports = {
     HALL_EVENT: {
         PLAYER_CHANGE: Symbol('hall_event_player_change'),
         BROADCAST: Symbol('hall_event_broadcast'),
+        PUBLISH_SYS_MESSAGE: Symbol('publish_sys_message'),
     },
 
 

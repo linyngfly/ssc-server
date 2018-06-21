@@ -168,3 +168,15 @@ IF NOT EXISTS `tbl_agent_income` (
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
+# ------------------------------------------------------------
+# Dump of table tbl_sys_message(系统消息)
+# ------------------------------------------------------------
+CREATE TABLE
+IF NOT EXISTS `tbl_sys_message` (
+	`id` BIGINT (20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`publisher` VARCHAR (36) COLLATE utf8_unicode_ci NOT NULL COMMENT '标志',
+	`content` VARCHAR (256) COLLATE utf8_unicode_ci NOT NULL COMMENT '系统消息内容',
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+

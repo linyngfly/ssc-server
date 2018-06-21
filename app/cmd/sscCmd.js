@@ -177,6 +177,20 @@ class SSCCmd extends Cmd {
             },
         };
 
+        this._push.sysMessage = {
+            route: 's_sysMessage',
+            msg: {
+                content:'欢迎你的加入，谢谢'
+            },
+        };
+
+        this._push.privateSysMessage = {
+            route: 's_privateSysMessage',
+            msg: {
+                content:'欢迎你的加入，谢谢'
+            },
+        };
+
         this._push.countdown = {
             route: 's_countdown',
             msg: {

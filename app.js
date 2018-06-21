@@ -162,6 +162,7 @@ app.configure('production|development', 'game', function () {
     httpTokenFilter.addIgnoreRoute('setBroadcast');
     httpTokenFilter.addIgnoreRoute('setInitMoney');
     httpTokenFilter.addIgnoreRoute('setPlayerInfoByGM');
+    httpTokenFilter.addIgnoreRoute('publishSysMessage');
     omeloHttpPlugin.filter(httpTokenFilter);
 
     app.before(tokenFilter);

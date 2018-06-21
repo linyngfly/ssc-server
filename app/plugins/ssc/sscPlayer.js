@@ -162,6 +162,13 @@ class SscPlayer extends Player {
             scene: models.constants.GAME_SCENE.BET
         });
 
+        let sysInfo = {
+            publisher: +this.uid,
+            content: `下注消耗金豆${parseRet.total}`,
+            created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+        };
+        logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
+
         this._betsMap.set(bet.id, bet);
         this._betLimitMap.set(limitKey, totalLimitMoney);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, totalLimitMoney);
@@ -195,6 +202,13 @@ class SscPlayer extends Player {
             scene: models.constants.GAME_SCENE.UNBET
         });
 
+        let sysInfo = {
+            publisher: +this.uid,
+            content: `撤销下注返还金豆${bet.betMoney}`,
+            created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+        };
+        logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
+
         let limitKey = this._getLimitKey(bet.limit_dic, bet.betItems[0].result);
 
         let typeLimitMoney = this._betLimitMap.get(limitKey);
@@ -212,7 +226,7 @@ class SscPlayer extends Player {
 
     async chat(msg) {
         if (this.account.forbid_talk == 1) {
-            throw ERROR_OBJ.CHAT_TOO_FREQUENT;
+            throw ERROR_OBJ.CHAT_FORBID_TALK;
         }
 
         let now = Date.now();

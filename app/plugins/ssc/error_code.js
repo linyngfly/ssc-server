@@ -25,6 +25,8 @@ const _errorCode = {
     PLAYER_FORBID_TALK: 10020, //你已被禁言
     TURNTABLE_DRAW_COUNT_ZERO: 10021, //今日抽奖已经用完
     TURNTABLE_DRAW_CONDITION: 10022, //今日抽奖条件未达成，继续投注
+    CHAT_FORBID_TALK: 10023, //你已经被禁言，联系管理员
+    BIND_BANK_REPEATE: 10024, //已经绑定支付信息
 };
 
 for (let item in ERROR_CODE) {
@@ -93,6 +95,15 @@ const _errorObj = {
     CHAT_TOO_FREQUENT: {
         msg: '聊天太频繁,稍后再试',
         code: _errorCode.CHAT_TOO_FREQUENT,
+    },
+    CHAT_FORBID_TALK: {
+        msg: '你已经被禁言，要申诉请联系管理员',
+        code: _errorCode.CHAT_FORBID_TALK,
+    },
+
+    BIND_BANK_REPEATE: {
+        msg: '已经绑定支付信息',
+        code: _errorCode.BIND_BANK_REPEATE,
     },
     BET_AMOUNT_TOO_LOW: {
         msg: `投注金额低于单注最低限额`,
