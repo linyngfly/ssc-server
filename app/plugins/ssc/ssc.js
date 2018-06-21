@@ -105,7 +105,7 @@ class SSC {
                 self.broadcast(sscCmd.push.sysMessage.route, data);
             }else{
                 //个人系统消息
-                let player = this._playerMap.get(event.uid);
+                let player = this._playerMap.get(data.publisher);
                 if (player) {
                     player.send(sscCmd.push.privateSysMessage.route, {money:player.account.money});
                 }
