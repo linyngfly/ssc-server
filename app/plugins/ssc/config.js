@@ -9,7 +9,7 @@ module.exports = {
         },
         INCOME_DAILY_CALC: {
             enable: true,
-            time: '0,0,0,*,*,*', //每天0点
+            time: '10,0,0,*,*,*', //每天0点2分
             // time: '0/20,*,*,*,*,*', //每天0点
         },
         ACCOUNT_DAILY_RESET: {

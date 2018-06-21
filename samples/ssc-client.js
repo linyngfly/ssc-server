@@ -72,6 +72,7 @@ class SSCClient {
     onBroadcast(msg) {
         console.info('onBroadcast msg=', JSON.stringify(msg));
     }
+
     onSysMessage(msg) {
         console.info('onSysMessage msg=', JSON.stringify(msg));
     }
@@ -207,6 +208,7 @@ class SSCClient {
             console.log(resp.data);
         }
     }
+
     async getSysMessage(data) {
         let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getSysMessage');
         resp = JSON.parse(resp);
@@ -539,18 +541,19 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-    //     await client.register({
-    //         username: '18612432383',
-    //         password: '123654',
-    //             code: '1243',
-    //         nickname: '咸鱼也有梦11',
-    //     });
+    // await client.register({
+    //     username: '18612432385',
+    //     password: '123654',
+    //     code: '1243',
+    //     nickname: '咸鱼也有梦11',
+    //     inviter: 1,
+    // });
     // return;
     //
     console.time('111');
 
     await client.login({
-        username: '18612432383',
+        username: '18612432384',
         password: '123654'
     });
 
@@ -622,8 +625,13 @@ async function main() {
     // //绑定支付信息
     //
     // //1:支付宝，1：微信，2：银行卡
-    await client.bindPayInfo({token:client._player.token, mainType:'ssc', subType:'hall', type:1, info:{payAccount:'11linyngfly@126.com',name:'林洋'}});
-
+    await client.bindPayInfo({
+        token: client._player.token,
+        mainType: 'ssc',
+        subType: 'hall',
+        type: 1,
+        info: {payAccount: '11linyngfly@126.com', name: '林洋'}
+    });
 
 
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
@@ -645,15 +653,15 @@ async function main() {
     //     limit: 10,
     // });
     //
-    return;
-
-    await client.publishSysMessage({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: '1965042899f70763cbfab073852f59a64a2887631d3ac90249df848e33404e00',
-        content: '开业大酬宾喽 22222222222 ！！！',
-        publisher: 'admin'
-    });
+    // return;
+    //
+    // await client.publishSysMessage({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: '1965042899f70763cbfab073852f59a64a2887631d3ac90249df848e33404e00',
+    //     content: '开业大酬宾喽 22222222222 ！！！',
+    //     publisher: 'admin'
+    // });
     // return;
 
     await client.bet('11.100');

@@ -185,11 +185,12 @@ class SSC28Income {
      */
     async _calcAgentIncome() {
         let yesterday_zero = utils.timestamp_yesterday();
+        // yesterday_zero += 1000* 60*60*24;
         yesterday_zero = new Date(yesterday_zero);
 
         let today_zero = utils.timestamp_today();
         today_zero = new Date(today_zero);
-
+        // today_zero += 1000* 60*60*24;
         let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0',
             [models.constants.ROLE.AGENT]);
 
