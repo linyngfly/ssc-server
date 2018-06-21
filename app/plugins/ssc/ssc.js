@@ -90,7 +90,6 @@ class SSC {
                 for (let key in fields) {
                     player.account[key] = fields[key];
                 }
-                await player.account.commit();
             }
         }.bind(this));
 
