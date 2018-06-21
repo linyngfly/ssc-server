@@ -160,17 +160,22 @@ class SSC {
         this._addPlayer(player);
 
         this.broadcast(sscCmd.push.enter.route, {nickname: player.account.nickname});
+        return player.account.toJSON();
     }
 
     async leave(msg) {
         logger.error('玩家加入游戏', this._gameIdentify);
         let player = this._playerMap.get(msg.uid);
-        if (!player.isBet()) {
-            await this._delPlayer(player);
-        } else {
-            this._updatePlayerState(player, constants.PLAYER_STATE.OFFLINE);
+        if(player){
+            if (!player.isBet()) {
+                await this._delPlayer(player);
+            } else {
+                this._updatePlayerState(player, constants.PLAYER_STATE.OFFLINE);
+            }
+            this.broadcast(sscCmd.push.leave.route, {nickname: player.account.nickname});
+            return player.account.toJSON();
         }
-        this.broadcast(sscCmd.push.leave.route, {nickname: player.account.nickname});
+
     }
 
     isInGameHall(uid) {

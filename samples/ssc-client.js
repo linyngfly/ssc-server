@@ -645,7 +645,7 @@ async function main() {
     //     limit: 10,
     // });
     //
-    // return;
+    return;
 
     await client.publishSysMessage({
         mainType: 'ssc',

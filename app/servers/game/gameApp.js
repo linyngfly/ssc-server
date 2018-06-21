@@ -104,17 +104,17 @@ class GameApp {
         await omeloUtil.set(session, kvs);
         session.on('closed', this.close.bind(this));
         msg.sid = session.frontendId;
-        await game.enter(msg);
         logger.info(`玩家[${msg.uid}]登录游戏[${msg.mainType}->${msg.subType}]成功`);
+        return await game.enter(msg);
     }
 
     async c_leave(msg, session) {
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
         if(game){
-            await game.leave(msg);
+            logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
             await omeloUtil.kick(msg.uid || session.uid, 'logout');
+            return await game.leave(msg);
         }
-        logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
     }
 
     close(session, reason) {
