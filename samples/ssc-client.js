@@ -519,7 +519,7 @@ async function main() {
     console.time('111');
 
     await client.login({
-        username: '18612432395',
+        username: '18612432383',
         password: '123654'
     });
 
@@ -540,22 +540,31 @@ async function main() {
     //     money: 30000
     // });
 
-    await client.setPlayerInfoByGM({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: '4350dc4581a6a9fc7675d5fdd09401c4a7e522cc4cf3a3c1622c2e1401361059',
-        id: 1,
-        fields:{  //修改所有或者其中一个值
-            role:1,
-            forbid_talk:1,
-            test:-1,
-        }
-    });
-    return;
+    // await client.setPlayerInfoByGM({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: 'a6b17e61d3d08c34d062037073d65144dfdf6bfc611286bfd6e91388b0c6eb9b',
+    //     id: 1,
+    //     fields:{  //修改所有或者其中一个值
+    //         role:1,
+    //         forbid_talk:1,
+    //         test:1,
+    //     }
+    // });
 
-    await client.getMyDefection({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
-    await client.getMyRebate({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
-// return
+    //TODO NEW php后台调用，确认或者撤销订单
+    // await client.setOrderState({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
+    //     state: 3,
+    //     operator: 'admin',
+    //     id: 2
+    // });
+
+
+    // await client.getMyDefection({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
+    // await client.getMyRebate({token: client._player.token, mainType: 'ssc', subType: 'hall', skip: 0, limit: 5});
 
     // await client.getDraw({token:client._player.token, mainType:'ssc', subType:'turntable'});
     //
@@ -578,26 +587,17 @@ async function main() {
         figure_url:'2', //修改头像
     }});
 
-    //TODO NEW php后台调用，确认或者撤销订单
-    // await client.setOrderState({
-    //     mainType: 'ssc',
-    //     subType: 'hall',
-    //     token: '55f4e909be2de310fd1b203a5a1a29372fd1cd3d6d7dbbf1202c43ba18997873',
-    //     state: 3,
-    //     operator: 'admin',
-    //     id: 2
-    // });
-
-    // return;
 
     // await client.enterGame('ssc', 'canada28');
     await client.enterGame('ssc', 'lucky28');
-    //
     // //TODO NEW 获取投个人注历史
     // await client.myBetResult({
-    //     skip: 0,
-    //     limit: 20,
+    //     skip: 20,
+    //     limit: 10,
     // });
+    //
+    // return;
+
 
     await client.bet('11.100');
     await client.bet('12.100');
@@ -612,12 +612,14 @@ async function main() {
     await client.bet('12.100');
     await client.bet('16.100');
     await client.bet('27.100');
-    // await client.bet('大双100');
-    // await client.bet('大单100');
-    // await client.bet('小50');
-    // await client.bet('小双50');
-    // await client.bet('豹子100');
-    // await client.bet('对子100');
+    await client.bet('大双100');
+    await client.bet('大200');
+    await client.bet('小50');
+    await client.bet('大单100');
+    await client.bet('小50');
+    await client.bet('小双50');
+    await client.bet('豹子100');
+    await client.bet('对子100');
 
 
     // await client.senChat({
@@ -644,7 +646,7 @@ async function main() {
     //
     // await client.myBetOrder();
     console.timeEnd('111');
-    // await client.myBets();
+
     // await client.bet('大单龙100');
     // console.error(1111);
     // await client.unBet(2);

@@ -25,7 +25,7 @@ IF NOT EXISTS `tbl_user` (
   `friends` json DEFAULT NULL COMMENT '朋友列表',
   `role` smallint(6) unsigned DEFAULT NULL COMMENT '0:玩家,1:拉手',
   `figure_url` smallint(6) unsigned DEFAULT '1' COMMENT '头像id(1~6)',
-  `test` smallint(6) unsigned DEFAULT '1' COMMENT '封号标识（<0封号）',
+  `test` tinyint(2) DEFAULT '1' COMMENT '封号标识（<0封号）',
   `rank_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '荣誉称号',
   `money` decimal(20,2) DEFAULT '0.00' COMMENT '账户金额',
   `level` smallint(6) unsigned DEFAULT '1' COMMENT '等级(1~10)',

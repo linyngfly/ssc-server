@@ -23,7 +23,7 @@ const api_list = {
     setOrderState: {
         route: '/setOrderState', //修改订单状态
         handler: GM.setOrderState,
-        params: ['mainType', 'subType', 'token', 'uid', 'state', 'operator', 'id'],
+        params: ['mainType', 'subType', 'token', 'state', 'operator', 'id'],
         accountFields: []
     },
 

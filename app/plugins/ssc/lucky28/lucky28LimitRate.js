@@ -89,8 +89,10 @@ class Lucky28LimitRate{
 
                 let range = item[0];
                 let r = Number(item[1]);
-                if(range[0] == -1 && num < range[1] || num >= range[0] && num < range[1]
-                    || range[1] == -1 && num >= range[0]){
+                let rng0 = Number(range[0]);
+                let rng1 = Number(range[1]);
+                if(rng0 == -1 && num < rng1 || num >= rng0 && num < rng1
+                    || rng1 == -1 && num >= rng0){
                     return r;
                 }
             }
