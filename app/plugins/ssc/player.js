@@ -6,7 +6,7 @@ class Player extends EventEmitter{
     constructor(opts){
         super();
         this._sid = opts.sid || '';
-        this._uid = opts.uid || '';
+        this._uid = Number(opts.uid) || -1;
         this._activeTime = Date.now();
         this._state = constants.PLAYER_STATE.ONLINE;
     }

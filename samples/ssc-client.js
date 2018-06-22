@@ -34,6 +34,7 @@ class SSCClient {
         this._client.on('s_openLottery', this.onOpenLottery.bind(this));
         this._client.on('s_broadcast', this.onBroadcast.bind(this));
         this._client.on('s_sysMessage', this.onSysMessage.bind(this));
+        this._client.on('s_privateSysMessage', this.onPrivateSysMessage.bind(this));
     }
 
     onEnter(msg) {
@@ -75,6 +76,10 @@ class SSCClient {
 
     onSysMessage(msg) {
         console.info('onSysMessage msg=', JSON.stringify(msg));
+    }
+
+    onPrivateSysMessage(msg) {
+        console.info('onPrivateSysMessage msg=', JSON.stringify(msg));
     }
 
     /**
@@ -129,6 +134,19 @@ class SSCClient {
             console.log(resp.error);
         } else {
             console.log('getDraw ok');
+            console.log(resp.data);
+        }
+    }
+
+    async getPlayerInfo(data) {
+
+        let resp = await httpclient.postData(data, GAME_HOST + '/game/clientApi/getPlayerInfo');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('getPlayerInfo err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('getPlayerInfo ok');
             console.log(resp.data);
         }
     }
@@ -541,19 +559,19 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-    // await client.register({
-    //     username: '18612432385',
-    //     password: '123654',
-    //     code: '1243',
-    //     nickname: '咸鱼也有梦11',
-    //     inviter: 1,
-    // });
+    await client.register({
+        username: '18612432385',
+        password: '123654',
+        code: '1243',
+        nickname: '咸鱼也有梦11',
+        inviter: 1,
+    });
     // return;
     //
     console.time('111');
 
     await client.login({
-        username: '18612432384',
+        username: '18612432385',
         password: '123654'
     });
 
@@ -574,7 +592,14 @@ async function main() {
     //     skip: 0,
     //     limit: 5
     // });
+    //
 
+    // await client.getPlayerInfo({
+    //     token: client._player.token,
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     fields: ['money', 'nickname', 'alipay', ...],
+    // });
 
     // await client.getBroadcast({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //后台GM调用
@@ -647,6 +672,16 @@ async function main() {
 
     // await client.enterGame('ssc', 'canada28');
     await client.enterGame('ssc', 'lucky28');
+
+    await client.setOrderState({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '27da072bc3bcfee7b4641e16bd7a909270add30d925930a971bc8095636d88b5',
+        state: 2,
+        operator: 'admin',
+        id: 1
+    });
+
     // //TODO NEW 获取投个人注历史
     // await client.myBetResult({
     //     skip: 20,
@@ -664,27 +699,27 @@ async function main() {
     // });
     // return;
 
-    await client.bet('11.100');
-    await client.bet('12.100');
-    await client.bet('13.100');
-    await client.bet('4.100');
-    await client.bet('5.100');
-    await client.bet('16.100');
-    await client.bet('7.100');
-    await client.bet('8.100');
-    await client.bet('19.100');
-    await client.bet('10.100');
-    await client.bet('12.100');
-    await client.bet('16.100');
-    await client.bet('27.100');
-    await client.bet('大双100');
-    await client.bet('大200');
-    await client.bet('小50');
-    await client.bet('大单100');
-    await client.bet('小50');
-    await client.bet('小双50');
-    await client.bet('豹子100');
-    await client.bet('对子100');
+    // await client.bet('11.100');
+    // await client.bet('12.100');
+    // await client.bet('13.100');
+    // await client.bet('4.100');
+    // await client.bet('5.100');
+    // await client.bet('16.100');
+    // await client.bet('7.100');
+    // await client.bet('8.100');
+    // await client.bet('19.100');
+    // await client.bet('10.100');
+    // await client.bet('12.100');
+    // await client.bet('16.100');
+    // await client.bet('27.100');
+    // await client.bet('大双100');
+    // await client.bet('大200');
+    // await client.bet('小50');
+    // await client.bet('大单100');
+    // await client.bet('小50');
+    // await client.bet('小双50');
+    // await client.bet('豹子100');
+    // await client.bet('对子100');
 
 
     // await client.senChat({

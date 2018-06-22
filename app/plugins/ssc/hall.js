@@ -274,6 +274,19 @@ class Hall extends EventEmitter {
         await data.account.commit();
     }
 
+    async getPlayerInfo(data) {
+        let respInfo = {};
+        let fields = data.fields;
+        let account = data.account;
+
+
+        for(let i=0;i<fields.length; i++){
+            let item = fields[i];
+            respInfo[item] = account[item];
+        }
+        return respInfo;
+    }
+
     async getBroadcast(data) {
         return this._broadcast;
     }

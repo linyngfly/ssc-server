@@ -76,6 +76,13 @@ const api_list = {
         accountFields: []
     },
 
+    getPlayerInfo: {
+        route: '/getPlayerInfo', //查询玩家信息
+        handler: player.getPlayerInfo,
+        params: [],
+        accountFields: []
+    },
+
     bindPayInfo: {
         route: '/bindPayInfo', //绑定银行账户信息
         handler: bank.bindPayInfo,
