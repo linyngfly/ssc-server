@@ -38,11 +38,14 @@ function _genTables(model, filename) {
     let tables = new Set();
     for (let key in model) {
         let item = model[key];
-        if (item.primary_key) {
-            template += `PRI_KEY:'${key}',\r\n`;
-            template += `PRI_TABLE:'${item.tbl}',\r\n`
+        if(item.tbl){
+            if (item.primary_key) {
+                template += `PRI_KEY:'${key}',\r\n`;
+                template += `PRI_TABLE:'${item.tbl}',\r\n`
+            }
+            tables.add(item.tbl);
         }
-        tables.add(item.tbl);
+
     }
     template += `TABLES:[`;
     for (let tbl of tables) {

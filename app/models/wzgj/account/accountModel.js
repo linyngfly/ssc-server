@@ -193,7 +193,7 @@ module.exports = {
         comment: '取款密码'
     }
 };
-let genCode = false;
+let genCode = true;
 if(genCode){
     const genCode = require('../../common/genCode');
     const path = require('path');
