@@ -22,7 +22,7 @@ class Token{
         if(ts.length !== 2) {
             return null;
         }
-        return {uid: ts[0], timestamp: Number(ts[1])};
+        return {uid: +ts[0], timestamp: Number(ts[1])};
     }
 }
 
