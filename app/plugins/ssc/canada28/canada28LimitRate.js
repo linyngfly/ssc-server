@@ -78,15 +78,19 @@ class Canada28LimitRate{
         return config.SSC28.BET_TYPE_DIC_LINK[dic];
     }
 
-    getRate(type, num){
+    getRate(type, num, sub){
         let rate = this._rateConfig[type];
         if(rate instanceof Array){
+            if (type == config.SSC28.BET_TYPE_RATE_DIC.NUM && (+sub == 13 || +sub == 14)) {
+                rate = rate[sub];
+            }
+
             for(let i=0;i<rate.length;i++){
-                let item = rate[0];
+                let item = rate[i];
                 if(!(item instanceof Array)){
                     return item;
                 }
-                
+
                 let range = item[0];
                 let r = Number(item[1]);
                 let rng0 = Number(range[0]);
@@ -96,6 +100,8 @@ class Canada28LimitRate{
                     return r;
                 }
             }
+        }else {
+            return Number(rate);
         }
     }
 }
