@@ -21,15 +21,16 @@ class SscPlayer extends Player {
         return this._account;
     }
 
-    async openAward(period, numbers, opentime, openResult) {
+    async openAward(period, numbers, opentime, openAwardCalc) {
         let bets = [];
+        let openResult = openAwardCalc.openResult;
         for (let bet of this._betsMap.values()) {
             if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
-                    let multi = this._limitRate.getRate(bet.rate_dic, this._betRateMap.get(bet.rate_dic), bet.betItems[0].result);
                     if (openResult.has(item.result)) {
+                        let multi = this._limitRate.getRate(bet.rate_dic, this._betRateMap.get(bet.rate_dic), openAwardCalc.sum);
                         let inc = item.money * (1 + multi);
                         inc = Number(inc.toFixed(2));
                         bet.winCount++;

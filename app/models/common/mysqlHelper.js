@@ -68,7 +68,7 @@ class MysqlHelper {
             let t = this._models[field].tbl;
             if (t) {
                 sqlTableFields[t] = sqlTableFields[t] || new Set();
-                sqlTableFields[t].push(field);
+                sqlTableFields[t].add(field);
             }
         }
 
@@ -84,7 +84,7 @@ class MysqlHelper {
         let sql = this._genSqlQueryCmd(sqlTableFields);
         let rows = await mysqlConnector.query(sql, [uid]);
         if (rows && rows[0]) {
-            return this._sqlObj2Obj(rows);
+            return this._sqlObj2Obj(rows[0]);
         }
     }
 
@@ -95,18 +95,18 @@ class MysqlHelper {
             let tableFields = sqlTableFields[table];
             for (let i = 0; i < tableFields.length; i++) {
                 if (head) {
-                    sql += `${table}.'${tableFields[i]}' `;
+                    sql += `${table}.${tableFields[i]} `;
                     head = false;
                 } else {
-                    sql += `,${table}.'${tableFields[i]}' `;
+                    sql += `,${table}.${tableFields[i]} `;
                 }
             }
         }
-        sql += `FROM '${this._sqlConst.PRI_TABLE}' ${this._sqlConst.PRI_TABLE} `;
+        sql += `FROM ${this._sqlConst.PRI_TABLE} `;
 
         for (let table in sqlTableFields) {
             if (table != this._sqlConst.PRI_TABLE) {
-                sql += `LEFT JOIN '${table}' ${table} ON ${this._sqlConst.PRI_TABLE}.${this._sqlConst.PRI_KEY}=${table}.${this._sqlConst.PRI_KEY} `;
+                sql += `LEFT JOIN ${table} ON ${this._sqlConst.PRI_TABLE}.${this._sqlConst.PRI_KEY}=${table}.${this._sqlConst.PRI_KEY} `;
             }
         }
 

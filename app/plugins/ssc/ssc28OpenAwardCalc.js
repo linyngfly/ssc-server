@@ -9,6 +9,15 @@ class Ssc28OpenAwardCalc {
         this._openResult = new Set();
     }
 
+
+    get openResult(){
+        return this._openResult;
+    }
+
+    get sum(){
+        return this._total;
+    }
+
     calc(){
         this._totalSizeCalc();
         this._totalSingleDoubleCalc();
@@ -16,7 +25,6 @@ class Ssc28OpenAwardCalc {
         this._duiziCalc();
         this._pantherCalc();
         this._shunZiCalc();
-        return this._openResult;
     }
 
     // 和大小计算 大>=14  小<=13

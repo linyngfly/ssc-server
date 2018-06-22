@@ -82,6 +82,59 @@ class AccountHelper {
         return account;
     }
 
+    async setAccount(uid, data){
+        if (data == null && uid == null) {
+            throw ERROR_OBJ.PARAM_MISSING;
+        }
+
+        let fields = {};
+        if (data instanceof Array) {
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
+                for (let key in item) {
+                    fields[key] = item[key];
+                }
+            }
+        } else {
+            fields = data;
+        }
+
+        if (Object.keys(fields).length == 0) {
+            return;
+        }
+
+        for(let key in accountModel){
+            let item = accountModel[key];
+            if(item.require){
+                if(null == fields[key]){
+                    throw ERROR_OBJ.PARAM_MISSING;
+                }
+            }
+            if(fields[key] == null){
+                if(item.type == 'object'){
+                    fields[key] = _.cloneDeep(item.def);
+                }else {
+                    fields[key] = item.def;
+                }
+            }
+        }
+
+        let cmds = [];
+        fields.id = uid;
+        let account = new Account(uid);
+        for (let key in fields) {
+            try {
+                let value = Parser.serializeValue(key, fields[key], account);
+                account.appendValue(key, value);
+                cmds.push(['hset', genRedisKey.getAccountKey(key), uid, value]);
+            } catch (e) {
+                e;
+            }
+        }
+        await redisConnector.multi(cmds);
+        return account;
+    }
+
     async getAccount(uid, fields) {
         if(typeof fields == 'string'){
             fields = [fields];

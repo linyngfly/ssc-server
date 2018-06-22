@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://116.31.100.75:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://116.31.100.75:3102';
-const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://116.31.100.75:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "116.31.100.75";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://116.31.100.75:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const AUDIO_HOST = 'http://116.31.100.75:3102';
+// const AUDIO_HOST = 'http://127.0.0.1:3102';
+const GATE_HOST = 'http://116.31.100.75:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "116.31.100.75";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -559,21 +559,24 @@ class SSCClient {
 
 async function main() {
     let client = new SSCClient();
-    await client.register({
-        username: '18612432385',
-        password: '123654',
-        code: '1243',
-        nickname: '咸鱼也有梦11',
-        inviter: 1,
-    });
+    // await client.register({
+    //     username: '18612432385',
+    //     password: '123654',
+    //     code: '1243',
+    //     nickname: '咸鱼也有梦11',
+    //     inviter: 1,
+    // });
     // return;
     //
     console.time('111');
 
     await client.login({
-        username: '18612432385',
+        username: '18612432395',
+        // username: '18612432382',
         password: '123654'
     });
+
+    return;
 
     //发布系统消息 PHP 调用
     // await client.publishSysMessage({

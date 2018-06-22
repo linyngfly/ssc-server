@@ -79,13 +79,37 @@ class Lucky28LimitRate {
         return config.SSC28.BET_TYPE_DIC_LINK[dic];
     }
 
-    getRate(type, num, sub) {
+    _check1314(type, sum){
+        let _newType = type;
+        switch (type){
+            case config.SSC28.BET_TYPE_RATE_DIC.BIG:
+                if(sum == 14){
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.BIG_14;
+                }
+                break;
+            case config.SSC28.BET_TYPE_RATE_DIC.SMALL:
+                if(sum == 13){
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.SMALL_13;
+                }
+                break;
+            case config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE:
+                if(sum == 14){
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE_14;
+                }
+                break;
+            case config.SSC28.BET_TYPE_RATE_DIC.SMALL_SINGLE:
+                if(sum == 13){
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.SMALL_SINGLE_13;
+                }
+                break;
+        }
+        return _newType;
+    }
+
+    getRate(type, num, sum) {
+        type = this._check1314(type, sum);
         let rate = this._rateConfig[type];
         if (rate instanceof Array) {
-            if (type == config.SSC28.BET_TYPE_RATE_DIC.NUM && (+sub == 13 || +sub == 14)) {
-                rate = rate[sub];
-            }
-
             for (let i = 0; i < rate.length; i++) {
                 let item = rate[i];
                 if (!(item instanceof Array)) {
@@ -106,5 +130,9 @@ class Lucky28LimitRate {
         }
     }
 }
+
+let tt = new Lucky28LimitRate();
+let ra = tt.getRate(config.SSC28.BET_TYPE_RATE_DIC.SMALL, 1000, 13);
+console.error('ra=',ra);
 
 module.exports = Lucky28LimitRate;

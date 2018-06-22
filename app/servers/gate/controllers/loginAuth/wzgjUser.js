@@ -27,7 +27,7 @@ class WZGJUser extends User {
 
     async _queryAccount(uid) {
         let mysqlPlayer = await models.account.helper.getAccount2Mysql(uid);
-        return await models.account.helper.createAccount(uid, mysqlPlayer);
+        return await models.account.helper.setAccount(uid, mysqlPlayer);
     }
 
     async sendPhoneCode(phone){

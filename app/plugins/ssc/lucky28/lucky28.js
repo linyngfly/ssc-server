@@ -39,14 +39,14 @@ class Lucky28 extends SSC{
 
     async _openAward(last){
         let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
-        let openResult = openAwardCalc.calc();
+        openAwardCalc.calc();
         for(let player of this._playerMap.values()){
-            await player.openAward(last.period, last.numbers, last.opentime, openResult);
+            await player.openAward(last.period, last.numbers, last.opentime, openAwardCalc);
             if(player.canRemove()){
                 this._playerMap.delete(player.uid);
             }
         }
-        return openResult;
+        return openAwardCalc.openResult;
     }
 
     async _createPlayer(uid, sid) {
