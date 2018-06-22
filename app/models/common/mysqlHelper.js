@@ -22,7 +22,7 @@ class MysqlHelper {
                 let sqlValue = [];
                 for (let field in this._models) {
                     let modelItem = this._models[field];
-                    if (modelItem.tbl == table) {
+                    if (modelItem && modelItem.tbl == table) {
                         if (sqlRow[field] != null) {
                             sqlKey.push(field);
                             sqlValue.push(sqlRow[field]);
@@ -32,7 +32,7 @@ class MysqlHelper {
                 if (sqlKey.length < 2) {
                     continue;
                 }
-                if(sqlKey.indexOf('id') == -1){
+                if (sqlKey.indexOf('id') == -1) {
                     sqlKey.push('id');
                     sqlValue.push(row.id);
                 }
@@ -65,10 +65,13 @@ class MysqlHelper {
 
         for (let i in fields) {
             let field = fields[i];
-            let t = this._models[field].tbl;
-            if (t) {
-                sqlTableFields[t] = sqlTableFields[t] || new Set();
-                sqlTableFields[t].add(field);
+            let modelItem = this._models[field];
+            if(modelItem){
+                let t = modelItem.tbl;
+                if (t) {
+                    sqlTableFields[t] = sqlTableFields[t] || new Set();
+                    sqlTableFields[t].add(field);
+                }
             }
         }
 
