@@ -100,13 +100,15 @@ class SSC {
             self.broadcast(sscCmd.push.broadcast.route, broadcast_content);
         }.bind(this));
 
-        hall.on(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, function (data) {
+        hall.on(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, async function (data) {
             if(Number.isNaN(Number(data.publisher))){
                 self.broadcast(sscCmd.push.sysMessage.route, data);
             }else{
                 //个人系统消息
                 let player = this._playerMap.get(data.publisher);
                 if (player) {
+                    player.account.money = 0;
+                    await player.account.commit();
                     player.send(sscCmd.push.privateSysMessage.route, {money:player.account.money});
                 }
             }

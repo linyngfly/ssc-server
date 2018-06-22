@@ -201,6 +201,7 @@ class Hall extends EventEmitter {
         if (data.state == 2) { //确认
             if (order.type == 1) { //充值
                 account.money = order.money;
+                await account.commit();
 
                 logBuilder.addMoneyLog({
                     uid: account.uid,
@@ -217,18 +218,19 @@ class Hall extends EventEmitter {
                 logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
                 this.emit(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, sysInfo);
 
-                await account.commit();
             }
         } else if (data.state == 3) {
             if (order.type == 2) { //提现
                 account.money = order.money;
+                await account.commit();
+
                 logBuilder.addMoneyLog({
                     uid: order.uid,
                     gain: order.money,
                     total: account.money,
                     scene: models.constants.GAME_SCENE.CASH_CANCEL
                 });
-                await account.commit();
+
 
                 let sysInfo = {
                     publisher: +order.uid,
