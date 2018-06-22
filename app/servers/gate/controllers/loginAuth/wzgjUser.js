@@ -55,14 +55,18 @@ class WZGJUser extends User {
     async _checkInviter(uid){
         try{
             let account = await models.account.helper.getAccount(uid, models.account.fieldConst.ROLE);
-            if(account.role == 0){
-                return false;
+            if(account.role == 1){
+                return true;
             }
-        }catch (e) {
-            return false;
+        }catch (err) {
+            if(err == ERROR_OBJ.PLAYER_NOT_EXIST){
+                let userData = await models.account.helper.getAccount2Mysql(uid, [models.account.fieldConst.ROLE]);
+                if(userData && userData.role == 1){
+                    return true;
+                }
+            }
         }
-
-        return true;
+        return false;
     }
 
     async register(data) {
@@ -83,8 +87,12 @@ class WZGJUser extends User {
         accountData.openid = openid;
         accountData.from_ip = data.ip;
 
-        if(data.inviter != null && this._checkInviter(data.inviter)){
-            accountData.inviter = data.inviter;
+        if(data.inviter != null){
+            if(await this._checkInviter(data.inviter)){
+                accountData.inviter = data.inviter;
+            }else{
+                throw ERROR_OBJ.INVITER_INVALID;
+            }
         }
 
         let account = await models.account.helper.createAccount(accountData);

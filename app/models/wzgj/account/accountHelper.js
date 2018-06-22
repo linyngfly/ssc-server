@@ -65,6 +65,10 @@ class AccountHelper {
         let cmds = [];
         let uid = await this._genUID();
         fields.id = uid;
+        if(fields.inviter == uid){
+            throw ERROR_OBJ.INVITER_INVALID;
+        }
+
         let account = new Account(uid);
         for (let key in fields) {
             let [cmd] = account.getCmd(key) || [];
