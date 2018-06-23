@@ -34,8 +34,8 @@ module.exports = {
 
 if(versions.SSL){
     module.exports.SSL_CERT = {
-        KEY:`shared/cert/${versions.VER_KEY[versions.PUB]}/server.key`,
-        CERT:`shared/cert/${versions.VER_KEY[versions.PUB]}/server.crt`,
+        KEY:`shared/cert/${versions.GAMETYPE_TAG[versions.PUB_GAME_TYPE]}/server.key`,
+        CERT:`shared/cert/${versions.GAMETYPE_TAG[versions.PUB_GAME_TYPE]}/server.crt`,
     };
 }
 

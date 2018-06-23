@@ -1,3 +1,5 @@
+
+
 const ERROR_OBJ = require('./error_code').ERROR_OBJ;
 const config = require('./config');
 
@@ -6,6 +8,8 @@ const config = require('./config');
  * 小:0~13, 大:14~27
  * 极小:0~5, 极大:22~27
  */
+
+
 
 class SSC28BetParser {
     constructor() {

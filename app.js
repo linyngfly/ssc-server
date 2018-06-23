@@ -24,7 +24,7 @@ if (sysConfig.SSL_CERT) {
  * Init app for client.
  */
 
-const VER = versions.DEVELOPMENT ? versions.VER_KEY[versions.GAMEPLAY.LOCAL] : versions.VER_KEY[versions.PUB];
+const VER = versions.LOCAL_DEV_MODE ? versions.GAMETYPE_TAG[versions.GAME_TYPE.LOCAL] : versions.GAMETYPE_TAG[versions.PUB_GAME_TYPE];
 let app = omelo.createApp({
     version_key: VER
 });
