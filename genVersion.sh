@@ -28,6 +28,7 @@ else
 fi
 
 GIT_HASH_VERSION=`sed -n ${VER_LINE}p config.git-hash`
+GIT_HASH_VERSION=\'$GIT_HASH_VERSION\'
 echo GIT_HASH_VERSION=$GIT_HASH_VERSION
 
 MINOR=$[$GIT_VERSION/$RADIX]
@@ -42,6 +43,6 @@ rm -f config.git-hash
 #cat config/versions.js.template1 | sed "s/\11/$PUB_TIME/g" > config/versions.js
 
 sed -i "/PUB_VERSION_TIME:/s/PUB_VERSION_TIME:[-_:'0-9]*/PUB_VERSION_TIME:$PUB_TIME/g" config/versions.js
-sed -i "/const GIT_HASH_VERSION=/s/=[a-z0-9]*/=$GIT_HASH_VERSION/g" config/versions.js  
+sed -i "/const GIT_HASH_VERSION=/s/=[a-z0-9'']*/=$GIT_HASH_VERSION/g" config/versions.js  
 sed -i "/PUB_VERSION_NO:/s/PUB_VERSION_NO:[.0-9']*/PUB_VERSION_NO:$GIT_VERSION/g" config/versions.js  
 echo "Generated version finish  "

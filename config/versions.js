@@ -1,4 +1,4 @@
-const GIT_HASH_VERSION=fcb59c922e937f7f0d06059bb427564f1bfc7c3c
+const GIT_HASH_VERSION='fcb59c922e937f7f0d06059bb427564f1bfc7c3c';
 
 //发布版本类型定义
 const VERSION_TYPE = {
@@ -39,10 +39,10 @@ module.exports = {
     SSL: false, //是否启动SSL
     PUB_VERSION_TYPE:VERSION_TYPE.BETA, //发布版本类型
 	
-    PUB_VERSION_NO:'1.1.54', //发布版本号
+    PUB_VERSION_NO:'1.1.55', //发布版本号
 	
 	//发布版本时间
-	PUB_VERSION_TIME:'2018-06-23_11:56:30',
+	PUB_VERSION_TIME:'2018-06-23_18:39:13',
 	
 	GIT_HASH_VERSION:GIT_HASH_VERSION,
     VERSION_TYPE:VERSION_TYPE,
