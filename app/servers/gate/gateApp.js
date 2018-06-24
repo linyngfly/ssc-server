@@ -1,5 +1,5 @@
 const omelo = require('omelo');
-const {RedisConnector, MysqlConnector} = require('../../database/dbclient');
+const {RedisConnector, MysqlConnector} = require('../../database').dbclient;
 const queryGameEntry = require('./internal/queryGameEntry');
 const utils = require('../../utils/utils');
 const models = require('../../models');
