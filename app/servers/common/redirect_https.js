@@ -9,7 +9,7 @@ class Redirect {
     }
 
     start() {
-        if (versions.DEVELOPMENT == true || versions.REDIRECT_HTTPS.indexOf(versions.PUB) == -1) {
+        if (versions.LOCAL_DEV_MODE == true || versions.REDIRECT_HTTPS.indexOf(versions.PUB_GAME_TYPE) == -1) {
             return;
         }
 

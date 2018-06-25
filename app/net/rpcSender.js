@@ -30,7 +30,7 @@ class RpcSender {
             if(!target){
                 return;
             }
-            versions.PUB == versions.GAMEPLAY.LOCAL && logger.error('invoke = ', serverType, serverModule, route, data, sid);
+            versions.PUB_GAME_TYPE == versions.GAME_TYPE.LOCAL && logger.error('invoke = ', serverType, serverModule, route, data, sid);
             return await this._invokeRpc(target, this._getSession(serverType, sid), data);
         } catch (err) {
             logger.warn('rpc invoke err=', err);
@@ -63,7 +63,7 @@ class RpcSender {
             if(!target){
                 return;
             }
-            versions.PUB == versions.GAMEPLAY.LOCAL && logger.error('invokeFront = ', serverType, serverModule, route, uid, sid, data);
+            versions.PUB_GAME_TYPE == versions.GAME_TYPE.LOCAL && logger.error('invokeFront = ', serverType, serverModule, route, uid, sid, data);
             return await this._invokeRpc(target, this._getSession(serverType, sid), data);
         } catch (e) {
             logger.warn('rpc invokeFront e=', e);

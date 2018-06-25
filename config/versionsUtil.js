@@ -8,17 +8,17 @@ class VersionsUtil{
     }
 
     _init(){
-        if(versions.PLATFORM_DIVISION.indexOf(versions.PUB) != -1){
+        if(versions.PLATFORM_DIVISION.indexOf(versions.PUB_GAME_TYPE) != -1){
             this._divisionPlatform = true;
         }
 
-        if(versions.IMG_DISPATCHER.indexOf(versions.PUB) != -1){
+        if(versions.IMG_DISPATCHER.indexOf(versions.PUB_GAME_TYPE) != -1){
             this._imgDispatcher = true;
         }
     }
 
     getVerKey () {
-        return versions.VER_KEY[versions.PUB];
+        return versions.GAMETYPE_TAG[versions.PUB_GAME_TYPE];
     }
 
     getOpenid(openid, device){
@@ -30,7 +30,7 @@ class VersionsUtil{
     }
 
     getCDNDomain(){
-        return versions.CDN_DOMAIN[versions.PUB];
+        return versions.CDN_DOMAIN[versions.PUB_GAME_TYPE];
     }
 
     getImgDispatcher(){
@@ -38,11 +38,11 @@ class VersionsUtil{
     }
 
     getWWWDomain(){
-        return versions.WWW_DOMAIN.indexOf(versions.PUB) !== -1 ? 'www.' : null;
+        return versions.WWW_DOMAIN.indexOf(versions.PUB_GAME_TYPE) !== -1 ? 'www.' : null;
     }
 
     isDevelopment(){
-        return versions.DEVELOPMENT;
+        return versions.LOCAL_DEV_MODE;
     }
 }
 

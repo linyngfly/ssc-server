@@ -564,19 +564,18 @@ async function main() {
     //     password: '123654',
     //     code: '1243',
     //     nickname: '咸鱼也有梦11',
-    //     inviter: 1,
+    //     // inviter: 1,
     // });
     // return;
     //
     console.time('111');
 
     await client.login({
-        username: '18612432395',
+        username: '18612432385',
         // username: '18612432382',
         password: '123654'
     });
 
-    return;
 
     //发布系统消息 PHP 调用
     // await client.publishSysMessage({
@@ -620,17 +619,19 @@ async function main() {
     //     money: 30000
     // });
 
-    // await client.setPlayerInfoByGM({
-    //     mainType: 'ssc',
-    //     subType: 'hall',
-    //     token: 'a6b17e61d3d08c34d062037073d65144dfdf6bfc611286bfd6e91388b0c6eb9b',
-    //     id: 1,
-    //     fields:{  //修改所有或者其中一个值
-    //         role:1,
-    //         forbid_talk:1,
-    //         test:1,
-    //     }
-    // });
+    await client.setPlayerInfoByGM({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
+        id: 13,
+        fields:{  //修改所有或者其中一个值
+            role:1,
+            forbid_talk:1,
+            test:1,
+        }
+    });
+
+    return;
 
     //TODO NEW php后台调用，确认或者撤销订单
     // await client.setOrderState({
@@ -664,6 +665,14 @@ async function main() {
 
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
     // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
+    await client.setOrderState({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
+        state: 2,
+        operator: 'admin',
+        id: 41
+    });
     // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //
     // //TODO NEW 修改玩家信息
@@ -676,14 +685,7 @@ async function main() {
     // await client.enterGame('ssc', 'canada28');
     await client.enterGame('ssc', 'lucky28');
 
-    await client.setOrderState({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: '27da072bc3bcfee7b4641e16bd7a909270add30d925930a971bc8095636d88b5',
-        state: 2,
-        operator: 'admin',
-        id: 1
-    });
+
 
     // //TODO NEW 获取投个人注历史
     // await client.myBetResult({

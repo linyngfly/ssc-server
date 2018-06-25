@@ -8,5 +8,5 @@ module.exports = {
     versionsUtil: versionsUtil,
     dbCfg: require('../../config/db'),
     sysConfig: require('../../config/sysConfig'),
-    payConfig: require(`../../config/service/${versions.VER_KEY[versions.PUB]}/payConfig`)
+    payConfig: require(`../../config/service/${versions.GAMETYPE_TAG[versions.PUB_GAME_TYPE]}/payConfig`)
 };
