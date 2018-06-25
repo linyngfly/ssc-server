@@ -79,26 +79,36 @@ class Lucky28LimitRate {
         return config.SSC28.BET_TYPE_DIC_LINK[dic];
     }
 
-    _check1314(type, sum){
+    _check1314(type, sum) {
         let _newType = type;
-        switch (type){
+        switch (type) {
             case config.SSC28.BET_TYPE_RATE_DIC.BIG:
-                if(sum == 14){
+                if (sum == 14) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.BIG_14;
                 }
                 break;
             case config.SSC28.BET_TYPE_RATE_DIC.SMALL:
-                if(sum == 13){
+                if (sum == 13) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.SMALL_13;
                 }
                 break;
+            case config.SSC28.BET_TYPE_RATE_DIC.SINGLE:
+                if (sum == 13) {
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.SINGLE_13;
+                }
+                break;
+            case config.SSC28.BET_TYPE_RATE_DIC.DOUBLE:
+                if (sum == 13) {
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.DOUBLE_14;
+                }
+                break;
             case config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE:
-                if(sum == 14){
+                if (sum == 14) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE_14;
                 }
                 break;
             case config.SSC28.BET_TYPE_RATE_DIC.SMALL_SINGLE:
-                if(sum == 13){
+                if (sum == 13) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.SMALL_SINGLE_13;
                 }
                 break;
@@ -131,8 +141,8 @@ class Lucky28LimitRate {
     }
 }
 
-let tt = new Lucky28LimitRate();
-let ra = tt.getRate(config.SSC28.BET_TYPE_RATE_DIC.SMALL, 1000, 13);
-console.error('ra=',ra);
+// let tt = new Lucky28LimitRate();
+// let ra = tt.getRate(config.SSC28.BET_TYPE_RATE_DIC.SMALL, 1000, 13);
+// console.error('ra=', ra);
 
 module.exports = Lucky28LimitRate;
