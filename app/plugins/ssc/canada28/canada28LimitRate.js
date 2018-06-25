@@ -91,6 +91,16 @@ class Canada28LimitRate{
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.SMALL_13;
                 }
                 break;
+            case config.SSC28.BET_TYPE_RATE_DIC.SINGLE:
+                if (sum == 13) {
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.SINGLE_13;
+                }
+                break;
+            case config.SSC28.BET_TYPE_RATE_DIC.DOUBLE:
+                if (sum == 13) {
+                    _newType = config.SSC28.BET_TYPE_RATE_DIC.DOUBLE_14;
+                }
+                break;
             case config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE:
                 if(sum == 14){
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.BIG_DOUBLE_14;
