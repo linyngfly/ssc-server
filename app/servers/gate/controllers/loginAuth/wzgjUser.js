@@ -45,11 +45,14 @@ class WZGJUser extends User {
 
     async sendPhoneCode(phone){
         let codeInfo = this._codes.get(phone);
-        if(Date.now() - codeInfo.time > this._sms.timeout){
-            this._codes.delete(phone);
-        }else{
-            return {expires:Date.now() - codeInfo.time};
+        if(codeInfo){
+            if(Date.now() - codeInfo.time > this._sms.timeout){
+                this._codes.delete(phone);
+            }else{
+                return {expires:Date.now() - codeInfo.time};
+            }
         }
+
         
         let code = utils.random_int_str(4);
         let content = util.format(this._sms.contentTemplate, code);

@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://116.31.100.75:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://116.31.100.75:3102';
-const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://116.31.100.75:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "116.31.100.75";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://116.31.100.75:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const AUDIO_HOST = 'http://116.31.100.75:3102';
+// const AUDIO_HOST = 'http://127.0.0.1:3102';
+const GATE_HOST = 'http://116.31.100.75:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "116.31.100.75";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -584,9 +584,9 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
 
-    // await client.getPhoneCode({
-    //     phone: '18183276215',
-    // });
+    await client.getPhoneCode({
+        phone: '18183276215',
+    });
     // await client.modifyPassword({
     //     username: '18183276215',
     //     code:'4991',
