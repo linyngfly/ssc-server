@@ -10,18 +10,19 @@ class Ssc28OpenAwardCalc {
     }
 
 
-    get openResult(){
+    get openResult() {
         return this._openResult;
     }
 
-    get sum(){
+    get sum() {
         return this._total;
     }
 
-    calc(){
+    calc() {
         this._totalSizeCalc();
         this._totalSingleDoubleCalc();
         this._valueCalc();
+        this._multiCalc();
         this._duiziCalc();
         this._pantherCalc();
         this._shunZiCalc();
@@ -30,12 +31,12 @@ class Ssc28OpenAwardCalc {
     // 和大小计算 大>=14  小<=13
     _totalSizeCalc() {
         this._openResult.add(this._total >= 14 ? config.SSC28.BET_DIC.BIG : config.SSC28.BET_DIC.SMALL);
-        if(this._total >= 22){
-            this._openResult.add(config.SSC28.BET_DIC.JIDA)
+        if (this._total >= 22) {
+            this._openResult.add(config.SSC28.BET_DIC.JIDA);
         }
 
-        if(this._total <= 5){
-            this._openResult.add(config.SSC28.BET_DIC.JIXIAO)
+        if (this._total <= 5) {
+            this._openResult.add(config.SSC28.BET_DIC.JIXIAO);
         }
     }
 
@@ -44,7 +45,15 @@ class Ssc28OpenAwardCalc {
         this._openResult.add(this._total % 2 === 0 ? config.SSC28.BET_DIC.DOUBLE : config.SSC28.BET_DIC.SINGLE);
     }
 
-    //球大小单双 0-4 小 5-9 大
+    _multiCalc() {
+        if (this._total >= 14) {
+            this._openResult.add(this._total % 2 === 0 ? config.SSC28.BET_DIC.BIG_DOUBLE : config.SSC28.BET_DIC.BIG_SINGLE);
+        } else {
+            this._openResult.add(this._total % 2 === 0 ? config.SSC28.BET_DIC.SMALL_DOUBLE : config.SSC28.BET_DIC.SMALL_SINGLE);
+        }
+    }
+
+    //球值计数
     _valueCalc() {
         for (let i = 0; i < this._numbers.length; ++i) {
             this._openResult.add(this._numbers[i]);
@@ -87,12 +96,12 @@ class Ssc28OpenAwardCalc {
         }
     }
 
-    _duiziCalc(){
+    _duiziCalc() {
         let sortNumbers = this._numbers.sort(function (a, b) {
             return a - b;
         });
 
-        if(sortNumbers[0] == sortNumbers[1] || sortNumbers[1] == sortNumbers[2]){
+        if (sortNumbers[0] == sortNumbers[1] || sortNumbers[1] == sortNumbers[2]) {
             this._openResult.add(config.SSC28.BET_DIC.DUI);
         }
     }

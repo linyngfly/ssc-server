@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-// const GAME_HOST = 'http://116.31.100.75:4002';
-const GAME_HOST = 'http://127.0.0.1:4002';
-// const AUDIO_HOST = 'http://116.31.100.75:3102';
-const AUDIO_HOST = 'http://127.0.0.1:3102';
-// const GATE_HOST = 'http://116.31.100.75:3002';
-const GATE_HOST = 'http://127.0.0.1:3002';
-// const GAME_IP = "116.31.100.75";
-const GAME_IP = "127.0.0.1";
+const GAME_HOST = 'http://116.31.100.75:4002';
+// const GAME_HOST = 'http://127.0.0.1:4002';
+const AUDIO_HOST = 'http://116.31.100.75:3102';
+// const AUDIO_HOST = 'http://127.0.0.1:3102';
+const GATE_HOST = 'http://116.31.100.75:3002';
+// const GATE_HOST = 'http://127.0.0.1:3002';
+const GAME_IP = "116.31.100.75";
+// const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -587,11 +587,11 @@ async function main() {
     // await client.getPhoneCode({
     //     phone: '18183276215',
     // });
-    await client.modifyPassword({
-        username: '18183276215',
-        code:'4991',
-        newPassword:'654321'
-    });
+    // await client.modifyPassword({
+    //     username: '18183276215',
+    //     code:'4991',
+    //     newPassword:'654321'
+    // });
     
     
     // return;
@@ -605,18 +605,17 @@ async function main() {
     // });
     // return;
     // //
-    // console.time('111');
+    console.time('111');
 
 
 
 
     await client.login({
-        username: '18183276215',
+        username: '18612432383',
         // username: '18612432382',
-        password: '654321'
+        password: '123654'
     });
 
-return;
 
 
     //发布系统消息 PHP 调用
@@ -661,19 +660,19 @@ return;
     //     money: 30000
     // });
 
-    await client.setPlayerInfoByGM({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
-        id: 13,
-        fields:{  //修改所有或者其中一个值
-            role:1,
-            forbid_talk:1,
-            test:1,
-        }
-    });
-
-    return;
+    // await client.setPlayerInfoByGM({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
+    //     id: 13,
+    //     fields:{  //修改所有或者其中一个值
+    //         role:1,
+    //         forbid_talk:1,
+    //         test:1,
+    //     }
+    // });
+    //
+    // return;
 
     //TODO NEW php后台调用，确认或者撤销订单
     // await client.setOrderState({
@@ -696,25 +695,25 @@ return;
     // //绑定支付信息
     //
     // //1:支付宝，1：微信，2：银行卡
-    await client.bindPayInfo({
-        token: client._player.token,
-        mainType: 'ssc',
-        subType: 'hall',
-        type: 1,
-        info: {payAccount: '11linyngfly@126.com', name: '林洋'}
-    });
+    // await client.bindPayInfo({
+    //     token: client._player.token,
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     type: 1,
+    //     info: {payAccount: '11linyngfly@126.com', name: '林洋'}
+    // });
 
 
     // await client.recharge({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 10000});
     // await client.cash({token: client._player.token, mainType: 'ssc', subType: 'hall', money: 20000});
-    await client.setOrderState({
-        mainType: 'ssc',
-        subType: 'hall',
-        token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
-        state: 2,
-        operator: 'admin',
-        id: 41
-    });
+    // await client.setOrderState({
+    //     mainType: 'ssc',
+    //     subType: 'hall',
+    //     token: 'd8704f267d2fbfac5e318d51d7afa084e12b9d7d3f79d325857967883c5a90b5',
+    //     state: 2,
+    //     operator: 'admin',
+    //     id: 41
+    // });
     // await client.getGMContactInfo({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //
     // //TODO NEW 修改玩家信息
@@ -746,7 +745,7 @@ return;
     // });
     // return;
 
-    // await client.bet('11.100');
+    await client.bet('豹子2000');
     // await client.bet('12.100');
     // await client.bet('13.100');
     // await client.bet('4.100');

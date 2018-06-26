@@ -47,11 +47,12 @@ class Canada28LimitRate{
             if(null == bet_limit){
                 await this._loadBetLimit();
             }
-
+            this._limitConfig = bet_limit;
             let bet_rate = await redisConnector.get(this._bet_rate_key);
             if(null == bet_rate){
                 await this._loadBetRate();
             }
+            this._rateConfig = bet_rate;
         }catch (err) {
             logger.error(`加载幸运28投注限制/赔率配置失败 err=`,err);
         }
