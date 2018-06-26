@@ -325,6 +325,7 @@ const _errorCode = {
     PLAYER_NOT_JOIN_HALL: 7123, // 玩家还未加入游戏大厅
     PLAYER_NOT_IN_GAME: 7124, // 玩家还不在游戏中，请先加入游戏
     INVITER_INVALID: 7125, // 邀请人ID无效
+    PHONE_CODE_EXPIRES: 7126, // 手机验证码过期
 
 
 };
@@ -1553,6 +1554,11 @@ const _errorObj = {
     INVITER_INVALID: {
         msg: '邀请人不是拉手',
         code: _errorCode.INVITER_INVALID,
+    },
+
+    PHONE_CODE_EXPIRES: {
+        msg: '手机验证码过期',
+        code: _errorCode.PHONE_CODE_EXPIRES,
     },
 
 };
