@@ -109,7 +109,7 @@ module.exports = {
         type: "number",
         tbl: 'tbl_user',
         gmModify:true,
-        comment: '封号标识（-1:封号）'
+        comment: '封号标识（-1:封号(当删除用吧) -2：禁用）'
     },
     new_user_draw: {
         def: 1,

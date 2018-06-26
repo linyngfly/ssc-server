@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://116.31.100.75:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const AUDIO_HOST = 'http://116.31.100.75:3102';
-// const AUDIO_HOST = 'http://127.0.0.1:3102';
-const GATE_HOST = 'http://116.31.100.75:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "116.31.100.75";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://116.31.100.75:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://116.31.100.75:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
+// const GATE_HOST = 'http://116.31.100.75:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "116.31.100.75";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -745,19 +745,20 @@ async function main() {
     // });
     // return;
 
-    await client.bet('豹子2000');
-    // await client.bet('12.100');
-    // await client.bet('13.100');
-    // await client.bet('4.100');
-    // await client.bet('5.100');
-    // await client.bet('16.100');
-    // await client.bet('7.100');
-    // await client.bet('8.100');
-    // await client.bet('19.100');
-    // await client.bet('10.100');
-    // await client.bet('12.100');
-    // await client.bet('16.100');
-    // await client.bet('27.100');
+    // await client.bet('豹子2000');
+    // await client.bet('0.5000');
+    // await client.bet('1.5000');
+    // await client.bet('2.5000');
+    // await client.bet('3.5000');
+    // await client.bet('4.5000');
+    // await client.bet('5.5000');
+    // await client.bet('6.5000');
+    // await client.bet('7.5000');
+    // await client.bet('8.5000');
+    // await client.bet('9.5000');
+    // await client.bet('10.5000');
+    // await client.bet('12.5000');
+    await client.bet('13.5000');
     // await client.bet('大双100');
     // await client.bet('大200');
     // await client.bet('小50');

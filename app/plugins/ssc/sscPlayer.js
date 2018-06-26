@@ -172,7 +172,7 @@ class SscPlayer extends Player {
 
         this._betsMap.set(bet.id, bet);
         this._betLimitMap.set(limitKey, totalLimitMoney);
-        this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, totalLimitMoney);
+        this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, allTypeMoney);
         let rateMoney = this._betRateMap.get(bet.rate_dic) || 0;
         rateMoney += parseRet.total;
         this._betRateMap.set(bet.rate_dic, rateMoney);
