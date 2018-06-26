@@ -44,6 +44,13 @@ class WZGJUser extends User {
     }
 
     async sendPhoneCode(phone){
+        let codeInfo = this._codes.get(phone);
+        if(Date.now() - codeInfo.time > this._sms.timeout){
+            this._codes.delete(phone);
+        }else{
+            return {expires:Date.now() - codeInfo.time};
+        }
+        
         let code = utils.random_int_str(4);
         let content = util.format(this._sms.contentTemplate, code);
         let url = `${this._sms.url}?action=send&userid=${this._sms.userid}&account=${this._sms.account}&password=${this._sms.password}&mobile=${phone}&content=${encodeURIComponent(content)}&sendTime=&extno=`;
@@ -93,7 +100,6 @@ class WZGJUser extends User {
     }
 
     async register(data) {
-        //TODO 手机校验
         this._checkPhoneCode(data.username, data.code);
 
         let accountData = _.cloneDeep(data);
@@ -147,20 +153,18 @@ class WZGJUser extends User {
     }
 
     async modifyPassword(data) {
+        this._checkPhoneCode(data.username, data.code);
+
         let account = await models.account.helper.getAccount(data.uid);
         if (account) {
-            let oldSaltPassword = this._createSalt(account.username + account.password);
-            if (oldSaltPassword == account.password) {
-                let newSaltPassword = this._createSalt(account.username + data.newPassword);
-                account.password = newSaltPassword;
-                await account.commit();
-                return account;
-            } else {
-                throw ERROR_OBJ.PASSWORD_ERROR;
-            }
+            let newSaltPassword = this._createSalt(account.username + data.newPassword);
+            account.password = newSaltPassword;
+            await account.commit();
+            return account;
         } else {
             throw ERROR_OBJ.USER_NOT_EXIST;
         }
+        this._codes.delete(data.username);
     }
 
 }

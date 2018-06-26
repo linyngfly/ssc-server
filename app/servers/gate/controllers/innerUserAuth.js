@@ -105,17 +105,13 @@ class InnerUserAuth {
      * @returns {Promise<*|{data, type}>}
      */
     async modifyPassword(data) {
-        if (!data.username || !data.oldPassword || !data.newPassword) {
-            throw ERROR_OBJ.PARAM_MISSING;
-        }
-
         let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;
         }
 
         try {
-            let uid = await sdkApi.isRegister(data.username);
+            let uid = await sdkApi.isRegister(data);
             if(uid == null){
                 throw ERROR_OBJ.USER_NOT_EXIST;
             }
@@ -124,7 +120,7 @@ class InnerUserAuth {
             return logicResponse.ask(account);
         } catch (err) {
             logger.error('用户密码修改失败', err);
-            throw ERROR_OBJ.OLD_PASSWORD_ERROR;
+            throw err;
         }
     }
 }

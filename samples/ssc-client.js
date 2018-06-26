@@ -132,6 +132,18 @@ class SSCClient {
         }
     }
 
+    async modifyPassword(data) {
+        let resp = await httpclient.postData(data, GATE_HOST + '/gate/clientApi/modifyPassword');
+        resp = JSON.parse(resp);
+        if (resp.error) {
+            console.log('modifyPassword err=' + JSON.stringify(resp.error));
+            console.log(resp.error);
+        } else {
+            console.log('modifyPassword ok');
+            console.log(resp.data);
+        }
+    }
+
     /**
      * 转盘抽奖   TODO NEW
      * @param data
@@ -575,31 +587,36 @@ async function main() {
     // await client.getPhoneCode({
     //     phone: '18183276215',
     // });
-    //
-    //
+    await client.modifyPassword({
+        username: '18183276215',
+        code:'4991',
+        newPassword:'654321'
+    });
+    
+    
     // return;
 
-    await client.register({
-        username: '18183276214',
-        password: '123654',
-        code: '6469',
-        nickname: '咸鱼也有梦11',
-        // inviter: 1,
-    });
-    return;
-    //
-    console.time('111');
+    // await client.register({
+    //     username: '18183276214',
+    //     password: '123654',
+    //     code: '6469',
+    //     nickname: '咸鱼也有梦11',
+    //     // inviter: 1,
+    // });
+    // return;
+    // //
+    // console.time('111');
 
 
 
 
     await client.login({
-        username: '18612432385',
+        username: '18183276215',
         // username: '18612432382',
-        password: '123654'
+        password: '654321'
     });
 
-
+return;
 
 
     //发布系统消息 PHP 调用
