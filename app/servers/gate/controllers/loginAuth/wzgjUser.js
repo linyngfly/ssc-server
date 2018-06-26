@@ -135,6 +135,9 @@ class WZGJUser extends User {
         return account.uid;
     }
 
+    async getUserTestInfo(uid){
+        return await models.account.helper.getAccount(uid);
+    }
     async login(data) {
         let account = await models.account.helper.getAccount(data.uid);
         data.account = account;

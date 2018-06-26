@@ -326,6 +326,7 @@ const _errorCode = {
     PLAYER_NOT_IN_GAME: 7124, // 玩家还不在游戏中，请先加入游戏
     INVITER_INVALID: 7125, // 邀请人ID无效
     PHONE_CODE_EXPIRES: 7126, // 手机验证码过期
+    PHONE_IS_KILL: 7127, // 手机号被封禁,无法注册
 
 
 };
@@ -1559,6 +1560,10 @@ const _errorObj = {
     PHONE_CODE_EXPIRES: {
         msg: '手机验证码过期',
         code: _errorCode.PHONE_CODE_EXPIRES,
+    },
+    PHONE_IS_KILL: {
+        msg: '手机号被封禁,无法注册',
+        code: _errorCode.PHONE_IS_KILL,
     },
 
 };

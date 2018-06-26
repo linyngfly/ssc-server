@@ -19,11 +19,18 @@ class InnerUserAuth {
         try {
             let uid = await sdkApi.isRegister(data);
             if (uid != null) {
+                let info = await sdkApi.getUserTestInfo(uid);
+                if(info){
+                    if(info.test == -1){
+                        throw ERROR_OBJ.PHONE_IS_KILL;
+                    }
+                }
                 throw ERROR_OBJ.USERNAME_EXIST;
             } else {
                 let uid = await sdkApi.register(data);
                 data.uid = uid;
                 let resp = await sdkApi.login(data);
+
                 logger.info(`注册新用户${uid}`);
                 return logicResponse.ask(resp);
             }
