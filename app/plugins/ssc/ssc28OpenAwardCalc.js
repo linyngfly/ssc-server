@@ -55,9 +55,7 @@ class Ssc28OpenAwardCalc {
 
     //球值计数
     _valueCalc() {
-        for (let i = 0; i < this._numbers.length; ++i) {
-            this._openResult.add(this._numbers[i]);
-        }
+        this._openResult.add(this._total);
     }
 
 

@@ -31,7 +31,11 @@ class SscPlayer extends Player {
                     let item = betItems[i];
                     if (openResult.has(item.result)) {
                         let multi = this._limitRate.getRate(bet.rate_dic, this._betRateMap.get(bet.rate_dic), openAwardCalc.sum);
-                        let inc = item.money * (1 + multi);
+                        logger.error('投注 betData=', bet.betData);
+                        logger.error('投注 result=', item.result);
+                        logger.error('投注 rate_dic=', bet.rate_dic);
+                        logger.error('投注 multi', multi);
+                        let inc = item.money * multi;
                         inc = Number(inc.toFixed(2));
                         bet.winCount++;
                         bet.winMoney += inc;
@@ -54,7 +58,6 @@ class SscPlayer extends Player {
                     total: this.account.money,
                     scene: models.constants.GAME_SCENE.LOTTERY
                 });
-
 
                 redisConnector.sadd(models.constants.DATA_SYNC_BE_IDS, bet.id);
             }
@@ -218,7 +221,7 @@ class SscPlayer extends Player {
         let allTypeLimitMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, allTypeLimitMoney - bet.betMoney);
 
-        this._betsMap.delete(id);
+        // this._betsMap.delete(id);
 
         this.emit(sscCmd.push.unBet.route, bet.toJSON());
 

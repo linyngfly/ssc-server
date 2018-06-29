@@ -5,6 +5,7 @@ module.exports = {
          */
         CONFIG_DAILY_RESET: {
             enable: true,
+            // time: '0,0,0,*,*,*', //每天0点
             time: '0/30,*,*,*,*,*', //每天0点
         },
         INCOME_DAILY_CALC: {

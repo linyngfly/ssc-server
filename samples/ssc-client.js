@@ -1,14 +1,14 @@
 const httpclient = require('../app/net/httpclient');
 const OmeloClient = require('./omelo-wsclient/omeloClient');
 
-const GAME_HOST = 'http://116.31.100.75:4002';
-// const GAME_HOST = 'http://127.0.0.1:4002';
-const AUDIO_HOST = 'http://116.31.100.75:3102';
-// const AUDIO_HOST = 'http://127.0.0.1:3102';
-const GATE_HOST = 'http://116.31.100.75:3002';
-// const GATE_HOST = 'http://127.0.0.1:3002';
-const GAME_IP = "116.31.100.75";
-// const GAME_IP = "127.0.0.1";
+// const GAME_HOST = 'http://116.31.100.75:4002';
+const GAME_HOST = 'http://127.0.0.1:4002';
+// const AUDIO_HOST = 'http://116.31.100.75:3102';
+const AUDIO_HOST = 'http://127.0.0.1:3102';
+// const GATE_HOST = 'http://116.31.100.75:3002';
+const GATE_HOST = 'http://127.0.0.1:3002';
+// const GAME_IP = "116.31.100.75";
+const GAME_IP = "127.0.0.1";
 const GAME_PORT = 4003;
 
 class SSCClient {
@@ -584,9 +584,9 @@ class SSCClient {
 async function main() {
     let client = new SSCClient();
 
-    await client.getPhoneCode({
-        phone: '18183276215',
-    });
+    // await client.getPhoneCode({
+    //     phone: '18183276215',
+    // });
     // await client.modifyPassword({
     //     username: '18183276215',
     //     code:'4991',
@@ -611,12 +611,10 @@ async function main() {
 
 
     await client.login({
-        username: '18612432383',
+        username: '18183276214',
         // username: '18612432382',
         password: '123654'
     });
-
-
 
     //发布系统消息 PHP 调用
     // await client.publishSysMessage({
@@ -723,8 +721,8 @@ async function main() {
     // }});
 
 
-    // await client.enterGame('ssc', 'canada28');
-    await client.enterGame('ssc', 'lucky28');
+    await client.enterGame('ssc', 'canada28');
+    // await client.enterGame('ssc', 'lucky28');
 
 
 
@@ -746,19 +744,37 @@ async function main() {
     // return;
 
     // await client.bet('豹子2000');
-    // await client.bet('0.5000');
-    // await client.bet('1.5000');
-    // await client.bet('2.5000');
-    // await client.bet('3.5000');
-    // await client.bet('4.5000');
-    // await client.bet('5.5000');
-    // await client.bet('6.5000');
-    // await client.bet('7.5000');
-    // await client.bet('8.5000');
-    // await client.bet('9.5000');
-    // await client.bet('10.5000');
-    // await client.bet('12.5000');
-    await client.bet('13.5000');
+    // await client.unBet(118);
+    // return ;
+    await client.bet('大100');
+    await client.bet('单100');
+    await client.bet('大单100');
+    await client.bet('大双100');
+
+    await client.bet('小100');
+    await client.bet('单100');
+    await client.bet('小单100');
+    await client.bet('小双100');
+    await client.bet('0.500');
+    await client.bet('1.500');
+    await client.bet('2.500');
+    await client.bet('3.500');
+    await client.bet('4.500');
+    await client.bet('5.500');
+    await client.bet('6.500');
+    await client.bet('7.500');
+    await client.bet('8.500');
+    await client.bet('9.500');
+    await client.bet('10.500');
+    await client.bet('11.500');
+    await client.bet('12.500');
+    await client.bet('13.500');
+    await client.bet('14.500');
+    await client.bet('15.500');
+    await client.bet('16.500');
+    await client.bet('17.500');
+    await client.bet('18.500');
+    await client.bet('19.500');
     // await client.bet('大双100');
     // await client.bet('大200');
     // await client.bet('小50');
@@ -796,7 +812,7 @@ async function main() {
 
     // await client.bet('大单龙100');
     // console.error(1111);
-    // await client.unBet(2);
+
     // console.error(2222);
     // await client.leaveGame();
 }
