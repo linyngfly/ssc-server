@@ -175,7 +175,7 @@ class Hall extends EventEmitter {
             content: data.content,
             created_at: moment().format('YYYY-MM-DD HH:mm:ss')
         };
-        // logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
+        logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
 
         this.emit(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, sysInfo);
     }

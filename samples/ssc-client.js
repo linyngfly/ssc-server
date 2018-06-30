@@ -608,8 +608,6 @@ async function main() {
     console.time('111');
 
 
-
-
     await client.login({
         username: '18183276214',
         // username: '18612432382',
@@ -644,13 +642,13 @@ async function main() {
 
     // await client.getBroadcast({token: client._player.token, mainType: 'ssc', subType: 'hall'});
     //后台GM调用
-    // await client.setBroadcast({
-    //     mainType: 'ssc',
-    //     subType: 'hall',
-    //     token: '9be0bcbe4cbd4e6d9f634360146658f1ac676fdff10b802475b003ee8f2f8d69',
-    //     content: '大家来投注吧！！！'
-    // });
-
+//     await client.setBroadcast({
+//         mainType: 'ssc',
+//         subType: 'hall',
+//         token: '9be0bcbe4cbd4e6d9f634360146658f1ac676fdff10b802475b003ee8f2f8d69',
+//         content: '大家来投注吧！！！'
+//     });
+// return;
     // await client.setInitMoney({
     //     mainType: 'ssc',
     //     subType: 'hall',
@@ -746,35 +744,37 @@ async function main() {
     // await client.bet('豹子2000');
     // await client.unBet(118);
     // return ;
-    await client.bet('大100');
-    await client.bet('单100');
-    await client.bet('大单100');
-    await client.bet('大双100');
+    await client.bet('11.1000');
+    await client.bet('单3000');
+    await client.bet('小单3000');
+    // await client.bet('单100');
+    // await client.bet('大单100');
+    // await client.bet('大双100');
 
-    await client.bet('小100');
-    await client.bet('单100');
-    await client.bet('小单100');
-    await client.bet('小双100');
-    await client.bet('0.500');
-    await client.bet('1.500');
-    await client.bet('2.500');
-    await client.bet('3.500');
-    await client.bet('4.500');
-    await client.bet('5.500');
-    await client.bet('6.500');
-    await client.bet('7.500');
-    await client.bet('8.500');
-    await client.bet('9.500');
-    await client.bet('10.500');
-    await client.bet('11.500');
-    await client.bet('12.500');
-    await client.bet('13.500');
-    await client.bet('14.500');
-    await client.bet('15.500');
-    await client.bet('16.500');
-    await client.bet('17.500');
-    await client.bet('18.500');
-    await client.bet('19.500');
+    // await client.bet('小100');
+    // await client.bet('单100');
+    // await client.bet('小单100');
+    // await client.bet('小双100');
+    // await client.bet('0.500');
+    // await client.bet('1.500');
+    // await client.bet('2.500');
+    // await client.bet('3.500');
+    // await client.bet('4.500');
+    // await client.bet('5.500');
+    // await client.bet('6.500');
+    // await client.bet('7.500');
+    // await client.bet('8.500');
+    // await client.bet('9.500');
+    // await client.bet('10.500');
+    // await client.bet('11.500');
+    // await client.bet('12.500');
+    // await client.bet('13.500');
+    // await client.bet('14.500');
+    // await client.bet('15.500');
+    // await client.bet('16.500');
+    // await client.bet('17.500');
+    // await client.bet('18.500');
+    // await client.bet('19.500');
     // await client.bet('大双100');
     // await client.bet('大200');
     // await client.bet('小50');

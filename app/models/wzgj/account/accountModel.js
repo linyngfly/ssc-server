@@ -133,6 +133,7 @@ module.exports = {
         precision:2,
         tbl: 'tbl_user',
         inc:true,
+        gmModify:true,
         comment: '账户金额'
     },
     level: {

@@ -248,6 +248,7 @@ module.exports = {
             SHUN: 200, //顺子
             ALL: 1000000,//总下注额度限制
         },
+
         //赔率配置
         BET_RATE_CONFIG: {
             BIG: [

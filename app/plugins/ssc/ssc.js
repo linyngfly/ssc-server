@@ -92,6 +92,9 @@ class SSC {
                 let fields = event.fields;
                 for (let key in fields) {
                     player.account[key] = fields[key];
+                    if(key == 'money'){
+                        player.send(sscCmd.push.privateSysMessage.route, {money:player.account.money});
+                    }
                 }
             }
         }.bind(this));

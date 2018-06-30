@@ -9,7 +9,6 @@ class Ssc28OpenAwardCalc {
         this._openResult = new Set();
     }
 
-
     get openResult() {
         return this._openResult;
     }
@@ -55,7 +54,7 @@ class Ssc28OpenAwardCalc {
 
     //球值计数
     _valueCalc() {
-        this._openResult.add(this._total);
+        this._openResult.add(this._total.toString());
     }
 
 

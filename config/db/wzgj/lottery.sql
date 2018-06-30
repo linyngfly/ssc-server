@@ -165,6 +165,8 @@ IF NOT EXISTS `tbl_agent_income` (
 	`rebateMoney` DECIMAL (20, 2) NOT NULL COMMENT '分成金额',
 	`incomeTime` TIMESTAMP NOT NULL  COMMENT '反水日期',
 	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+	`operator` VARCHAR (20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '操作人账号',
+	`state` SMALLINT (6) UNSIGNED NOT NULL COMMENT '交易处理状态 1:请求，2：确认，3：撤销',
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 

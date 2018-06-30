@@ -11,50 +11,9 @@ const httpclient = require('../../net/httpclient');
  * 账户 18108083126  密码dswd2017
  */
 
-//  function _lucky28ConvertTo3Ball(opencode) {
-//     let idx = opencode.indexOf('+');
-//     if(idx == -1){
-//         idx = opencode.length;
-//     }
-//     let numbers = opencode.substring(0, idx);
-//     console.log('numbers len=', numbers.length);
-//     numbers = numbers.split(',');
-//     numbers = numbers.sort((a, b) => {
-//         return a > b ? 1 : -1;
-//     });
-//     let newNumbers = [];
-//
-//     let total = 0;
-//     for(let i=0; i<6; i++){
-//         total += Number(numbers[i]);
-//     }
-//     newNumbers.push(total % 10);
-//     console.log('1~6 ',total);
-//     total = 0;
-//
-//     for(let i=6; i<12; i++){
-//         total += Number(numbers[i]);
-//     }
-//     newNumbers.push(total % 10);
-//     console.log('7~12 ',total);
-//     total = 0;
-//
-//     for(let i=12; i<18; i++){
-//         total += Number(numbers[i]);
-//     }
-//     console.log('13~18 ',total);
-//     newNumbers.push(total % 10);
-//     return newNumbers.join(',');
-// }
-//
-// let ret = _lucky28ConvertTo3Ball("01 02 07 12 18 21 28 30 31 39 43 47 60 65 68 70 73 75 78 80+10");
-// console.log(ret)
-// return;
-
 class OpenCaiNetApi {
     constructor() {
-        this._sdkAddress = [
-            {
+        this._sdkAddress = [{
                 host: 'ho.apiplus.net',
                 port: 80,
                 method: "GET",
@@ -73,14 +32,14 @@ class OpenCaiNetApi {
     async _getSdkInfo(options) {
         // logger.error('options=', options);
         let sdkData = await httpclient.get(options);
-        // logger.error('sdkData=', sdkData.toString());
+        logger.error('sdkData=', sdkData.toString());
         sdkData = JSON.parse(sdkData.toString());
         return sdkData;
     }
 
     _convertTo3Ball(identify, opencode) {
         let result = null;
-        switch (identify){
+        switch (identify) {
             case config.OPEN_CAI_TYPE.BJKL8.IDENTIFY:
                 result = this._lucky28ConvertTo3Ball(opencode);
                 break;
@@ -107,7 +66,7 @@ class OpenCaiNetApi {
 
     _lucky28ConvertTo3Ball(opencode) {
         let idx = opencode.indexOf('+');
-        if(idx == -1){
+        if (idx == -1) {
             idx = opencode.length;
         }
         let numbers = opencode.substring(0, idx);
@@ -118,19 +77,19 @@ class OpenCaiNetApi {
         let newNumbers = [];
 
         let total = 0;
-        for(let i=0; i<6; i++){
+        for (let i = 0; i < 6; i++) {
             total += Number(numbers[i]);
         }
         newNumbers.push(total % 10);
         total = 0;
 
-        for(let i=6; i<12; i++){
+        for (let i = 6; i < 12; i++) {
             total += Number(numbers[i]);
         }
         newNumbers.push(total % 10);
         total = 0;
 
-        for(let i=12; i<18; i++){
+        for (let i = 12; i < 18; i++) {
             total += Number(numbers[i]);
         }
 
@@ -140,7 +99,7 @@ class OpenCaiNetApi {
 
     _canada28ConvertTo3Ball(opencode) {
         let idx = opencode.indexOf('+');
-        if(idx == -1){
+        if (idx == -1) {
             idx = opencode.length;
         }
         let numbers = opencode.substring(0, idx);
@@ -151,22 +110,22 @@ class OpenCaiNetApi {
         let newNumbers = [];
         let total = 0;
 
-        let index = [1,4,7,10,13,16];
-        for(let i=0; i<index.length;i++){
+        let index = [1, 4, 7, 10, 13, 16];
+        for (let i = 0; i < index.length; i++) {
             total += Number(numbers[index[i]]);
         }
         newNumbers.push(total % 10);
         total = 0;
 
-        index = [2,5,8,11,14,17];
-        for(let i=0; i<index.length;i++){
+        index = [2, 5, 8, 11, 14, 17];
+        for (let i = 0; i < index.length; i++) {
             total += Number(numbers[index[i]]);
         }
         newNumbers.push(total % 10);
         total = 0;
 
-        index = [3,6,9,12,15,18];
-        for(let i=0; i<index.length;i++){
+        index = [3, 6, 9, 12, 15, 18];
+        for (let i = 0; i < index.length; i++) {
             total += Number(numbers[index[i]]);
         }
         newNumbers.push(total % 10);
