@@ -105,12 +105,14 @@ class SSC28Income {
      */
     async _calcPlayerIncome() {
         let yesterday_zero = utils.timestamp_yesterday();
-        // yesterday_zero += 1000* 60*60*24;
         yesterday_zero = new Date(yesterday_zero);
+        yesterday_zero.setHours(23);
+        yesterday_zero.setMinutes(55);
 
         let today_zero = utils.timestamp_today();
-        // today_zero += 1000* 60*60*24;
         today_zero = new Date(today_zero);
+        today_zero.setHours(23);
+        today_zero.setMinutes(55);
 
         let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0 AND updated_at>=?',
             [models.constants.ROLE.PLAYER, yesterday_zero.format()]);
@@ -185,12 +187,14 @@ class SSC28Income {
      */
     async _calcAgentIncome() {
         let yesterday_zero = utils.timestamp_yesterday();
-        // yesterday_zero += 1000* 60*60*24;
         yesterday_zero = new Date(yesterday_zero);
+        yesterday_zero.setHours(23);
+        yesterday_zero.setMinutes(55);
 
         let today_zero = utils.timestamp_today();
         today_zero = new Date(today_zero);
-        // today_zero += 1000* 60*60*24;
+        today_zero.setHours(23);
+        today_zero.setMinutes(55);
         let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0',
             [models.constants.ROLE.AGENT]);
 
