@@ -649,12 +649,13 @@ async function main() {
 //         content: '大家来投注吧！！！'
 //     });
 // return;
-    // await client.setInitMoney({
-    //     mainType: 'ssc',
-    //     subType: 'hall',
-    //     token: '482fc4b8d97f7040896974a1a462f27eafee831152508cd13105c39626eb23b0',
-    //     money: 30000
-    // });
+    await client.setInitMoney({
+        mainType: 'ssc',
+        subType: 'hall',
+        token: '575f86d61c8ca69fd4aca16d227c6b59e4948cede0c074c2764ba2742d05d822',
+        money: 0
+    });
+    return;
 
     // await client.setPlayerInfoByGM({
     //     mainType: 'ssc',
