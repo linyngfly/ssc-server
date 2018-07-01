@@ -116,14 +116,14 @@ class Canada28LimitRate{
         return _newType;
     }
 
-    getRate(type, num, sum){
+    getRate(type, num, sum, result){
         type = this._check1314(type, sum);
         let rate = this._rateConfig[type];
         if(rate instanceof Array){
             for(let i=0;i<rate.length;i++){
                 let item = rate[i];
                 if(!(item instanceof Array)){
-                    return rate[num];
+                    return rate[Number(result)];
                 }
 
                 let range = item[0];
@@ -140,10 +140,5 @@ class Canada28LimitRate{
         }
     }
 }
-
-let tt = new Canada28LimitRate();
-console.log(tt.getRate('NUM', 4));;
-
-
 
 module.exports = Canada28LimitRate;

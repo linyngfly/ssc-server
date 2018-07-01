@@ -30,7 +30,7 @@ class SscPlayer extends Player {
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
                     if (openResult.has(item.result)) {
-                        let multi = this._limitRate.getRate(bet.rate_dic, this._betRateMap.get(bet.rate_dic), openAwardCalc.sum);
+                        let multi = this._limitRate.getRate(bet.rate_dic, this._betRateMap.get(bet.rate_dic), openAwardCalc.sum, item.result);
                         logger.error('投注 betData=', bet.betData);
                         logger.error('投注 result=', item.result);
                         logger.error('投注 rate_dic=', bet.rate_dic);

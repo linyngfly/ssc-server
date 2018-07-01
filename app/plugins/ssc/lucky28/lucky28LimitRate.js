@@ -118,14 +118,14 @@ class Lucky28LimitRate {
         return _newType;
     }
 
-    getRate(type, num, sum) {
+    getRate(type, num, sum, result) {
         type = this._check1314(type, sum);
         let rate = this._rateConfig[type];
         if (rate instanceof Array) {
             for (let i = 0; i < rate.length; i++) {
                 let item = rate[i];
                 if(!(item instanceof Array)){
-                    return rate[num];
+                    return rate[Number(result)];
                 }
 
                 let range = item[0];
@@ -142,9 +142,5 @@ class Lucky28LimitRate {
         }
     }
 }
-
-// let tt = new Lucky28LimitRate();
-// let ra = tt.getRate(config.SSC28.BET_TYPE_RATE_DIC.SMALL, 1000, 13);
-// console.error('ra=', ra);
 
 module.exports = Lucky28LimitRate;
