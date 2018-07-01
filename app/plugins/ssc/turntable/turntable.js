@@ -45,17 +45,17 @@ class Turntable {
 
         let account = data.account;
         //TODO 测试放开
-        // if(account.new_user_draw == 1){
-        //     account.new_user_draw = 0;
-        // }else if(account.daily_draw != -1 && this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
-        //     account.daily_draw = -1;
-        // }else {
-        //     if(account.daily_draw == -1){
-        //         throw ERROR_OBJ.TURNTABLE_DRAW_COUNT_ZERO;
-        //     }else{
-        //         throw ERROR_OBJ.TURNTABLE_DRAW_CONDITION;
-        //     }
-        // }
+        if(account.new_user_draw == 1){
+            account.new_user_draw = 0;
+        }else if(account.daily_draw != -1 && this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
+            account.daily_draw = -1;
+        }else {
+            if(account.daily_draw == -1){
+                throw ERROR_OBJ.TURNTABLE_DRAW_COUNT_ZERO;
+            }else{
+                throw ERROR_OBJ.TURNTABLE_DRAW_CONDITION;
+            }
+        }
 
         let money = this._randomGetAward(this._award);
         if (money && money > 0) {

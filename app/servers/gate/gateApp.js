@@ -22,7 +22,7 @@ class GateApp {
         }
         serviceCtrl.enableSysShutdow();
         this._redisConnector.sub(eventType.PLAYER_EVENT_INIT_MONEY, (event)=>{
-            logger.error('忘记初始化金币变化：', event.money)
+            logger.error('忘记初始化金币变化：', event.money);
             models.account.modelDefine.money.def = Number(event.money);
         });
 

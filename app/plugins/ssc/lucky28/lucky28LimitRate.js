@@ -124,8 +124,8 @@ class Lucky28LimitRate {
         if (rate instanceof Array) {
             for (let i = 0; i < rate.length; i++) {
                 let item = rate[i];
-                if (!(item instanceof Array)) {
-                    return item;
+                if(!(item instanceof Array)){
+                    return rate[num];
                 }
 
                 let range = item[0];

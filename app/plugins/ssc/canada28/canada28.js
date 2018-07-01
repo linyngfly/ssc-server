@@ -37,7 +37,6 @@ class Canada28 extends SSC {
     }
 
     async _openAward(last) {
-        last.numbers = '2,8,1';
         let openAwardCalc = new Ssc28OpenAwardCalc(last.numbers.split(','));
         openAwardCalc.calc();
         for (let player of this._playerMap.values()) {

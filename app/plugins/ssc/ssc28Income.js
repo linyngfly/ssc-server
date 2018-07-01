@@ -149,7 +149,7 @@ class SSC28Income {
                         periodCount: dayBetInfo.periodCount,
                         multiRate: multi_rate,
                         satisfy:period_count >= incomeConfig.PERIOD_COUNT && multi_rate >= incomeConfig.MULTI_RATE,
-                        incomeTime: yesterday_zero.format()
+                        incomeTime: today_zero.format()
                     };
 
                     let defectionRate = 0;
@@ -239,7 +239,7 @@ class SSC28Income {
                         incomeMoney: incomeMoney,
                         rebateMoney: 0,
                         rebateRate: 0,
-                        incomeTime: yesterday_zero.format()
+                        incomeTime: today_zero.format()
                     };
 
                     let rebateRate = 0;

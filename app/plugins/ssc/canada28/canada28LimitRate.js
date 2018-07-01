@@ -123,7 +123,7 @@ class Canada28LimitRate{
             for(let i=0;i<rate.length;i++){
                 let item = rate[i];
                 if(!(item instanceof Array)){
-                    return item;
+                    return rate[num];
                 }
 
                 let range = item[0];
@@ -140,5 +140,10 @@ class Canada28LimitRate{
         }
     }
 }
+
+let tt = new Canada28LimitRate();
+console.log(tt.getRate('NUM', 4));;
+
+
 
 module.exports = Canada28LimitRate;
