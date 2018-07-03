@@ -6,7 +6,7 @@
 
 const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc =require('../ssc28OpenAwardCalc');
-const Lucky28Lottery = require('./lucky28Lottery');
+const Lottery = require('../lottery');
 const SSC = require('../ssc');
 const config = require('../config');
 const models = require('../../../models');
@@ -20,7 +20,7 @@ class Lucky28 extends SSC{
             gameIdentify:config.LUCKY28.GAME_IDENTIFY,
             hallName: config.LUCKY28.MSG_CHANNEL_NAME,
             betParser:new SSC28BetParser(),
-            lottery:new Lucky28Lottery({
+            lottery:new Lottery({
                 lotteryApi:new OpenCaiNetApi(config.OPEN_CAI_TYPE.BJKL8),
                 openCaiType:config.OPEN_CAI_TYPE.BJKL8
             }),

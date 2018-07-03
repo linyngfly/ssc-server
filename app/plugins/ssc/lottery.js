@@ -23,8 +23,6 @@ class Lottery extends EventEmitter {
         this.emit(config.LOTTERY_EVENT.TICK_COUNT, dt/1000);
     }
 
-    _preHandle(){}
-
     _handleLotteryInfo(lotteryInfo){
         //TODO 开奖了
         this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
@@ -36,7 +34,6 @@ class Lottery extends EventEmitter {
 
     //处理业务
     async update() {
-        this._preHandle();
         try {
             let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
             if(!lotteryInfo){
@@ -87,5 +84,6 @@ class Lottery extends EventEmitter {
     getNextPeriod() {
         return this._lotterInfo.next.period;
     }
+
 }
 module.exports = Lottery;

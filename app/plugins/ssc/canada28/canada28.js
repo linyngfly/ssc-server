@@ -5,7 +5,7 @@
 
 const SSC28BetParser = require('../ssc28BetParser');
 const Ssc28OpenAwardCalc = require('../ssc28OpenAwardCalc');
-const Canada28Lottery = require('./canada28Lottery');
+const Lottery = require('../lottery');
 const SSC = require('../ssc');
 const config = require('../config');
 const models = require('../../../models');
@@ -19,7 +19,7 @@ class Canada28 extends SSC {
             gameIdentify: config.CANADA28.GAME_IDENTIFY,
             hallName: config.CANADA28.MSG_CHANNEL_NAME,
             betParser: new SSC28BetParser(),
-            lottery: new Canada28Lottery({
+            lottery: new Lottery({
                 lotteryApi: new OpenCaiNetApi(config.OPEN_CAI_TYPE.CAKENO),
                 openCaiType: config.OPEN_CAI_TYPE.CAKENO
             }),
