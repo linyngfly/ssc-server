@@ -91,9 +91,12 @@ class SSC {
             if (player) {
                 let fields = event.fields;
                 for (let key in fields) {
-                    player.account[key] = fields[key];
                     if(key == 'money'){
+                        player.account.money = 0;
+                        await player.account.commit();
                         player.send(sscCmd.push.privateSysMessage.route, {money:player.account.money});
+                    }else {
+                        player.account[key] = fields[key];
                     }
                 }
             }
