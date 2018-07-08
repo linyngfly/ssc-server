@@ -103,7 +103,7 @@ class WZGJUser extends User {
     }
 
     async register(data) {
-        // this._checkPhoneCode(data.username, data.code);
+        this._checkPhoneCode(data.username, data.code);
 
         let accountData = _.cloneDeep(data);
         let openid = data.username;
@@ -138,6 +138,7 @@ class WZGJUser extends User {
     async getUserTestInfo(uid){
         return await models.account.helper.getAccount(uid);
     }
+
     async login(data) {
         let account = await models.account.helper.getAccount(data.uid);
         data.account = account;
