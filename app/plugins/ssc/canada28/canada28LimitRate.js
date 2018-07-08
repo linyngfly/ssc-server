@@ -116,8 +116,13 @@ class Canada28LimitRate{
         return _newType;
     }
 
-    getRate(type, num, sum, result){
-        type = this._check1314(type, sum);
+    getRate(type, totalNum, typeNum, sum, result){
+        let newType = this._check1314(type, sum);
+        let num = typeNum;
+        if(newType != type){
+            num = totalNum;
+            type = newType;
+        }
         let rate = this._rateConfig[type];
         if(rate instanceof Array){
             for(let i=0;i<rate.length;i++){

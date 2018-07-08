@@ -37,19 +37,22 @@ class Lottery extends EventEmitter {
         try {
             let lotteryInfo = await this._lotteryApi.getLotteryInfo(this._openCaiType);
             if(!lotteryInfo){
-                return;
+
                 // throw new Error('lotteryInfo is null');
+                return;
             }
 
             if(lotteryInfo.next.period != lotteryInfo.last.period+1 &&  lotteryInfo.last.period != lotteryInfo.pre.period + 2){
-                // throw new Error('lotteryInfo is invalid');
-                return;
+                throw new Error('lotteryInfo is invalid');
+                // return;
             }
 
-            if (!this._lotterInfo || this._lotterInfo.next.period == lotteryInfo.last.period) {
+            if (!this._lotterInfo || this._lotterInfo.next.period <= lotteryInfo.last.period) {
                 this._handleLotteryInfo(lotteryInfo);
                 this._lotterInfo = lotteryInfo;
             }
+            // logger.error('获取开奖数据this._lotterInfo.next.period = ', this._lotterInfo.next.period);
+            // logger.error('lotteryInfo.last.period = ', lotteryInfo.last.period);
         } catch (err) {
             logger.error('获取开奖数据异常，err=', err);
         }

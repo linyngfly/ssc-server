@@ -104,8 +104,5 @@ class Ssc28OpenAwardCalc {
     }
 }
 
-const tt = new Ssc28OpenAwardCalc([4,4,4]);
-tt.calc();
-console.log(tt.openResult);
 
 module.exports = Ssc28OpenAwardCalc;

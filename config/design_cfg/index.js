@@ -20,7 +20,7 @@ function readDirSync(_path){
     });  
 } 
 
-readDirSync(root);
+// readDirSync(root);
 
 //require('./vietnam') //TODO 开发测试
 module.exports = DESIGN_CFG;
