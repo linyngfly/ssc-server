@@ -43,12 +43,13 @@ class BetSync extends Task {
     async _syncFullData() {
         let _cursor = 0;
         do {
-            let {cursor, result} = await redisConnector.sscan(models.constants.DATA_SYNC_BE_IDS, _cursor, this.taskConf.readLimit);
+            let {cursor, result} = await redisConnector.sscan(models.constants.DATA_SYNC_BET_IDS, _cursor, this.taskConf.readLimit);
             let betIds = this._parseIds(result);
             for (let i = 0; i < betIds.length; i++) {
                 try {
                     await this._toMysql(betIds[i]);
-                    await redisConnector.srem(models.constants.DATA_SYNC_BE_IDS, betIds[i]);
+                    await redisConnector.srem(models.constants.DATA_SYNC_BET_IDS, betIds[i]);
+                    models.bet.helper.delBet(betIds[i]);
                     logger.info(`玩家投注${betIds[i]}数据完整同步成功`);
                 } catch (err) {
                     logger.error(`玩家投注${betIds[i]}数据完整同步失败`, err);

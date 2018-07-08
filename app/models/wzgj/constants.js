@@ -24,7 +24,7 @@ module.exports = {
     DATA_SYNC_FULL_UIDS: `${PREFIX}sync:full_uids`,
     DATA_SYNC_DELTA_UIDS: `${PREFIX}sync:delta_uids`,
     DATA_SYNC_DELTA_UID_FIELDS: `${PREFIX}sync:delta_uid_fields`,
-    DATA_SYNC_BE_IDS: `${PREFIX}sync:bet_ids`,
+    DATA_SYNC_BET_IDS: `${PREFIX}sync:bet_ids`,
 
     //UID计数器
     UID_COUNTER: `${PREFIX}counter:uid`,
@@ -66,6 +66,7 @@ module.exports = {
         CANCEL: 1, //撤销
         WIN: 2, //赢
         LOSE: 3, //输
+        BACK: 4, //退还
     },
 
     GAME_SCENE: {
@@ -78,5 +79,6 @@ module.exports = {
         CASH_CANCEL: 7, //提现撤销
         INCOME: 8, //玩家反水
         AGENT_INCOME: 9, //上下级反水
+        BET_BACK:10, //未开奖退还
     }
 };

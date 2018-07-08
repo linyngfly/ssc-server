@@ -32,7 +32,7 @@ class OpenCaiNetApi {
     async _getSdkInfo(options) {
         // logger.error('options=', options);
         let sdkData = await httpclient.get(options);
-        logger.error('sdkData=', sdkData.toString());
+        // logger.error('sdkData=', sdkData.toString());
         sdkData = JSON.parse(sdkData.toString());
         return sdkData;
     }

@@ -278,6 +278,21 @@ class Connector {
         });
     }
 
+    async hscan(key, skip, limit) {
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.hscan(key, skip, 'COUNT', limit, function (err, result) {
+                if (err) {
+                    logger.error('redis hscan err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    resolve({cursor : result[0], result:result[1]});
+                }
+            });
+        });
+    }
+
     async hdel(key, member) {
         if (key == null || member == null) {
             return;

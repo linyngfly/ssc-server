@@ -58,13 +58,13 @@
 				<input type="submit" value="" class="subBtn" />
 			</div>
 			<div class="download oh">
-				<a href="javascript:void(0)" class="downBtn">下载游戏</a>
+				<a href="https://fir.im/8pfd" class="downBtn">下载游戏</a>
 			</div>
 		</section><!--main end-->
 	</div><!--container end-->
 </body>
 <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-<!--<script src="./js/getVerifyCode.js"></script>-->
+<script src="./js/getVerifyCode.js"></script>
 <script src="./js/layer/layer.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -124,7 +124,7 @@ $(function(){
 			return false;
 		}
 		//layer.msg("正在注册。。。")
-		  let datas={'username':phone,'code':vc,'password':pass,'inviter':inviter,nickname:nickname};
+		  let datas={'username':phone,'code':vc,'password':pass,'inviter':inviter,'nickname':nickname};
 		$.ajax({
             type: 'post',
             url: 'http://wzgj.xyzrt.cn:3002/gate/clientApi/register',
@@ -133,7 +133,12 @@ $(function(){
             data: datas,
             dataType:'json',
             success: function (msg) {	   
-             	console.log(msg);
+             	//console.log(msg);
+				if(msg.error){
+					layer.msg(msg.error.msg);
+				}else{
+					layer.msg('注册成功!');
+				}
                },
             error: function (msg) {
             	layer.msg("出错了");
@@ -144,7 +149,7 @@ $(function(){
 	
 });
 </script>
-<!--<script type="text/javascript">
+<script type="text/javascript">
 	$(function (){
 		$(".getvc").on("click",getVerifyCode({			
 			callBack: function (){		
@@ -173,12 +178,16 @@ $(function(){
 			  let datas={'phone':phone};			
 				$.ajax({
 	             type: 'post',
-	             url: '/test/sendmsg',
+	             url: 'http://wzgj.xyzrt.cn:3002/gate/clientApi/getPhoneCode',
 	             async: false,
 	             data: datas,
 	             dataType:'json',
-	             success: function (msg) {	              
-	            	 layer.msg(msg);	             
+	             success: function (msg) {	 
+					console.log(msg.data);
+					if(msg.data){
+						layer.msg('发送成功!');
+					}
+	            	// layer.msg(msg);	             
                  },
 	          
 	         }); 
@@ -186,5 +195,5 @@ $(function(){
 	});
 	
 	
-</script>-->
+</script>
 </html>

@@ -16,6 +16,10 @@ module.exports = {
         ACCOUNT_DAILY_RESET: {
             enable: true,
             time: '50,55,23,*,*,*', //每天0点
+        },
+        BET_BACK: {
+            enable: true,
+            time: '0/10,*,*,*,*,*', //每天2分钟
         }
     },
 
@@ -46,6 +50,7 @@ module.exports = {
         PLAYER_CHANGE: Symbol('hall_event_player_change'),
         BROADCAST: Symbol('hall_event_broadcast'),
         PUBLISH_SYS_MESSAGE: Symbol('publish_sys_message'),
+        PLAYER_BET_BACK: Symbol('player_bet_back'),
     },
 
 

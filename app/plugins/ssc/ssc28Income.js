@@ -114,8 +114,8 @@ class SSC28Income {
         today_zero.setHours(23);
         today_zero.setMinutes(55);
 
-        let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE role=? AND test>0 AND updated_at>=?',
-            [models.constants.ROLE.PLAYER, yesterday_zero.format()]);
+        let rows = await mysqlConnector.query('SELECT id FROM tbl_user WHERE test>0 AND updated_at>=?',
+            [yesterday_zero.format()]);
 
         if (!rows || rows.length == 0) {
             return;
@@ -175,6 +175,7 @@ class SSC28Income {
                     let account = await models.account.helper.getAccount(uid, models.account.fieldConst.MONEY);
                     account.money = defectionMoney;
                     await account.commit();
+                    logger.error('玩家回水%d收益%j', dayIncomeInfo.uid, dayIncomeInfo);
                 }
             } catch (err) {
                 err;
@@ -239,7 +240,8 @@ class SSC28Income {
                         incomeMoney: incomeMoney,
                         rebateMoney: 0,
                         rebateRate: 0,
-                        incomeTime: today_zero.format()
+                        incomeTime: today_zero.format(),
+                        state:0
                     };
 
                     let rebateRate = 0;
@@ -250,8 +252,8 @@ class SSC28Income {
                         for (let k = 0, len = range.length; k < len; ++k) {
                             let item = range[k];
                             let section = item[0];
-                            if (section[0] == -1 && num < section[1] || num >= section[0] && num < section[1]
-                                || section[1] == -1 && num >= section[0]) {
+                            if (Number(section[0]) == -1 && num <= Number(section[1]) || num >= Number(section[0]) && num <= Number(section[1])
+                                || Number(section[1]) == -1 && num >= Number(section[0])) {
                                 rebateRate = Number(item[1]);
                                 rebateMoney = rebateRate * num;
                                 break;
@@ -262,6 +264,8 @@ class SSC28Income {
                     dayIncomeInfo.rebateMoney = rebateMoney;
                     dayIncomeInfo.rebateRate = rebateRate;
                     logBuilder.addLog(logBuilder.tbl_id.TBL_AGENT_INCOME, dayIncomeInfo);
+
+                    logger.error('代理反水%d收益%j', dayIncomeInfo.uid, dayIncomeInfo);
                     // let account = await models.account.helper.getAccount(uid, models.account.fieldConst.MONEY);
                     // account.money = rebateMoney;
                     // await account.commit();

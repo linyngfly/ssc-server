@@ -59,13 +59,9 @@ class SscPlayer extends Player {
                     total: this.account.money,
                     scene: models.constants.GAME_SCENE.LOTTERY
                 });
-
-                redisConnector.sadd(models.constants.DATA_SYNC_BE_IDS, bet.id);
+                redisConnector.sadd(models.constants.DATA_SYNC_BET_IDS, bet.id);
             }
-        }
 
-        if (bets.length == 0) {
-            return;
         }
 
         this._betsMap.clear();
@@ -224,11 +220,15 @@ class SscPlayer extends Player {
         let allTypeLimitMoney = this._betLimitMap.get(config.SSC28.BET_TYPE_LIMIT_DIC.ALL);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, allTypeLimitMoney - bet.betMoney);
 
-        // this._betsMap.delete(id);
-
+        this._betsMap.delete(id);
+        redisConnector.sadd(models.constants.DATA_SYNC_BET_IDS, bet.id);
         this.emit(sscCmd.push.unBet.route, bet.toJSON());
 
         return {money: this.account.money};
+    }
+
+    delBet(id){
+        this._betsMap.delete(id);
     }
 
     async chat(msg) {

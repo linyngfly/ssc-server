@@ -102,6 +102,14 @@ class SSC {
             }
         }.bind(this));
 
+        hall.on(config.HALL_EVENT.PLAYER_BET_BACK, async function (event) {
+            let player = this._playerMap.get(event.uid);
+            if (player) {
+                player.delBet(event.id);
+            }
+        }.bind(this));
+
+
         hall.on(config.HALL_EVENT.BROADCAST, function (broadcast_content) {
             self.broadcast(sscCmd.push.broadcast.route, broadcast_content);
         }.bind(this));

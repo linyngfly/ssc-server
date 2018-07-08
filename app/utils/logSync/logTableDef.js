@@ -23,7 +23,7 @@ TBL_DEF[TBL_ID.TBL_PLAYER_INCOME] = {
 TBL_DEF[TBL_ID.TBL_AGENT_INCOME] = {
     name: 'tbl_agent_income',
     field: ['uid', 'identify', 'betMoney', 'incomeMoney', 'rebateRate',
-        'rebateMoney', 'incomeTime'],
+        'rebateMoney', 'incomeTime', 'state'],
 };
 TBL_DEF[TBL_ID.TBL_SYS_MESSAGE] = {
     name: 'tbl_sys_message',

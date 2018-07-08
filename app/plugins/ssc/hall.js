@@ -70,6 +70,13 @@ class Hall extends EventEmitter {
         this._schedule = schedule.scheduleJob(cron_time, async function () {
             await this._updateDailyReset();
         }.bind(this));
+
+        let _time1 = config.TASK.BET_BACK.time.split(',');
+        let cron_time1 = `${_time1[0]} ${_time1[1]} ${_time1[2]} ${_time1[3]} ${_time1[4]} ${_time1[5]}`;
+        this._schedule = schedule.scheduleJob(cron_time1, async function () {
+            await this._backMoney();
+        }.bind(this));
+
         await this._ssc28Income.start();
         logger.error('Hall start');
     }
@@ -81,6 +88,68 @@ class Hall extends EventEmitter {
         }
         await this._ssc28Income.stop();
         logger.error('Hall stop');
+    }
+
+    _parseIds(res) {
+        let betIds = [];
+        for (let i = 0; i < res.length; i+=2) {
+            let id = Number(res[i+1]);
+            if (!isNaN(id) && id != 0) {
+                betIds.push(id);
+            }
+        }
+        return betIds;
+    }
+
+    async _backMoney(){
+        let _cursor = 0;
+        do {
+            let {cursor, result} = await redisConnector.hscan(models.genRedisKey.getBetKey('id'), _cursor, 100);
+            logger.error('cursor, result', cursor, result);
+            let betIds = this._parseIds(result);
+            for (let i = 0; i < betIds.length; i++) {
+                try {
+                    let bet = await models.bet.helper.getBet(betIds[i]);
+                    if (bet && bet.state == 0) {
+                        let betTimestamp = new Date(bet.betTime);
+                        betTimestamp = betTimestamp.getTime();
+                        if(Date.now() - betTimestamp > 600000){
+                            bet.state = models.constants.BET_STATE.BACK;
+                            await bet.commit();
+                            let account = await models.account.helper.getAccount(bet.uid, 'money');
+                            account.money = bet.betMoney;
+                            await account.commit();
+
+                            logBuilder.addMoneyLog({
+                                uid: account.uid,
+                                gain: bet.betMoney,
+                                total: account.money,
+                                scene: models.constants.GAME_SCENE.BET_BACK
+                            });
+
+                            let sysInfo = {
+                                publisher: +bet.uid,
+                                content: `未开奖退还金豆${bet.betMoney}`,
+                                created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+                            };
+
+                            logBuilder.addLog(logBuilder.tbl_id.TBL_SYS_MESSAGE, sysInfo);
+                            this.emit(config.HALL_EVENT.PUBLISH_SYS_MESSAGE, sysInfo);
+
+                            this.emit(config.HALL_EVENT.PLAYER_BET_BACK, {id:bet.id});
+
+                            redisConnector.sadd(models.constants.DATA_SYNC_BET_IDS, bet.id);
+                        }
+                    }
+                } catch (err) {
+                    logger.error(`玩家投注${betIds[i]}数据完整同步失败`, err);
+                }
+            }
+            _cursor = cursor;
+            if (_cursor == 0) {
+                return;
+            }
+        } while (1);
     }
 
     async recharge(data) {

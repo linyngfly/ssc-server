@@ -103,7 +103,7 @@ class WZGJUser extends User {
     }
 
     async register(data) {
-        this._checkPhoneCode(data.username, data.code);
+        // this._checkPhoneCode(data.username, data.code);
 
         let accountData = _.cloneDeep(data);
         let openid = data.username;
