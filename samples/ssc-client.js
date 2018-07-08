@@ -596,14 +596,14 @@ async function main() {
     
     // return;
 
-    // await client.register({
-    //     username: '18183276214',
-    //     password: '123654',
-    //     code: '6469',
-    //     nickname: '咸鱼也有梦11',
-    //     // inviter: 1,
-    // });
-    // return;
+    await client.register({
+        username: '18011112222',
+        password: '123654',
+        code: '6469',
+        nickname: '咸鱼也有梦11',
+        // inviter: 1,
+    });
+    return;
     // //
     console.time('111');
 
