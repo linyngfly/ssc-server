@@ -243,7 +243,6 @@ class SSC28Income {
                         incomeTime: today_zero.format(),
                         state:0
                     };
-
                     let rebateRate = 0;
                     let rebateMoney = 0;
                     if (incomeMoney < 0) {

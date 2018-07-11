@@ -161,6 +161,7 @@ class OpenCaiNetApi {
                 let last_opentime = moment(infos[0].opentime).add(type.INTERVAL, 'minutes');
                 last_opentime.second(0);
                 lotteryInfo.next = {
+                    interval:type.INTERVAL*60*1000,
                     period: Number(infos[0].expect) + 1,
                     opentime: last_opentime.format('YYYY-MM-DD HH:mm:ss')
                 };

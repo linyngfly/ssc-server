@@ -26,10 +26,16 @@ class Lottery extends EventEmitter {
     _handleLotteryInfo(lotteryInfo){
         //TODO 开奖了
         this.emit(config.LOTTERY_EVENT.OPEN_AWARD, lotteryInfo);
-        let nextTime = moment(lotteryInfo.next.opentime).format('x');
-        let free = nextTime - moment().format('x');
-        free = Math.max(free, 0);
-        this._countdown.reset(Math.floor(free/1000)*1000);
+        if(lotteryInfo.enable){
+            let nextTime = moment(lotteryInfo.next.opentime).format('x');
+            let free = nextTime - moment().format('x');
+            free = Math.max(free, 0);
+            this._countdown.reset(Math.floor(free/1000)*1000);
+        }else {
+            this._countdown.reset(lotteryInfo.next.interval);
+        }
+
+
     }
 
     //处理业务

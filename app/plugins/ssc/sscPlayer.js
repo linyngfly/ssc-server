@@ -134,6 +134,14 @@ class SscPlayer extends Player {
             throw ERROR_OBJ.BET_TYPE_OVERLOAD_LIMIT;
         }
 
+        this.account.money = -parseRet.total;
+        await this.account.commit();
+        if (this.account.money < 0) {
+            this.account.money = parseRet.total;
+            await this.account.commit();
+            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
+        }
+
         let bet = await models.bet.helper.createBet({
             uid: this.uid,
             period: period,
@@ -148,13 +156,6 @@ class SscPlayer extends Player {
         bet.limit_dic = parseRet.limit_dic;
         bet.rate_dic = parseRet.rate_dic;
 
-        this.account.money = -parseRet.total;
-        await this.account.commit();
-        if (this.account.money < 0) {
-            this.account.money = parseRet.total;
-            await this.account.commit();
-            throw ERROR_OBJ.ACCOUNT_AMOUNT_NOT_ENOUGH;
-        }
 
         logBuilder.addMoneyLog({
             uid: this.uid,

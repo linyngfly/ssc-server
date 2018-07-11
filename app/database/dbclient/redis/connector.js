@@ -472,6 +472,22 @@ class Connector {
         });
     }
 
+    async lindex(key, index){
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self._cmdClient.lindex(key, index, function (err, result) {
+                if (err) {
+                    logger.error('redis lindex err=', err);
+                    reject(ERROR_OBJ.DB_REDIS_ERR);
+                }
+                else {
+                    result = self._getDBReadValue(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
     async lset(key, index, value) {
         let self = this;
         return new Promise(function (resolve, reject) {

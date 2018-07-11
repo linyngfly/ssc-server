@@ -80,6 +80,10 @@ class SSC {
             };
 
             logBuilder.addLotteryLog(lotteryData);
+            let preData = await redisConnector.lindex(util.format(models.constants.LOTTERY_LATEST_HISTORY, self._hallName), 0);
+            if(preData.period == lotteryData.period){
+                return;
+            }
             await redisConnector.lpush(util.format(models.constants.LOTTERY_LATEST_HISTORY, self._hallName), lotteryData);
             self.broadcast(sscCmd.push.openLottery.route, {
                 lotteryInfo: lotteryInfo,
