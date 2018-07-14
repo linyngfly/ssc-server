@@ -100,7 +100,7 @@ class Lucky28LimitRate {
                 }
                 break;
             case config.SSC28.BET_TYPE_RATE_DIC.DOUBLE:
-                if (sum == 13) {
+                if (sum == 14) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.DOUBLE_14;
                 }
                 break;
@@ -125,6 +125,7 @@ class Lucky28LimitRate {
             num = totalNum;
             type = newType;
         }
+
         let rate = this._rateConfig[type];
         if (rate instanceof Array) {
             for (let i = 0; i < rate.length; i++) {

@@ -98,7 +98,7 @@ class Canada28LimitRate{
                 }
                 break;
             case config.SSC28.BET_TYPE_RATE_DIC.DOUBLE:
-                if (sum == 13) {
+                if (sum == 14) {
                     _newType = config.SSC28.BET_TYPE_RATE_DIC.DOUBLE_14;
                 }
                 break;
