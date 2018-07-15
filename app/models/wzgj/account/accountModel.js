@@ -128,7 +128,7 @@ module.exports = {
         comment: '荣誉称号'
     },
     money: {
-        def: 1000000,
+        def: 0,
         type: "float",
         precision:2,
         tbl: 'tbl_user',

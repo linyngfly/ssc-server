@@ -27,6 +27,7 @@ class SscPlayer extends Player {
         for (let bet of this._betsMap.values()) {
             if (bet.period == period && bet.state == models.constants.BET_STATE.WAIT) {
                 let betItems = bet.betItems;
+                let winMoney = 0;
                 for (let i = 0; i < betItems.length; i++) {
                     let item = betItems[i];
                     if (openResult.has(item.result)) {
@@ -39,13 +40,14 @@ class SscPlayer extends Player {
                         let inc = item.money * multi;
                         inc = Number(inc.toFixed(2));
                         bet.winCount++;
-                        bet.winMoney += inc;
+                        winMoney += inc;
                         this.account.winCount = 1;
                         this.account.money = inc;
                     }
                 }
 
-                let incomeMoney = Number((bet.winMoney - bet.betMoney).toFixed(2));
+                let incomeMoney = Number((winMoney - bet.betMoney).toFixed(2));
+                bet.winMoney = incomeMoney;
                 bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
                 bets.push({
                     id: bet.id, state: bet.state, money: incomeMoney, period: period, numbers: numbers,
@@ -228,7 +230,7 @@ class SscPlayer extends Player {
         return {money: this.account.money};
     }
 
-    delBet(id){
+    delBet(id) {
         this._betsMap.delete(id);
     }
 

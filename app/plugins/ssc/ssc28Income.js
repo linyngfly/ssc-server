@@ -137,7 +137,7 @@ class SSC28Income {
                     let incomeConfig = this._getPlayerIncomCfg(identify);
                     let period_count = Number(dayBetInfo.periodCount);
                     let multi_rate = Number(((dayBetInfo.multiCount / Math.max(dayBetInfo.dayBetCount, 1))*100).toFixed(2));
-                    let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
+                    let incomeMoney = dayBetInfo.dayWinMoney;// - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
                         identify: identify,
@@ -232,7 +232,7 @@ class SSC28Income {
 
                     let identify = dayBetInfo.identify;
                     let incomeConfig = this._getAgentIncomCfg(identify);
-                    let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
+                    let incomeMoney = dayBetInfo.dayWinMoney;// - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
                         identify: identify,
