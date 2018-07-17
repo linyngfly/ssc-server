@@ -36,17 +36,25 @@ class SscPlayer extends Player {
                         logger.error('投注 betData=', bet.betData);
                         logger.error('投注 result=', item.result);
                         logger.error('投注 rate_dic=', bet.rate_dic);
+                        logger.error('投注 limitKey=', bet.limitKey);
+                        logger.error('投注 limitKey num=', this._betLimitMap.get(bet.limitKey));
                         logger.error('投注 multi', multi);
                         let inc = item.money * multi;
                         inc = Number(inc.toFixed(2));
                         bet.winCount++;
                         winMoney += inc;
                         this.account.winCount = 1;
-                        this.account.money = inc;
                     }
                 }
 
-                let incomeMoney = Number((winMoney - bet.betMoney).toFixed(2));
+                let incomeMoney = 0;
+                if(winMoney == 0){
+                    incomeMoney = -bet.betMoney;
+                }else{
+                    incomeMoney = winMoney;
+                }
+                
+                this.account.money = winMoney;
                 bet.winMoney = incomeMoney;
                 bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
                 bets.push({
@@ -55,7 +63,7 @@ class SscPlayer extends Player {
                 });
                 await bet.commit();
 
-                logBuilder.addMoneyLog({
+                bet.winMoney > 0 && logBuilder.addMoneyLog({
                     uid: this.uid,
                     gain: bet.winMoney,
                     total: this.account.money,
@@ -68,9 +76,10 @@ class SscPlayer extends Player {
 
         this._betsMap.clear();
         this._betLimitMap.clear();
-        this._betRateMap.clear();
         await this.account.commit();
-        this.emit(sscCmd.push.betResult.route, {money: this.account.money, numbers: numbers, bets: bets});
+        if (bets.length > 0) {
+            this.emit(sscCmd.push.betResult.route, {money: this.account.money, numbers: numbers, bets: bets});
+        }
     }
 
     isBet() {
@@ -157,6 +166,7 @@ class SscPlayer extends Player {
         });
         bet.limit_dic = parseRet.limit_dic;
         bet.rate_dic = parseRet.rate_dic;
+        bet.limitKey = limitKey;
 
 
         logBuilder.addMoneyLog({
@@ -176,11 +186,6 @@ class SscPlayer extends Player {
         this._betsMap.set(bet.id, bet);
         this._betLimitMap.set(limitKey, totalLimitMoney);
         this._betLimitMap.set(config.SSC28.BET_TYPE_LIMIT_DIC.ALL, allTypeMoney);
-
-        let rateMoney = this._betRateMap.get(bet.rate_dic) || 0;
-        rateMoney += parseRet.total;
-        this._betRateMap.set(bet.rate_dic, rateMoney);
-
         this.emit(sscCmd.push.bet.route, bet.toJSON());
         return {money: this.account.money};
     }

@@ -120,6 +120,7 @@ class Lucky28LimitRate {
 
     getRate(type, totalNum, typeNum, sum, result){
         let newType = this._check1314(type, sum);
+        logger.error('lucky28 getRate', newType, type, totalNum, typeNum, sum, result);
         let num = typeNum;
         if(newType != type){
             num = totalNum;
@@ -127,9 +128,11 @@ class Lucky28LimitRate {
         }
 
         let rate = this._rateConfig[type];
+        logger.error('rate=%j', rate);
         if (rate instanceof Array) {
             for (let i = 0; i < rate.length; i++) {
                 let item = rate[i];
+                logger.error('aa rate=%j', rate);
                 if(!(item instanceof Array)){
                     return rate[Number(result)];
                 }
@@ -138,6 +141,7 @@ class Lucky28LimitRate {
                 let r = Number(item[1]);
                 let rng0 = Number(range[0]);
                 let rng1 = Number(range[1]);
+                logger.error('bb range=%j', range, r, rng0, rng1);
                 if (rng0 == -1 && num <= rng1 || num >= rng0 && num <= rng1
                     || rng1 == -1 && num >= rng0) {
                     return r;

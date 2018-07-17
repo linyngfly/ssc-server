@@ -327,6 +327,7 @@ const _errorCode = {
     INVITER_INVALID: 7125, // 邀请人ID无效
     PHONE_CODE_EXPIRES: 7126, // 手机验证码过期
     PHONE_IS_KILL: 7127, // 手机号被封禁,无法注册
+    CLIENT_VERSION_UPDATE: 7128, // 版本已经更新，请升级客户端
 
 
 };
@@ -1564,6 +1565,10 @@ const _errorObj = {
     PHONE_IS_KILL: {
         msg: '手机号被封禁,无法注册',
         code: _errorCode.PHONE_IS_KILL,
+    },
+    CLIENT_VERSION_UPDATE: {
+        msg: '版本已经更新，请升级客户端',
+        code: _errorCode.CLIENT_VERSION_UPDATE,
     },
 
 };

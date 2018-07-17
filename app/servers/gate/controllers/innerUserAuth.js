@@ -3,6 +3,8 @@ const authSdk = require('./loginAuth/authSdk');
 const ERROR_OBJ = require('../../../consts/error_code').ERROR_OBJ;
 const logger = require('omelo-logger').getLogger('gate', __filename);
 const logicResponse = require('../../common/logicResponse');
+const fs = require('fs');
+const path = require('path');
 
 class InnerUserAuth {
     /**
@@ -46,6 +48,14 @@ class InnerUserAuth {
      * @returns {Promise<*|{data, type}>}
      */
     async login(data) {
+        let ver = fs.readFileSync(path.join(__dirname, '../public/clientVersion'));
+        ver = Number(ver);
+
+        data.clientVersion = data.clientVersion || 99;
+        if(data.clientVersion < ver){
+            throw ERROR_OBJ.CLIENT_VERSION_UPDATE;
+        }
+
         let sdkApi = authSdk.sdk(consts.AUTH_CHANNEL_ID.WZGJ_INNER);
         if (!sdkApi) {
             throw ERROR_OBJ.NOT_SUPPORT_CHANNEL_LOGIN;

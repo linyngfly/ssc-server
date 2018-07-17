@@ -69,6 +69,7 @@ class SSC {
 
         this._lottery.on(config.LOTTERY_EVENT.OPEN_AWARD, async (lotteryInfo) => {
             let last = lotteryInfo.last;
+            // last.numbers = '8,4,2';
             let openResult = await self._openAward(last);
 
             let lotteryData = {
