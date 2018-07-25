@@ -1,4 +1,4 @@
-const models = require('../../models/index');
+const models = require('../../models');
 const utils = require('../../utils/utils');
 const logBuilder = require('../../utils/logSync/logBuilder');
 const config = require('./config');
@@ -140,7 +140,7 @@ class SSC28Income {
                     let dayIncomeInfo = {
                         uid: uid,
                         identify: 'ssc',
-                        betMoney: dayBetInfo.dayBetMoney,
+                        betMoney: dayBetInfo.dayBetMoney || 0,
                         incomeMoney: incomeMoney,
                         defectionMoney: 0,
                         defectionRate: 0,
@@ -235,7 +235,7 @@ class SSC28Income {
                     let dayIncomeInfo = {
                         uid: uid,
                         identify: identify,
-                        betMoney: dayBetInfo.dayBetMoney,
+                        betMoney: dayBetInfo.dayBetMoney || 0,
                         incomeMoney: incomeMoney,
                         rebateMoney: 0,
                         rebateRate: 0,

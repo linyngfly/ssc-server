@@ -5,7 +5,7 @@ module.exports = {
          */
         CONFIG_DAILY_RESET: {
             enable: true,
-            // time: '0,0,0,*,*,*', //每天0点
+            //time: '0,0,0,*,*,*', //每天0点
             time: '0/30,*,*,*,*,*', //每天0点
         },
         INCOME_DAILY_CALC: {
@@ -15,7 +15,7 @@ module.exports = {
         },
         ACCOUNT_DAILY_RESET: {
             enable: true,
-            time: '50,55,23,*,*,*', //每天0点
+            time: '0,0,0,*,*,*', //每天0点
         },
         BET_BACK: {
             enable: true,

@@ -27,7 +27,6 @@ class Hall extends EventEmitter {
 
     async _updateDailyReset() {
         await this._updateAdminToken();
-        await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
     }
 
     async loadConfig() {
@@ -69,12 +68,19 @@ class Hall extends EventEmitter {
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
         this._schedule = schedule.scheduleJob(cron_time, async function () {
             await this._updateDailyReset();
+            await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
         }.bind(this));
 
         let _time1 = config.TASK.BET_BACK.time.split(',');
         let cron_time1 = `${_time1[0]} ${_time1[1]} ${_time1[2]} ${_time1[3]} ${_time1[4]} ${_time1[5]}`;
         this._schedule = schedule.scheduleJob(cron_time1, async function () {
             await this._backMoney();
+        }.bind(this));
+
+        let _time2 = config.TASK.ACCOUNT_DAILY_RESET.time.split(',');
+        let cron_time2 = `${_time2[0]} ${_time2[1]} ${_time2[2]} ${_time2[3]} ${_time2[4]} ${_time2[5]}`;
+        this._schedule = schedule.scheduleJob(cron_time2, async function () {
+            await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
         }.bind(this));
 
         await this._ssc28Income.start();
