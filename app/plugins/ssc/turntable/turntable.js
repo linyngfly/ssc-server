@@ -44,10 +44,11 @@ class Turntable {
         }
 
         let account = data.account;
+//logger.error('getDraw=', account.daily_draw, config.TURNTABLE.DRAW_CONDITION);
         //TODO 测试放开
         if(account.new_user_draw == 1){
             account.new_user_draw = 0;
-        }else if(account.daily_draw != -1 && this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
+        }else if(account.daily_draw != -1 && await this._getBetPeriodCount(data.uid) > config.TURNTABLE.DRAW_CONDITION){
             account.daily_draw = -1;
         }else {
             if(account.daily_draw == -1){
@@ -92,8 +93,11 @@ class Turntable {
         let periodCount = 0;
         let cur = new Date();
         cur = cur.zeroTime();
-        let rows = await mysqlConnector.query('SELECT COUNT(distinct period) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=?', [uid, cur.format()]);
-        if(rows && rows[0]){
+        
+logger.error('turble = %j', [uid, cur.format()])
+let rows = await mysqlConnector.query('SELECT COUNT(distinct period) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=? AND state in(2,3)', [uid, cur.format()]);
+//let rows = await mysqlConnector.query('SELECT COUNT(distinct period) AS periodCount FROM tbl_bets WHERE uid=? AND betTime >=? AND state in(2,3)', [3, "2018-07-17 00:00:00"]);  
+      if(rows && rows[0]){
             periodCount = Number(rows[0].periodCount);
         }
 

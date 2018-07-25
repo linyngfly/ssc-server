@@ -47,18 +47,12 @@ class SscPlayer extends Player {
                     }
                 }
 
-                let incomeMoney = 0;
-                if(winMoney == 0){
-                    incomeMoney = -bet.betMoney;
-                }else{
-                    incomeMoney = winMoney;
-                }
                 
                 this.account.money = winMoney;
-                bet.winMoney = incomeMoney;
-                bet.state = incomeMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
+                bet.winMoney = winMoney;
+                bet.state = winMoney > 0 ? models.constants.BET_STATE.WIN : models.constants.BET_STATE.LOSE;
                 bets.push({
-                    id: bet.id, state: bet.state, money: incomeMoney, period: period, numbers: numbers,
+                    id: bet.id, state: bet.state, money: winMoney, period: period, numbers: numbers,
                     opentime: opentime, openResult: Array.from(openResult)
                 });
                 await bet.commit();

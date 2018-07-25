@@ -124,7 +124,7 @@ class SSC28Income {
         for (let i = 0; i < rows.length; ++i) {
             let uid = rows[i].id;
             try {
-                let dayBetInfos = await mysqlConnector.query('SELECT SUM(betMoney) as dayBetMoney, SUM(winMoney) as dayWinMoney,SUM(betCount) as dayBetCount, SUM(winCount) as dayWinCount,COUNT(DISTINCT period) AS periodCount, SUM(multi) AS multiCount, identify FROM tbl_bets WHERE uid=? AND betTime>=? AND betTime<? AND state IN(?,?) GROUP BY identify',
+                let dayBetInfos = await mysqlConnector.query('SELECT SUM(betMoney) as dayBetMoney, SUM(winMoney) as dayWinMoney,SUM(betCount) as dayBetCount, SUM(winCount) as dayWinCount,COUNT(DISTINCT period) AS periodCount, SUM(multi) AS multiCount FROM tbl_bets WHERE uid=? AND betTime>=? AND betTime<? AND state IN(?,?)',
                     [uid, yesterday_zero.format(), today_zero.format(), models.constants.BET_STATE.WIN, models.constants.BET_STATE.LOSE]);
 
                 if (!dayBetInfos && dayBetInfos.length == 0) {
@@ -133,14 +133,13 @@ class SSC28Income {
 
                 for (let j = 0, len = dayBetInfos.length; j < len; ++j) {
                     let dayBetInfo = dayBetInfos[j];
-                    let identify = dayBetInfo.identify;
-                    let incomeConfig = this._getPlayerIncomCfg(identify);
+                    let incomeConfig = this._getPlayerIncomCfg('lucky28');
                     let period_count = Number(dayBetInfo.periodCount);
                     let multi_rate = Number(((dayBetInfo.multiCount / Math.max(dayBetInfo.dayBetCount, 1))*100).toFixed(2));
-                    let incomeMoney = dayBetInfo.dayWinMoney;// - dayBetInfo.dayBetMoney;
+                    let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
-                        identify: identify,
+                        identify: 'ssc',
                         betMoney: dayBetInfo.dayBetMoney,
                         incomeMoney: incomeMoney,
                         defectionMoney: 0,
@@ -232,7 +231,7 @@ class SSC28Income {
 
                     let identify = dayBetInfo.identify;
                     let incomeConfig = this._getAgentIncomCfg(identify);
-                    let incomeMoney = dayBetInfo.dayWinMoney;// - dayBetInfo.dayBetMoney;
+                    let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
                         identify: identify,
