@@ -11,6 +11,7 @@ class Turntable {
     constructor() {
         this._award = config.TURNTABLE.AWARD;
         this._bonus_pool_key = util.format(models.constants.CONFIG.TURNTABLE_BONUS_POOL, config.TURNTABLE.GAME_IDENTIFY);
+        this._today_bonus_pool_key = util.format(models.constants.CONFIG.TURNTABLE_TODAY_BONUS_POOL, config.TURNTABLE.GAME_IDENTIFY);
         this._award_key = util.format(models.constants.CONFIG.TURNTABLE_AWARD, config.TURNTABLE.GAME_IDENTIFY);
         this._schedule = null;
     }
@@ -38,10 +39,6 @@ class Turntable {
             award: 0,
         };
 
-        let balance = await redisConnector.get(this._bonus_pool_key);
-        if (balance <= 0) {
-            return resp;
-        }
 
         let account = data.account;
 //logger.error('getDraw=', account.daily_draw, config.TURNTABLE.DRAW_CONDITION);
@@ -58,9 +55,15 @@ class Turntable {
             }
         }
 
+      let todayBalance = await redisConnector.get(this._today_bonus_pool_key);
+      let balance = await redisConnector.get(this._bonus_pool_key);
+        if (todayBalance >= balance) {
+            return resp;
+        }
+
         let money = this._randomGetAward(this._award);
         if (money && money > 0) {
-            await redisConnector.incrbyfloat(this._bonus_pool_key, -money);
+            await redisConnector.incrbyfloat(this._today_bonus_pool_key, money);
             data.account.money = money;
             await data.account.commit();
 

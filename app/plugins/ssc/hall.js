@@ -81,6 +81,7 @@ class Hall extends EventEmitter {
         let cron_time2 = `${_time2[0]} ${_time2[1]} ${_time2[2]} ${_time2[3]} ${_time2[4]} ${_time2[5]}`;
         this._schedule = schedule.scheduleJob(cron_time2, async function () {
             await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
+            await redisConnector.del(util.format(models.constants.CONFIG.TURNTABLE_TODAY_BONUS_POOL, config.TURNTABLE.GAME_IDENTIFY));
         }.bind(this));
 
         await this._ssc28Income.start();

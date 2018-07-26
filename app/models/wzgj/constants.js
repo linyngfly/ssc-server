@@ -17,6 +17,7 @@ module.exports = {
         BET_LIMIT: `${PREFIX}config:%s:bet_limit`, //投注限制
         BET_RATE: `${PREFIX}config:%s:bet_rate`, //投注赔率
         TURNTABLE_BONUS_POOL: `${PREFIX}config:%s:turntable_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
+        TURNTABLE_TODAY_BONUS_POOL: `${PREFIX}config:%s:turntable_today_bonus_pool`,  //转盘抽奖奖池剩余额度，每天重置为系统设置的总额度
         TURNTABLE_AWARD: `${PREFIX}config:%s:turntable_award`,  //转盘奖金比例配置
         INCOME: `${PREFIX}config:%s:income`,  //反水配置
     },
