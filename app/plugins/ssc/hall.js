@@ -68,7 +68,6 @@ class Hall extends EventEmitter {
         let cron_time = `${_time[0]} ${_time[1]} ${_time[2]} ${_time[3]} ${_time[4]} ${_time[5]}`;
         this._schedule = schedule.scheduleJob(cron_time, async function () {
             await this._updateDailyReset();
-            await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
         }.bind(this));
 
         let _time1 = config.TASK.BET_BACK.time.split(',');
