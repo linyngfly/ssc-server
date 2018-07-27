@@ -124,6 +124,10 @@ class SSC28Income {
         for (let i = 0; i < rows.length; ++i) {
             let uid = rows[i].id;
             try {
+                let dayBetMultiInfos = await mysqlConnector.query('SELECT SUM(betMoney) as dayBetMoney FROM tbl_bets WHERE uid=? AND betTime>=? AND betTime<? AND state IN(?,?) AND multi=1',
+                    [uid, yesterday_zero.format(), today_zero.format(), models.constants.BET_STATE.WIN, models.constants.BET_STATE.LOSE]);
+
+
                 let dayBetInfos = await mysqlConnector.query('SELECT SUM(betMoney) as dayBetMoney, SUM(winMoney) as dayWinMoney,SUM(betCount) as dayBetCount, SUM(winCount) as dayWinCount,COUNT(DISTINCT period) AS periodCount, SUM(multi) AS multiCount FROM tbl_bets WHERE uid=? AND betTime>=? AND betTime<? AND state IN(?,?)',
                     [uid, yesterday_zero.format(), today_zero.format(), models.constants.BET_STATE.WIN, models.constants.BET_STATE.LOSE]);
 
@@ -135,7 +139,7 @@ class SSC28Income {
                     let dayBetInfo = dayBetInfos[j];
                     let incomeConfig = this._getPlayerIncomCfg('lucky28');
                     let period_count = Number(dayBetInfo.periodCount);
-                    let multi_rate = Number(((dayBetInfo.multiCount / Math.max(dayBetInfo.dayBetCount, 1))*100).toFixed(2));
+                    let multi_rate = Number(((dayBetMultiInfos[0].dayBetMoney / Math.max(dayBetInfo.dayBetMoney, 1))*100).toFixed(2));
                     let incomeMoney = dayBetInfo.dayWinMoney - dayBetInfo.dayBetMoney;
                     let dayIncomeInfo = {
                         uid: uid,
