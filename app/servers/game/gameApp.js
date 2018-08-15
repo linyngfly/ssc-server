@@ -7,6 +7,11 @@ const omeloUtil = require('../common/omeloUtil');
 
 class GameApp {
     async start() {
+        omelo.app.entry.gameServiceState = {
+            canada28:0,
+            lucky28:0,
+        };
+
         this._redisConnector = new RedisConnector();
         let result = await this._redisConnector.start(omelo.app.get('redis'));
         if (!result) {
@@ -89,6 +94,10 @@ class GameApp {
     }
 
     async c_enter(msg, session) {
+        if(0 == omelo.app.entry.gameServiceState[msg.subType]){
+            throw ERROR_OBJ.SERVICE_SHUTDOWN;
+        }
+
         let game = this.getGame(msg.mainType, msg.subType);
         if(!game){
             throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;

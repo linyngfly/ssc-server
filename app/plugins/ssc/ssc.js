@@ -240,6 +240,10 @@ class SSC {
     }
 
     async c_bet(msg) {
+        if(0 == omelo.app.entry.gameServiceState[this._gameIdentify]){
+            throw ERROR_OBJ.SERVICE_SHUTDOWN;
+        }
+
         if (!this._lottery.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }
@@ -262,6 +266,10 @@ class SSC {
     }
 
     async c_unBet(msg) {
+        if(0 == omelo.app.entry.gameServiceState[this._gameIdentify]){
+            throw ERROR_OBJ.SERVICE_SHUTDOWN;
+        }
+
         if (!this._lottery.canBetNow()) {
             throw ERROR_OBJ.BET_CHANNEL_CLOSE;
         }

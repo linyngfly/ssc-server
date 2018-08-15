@@ -2,6 +2,7 @@ const GameApp = require('./gameApp');
 
 module.exports.beforeStartup = function(app, cb) {
     app.entry = new GameApp();
+
     app.entry.start();
     cb();
 };

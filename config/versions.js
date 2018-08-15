@@ -34,7 +34,7 @@ CDN_DOMAIN[GAME_TYPE.WZGJ] = "xxxcdn.xxxx.com";
 
 module.exports = {
     //配置游戏发行版本
-    LOCAL_DEV_MODE: true,  //是否为本地开发模式，发布时修改为false
+    LOCAL_DEV_MODE: false,  //是否为本地开发模式，发布时修改为false
     PUB_GAME_TYPE: GAME_TYPE.WZGJ,  //设置发布版本类型
     SSL: false, //是否启动SSL
     PUB_VERSION_TYPE:VERSION_TYPE.BETA, //发布版本类型

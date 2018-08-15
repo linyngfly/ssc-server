@@ -55,6 +55,21 @@ const api_list = {
         accountFields: []
     },
 
+
+    setServiceSwitchState:{
+        route: '/setServiceSwitchState', //后台设置系统公告
+        handler: GM.setServiceSwitchState,
+        params: ['mainType', 'subType', 'token','gameType', 'state'],
+        accountFields: []
+    },
+
+    getServiceSwitchState:{
+        route: '/getServiceSwitchState', //后台设置系统公告
+        handler: GM.getServiceSwitchState,
+        params: ['mainType', 'subType', 'token',],
+        accountFields: []
+    },
+
     getSysMessage: {
         route: '/getSysMessage', //获取系统消息
         handler: GM.getSysMessage,

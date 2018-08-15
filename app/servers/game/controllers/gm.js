@@ -46,6 +46,20 @@ class GM {
         let result = await game.getSysMessage(data);
         return logicResponse.ask(result);
     }
+
+    setServiceSwitchState(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = game.setGameState(data);
+        return logicResponse.ask(result);
+
+    }
+
+    getServiceSwitchState(data){
+        let game = omelo.app.entry.getGame(data.mainType, data.subType);
+        let result = game.getGameState(data);
+        return logicResponse.ask(result);
+
+    }
 }
 
 module.exports = new GM();

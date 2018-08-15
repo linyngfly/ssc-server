@@ -26,7 +26,7 @@ class Hall extends EventEmitter {
     }
 
     async _updateDailyReset() {
-        await this._updateAdminToken();
+
     }
 
     async loadConfig() {
@@ -80,6 +80,7 @@ class Hall extends EventEmitter {
         let cron_time2 = `${_time2[0]} ${_time2[1]} ${_time2[2]} ${_time2[3]} ${_time2[4]} ${_time2[5]}`;
         this._schedule = schedule.scheduleJob(cron_time2, async function () {
             await models.account.helper.delAccountField(models.account.fieldConst.DAILY_DRAW);
+            await this._updateAdminToken();
             await redisConnector.del(util.format(models.constants.CONFIG.TURNTABLE_TODAY_BONUS_POOL, config.TURNTABLE.GAME_IDENTIFY));
         }.bind(this));
 
@@ -422,6 +423,18 @@ class Hall extends EventEmitter {
             uid: data.id,
             fields: fields
         });
+    }
+
+    async setGameState(data) {
+        if (data.token !== this._adminToken) {
+            throw ERROR_OBJ.TOKEN_INVALID;
+        }
+
+        omelo.app.entry.gameServiceState.gameType= data.state;
+    }
+
+    async getGameState(data){
+        return omelo.app.entry.gameServiceState;
     }
 }
 

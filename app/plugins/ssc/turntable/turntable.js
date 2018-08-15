@@ -38,7 +38,7 @@ class Turntable {
         let resp = {
             award: 0,
         };
-
+        
         let account = data.account;
 //logger.error('getDraw=', account.daily_draw, config.TURNTABLE.DRAW_CONDITION);
         //TODO 测试放开

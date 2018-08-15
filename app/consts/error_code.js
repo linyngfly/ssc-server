@@ -328,6 +328,7 @@ const _errorCode = {
     PHONE_CODE_EXPIRES: 7126, // 手机验证码过期
     PHONE_IS_KILL: 7127, // 手机号被封禁,无法注册
     CLIENT_VERSION_UPDATE: 7128, // 版本已经更新，请升级客户端
+    SERVICE_SHUTDOWN: 7129, // 游戏开奖延时，暂停服务
 
 
 };
@@ -1569,6 +1570,10 @@ const _errorObj = {
     CLIENT_VERSION_UPDATE: {
         msg: '版本已经更新，请升级客户端',
         code: _errorCode.CLIENT_VERSION_UPDATE,
+    },
+    SERVICE_SHUTDOWN: {
+        msg: '游戏开奖延时，暂停服务',
+        code: _errorCode.SERVICE_SHUTDOWN,
     },
 
 };
