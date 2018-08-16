@@ -157,7 +157,8 @@ app.configure('production|development', 'game', function () {
     };
     SSL && (connectorConfig.ssl = SSL);
     app.set('connectorConfig', connectorConfig);
-
+httpTokenFilter.addIgnoreRoute('getServiceSwitchState');
+httpTokenFilter.addIgnoreRoute('setServiceSwitchState');
     httpTokenFilter.addIgnoreRoute('setOrderState');
     httpTokenFilter.addIgnoreRoute('setBroadcast');
     httpTokenFilter.addIgnoreRoute('setInitMoney');

@@ -47,16 +47,16 @@ class GM {
         return logicResponse.ask(result);
     }
 
-    setServiceSwitchState(data){
+    async setServiceSwitchState(data){
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
-        let result = game.setGameState(data);
+        let result = await game.setGameState(data);
         return logicResponse.ask(result);
 
     }
 
-    getServiceSwitchState(data){
+   async getServiceSwitchState(data){
         let game = omelo.app.entry.getGame(data.mainType, data.subType);
-        let result = game.getGameState(data);
+        let result =await game.getGameState(data);
         return logicResponse.ask(result);
 
     }

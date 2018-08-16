@@ -7,10 +7,6 @@ const omeloUtil = require('../common/omeloUtil');
 
 class GameApp {
     async start() {
-        omelo.app.entry.gameServiceState = {
-            canada28:0,
-            lucky28:0,
-        };
 
         this._redisConnector = new RedisConnector();
         let result = await this._redisConnector.start(omelo.app.get('redis'));
@@ -25,13 +21,37 @@ class GameApp {
             return;
         }
 
-        for(let mainType in plugins){
+        let gameServiceState = await this._redisConnector.get('ssc:gameServiceState');
+        if (gameServiceState) {
+            try {
+                gameServiceState = JSON.parse(gameServiceState);
+            } catch (e) {
+                gameServiceState = {
+                    canada28: 0,
+                    lucky28: 0,
+                };
+            }
+        }
+
+        if (gameServiceState == null) {
+            gameServiceState = {
+                canada28: 0,
+                lucky28: 0,
+            };
+        }
+
+        omelo.app.entry.gameServiceState = gameServiceState;
+
+        await this._redisConnector.set('ssc:gameServiceState', JSON.stringify(gameServiceState));
+
+
+        for (let mainType in plugins) {
             let modules = plugins[mainType];
-            if(!modules){
+            if (!modules) {
                 await plugins[mainType].start();
                 logger.error('启动主游戏', mainType);
-            }else {
-                for(let sub in modules.SUB_GAMES){
+            } else {
+                for (let sub in modules.SUB_GAMES) {
                     logger.info('启动子游戏', sub);
                     // logger.error('启动子游戏', modules.SUB_GAMES);
                     modules.SUB_GAMES[sub].start && await modules.SUB_GAMES[sub].start();
@@ -42,13 +62,13 @@ class GameApp {
     }
 
     async stop() {
-        for(let mainType in plugins){
+        for (let mainType in plugins) {
             let modules = plugins[mainType];
-            if(!modules){
+            if (!modules) {
                 await plugins[mainType].stop();
                 logger.error('启动主游戏', mainType);
-            }else {
-                for(let sub in modules.SUB_GAMES){
+            } else {
+                for (let sub in modules.SUB_GAMES) {
                     logger.error('启动子游戏', sub);
                     // logger.error('启动子游戏', SUB_GAMES);
                     modules.SUB_GAMES[sub] && await modules.SUB_GAMES[sub].stop();
@@ -62,7 +82,7 @@ class GameApp {
     }
 
     async rpc(method, msg) {
-        if(this[method]){
+        if (this[method]) {
             return this[method](msg);
         }
         return await plugins[msg.gameType].rpc(method, msg);
@@ -74,18 +94,18 @@ class GameApp {
         }
 
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-        if(!game){
+        if (!game) {
             throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
         }
         return await game.request(route, msg, session);
     }
 
-    getGame(main, sub){
+    getGame(main, sub) {
         let game = null;
         if (main) {
-            if(sub){
+            if (sub) {
                 game = plugins[main] && plugins[main].SUB_GAMES && plugins[main].SUB_GAMES[sub];
-            }else {
+            } else {
                 game = plugins[main];
             }
         }
@@ -94,12 +114,12 @@ class GameApp {
     }
 
     async c_enter(msg, session) {
-        if(0 == omelo.app.entry.gameServiceState[msg.subType]){
+        if (0 == omelo.app.entry.gameServiceState[msg.subType]) {
             throw ERROR_OBJ.SERVICE_SHUTDOWN;
         }
 
         let game = this.getGame(msg.mainType, msg.subType);
-        if(!game){
+        if (!game) {
             throw ERROR_OBJ.NOT_SUPPORT_GAME_TYPE;
         }
 
@@ -119,7 +139,7 @@ class GameApp {
 
     async c_leave(msg, session) {
         let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-        if(game){
+        if (game) {
             logger.info(`玩家[${msg.uid}]登出游戏[${msg.mainType}->${msg.subType}]成功`);
             await omeloUtil.kick(msg.uid || session.uid, 'logout');
             return await game.leave(msg);
@@ -128,13 +148,13 @@ class GameApp {
 
     close(session, reason) {
         let uid = session && session.uid;
-        if(uid){
+        if (uid) {
             let game = this.getGame(session.get(consts.PLUGINS.MAIN), session.get(consts.PLUGINS.SUB));
-            if(game){
+            if (game) {
                 game.setPlayerState(uid, consts.PLAYER_STATE.OFFLINE);
             }
             logger.info(`玩家[${uid}],网络连接断开`, reason);
-        }else {
+        } else {
             logger.info(`未知玩家,网络连接断开`, reason);
         }
     }

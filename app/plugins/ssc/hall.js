@@ -8,6 +8,7 @@ const schedule = require('node-schedule');
 const logBuilder = require('../../utils/logSync/logBuilder');
 const EventEmitter = require('events').EventEmitter;
 const moment = require('moment');
+const omelo = require('omelo');
 // ip:116.31.100.75
 // ip:119.63.35.75
 // :22
@@ -430,10 +431,14 @@ class Hall extends EventEmitter {
             throw ERROR_OBJ.TOKEN_INVALID;
         }
 
-        omelo.app.entry.gameServiceState.gameType= data.state;
+        omelo.app.entry.gameServiceState[data.gameType]= data.state;
+        await redisConnector.set('ssc:gameServiceState', JSON.stringify(omelo.app.entry.gameServiceState));
     }
 
     async getGameState(data){
+        if (data.token !== this._adminToken) {
+            throw ERROR_OBJ.TOKEN_INVALID;
+        }
         return omelo.app.entry.gameServiceState;
     }
 }
